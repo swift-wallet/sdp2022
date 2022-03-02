@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.sdp.swiftwallet">
+    package="com.sdp.cryptowalletapp">
 
     <application
         android:allowBackup="true"
@@ -10,11 +10,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SwiftWallet">
         <activity
-            android:name=".GreetingActivity"
-            android:parentActivityName=".MainActivity"
+            android:name="com.sdp.cryptowalletapp.GreetingActivity"
+            android:parentActivityName="com.sdp.cryptowalletapp.MainActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name="com.sdp.cryptowalletapp.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
