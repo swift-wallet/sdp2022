@@ -1,4 +1,4 @@
-package com.sdp.swiftwallet;
+package com.sdp.cryptowalletapp;
 
 import org.junit.Test;
 

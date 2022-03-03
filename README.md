@@ -1,4 +1,4 @@
-
 # sdp2022
-victor
-# This is an android app
+
+Jérôme Ceccaldi 312803
+Eymeric Boyer 284571
