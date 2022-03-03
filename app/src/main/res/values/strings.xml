@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Swift Wallet</string>
-    <string name="main_button">Go</string>
+    <string name="main_button">Go to greeting</string>
+    <string name="qr_scan_button">Tap to Scan Stuffff</string>
+    <string name="goto_qr">Go to qr scanning</string>
+    <string name="default_qr_result_text">Scan result</string>
 </resources>
