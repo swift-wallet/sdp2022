@@ -12,10 +12,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SwiftWallet">
         <activity
+            android:name="com.sdp.swiftwallet.LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.login.LoginActivity"
+            android:exported="false"
+            android:label="@string/title_activity_login" />
+        <activity
             android:name="com.sdp.swiftwallet.QRActivity"
             android:exported="false"
-            android:parentActivityName="com.sdp.swiftwallet.MainActivity"
-        />
+            android:parentActivityName="com.sdp.swiftwallet.MainActivity" />
         <activity
             android:name="com.sdp.swiftwallet.GreetingActivity"
             android:exported="false"
