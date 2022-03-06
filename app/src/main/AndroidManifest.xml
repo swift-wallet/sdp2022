@@ -15,10 +15,6 @@
             android:name="com.sdp.swiftwallet.LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.login.LoginActivity"
-            android:exported="false"
-            android:label="@string/title_activity_login" />
-        <activity
             android:name="com.sdp.swiftwallet.QRActivity"
             android:exported="false"
             android:parentActivityName="com.sdp.swiftwallet.MainActivity" />
