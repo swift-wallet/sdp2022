@@ -1,8 +1,5 @@
 package com.sdp.swiftwallet;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -10,6 +7,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.sdp.cryptowalletapp.R;
 
@@ -20,7 +20,6 @@ public class LoginActivity extends AppCompatActivity {
     private static final String ADMIN_USERNAME = "admin";
     private static final String ADMIN_PASSWORD = "admin";
 
-//    private TextView ATTEMPTS_TEXTVIEW;
     private TextView attemptsTextView;
     private static final int MAX_LOGIN_ATTEMPTS = 3;
     private int loginAttempts = 0;
@@ -75,7 +74,7 @@ public class LoginActivity extends AppCompatActivity {
      * @return an Intent to launch the next activity
      */
     private Intent nextActivity(Context context) {
-        Intent nextActivity = new Intent(this, GreetingActivity.class);
+        Intent nextActivity = new Intent(context, GreetingActivity.class);
         nextActivity.putExtra(GreetingActivity.EXTRA_MESSAGE, WELCOME_MESSAGE);
         return nextActivity;
     }
@@ -98,7 +97,7 @@ public class LoginActivity extends AppCompatActivity {
     /**
      * Creates an AlertDialog to inform the user they have used up their login attempts
      *
-     * @param context the context of the alert
+     * @param context    the context of the alert
      * @param homeScreen the Intent of the Activity the user is sent to (i.e. the home screen)
      * @return an AlertDialog informing the user they used up their login attempts which also
      * starts another activity
