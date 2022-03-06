@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.sdp.cryptowalletapp.R;
 
@@ -18,14 +19,20 @@ public class LoginActivity extends AppCompatActivity {
     private static final String ADMIN_USERNAME = "admin";
     private static final String ADMIN_PASSWORD = "admin";
 
+    private TextView ATTEMPTS_TEXTVIEW;
+    private static final int MAX_LOGIN_ATTEMPTS = 3;
+    private int loginAttempts = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        ATTEMPTS_TEXTVIEW = (TextView) findViewById(R.id.loginAttempts);
     }
 
     public void login(View view) {
-        Intent intent = new Intent(this, GreetingActivity.class);
+        Intent greetingIntent = new Intent(this, GreetingActivity.class);
 
         // Retrieve username and password from login screen
         EditText editText = (EditText) findViewById(R.id.loginUsername);
@@ -34,35 +41,51 @@ public class LoginActivity extends AppCompatActivity {
         editText = (EditText) findViewById(R.id.loginPassword);
         String password = editText.getText().toString();
 
-        //Authenticate username and password
-        boolean succesfulLogin = (
+        // Authenticate username and password
+        boolean successfulLogin = (
                 username.equals(ADMIN_USERNAME) && password.equals(ADMIN_PASSWORD)
         );
 
-        if (succesfulLogin) {
-            //Launch next activity
-            intent.putExtra(GreetingActivity.EXTRA_MESSAGE, WELCOME_MESSAGE);
-            startActivity(intent);
+        if (successfulLogin) {
+            // Launch next activity
+            greetingIntent.putExtra(GreetingActivity.EXTRA_MESSAGE, WELCOME_MESSAGE);
+            startActivity(greetingIntent);
         } else {
-            //Display error message
+            // Check if over max attempts
+            if (++loginAttempts >= MAX_LOGIN_ATTEMPTS) {
+                Intent mainIntent = new Intent(this, MainActivity.class);
+                new AlertDialog.Builder(this)
+                        .setTitle("Too many unsuccessful attempts")
+                        .setMessage("You have tried to login unsuccessfully too many times")
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                startActivity(mainIntent);
+                            }
+                        })
+                        .setCancelable(true)
+                        .create()
+                        .show();
+            }
+
+            // Set attempts left text
+            String attemptsLeft = String.format(
+                    "You have %d attempts remaining",
+                    MAX_LOGIN_ATTEMPTS - loginAttempts
+            );
+            String test = "HELLO";
+            ATTEMPTS_TEXTVIEW.setText(test);
+
+            // Display error message
             AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
 
             alertBuilder.setTitle("Unsuccessful login...")
-                    .setMessage("Wrong username or password")
+                    .setMessage("Incorrect username or password")
                     .setPositiveButton("OK", null)
-                    .setCancelable(true);   //TODO : Read setCancelable docs
+                    .setCancelable(true);
 
             AlertDialog errorDialog = alertBuilder.create();
             errorDialog.show();
-
-            //TODO : check why second setter is necessary?
-            alertBuilder.setPositiveButton("Ok",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog,
-                                            int which) {
-
-                        }
-                    });
         }
     }
 }
