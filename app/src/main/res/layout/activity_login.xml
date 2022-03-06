@@ -7,21 +7,22 @@
     tools:context="com.sdp.swiftwallet.LoginActivity">
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/loginButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="44dp"
+        android:layout_marginTop="20dp"
         android:onClick="login"
         android:text="Login"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/loginPassword" />
+        app:layout_constraintTop_toBottomOf="@+id/attemptsMessage" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/loginTitle"
         android:layout_width="191dp"
         android:layout_height="37dp"
-        android:layout_marginTop="72dp"
+        android:layout_marginTop="24dp"
         android:gravity="center"
         android:text="SwiftWallet"
         app:layout_constraintEnd_toEndOf="parent"
@@ -29,7 +30,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/passwordHeader"
         android:layout_width="211dp"
         android:layout_height="44dp"
         android:layout_marginTop="44dp"
@@ -47,7 +48,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+        app:layout_constraintTop_toBottomOf="@+id/passwordHeader" />
 
     <EditText
         android:id="@+id/loginUsername"
@@ -57,26 +58,37 @@
         android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        app:layout_constraintTop_toBottomOf="@+id/usernameHeader" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/usernameHeader"
         android:layout_width="211dp"
         android:layout_height="37dp"
         android:layout_marginTop="44dp"
         android:text="Username"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintTop_toBottomOf="@+id/appLogo" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/appLogo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintTop_toBottomOf="@+id/loginTitle"
         app:srcCompat="@android:drawable/sym_def_app_icon" />
+
+    <TextView
+        android:id="@+id/attemptsMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:textColor="#FF0000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/loginPassword" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

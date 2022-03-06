@@ -16,13 +16,12 @@ import com.sdp.cryptowalletapp.R;
 import java.util.Locale;
 
 public class LoginActivity extends AppCompatActivity {
-    public static final String EXTRA_MESSAGE="com.sdp.swift-wallet.GREETING";
-
     private static final String WELCOME_MESSAGE = "Welcome to SwiftWallet!";
     private static final String ADMIN_USERNAME = "admin";
     private static final String ADMIN_PASSWORD = "admin";
 
 //    private TextView ATTEMPTS_TEXTVIEW;
+    private TextView attemptsTextView;
     private static final int MAX_LOGIN_ATTEMPTS = 3;
     private int loginAttempts = 0;
 
@@ -30,6 +29,9 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        attemptsTextView = (TextView) findViewById(R.id.attemptsMessage);
+        attemptsTextView.setText("");
     }
 
     public void login(View view) {
@@ -54,13 +56,12 @@ public class LoginActivity extends AppCompatActivity {
             }
 
             // Set attempts left text
-//            String attemptsLeft = String.format(
-//                    Locale.US,
-//                    "You have %d attempts remaining",
-//                    MAX_LOGIN_ATTEMPTS - loginAttempts
-//            );
-//            String test = "HELLO";
-//            ATTEMPTS_TEXTVIEW.setText(test);
+            String attemptsLeft = String.format(
+                    Locale.US,
+                    "You have %d attempt(s) remaining",
+                    MAX_LOGIN_ATTEMPTS - loginAttempts
+            );
+            attemptsTextView.setText(attemptsLeft);
 
             // Display error message
             incorrectCredentialsError(this).show();
