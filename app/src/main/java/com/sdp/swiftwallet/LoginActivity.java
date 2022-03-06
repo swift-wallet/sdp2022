@@ -33,6 +33,11 @@ public class LoginActivity extends AppCompatActivity {
         attemptsTextView.setText("");
     }
 
+    /**
+     * Login method which is launched by the LOGIN button on the login screen
+     *
+     * @param view current View of the user
+     */
     public void login(View view) {
         // Retrieve username and password from login screen
         EditText editText = (EditText) findViewById(R.id.loginUsername);
