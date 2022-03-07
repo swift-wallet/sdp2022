@@ -30,4 +30,8 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, QRActivity.class);
         startActivity(intent);
     }
+    public void openWallet(View view) {
+        Intent intent = new Intent(this, WalletActivity.class);
+        startActivity(intent);
+    }
 }
