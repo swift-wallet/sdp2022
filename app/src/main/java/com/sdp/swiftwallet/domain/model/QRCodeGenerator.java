@@ -25,8 +25,7 @@ public class QRCodeGenerator {
         int arraySize = squareSize*squareSize;
         int[] pixels = new int[arraySize];
         for (int x = 0; x < arraySize; x++) {
-            int offset = (x / squareSize) * squareSize;
-            pixels[offset + x] = result.get(x, x % squareSize) ? BLACK : WHITE;
+            pixels[x] = result.get(x % squareSize, x / squareSize) ? BLACK : WHITE;
         }
         Bitmap bitmap = Bitmap.createBitmap(squareSize, squareSize, Bitmap.Config.ARGB_8888);
         bitmap.setPixels(pixels, 0, squareSize, 0, 0, squareSize, squareSize);
