@@ -19,8 +19,8 @@ public class QRCodeGenerator {
     * */
     public static Bitmap encodeAsBitmap(String str, Integer squareWidth) throws WriterException {
         BitMatrix result;
-        result = new MultiFormatWriter().encode(str,
-                BarcodeFormat.QR_CODE, squareWidth, squareWidth, null);
+        MultiFormatWriter mFWriter = new MultiFormatWriter();
+        result = mFWriter.encode(str, BarcodeFormat.QR_CODE, squareWidth, squareWidth, null);
         int w = result.getWidth();
         int h = result.getHeight();
         int[] pixels = new int[w * h];
