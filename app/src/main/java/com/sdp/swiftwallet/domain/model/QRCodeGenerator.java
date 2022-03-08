@@ -15,26 +15,24 @@ public class QRCodeGenerator {
     /*
     *   Creates a bitmap object out of a string and a bitmap width
     *   @param str : the string to convert
-    *   @param squareWidth: the width of the bitmap
+    *   @param squareSize: the size of the bitmap
     *   @throws WriterException
     * */
-    public static Bitmap encodeAsBitmap(String str, Integer squareWidth) throws WriterException {
-        BitMatrix result = createQRBitmatrix(str, squareWidth);
-        int w = result.getWidth();
-        int h = result.getHeight();
-        int[] pixels = new int[w * h];
-        for (int y = 0; y < h; y++) {
-            int offset = y * w;
-            for (int x = 0; x < w; x++) {
+    public static Bitmap encodeAsBitmap(String str, Integer squareSize) throws WriterException {
+        BitMatrix result = createQRBitMatrix(str, squareSize);
+        int[] pixels = new int[squareSize*squareSize];
+        for (int y = 0; y < squareSize; y++) {
+            int offset = y * squareSize;
+            for (int x = 0; x < squareSize; x++) {
                 pixels[offset + x] = result.get(x, y) ? BLACK : WHITE;
             }
         }
-        Bitmap bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
-        bitmap.setPixels(pixels, 0, squareWidth, 0, 0, w, h);
+        Bitmap bitmap = Bitmap.createBitmap(squareSize, squareSize, Bitmap.Config.ARGB_8888);
+        bitmap.setPixels(pixels, 0, squareSize, 0, 0, squareSize, squareSize);
         return bitmap;
     }
-    private static BitMatrix createQRBitmatrix(String str, Integer squareWidth) throws WriterException {
+    private static BitMatrix createQRBitMatrix(String str, Integer squareSize) throws WriterException {
         MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
-        return multiFormatWriter.encode(str, BarcodeFormat.QR_CODE, squareWidth, squareWidth, null);
+        return multiFormatWriter.encode(str, BarcodeFormat.QR_CODE, squareSize, squareSize, null);
     }
 }
