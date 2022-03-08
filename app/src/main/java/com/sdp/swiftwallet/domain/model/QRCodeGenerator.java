@@ -11,6 +11,8 @@ import com.google.zxing.Writer;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 
+import java.util.Arrays;
+
 public class QRCodeGenerator {
     /*
     *   Creates a bitmap object out of a string and a bitmap width
@@ -20,12 +22,11 @@ public class QRCodeGenerator {
     * */
     public static Bitmap encodeAsBitmap(String str, Integer squareSize) throws WriterException {
         BitMatrix result = createQRBitMatrix(str, squareSize);
-        int[] pixels = new int[squareSize*squareSize];
-        for (int y = 0; y < squareSize; y++) {
-            int offset = y * squareSize;
-            for (int x = 0; x < squareSize; x++) {
-                pixels[offset + x] = result.get(x, y) ? BLACK : WHITE;
-            }
+        int arraySize = squareSize*squareSize;
+        int[] pixels = new int[arraySize];
+        for (int x = 0; x < arraySize; x++) {
+            int offset = (x / squareSize) * squareSize;
+            pixels[offset + x] = result.get(x, x % squareSize) ? BLACK : WHITE;
         }
         Bitmap bitmap = Bitmap.createBitmap(squareSize, squareSize, Bitmap.Config.ARGB_8888);
         bitmap.setPixels(pixels, 0, squareSize, 0, 0, squareSize, squareSize);
