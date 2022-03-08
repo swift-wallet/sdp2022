@@ -60,7 +60,6 @@ public class LoginActivityTest {
     @Test
     public void incorrectCredentialsDisplaysAlert() {
         onView(withId(R.id.loginButton)).perform(click());
-
         onView(withText("Incorrect username or password")).check(matches(isDisplayed()));
     }
 
