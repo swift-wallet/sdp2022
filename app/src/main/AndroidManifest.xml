@@ -3,6 +3,7 @@
     package="com.sdp.cryptowalletapp">
 
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -12,12 +13,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SwiftWallet">
         <activity
-            android:name="com.sdp.swiftwallet.QRActivity"
-            android:exported="false"
-            android:parentActivityName="com.sdp.swiftwallet.MainActivity"
-        />
+            android:name="com.sdp.swiftwallet.ProfileActivity"
+            android:exported="false" />
         <activity
-            android:name="com.sdp.swiftwallet.GreetingActivity"
+            android:name="com.sdp.swiftwallet.QRActivity"
             android:exported="false"
             android:parentActivityName="com.sdp.swiftwallet.MainActivity" />
         <activity
