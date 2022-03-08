@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.Writer;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 
@@ -18,9 +19,7 @@ public class QRCodeGenerator {
     *   @throws WriterException
     * */
     public static Bitmap encodeAsBitmap(String str, Integer squareWidth) throws WriterException {
-        BitMatrix result;
-        MultiFormatWriter mFWriter = new MultiFormatWriter();
-        result = mFWriter.encode(str, BarcodeFormat.QR_CODE, squareWidth, squareWidth, null);
+        BitMatrix result = createQRBitmatrix(str, squareWidth);
         int w = result.getWidth();
         int h = result.getHeight();
         int[] pixels = new int[w * h];
@@ -33,5 +32,9 @@ public class QRCodeGenerator {
         Bitmap bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
         bitmap.setPixels(pixels, 0, squareWidth, 0, 0, w, h);
         return bitmap;
+    }
+    private static BitMatrix createQRBitmatrix(String str, Integer squareWidth) throws WriterException {
+        MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
+        return multiFormatWriter.encode(str, BarcodeFormat.QR_CODE, squareWidth, squareWidth, null);
     }
 }
