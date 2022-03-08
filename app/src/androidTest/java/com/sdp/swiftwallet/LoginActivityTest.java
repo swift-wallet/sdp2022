@@ -20,6 +20,8 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.sdp.cryptowalletapp.R;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,9 +32,19 @@ public class LoginActivityTest {
     @Rule
     public ActivityScenarioRule<LoginActivity> testRule = new ActivityScenarioRule<>(LoginActivity.class);
 
+    @Before
+    public void initIntents() {
+        Intents.init();
+    }
+
+    @After
+    public void releaseIntents() {
+        Intents.release();
+    }
+
     @Test
     public void successfulLoginLaunchesGreeting() {
-        Intents.init();
+//        Intents.init();
 
         onView(withId(R.id.loginUsername)).perform(typeText("admin"), closeSoftKeyboard());
         onView(withId(R.id.loginPassword)).perform(typeText("admin"), closeSoftKeyboard());
@@ -41,12 +53,12 @@ public class LoginActivityTest {
         intended(toPackage("com.sdp.swiftwallet"));
         intended(hasComponent(GreetingActivity.class.getName()));
 
-        Intents.release();
+//        Intents.release();
     }
 
     @Test
     public void successfulLoginLaunchesGreetingWithCorrectMessage() {
-        Intents.init();
+//        Intents.init();
 
         onView(withId(R.id.loginUsername)).perform(typeText("admin"), closeSoftKeyboard());
         onView(withId(R.id.loginPassword)).perform(typeText("admin"), closeSoftKeyboard());
@@ -54,7 +66,7 @@ public class LoginActivityTest {
 
         intended(hasExtra(GreetingActivity.EXTRA_MESSAGE, "Welcome to SwiftWallet!"));
 
-        Intents.release();
+//        Intents.release();
     }
 
     @Test
@@ -84,7 +96,7 @@ public class LoginActivityTest {
 
     @Test
     public void tooManyFailedAttemptsSendsBackToMainActivity() {
-        Intents.init();
+//        Intents.init();
 
         onView(withId(R.id.loginButton)).perform(click());
         onView(withText("OK")).perform(click());
@@ -96,6 +108,6 @@ public class LoginActivityTest {
         intended(toPackage("com.sdp.swiftwallet"));
         intended(hasComponent(MainActivity.class.getName()));
 
-        Intents.release();
+//        Intents.release();
     }
 }
