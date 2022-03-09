@@ -51,7 +51,7 @@ tasks.withType(Test) {
 task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'createDebugCoverageReport']) {
     reports {
 	xml.enabled true
-        xml.destination file("$project.buildDir/reports/jacoco/jacocoTestReport/jacocoTestReport.xml")
+        xml.destination file("./app/build/reports/jacoco/jacocoTestReport/jacocoTestReport.xml")
         html.enabled true
     }
 
