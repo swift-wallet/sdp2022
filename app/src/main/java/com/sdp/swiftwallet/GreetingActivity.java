@@ -13,6 +13,7 @@ import com.sdp.cryptowalletapp.R;
  * Example class of activity, mainly used as a first test
  */
 public class GreetingActivity extends AppCompatActivity {
+    public static final String EXTRA_MESSAGE = "com.sdp.swift-wallet.GREETING";
 
 
     public static final String EXTRA_MESSAGE = "com.sdp.swift-wallet.GREETING";
