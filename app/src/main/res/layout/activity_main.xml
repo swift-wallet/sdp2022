@@ -29,15 +29,15 @@
         android:id="@+id/googleSignInBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true" />
+        android:layout_centerInParent="true"/>
 
     <Button
         android:id="@+id/qr_goto_button"
-        android:layout_marginTop="20dp"
-        android:layout_below="@+id/googleSignInBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/googleSignInBtn"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
         android:onClick="startQR"
         android:text="@string/goto_qr" />
 
