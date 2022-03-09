@@ -24,9 +24,18 @@ public class FirebaseAuthImpl implements ClientAuth {
         this.firebaseAuth = FirebaseAuth.getInstance();
     }
 
+    /**
+     * Signs-in a user using google login
+     * @param account Google account
+     * @param signInActivity
+     * @param resultActivity
+     * @param TAG
+     */
     public void signInWithGoogleAccount(GoogleSignInAccount account, Activity signInActivity, Activity resultActivity, String TAG) {
         Log.d(TAG, "firebaseAuthWithGoogleAccount: begin firebase auth with google account");
         AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
+
+        //Try to sign in the current user
         firebaseAuth.signInWithCredential(credential)
                 .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                     @Override
@@ -61,6 +70,9 @@ public class FirebaseAuthImpl implements ClientAuth {
                 });
     }
 
+    /**
+     * @return check over the firebase if the user has already been registered
+     */
     public boolean isCurrUserChecked() {
         FirebaseUser user = firebaseAuth.getCurrentUser();
         return user != null;
@@ -80,8 +92,9 @@ public class FirebaseAuthImpl implements ClientAuth {
         return firebaseAuth.getCurrentUser().getEmail();
     }
 
-
-
+    /**
+     * Signs out the user
+     */
     public void signOut() {
         firebaseAuth.signOut();
     }

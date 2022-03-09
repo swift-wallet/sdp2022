@@ -34,8 +34,11 @@ public class ProfileActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Checks if a user is logged
+     */
     private void checkUser() {
-        if (! clientAuth.isCurrUserChecked()) {
+        if (!clientAuth.isCurrUserChecked()) {
             startActivity(new Intent(this, MainActivity.class));
             finish();
         }
