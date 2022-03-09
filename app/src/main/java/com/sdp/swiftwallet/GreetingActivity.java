@@ -16,8 +16,6 @@ public class GreetingActivity extends AppCompatActivity {
     public static final String EXTRA_MESSAGE = "com.sdp.swift-wallet.GREETING";
 
 
-    public static final String EXTRA_MESSAGE = "com.sdp.swift-wallet.GREETING";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
