@@ -80,8 +80,20 @@ public class LoginActivityTest {
     }
 
     @Test
-    public void incorrectCredentialsDisplaysAlert() {
+    public void incorrectUsernameDisplaysAlert() {
+        onView(withId(R.id.loginUsername)).perform(typeText("wrong"), closeSoftKeyboard());
+        onView(withId(R.id.loginPassword)).perform(typeText("admin"), closeSoftKeyboard());
         onView(withId(R.id.loginButton)).perform(click());
+
+        onView(withText("Incorrect username or password")).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void incorrectPasswordDisplaysAlert() {
+        onView(withId(R.id.loginUsername)).perform(typeText("admin"), closeSoftKeyboard());
+        onView(withId(R.id.loginPassword)).perform(typeText("wrong"), closeSoftKeyboard());
+        onView(withId(R.id.loginButton)).perform(click());
+
         onView(withText("Incorrect username or password")).check(matches(isDisplayed()));
     }
 
