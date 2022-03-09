@@ -80,8 +80,6 @@ public class FirebaseAuthImpl implements ClientAuth {
         return firebaseAuth.getCurrentUser().getEmail();
     }
 
-
-
     public void signOut() {
         firebaseAuth.signOut();
     }

@@ -9,7 +9,7 @@
     tools:context="com.sdp.swiftwallet.MainActivity">
 
     <ImageView
-        android:id="@+id/iconCrypto"
+        android:id="@+id/iconGoogle"
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:src="@drawable/google_icon"
@@ -18,7 +18,7 @@
 
     <TextView
         android:id="@+id/caption"
-        android:layout_below="@id/iconCrypto"
+        android:layout_below="@id/iconGoogle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
