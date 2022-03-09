@@ -73,6 +73,7 @@ public class LoginActivity extends AppCompatActivity {
 
   /**
    * Prepares the intent for the next intent to launch when the login is successful
+   * By defaut, the login screen activity
    *
    * @param context the context of the current Activity
    * @return an Intent to launch the next activity
@@ -81,6 +82,12 @@ public class LoginActivity extends AppCompatActivity {
     //Intent nextActivity = new Intent(context, GreetingActivity.class);
     //nextActivity.putExtra(GreetingActivity.EXTRA_MESSAGE, WELCOME_MESSAGE);
     Intent nextActivity = new Intent(context, UserProfileActivity.class);
+
+    TODO:
+    //HARDCODED
+    nextActivity
+        .putExtra("username", "admin")
+        .putExtra("email:", "admin@epfl.ch");
     return nextActivity;
   }
 

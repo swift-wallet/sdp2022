@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra(GreetingActivity.EXTRA_MESSAGE, message);
         startActivity(intent);
     }
+
     public void startQR(View view){
         Intent intent = new Intent(this, QRActivity.class);
         startActivity(intent);
