@@ -52,6 +52,7 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'crea
     reports {
 	xml.enabled true
         html.enabled true
+	xml.destination file("$project.projectDir/build/outputs/reports/coverage/debug/report.xml")
     }
 
     def fileFilter = [
