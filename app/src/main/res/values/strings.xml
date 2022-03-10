@@ -4,6 +4,7 @@
     <string name="qr_scan_button">Tap to Scan Stuffff</string>
     <string name="goto_qr">Go to qr scanning</string>
     <string name="default_qr_result_text">Scan result</string>
+    <string name="qr_generate_button">Generate a QR-CODE</string>
     <string name="title_activity_login">LoginActivity</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
