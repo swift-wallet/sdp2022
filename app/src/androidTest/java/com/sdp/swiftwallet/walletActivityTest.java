@@ -10,6 +10,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 
 
 import androidx.test.espresso.intent.Intents;
+import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 
 import com.sdp.cryptowalletapp.R;
@@ -19,11 +20,11 @@ import org.junit.Test;
 
 public class walletActivityTest {
     @Rule
-    public ActivityScenarioRule<QRActivity> testRule = new ActivityScenarioRule<>(QRActivity.class);
+    public ActivityScenarioRule<WalletActivity> testRule = new ActivityScenarioRule<>(WalletActivity.class);
 
     @Test
     public void displayCurrency() {
-        onView(withId(R.id.CurrencyLabel))
+        onView(withId(R.id.balanceLabel))
                 .check(matches(isDisplayed()));
     }
 }
