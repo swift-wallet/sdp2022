@@ -4,4 +4,12 @@
     <string name="qr_scan_button">Tap to Scan Stuffff</string>
     <string name="goto_qr">Go to qr scanning</string>
     <string name="default_qr_result_text">Scan result</string>
+    <string name="search_crypto_name">Search Crypto Name</string>
+    <string name="symbol">Symbol</string>
+    <string name="name">Name</string>
+    <string name="decimalFormatCurrencyValue">#.##</string>
+    <string name="coinMarketCapKey">X-CMC_PRO_API_KEY</string>
+    <string name="coinMarketCapValue">db2a8973-af74-4b0f-bf14-7f6c84b648d0</string>
+    <string name="coinMarketCapLatestURL">https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest</string>
+    <string name="value">Value</string>
 </resources>

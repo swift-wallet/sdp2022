@@ -26,6 +26,12 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra(EXTRA_MESSAGE, message);
         startActivity(intent);
     }
+
+    public void startCryptoValues(View view){
+        Intent intent = new Intent(this, CryptoValuesActivity.class);
+        startActivity(intent);
+    }
+
     public void startQR(View view){
         Intent intent = new Intent(this, QRActivity.class);
         startActivity(intent);
