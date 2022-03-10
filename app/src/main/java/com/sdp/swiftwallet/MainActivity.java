@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
         EditText editText = (EditText) findViewById(R.id.mainName);
         String message = editText.getText().toString();
         //Put extra parameter to the intent
-        intent.putExtra(EXTRA_MESSAGE, message);
+        intent.putExtra(GreetingActivity.EXTRA_MESSAGE, message);
         startActivity(intent);
     }
     public void startQR(View view){
@@ -32,6 +32,11 @@ public class MainActivity extends AppCompatActivity {
     }
     public void openWallet(View view) {
         Intent intent = new Intent(this, WalletActivity.class);
+        startActivity(intent);
+    }
+
+    public void startLogin(View view) {
+        Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
     }
 }
