@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.sdp.cryptowalletapp" >
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.sdp.cryptowalletapp">
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -15,6 +16,14 @@
         <activity
             android:name="com.sdp.swiftwallet.CryptoValuesActivity"
             android:parentActivityName="com.sdp.swiftwallet.MainActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.journeyapps.barcodescanner.CaptureActivity"
+            android:screenOrientation="fullSensor"
+            tools:replace="screenOrientation"
+            android:parentActivityName="com.sdp.swiftwallet.QRActivity" />
+        <activity
+            android:name="com.sdp.swiftwallet.LoginActivity"
             android:exported="false" />
         <activity
             android:name="com.sdp.swiftwallet.QRActivity"
