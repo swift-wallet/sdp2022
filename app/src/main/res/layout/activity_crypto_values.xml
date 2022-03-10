@@ -14,30 +14,26 @@
         android:layout_marginTop="4dp"
         android:layout_marginEnd="4dp"
         android:layout_marginBottom="4dp"
+        android:autofillHints=""
         android:hint="@string/search_crypto_name"
+        android:inputType="text"
         android:minHeight="48dp"
         android:textColor="@color/black"
         android:textColorHint="@color/grey"
-        tools:ignore="TextContrastCheck"
-        android:autofillHints=""
-        android:inputType="text"
-        />
+        tools:ignore="TextContrastCheck" />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/idCryptoCurrencies"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/idCryptoSearch"
-        android:id="@+id/idCryptoCurrencies"
-        />
+        android:layout_below="@id/idCryptoSearch" />
 
     <ProgressBar
+        android:id="@+id/idProgressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/idProgressBar"
         android:layout_centerInParent="true"
-        android:visibility="gone"
-        />
-
+        android:visibility="gone" />
 
 
 </RelativeLayout>

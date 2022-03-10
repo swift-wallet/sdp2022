@@ -1,9 +1,5 @@
 package com.sdp.swiftwallet;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -11,6 +7,10 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -42,11 +42,11 @@ public class CryptoValuesActivity extends AppCompatActivity {
         RecyclerView recyclerView = findViewById(R.id.idCryptoCurrencies);
         progressBar = findViewById(R.id.idProgressBar);
         currencyArrayList = new ArrayList<>();
-        currencyAdapter = new CurrencyAdapter(currencyArrayList,this);
+        currencyAdapter = new CurrencyAdapter(currencyArrayList, this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(currencyAdapter);
         getCurrencyData();
-        searchCrypto.addTextChangedListener(new TextWatcher(){
+        searchCrypto.addTextChangedListener(new TextWatcher() {
 
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -65,21 +65,21 @@ public class CryptoValuesActivity extends AppCompatActivity {
         });
     }
 
-    private void filterCurrencies(String currency){
+    private void filterCurrencies(String currency) {
         ArrayList<Currency> filteredList = new ArrayList<>();
-        for(Currency item : currencyArrayList){
-            if(item.getName().toLowerCase().contains(currency.toLowerCase()) || item.getSymbol().toLowerCase().contains(currency.toLowerCase())){
+        for (Currency item : currencyArrayList) {
+            if (item.getName().toLowerCase().contains(currency.toLowerCase()) || item.getSymbol().toLowerCase().contains(currency.toLowerCase())) {
                 filteredList.add(item);
             }
         }
-        if(filteredList.isEmpty()){
+        if (filteredList.isEmpty()) {
             Toast.makeText(this, "Couldn't find any currency for this query...", Toast.LENGTH_SHORT).show();
-        } else{
+        } else {
             currencyAdapter.filterList(filteredList);
         }
     }
 
-    private void getCurrencyData(){
+    private void getCurrencyData() {
         progressBar.setVisibility(View.VISIBLE);
         String url = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest";
         RequestQueue requestQueue = Volley.newRequestQueue(this);
@@ -87,7 +87,7 @@ public class CryptoValuesActivity extends AppCompatActivity {
             progressBar.setVisibility(View.GONE);
             try {
                 JSONArray dataArray = response.getJSONArray("data");
-                for(int i = 0; i<dataArray.length(); i++){
+                for (int i = 0; i < dataArray.length(); i++) {
                     JSONObject dataObject = dataArray.getJSONObject(i);
                     String name = dataObject.getString("name");
                     String symbol = dataObject.getString("symbol");
@@ -97,7 +97,7 @@ public class CryptoValuesActivity extends AppCompatActivity {
                     currencyArrayList.add(new Currency(name, symbol, value));
                 }
                 currencyAdapter.notifyDataSetChanged();
-            }catch(JSONException e){
+            } catch (JSONException e) {
                 e.printStackTrace();
                 Toast.makeText(CryptoValuesActivity.this, "Couldn't extract JSON data... Please try again later.", Toast.LENGTH_SHORT).show();
             }
@@ -106,11 +106,11 @@ public class CryptoValuesActivity extends AppCompatActivity {
             progressBar.setVisibility(View.GONE);
             Toast.makeText(CryptoValuesActivity.this, "Couldn't retrieve data... Please try again later.", Toast.LENGTH_SHORT).show();
 
-        }){
+        }) {
             @Override
             public Map<String, String> getHeaders() {
                 HashMap<String, String> headers = new HashMap<>();
-                headers.put("X-CMC_PRO_API_KEY","db2a8973-af74-4b0f-bf14-7f6c84b648d0");
+                headers.put("X-CMC_PRO_API_KEY", "db2a8973-af74-4b0f-bf14-7f6c84b648d0");
                 return headers;
             }
         };

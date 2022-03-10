@@ -24,7 +24,7 @@ public class CurrencyAdapter extends RecyclerView.Adapter<CurrencyAdapter.ViewHo
         this.context = context;
     }
 
-    public void filterList(ArrayList<Currency> filteredList){
+    public void filterList(ArrayList<Currency> filteredList) {
         currencyArrayList = filteredList;
         notifyDataSetChanged();
     }
@@ -49,10 +49,11 @@ public class CurrencyAdapter extends RecyclerView.Adapter<CurrencyAdapter.ViewHo
         return currencyArrayList.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder{
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView nameTextView;
         private final TextView symbolTextView;
         private final TextView valueTextView;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             nameTextView = itemView.findViewById(R.id.idTextViewName);
