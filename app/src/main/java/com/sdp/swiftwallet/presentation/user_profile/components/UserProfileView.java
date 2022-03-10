@@ -17,7 +17,7 @@ public class UserProfileView extends AppCompatActivity {
    * @param user
    * @param email
    */
-  public UserProfileView(int activity_id, String user, String email){
+  /*public UserProfileView(int activity_id, String user, String email){
     setContentView(activity_id);
     setStaticContent(activity_id);
     setLoginInfo(activity_id, user, email);
@@ -28,7 +28,7 @@ public class UserProfileView extends AppCompatActivity {
    * Set some basic content to the user view
    * @param id id of the view
    */
-  private void setStaticContent(int id) {
+  /*private void setStaticContent(int id) {
 
     //set the pro
     setContentView(id);
@@ -47,7 +47,7 @@ public class UserProfileView extends AppCompatActivity {
     TextView random = findViewById(R.id.to_add);
     random.setText("more to come ...");
 
-  }
+  }*/
 
   /**
    * Dynamic function for putting info content
@@ -55,7 +55,7 @@ public class UserProfileView extends AppCompatActivity {
    * @param user username to put
    * @param email email to put
    */
-  private void setLoginInfo(int id, String user, String email){
+  /*private void setLoginInfo(int id, String user, String email){
 
     //Put username
     TextView userView = findViewById(R.id.username_input);
@@ -64,6 +64,6 @@ public class UserProfileView extends AppCompatActivity {
     //Put email
     TextView emailView = findViewById(R.id.email_input);
     emailView.setText(email);
-  }
+  }*/
 
 }
