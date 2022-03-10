@@ -4,7 +4,7 @@ check_android_task:
     API_LEVEL: 30
     TARGET: google_apis
     ARCH: x86
-    CC_TEST_REPORTER_ID: ENCRYPTED[!8331b7707ed9c61d7cc9f1f665111b3f0e12e9774b1a7e3332aea41be1282feeafbb202c31016a6ded984fe705bfc127!] 
+    CC_TEST_REPORTER_ID: ENCRYPTED[!7739384c21235a4193605e817e59e800f996d5c52fcf4f7951d5f2914ced82fcba433d369565066900494704c1d6f68c!]
   container:
     image: reactivecircus/android-emulator-$API_LEVEL:latest
     kvm: true
@@ -32,8 +32,8 @@ check_android_task:
     ./gradlew check connectedCheck
   report_codeclimate_script: |
     export JACOCO_SOURCE_PATH=app/src/main/java/
-    ./cc-test-reporter format-coverage ./app/build/reports/jacoco/jacocoTestReport/jacocoTestReport.xml --input-type jacoco
-    ./cc-test-reporter upload-coverage
+    ./cc-test-reporter format-coverage ./app/build/reports/coverage/androidTest/debug/report.xml --input-type jacoco
+    ./cc-test-reporter upload-coverage 
   lint_script:
     ./gradlew lintDebug
   always:
