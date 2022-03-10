@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
                             GoogleSignInAccount account = accountTask.getResult(ApiException.class);
                             clientAuth.signInWithGoogleAccount(account, MainActivity.this, new ProfileActivity(), TAG);
                         } catch (Exception e) {
-                            Log.d(TAG, "onActivityResult: "+e.getMessage());
+                            Log.d(TAG, "onActivityResult: " + e.getMessage());
                         }
                     }
                 });
@@ -79,6 +79,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void startQR(View view){
         Intent intent = new Intent(this, QRActivity.class);
+        startActivity(intent);
+    }
+
+    public void startLogin(View view) {
+        Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
     }
 }
