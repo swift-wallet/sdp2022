@@ -1,12 +1,12 @@
 package com.sdp.swiftwallet;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.data.repository.FirebaseAuthImpl;
@@ -15,14 +15,12 @@ import com.sdp.swiftwallet.domain.repository.ClientAuth;
 public class ProfileActivity extends AppCompatActivity {
 
     private ClientAuth clientAuth;
-    private static final String TAG = "GOOGLE_SIGN_IN_TAG";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        Log.d(TAG, "onCreate: Profile launched");
         clientAuth = new FirebaseAuthImpl();
         checkUser();
 
@@ -34,19 +32,17 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     /**
-     * Check if there is a current user,
-     * If yes, display email
-     * If no, return to MainActivity
+     * Checks if a user is logged
      */
     private void checkUser() {
-        if (clientAuth.currUserIsChecked()) {
+        if (!clientAuth.currUserIsChecked()) {
+            startActivity(new Intent(this, MainActivity.class));
+            finish();
+        }
+        else {
             String email = clientAuth.getCurrUserEmail();
             TextView emailTv = findViewById(R.id.email);
             emailTv.setText(email);
-        }
-        else {
-            startActivity(new Intent(this, MainActivity.class));
-            finish();
         }
     }
 }
