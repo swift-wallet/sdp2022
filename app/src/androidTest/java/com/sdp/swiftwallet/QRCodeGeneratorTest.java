@@ -1,12 +1,10 @@
 package com.sdp.swiftwallet;
 
 import static org.junit.Assert.assertTrue;
-import android.graphics.Bitmap;
 import com.google.zxing.WriterException;
 import com.sdp.swiftwallet.domain.model.QRCodeGenerator;
 
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;

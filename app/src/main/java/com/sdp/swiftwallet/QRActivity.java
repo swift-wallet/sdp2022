@@ -1,22 +1,15 @@
 package com.sdp.swiftwallet;
 
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContract;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.zxing.WriterException;
-import com.google.zxing.integration.android.IntentIntegrator;
 import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.domain.model.QRCodeGenerator;
 import com.sdp.swiftwallet.domain.model.QRCodeScanner;
