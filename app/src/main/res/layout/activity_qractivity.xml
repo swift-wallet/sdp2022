@@ -7,24 +7,52 @@
     tools:context="com.sdp.swiftwallet.MainActivity">
 
     <Button
+        android:id="@+id/qr_button_generate_qr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/qr_generate_button"
+        app:layout_constraintBottom_toTopOf="@+id/qr_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.511"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/qr_result_edittext"
+        app:layout_constraintVertical_bias="0.153" />
+
+    <EditText
+        android:id="@+id/qr_result_edittext"
+        android:layout_width="290dp"
+        android:layout_height="160dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:singleLine="false"
+        android:text="@string/default_qr_result_text"
+        app:layout_constraintBottom_toTopOf="@+id/qr_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.52"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.797" />
+
+    <Button
         android:id="@+id/qr_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/qr_scan_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.509"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.893" />
 
-    <TextView
-        android:id="@+id/qr_result_textview"
+    <ImageView
+        android:id="@+id/qr_imageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/default_qr_result_text"
-        app:layout_constraintBottom_toTopOf="@+id/qr_button"
+        app:layout_constraintBottom_toTopOf="@+id/qr_result_edittext"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@tools:sample/avatars" />
 </androidx.constraintlayout.widget.ConstraintLayout>
