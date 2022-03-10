@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Swift_Wallet.iml" filepath="$PROJECT_DIR$/.idea/modules/Swift_Wallet.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Swift_Wallet.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Swift_Wallet.app.iml" />
+    </modules>
+  </component>
+</project>
