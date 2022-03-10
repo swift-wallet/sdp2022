@@ -59,7 +59,7 @@ public class QRActivity extends AppCompatActivity {
         String toConvert = resultEditText.getText().toString();
         Bitmap bitmap = null;
         try {
-            bitmap = QRCodeGenerator.encodeAsBitmap(toConvert, 800);
+            bitmap = QRCodeGenerator.encodeAsBitmap(toConvert);
         }catch (WriterException exception){
             exception.printStackTrace();
         }
