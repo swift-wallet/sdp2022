@@ -36,38 +36,26 @@ public class FirebaseAuthImpl implements ClientAuth {
         AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
 
         //Try to sign in the current user
-        firebaseAuth.signInWithCredential(credential)
-                .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-                    @Override
-                    public void onSuccess(AuthResult authResult) {
-                        Log.d(TAG, "onSuccess: Logged In");
+        firebaseAuth.signInWithCredential(credential).addOnSuccessListener(authResult -> {
+                    Log.d(TAG, "onSuccess: Logged In");
+                    FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+                    String uid = firebaseUser.getUid();
+                    String email = firebaseUser.getEmail();
 
-                        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-                        String uid = firebaseUser.getUid();
-                        String email = firebaseUser.getEmail();
+                    Log.d(TAG, "onSuccess: Email: "+email);
+                    Log.d(TAG, "onSuccess: UID: "+uid);
 
-                        Log.d(TAG, "onSuccess: Email: "+email);
-                        Log.d(TAG, "onSuccess: UID: "+uid);
-
-                        if (authResult.getAdditionalUserInfo().isNewUser()) {
-                            Log.d(TAG, "onSuccess: Account Created...\n"+email);
-                            Toast.makeText(signInActivity, "Account Created...\n"+email, Toast.LENGTH_SHORT).show();
-                        }
-                        else {
-                            Log.d(TAG, "onSuccess: Existing user...\n"+email);
-                            Toast.makeText(signInActivity, "Existing user...\n"+email, Toast.LENGTH_SHORT).show();
-                        }
-
-                        signInActivity.startActivity(new Intent(signInActivity, resultActivity.getClass()));
-                        signInActivity.finish();
+                    if (authResult.getAdditionalUserInfo().isNewUser()) {
+                        Log.d(TAG, "onSuccess: Account Created...\n"+email);
+                        Toast.makeText(signInActivity, "Account Created...\n"+email, Toast.LENGTH_SHORT).show();
                     }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.d(TAG, "onFailure: Loggin failed"+e.getMessage());
+                    else {
+                        Log.d(TAG, "onSuccess: Existing user...\n"+email);
+                        Toast.makeText(signInActivity, "Existing user...\n"+email, Toast.LENGTH_SHORT).show();
                     }
-                });
+                    signInActivity.startActivity(new Intent(signInActivity, resultActivity.getClass()));
+                    signInActivity.finish();
+                }).addOnFailureListener(e -> Log.d(TAG, "onFailure: Loggin failed"+e.getMessage()));
     }
 
     /**
