@@ -1,6 +1,3 @@
-#@author Anders Hominal
-# sdp2022
+# Swift Wallet
 
-Jérôme Ceccaldi 312803
-Eymeric Boyer 284571
-Andrew Lin 350701
+Swift Wallet is a cryptocurrency wallet on Android.
