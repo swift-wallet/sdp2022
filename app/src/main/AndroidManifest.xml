@@ -4,6 +4,7 @@
     package="com.sdp.cryptowalletapp">
 
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -37,6 +38,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.sdp.swiftwallet.CryptoValuesActivity"
+            android:parentActivityName="com.sdp.swiftwallet.MainActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

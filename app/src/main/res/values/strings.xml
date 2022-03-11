@@ -14,4 +14,13 @@
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
+    <string name="search_crypto_name">Search Crypto Name</string>
+    <string name="symbol">Symbol</string>
+    <string name="name">Name</string>
+    <string name="decimalFormatCurrencyValue">#.##</string>
+    <string name="coinMarketCapKey">X-CMC_PRO_API_KEY</string>
+    <string name="coinMarketCapValue">db2a8973-af74-4b0f-bf14-7f6c84b648d0</string>
+    <string name="coinMarketCapLatestURL">https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest</string>
+    <string name="value">Value</string>
+    <string name="go_to_crypto_values">Go to Crypto Values</string>
 </resources>
