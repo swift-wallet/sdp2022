@@ -1,55 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="20dp"
     tools:context="com.sdp.swiftwallet.MainActivity">
 
-    <EditText
-        android:id="@+id/mainName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="228dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:minHeight="48dp"
-        android:text="Name"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <ImageView
+        android:id="@+id/iconGoogle"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:src="@drawable/google_icon"
+        android:layout_centerHorizontal="true"
+        android:contentDescription="@string/crypto_logo_description" />
 
-    <Button
-        android:id="@+id/mainButton"
+    <TextView
+        android:id="@+id/caption"
+        android:layout_below="@id/iconGoogle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="43dp"
-        android:onClick="sendMessage"
-        android:text="@string/main_button"
-        app:layout_constraintStart_toStartOf="@+id/mainName"
-        app:layout_constraintTop_toBottomOf="@+id/mainName" />
+        android:layout_centerHorizontal="true"
+        android:text="@string/chose_auth_method"
+        style="@style/TextAppearance.MaterialComponents.Body1" />
+
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/googleSignInBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"/>
 
     <Button
         android:id="@+id/qr_goto_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_below="@+id/googleSignInBtn"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
         android:onClick="startQR"
-        android:text="@string/goto_qr"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/loginscreen_button" />
+        android:text="@string/goto_qr" />
 
     <Button
         android:id="@+id/loginscreen_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="40dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/qr_goto_button"
         android:onClick="startLogin"
-        android:text="Go to login"
-        app:layout_constraintStart_toStartOf="@+id/mainButton"
-        app:layout_constraintTop_toBottomOf="@+id/mainButton" />
+        android:text="Go to login"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <Button
+        android:id="@+id/cryptoValues"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="startCryptoValues"
+        android:text="@string/go_to_crypto_values"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/loginscreen_button"/>
+
+</RelativeLayout>
+
