@@ -50,4 +50,14 @@
         android:onClick="startLogin"
         android:text="Go to login"/>
 
+    <Button
+        android:id="@+id/cryptoValues"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="startCryptoValues"
+        android:text="@string/go_to_crypto_values"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/loginscreen_button"/>
+
 </RelativeLayout>
+

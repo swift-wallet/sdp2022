@@ -1,3 +1,14 @@
+checks:
+  complex-logic:
+    enabled: true
+    config:
+      threshold: 5
+  method-complexity:
+    enabled: false 
+  method-lines:
+    enabled: false 
+  nested-control-flow:
+    enabled: false 
 exclude_patterns:
 - "**/test/"
 - "**/androidTest/"
