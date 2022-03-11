@@ -56,15 +56,13 @@ public class User {
     this.email = email;
   }
 
-  public void setProfilePic(Uri profilePic) {
+  public void modifyProfilePic(Uri profilePic) {
     Objects.requireNonNull(profilePic);
     this.profilePic = profilePic;
   }
 
-  public void setUsername(String username) {
+  public void modifyUsername(String username) {
     this.username = username;
   }
 }
-
-
 
