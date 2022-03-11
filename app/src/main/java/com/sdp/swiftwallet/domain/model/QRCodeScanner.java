@@ -17,15 +17,20 @@ import com.google.zxing.integration.android.IntentResult;
     Launches a QR code scanning activity using the available camera
  */
 public class QRCodeScanner {
-    //A simple interface to define a lambda callback
+
+    //A simple interface to define a lambda callback, maybe to put elsewhere ?
+
     public interface ScannedCallback{
         void callBack(String result);
     }
+
     ActivityResultLauncher<Integer> mGetContent;
 
-    /*
-    *   QRCode scanner constructor takes a callback that will be called with the result scanned string,
-    *   and the activity context.
+    /**
+     * QRCode scanner constructor takes a callback that will be called with the result scanned string,
+     * and the activity context.
+     * @param callback
+     * @param context current activity
      */
     public QRCodeScanner(ScannedCallback callback, AppCompatActivity context){
         mGetContent = context.registerForActivityResult(new QRCodeScannerContract(), new ActivityResultCallback<String>() {
@@ -35,12 +40,19 @@ public class QRCodeScanner {
             }
         });
     }
-    //Use this function to launch the scanning process
+
+    /**
+     * Use this function to launch the scanning process
+     */
     public void launch(){
         mGetContent.launch(0);
     }
+
+    /**
+     * Creates the intent for the qrcode scanning, for now no parameters allowed
+     */
     private static class QRCodeScannerContract extends ActivityResultContract<Integer, String> {
-        /* Creating the intent for the qrcode scanning, for now no parameters allowed */
+
         @NonNull
         @Override
         public Intent createIntent(@NonNull Context context, Integer input) {
