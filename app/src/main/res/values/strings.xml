@@ -1,9 +1,15 @@
 <resources>
     <string name="app_name">Swift Wallet</string>
+    <string name="webclient_id">300434541324-4enk0efv10ktjhglqniasj135qjoht2p.apps.googleusercontent.com</string>
     <string name="main_button">Go to greeting</string>
     <string name="qr_scan_button">Tap to Scan Stuffff</string>
     <string name="goto_qr">Go to qr scanning</string>
     <string name="default_qr_result_text">Scan result</string>
+    <string name="sign_in">Sign In</string>
+    <string name="name">Name</string>
+    <string name="crypto_logo_description">A crypto logo for the app</string>
+    <string name="chose_auth_method">Please Chose a Sign In Method</string>
+    <string name="logged_in_as">You\'re Logged In as</string>
     <string name="qr_generate_button">Generate a QR-CODE</string>
     <string name="title_activity_login">LoginActivity</string>
     <string name="prompt_email">Email</string>
@@ -16,7 +22,6 @@
     <string name="login_failed">"Login failed"</string>
     <string name="search_crypto_name">Search Crypto Name</string>
     <string name="symbol">Symbol</string>
-    <string name="name">Name</string>
     <string name="decimalFormatCurrencyValue">#.##</string>
     <string name="coinMarketCapKey">X-CMC_PRO_API_KEY</string>
     <string name="coinMarketCapValue">db2a8973-af74-4b0f-bf14-7f6c84b648d0</string>

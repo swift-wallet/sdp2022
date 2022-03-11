@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "300434541324",
+    "project_id": "swift-wallet-8045d",
+    "storage_bucket": "swift-wallet-8045d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:300434541324:android:3669dd720a939d52d91729",
+        "android_client_info": {
+          "package_name": "com.sdp.swiftwallet"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "300434541324-4enk0efv10ktjhglqniasj135qjoht2p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDbapyAnSep5NVv8MLR5Mx4OalngG7L9Ew"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "300434541324-4enk0efv10ktjhglqniasj135qjoht2p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

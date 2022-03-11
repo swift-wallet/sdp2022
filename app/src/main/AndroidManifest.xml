@@ -14,6 +14,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SwiftWallet">
         <activity
+            android:name="com.sdp.swiftwallet.ProfileActivity"
+            android:exported="false" />
+        <activity
             android:name="com.journeyapps.barcodescanner.CaptureActivity"
             android:screenOrientation="fullSensor"
             tools:replace="screenOrientation"
