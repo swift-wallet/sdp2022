@@ -14,6 +14,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SwiftWallet">
         <activity
+            android:name="com.sdp.swiftwallet.ProfileActivity"
+            android:exported="false" />
+        <activity
             android:name="com.journeyapps.barcodescanner.CaptureActivity"
             android:screenOrientation="fullSensor"
             tools:replace="screenOrientation"
@@ -25,6 +28,11 @@
             android:name="com.sdp.swiftwallet.QRActivity"
             android:exported="false"
             android:parentActivityName="com.sdp.swiftwallet.MainActivity" />
+        <activity
+            android:name="com.sdp.swiftwallet.WalletActivity"
+            android:exported="false"
+            android:parentActivityName="com.sdp.swiftwallet.MainActivity"
+            />
         <activity
             android:name="com.sdp.swiftwallet.GreetingActivity"
             android:exported="false"
