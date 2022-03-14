@@ -5,71 +5,91 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="20dp"
     tools:context="com.sdp.swiftwallet.MainActivity">
 
-    <ImageView
-        android:id="@+id/iconGoogle"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:src="@drawable/google_icon"
-        android:layout_centerHorizontal="true"
-        android:contentDescription="@string/crypto_logo_description" />
+<!--    <ImageView-->
+<!--        android:id="@+id/iconGoogle"-->
+<!--        android:layout_width="120dp"-->
+<!--        android:layout_height="120dp"-->
+<!--        android:src="@drawable/google_icon"-->
+<!--        android:layout_centerHorizontal="true"-->
+<!--        android:contentDescription="@string/crypto_logo_description" />-->
 
-    <TextView
-        android:id="@+id/caption"
-        android:layout_below="@id/iconGoogle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:text="@string/chose_auth_method"
-        style="@style/TextAppearance.MaterialComponents.Body1" />
+<!--    <TextView-->
+<!--        android:id="@+id/caption"-->
+<!--        android:layout_below="@id/iconGoogle"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_centerHorizontal="true"-->
+<!--        android:text="@string/chose_auth_method"-->
+<!--        style="@style/TextAppearance.MaterialComponents.Body1" />-->
 
-    <com.google.android.gms.common.SignInButton
-        android:id="@+id/googleSignInBtn"
+<!--    <com.google.android.gms.common.SignInButton-->
+<!--        android:id="@+id/googleSignInBtn"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_centerInParent="true"/>-->
+
+<!--    <Button-->
+<!--        android:id="@+id/walletButton"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:onClick="openWallet"-->
+<!--        android:text="Wallet"-->
+<!--        android:layout_centerHorizontal="true"-->
+<!--        android:layout_below="@+id/cryptoValues"-->
+<!--        />-->
+
+<!--    <Button-->
+<!--        android:id="@+id/qr_goto_button"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_centerHorizontal="true"-->
+<!--        android:layout_marginTop="20dp"-->
+<!--        android:onClick="startQR"-->
+<!--        android:text="@string/goto_qr" />-->
+
+<!--    <Button-->
+<!--        android:id="@+id/loginscreen_button"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_centerHorizontal="true"-->
+<!--        android:layout_below="@+id/qr_goto_button"-->
+<!--        android:onClick="startLogin"-->
+<!--        android:text="Go to login"/>-->
+
+<!--    <Button-->
+<!--        android:id="@+id/cryptoValues"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:onClick="startCryptoValues"-->
+<!--        android:text="@string/go_to_crypto_values"-->
+<!--        android:layout_centerHorizontal="true"-->
+<!--        android:layout_below="@+id/loginscreen_button"/>-->
+
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/bottom"
+        />
+
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"/>
+        android:id="@+id/bottom"
+        android:layout_alignParentBottom="true">
 
-    <Button
-        android:id="@+id/walletButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="openWallet"
-        android:text="Wallet"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintVertical_bias="0.351" />
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/bottom_bar"
+            app:itemIconTint="@color/black"
+            app:labelVisibilityMode="unlabeled"
+            android:background="?android:attr/windowBackground"
+            app:menu="@menu/bottom_bar"/>
 
-    <Button
-        android:id="@+id/qr_goto_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/googleSignInBtn"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:onClick="startQR"
-        android:text="@string/goto_qr" />
-
-    <Button
-        android:id="@+id/loginscreen_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/qr_goto_button"
-        android:onClick="startLogin"
-        android:text="Go to login"/>
-
-    <Button
-        android:id="@+id/cryptoValues"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="startCryptoValues"
-        android:text="@string/go_to_crypto_values"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/loginscreen_button"/>
+    </com.google.android.material.appbar.AppBarLayout>
 
 </RelativeLayout>
 

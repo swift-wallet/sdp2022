@@ -61,7 +61,7 @@ public class LoginActivityTest {
         onView(withId(R.id.loginButton)).perform(click());
 
         intended(toPackage("com.sdp.swiftwallet"));
-        intended(hasComponent(GreetingActivity.class.getName()));
+        intended(hasComponent(MainActivity.class.getName()));
 
 //        Intents.release();
     }
@@ -74,7 +74,7 @@ public class LoginActivityTest {
         onView(withId(R.id.loginPassword)).perform(typeText("admin"), closeSoftKeyboard());
         onView(withId(R.id.loginButton)).perform(click());
 
-        intended(hasExtra(GreetingActivity.EXTRA_MESSAGE, "Welcome to SwiftWallet!"));
+        intended(hasExtra(LoginActivity.EXTRA_MESSAGE, "Welcome to SwiftWallet!"));
 
 //        Intents.release();
     }

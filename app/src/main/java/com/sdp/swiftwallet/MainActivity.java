@@ -1,99 +1,66 @@
 package com.sdp.swiftwallet;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
+import android.view.MenuItem;
 
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.SignInButton;
-import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.tasks.Task;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
 import com.sdp.cryptowalletapp.R;
-import com.sdp.swiftwallet.data.repository.FirebaseAuthImpl;
-import com.sdp.swiftwallet.domain.repository.ClientAuth;
+import com.sdp.swiftwallet.presentation.fragments.HomeFragment;
+import com.sdp.swiftwallet.presentation.fragments.MessageFragment;
+import com.sdp.swiftwallet.presentation.fragments.PaymentFragment;
+import com.sdp.swiftwallet.presentation.fragments.ProfileFragment;
+import com.sdp.swiftwallet.presentation.fragments.StatsFragment;
 
 public class MainActivity extends AppCompatActivity {
-    public static final String EXTRA_MESSAGE="com.sdp.swift-wallet.NAME";
 
-    private ClientAuth clientAuth;
-    private ActivityResultLauncher<Intent> googleSignInActivityResultLauncher;
-    private static final String TAG = "GOOGLE_SIGN_IN_TAG";
+    private BottomNavigationView bottomNavigationView;
+    Fragment selectedFragment = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // init client authentication and launcher for google signIn
-        clientAuth = new FirebaseAuthImpl();
-        initGoogleSignInResultLauncher();
+        bottomNavigationView = findViewById(R.id.bottom_bar);
+        bottomNavigationView.setOnItemSelectedListener(navigationItemSelectedListener);
 
-        SignInButton googleSignInBtn = findViewById(R.id.googleSignInBtn);
-        googleSignInBtn.setOnClickListener(v -> startGoogleSignIn());
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                new HomeFragment()).commit();
     }
 
-    /**
-     * Init google SignIn launcher,
-     * Perform signIn through clientAuth by giving this activity and the result activity
-     */
-    private void initGoogleSignInResultLauncher() {
-        googleSignInActivityResultLauncher = registerForActivityResult(
-                new ActivityResultContracts.StartActivityForResult(),
-                result -> {
-                    if (result.getResultCode() == RESULT_OK) {
-                        Log.d(TAG, "onActivityResult: Google signIn intent result");
-                        Task<GoogleSignInAccount> accountTask = GoogleSignIn.getSignedInAccountFromIntent(result.getData());
-                        try {
-                            GoogleSignInAccount account = accountTask.getResult(ApiException.class);
-                            clientAuth.signInWithGoogleAccount(account, MainActivity.this, new ProfileActivity(), TAG);
-                        } catch (Exception e) {
-                            Log.d(TAG, "onActivityResult: " + e.getMessage());
-                        }
+    private final BottomNavigationView.OnItemSelectedListener navigationItemSelectedListener =
+            new NavigationBarView.OnItemSelectedListener() {
+                @Override
+                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                    switch (item.getItemId()) {
+                        case R.id.bar_home:
+                            selectedFragment = new HomeFragment();
+                            break;
+                        case R.id.bar_stats:
+                            selectedFragment = new StatsFragment();
+                            break;
+                        case R.id.bar_payment:
+                            selectedFragment = new PaymentFragment();
+                            break;
+                        case R.id.bar_message:
+                            selectedFragment = new MessageFragment();
+                            break;
+                        case R.id.bar_profile:
+                            selectedFragment = new ProfileFragment();
+                            break;
                     }
-                });
-    }
 
-    /**
-     * Setup GoogleSignInClient and launch google signIn with intent
-     */
-    private void startGoogleSignIn() {
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build();
+                    if (selectedFragment != null) {
+                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                                selectedFragment).commit();
+                    }
 
-        GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(MainActivity.this, gso);
-
-        Log.d(TAG, "onClick: launch Google signIn");
-        Intent it = googleSignInClient.getSignInIntent();
-        googleSignInActivityResultLauncher.launch(it);
-    }
-
-    public void startQR(View view){
-        Intent intent = new Intent(this, QRActivity.class);
-        startActivity(intent);
-    }
-    public void openWallet(View view) {
-        Intent intent = new Intent(this, WalletActivity.class);
-        startActivity(intent);
-    }
-
-    public void startLogin(View view) {
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
-    }
-
-    public void startCryptoValues(View view){
-        Intent intent = new Intent(this, CryptoValuesActivity.class);
-        startActivity(intent);
-    }
+                    return true;
+                }
+            };
 }
