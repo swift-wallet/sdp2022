@@ -30,23 +30,4 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_home, container, false);
     }
-
-    public void startQR(View view){
-        Intent intent = new Intent(getActivity(), QRActivity.class);
-        startActivity(intent);
-    }
-    public void openWallet(View view) {
-        Intent intent = new Intent(getActivity(), WalletActivity.class);
-        startActivity(intent);
-    }
-
-    public void startLogin(View view) {
-        Intent intent = new Intent(getActivity(), LoginActivity.class);
-        startActivity(intent);
-    }
-
-    public void startCryptoValues(View view){
-        Intent intent = new Intent(getActivity(), CryptoValuesActivity.class);
-        startActivity(intent);
-    }
 }

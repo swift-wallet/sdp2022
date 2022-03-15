@@ -1,7 +1,9 @@
 package com.sdp.swiftwallet;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -64,4 +66,23 @@ public class MainActivity extends AppCompatActivity {
                     return true;
                 }
             };
+
+    public void startQR(View view){
+        Intent intent = new Intent(getActivity(), QRActivity.class);
+        startActivity(intent);
+    }
+    public void openWallet(View view) {
+        Intent intent = new Intent(getActivity(), WalletActivity.class);
+        startActivity(intent);
+    }
+
+    public void startLogin(View view) {
+        Intent intent = new Intent(getActivity(), LoginActivity.class);
+        startActivity(intent);
+    }
+
+    public void startCryptoValues(View view){
+        Intent intent = new Intent(getActivity(), CryptoValuesActivity.class);
+        startActivity(intent);
+    }
 }
