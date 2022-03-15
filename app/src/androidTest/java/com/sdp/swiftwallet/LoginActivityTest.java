@@ -132,4 +132,20 @@ public class LoginActivityTest {
 
 //        Intents.release();
     }
+
+    @Test
+    public void login_btn_correctly_displayed() {
+//        Intents.init();
+        onView(withId(R.id.googleSignInBtn)).check(matches(isDisplayed()));
+//        Intents.release();
+    }
+
+    @Test
+    public void press_login_fires_correct_intent() {
+//        Intents.init();
+        onView(withId(R.id.googleSignInBtn)).perform(click());
+
+        intended(toPackage("com.sdp.swiftwallet"));
+//        Intents.release();
+    }
 }

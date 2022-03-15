@@ -55,6 +55,10 @@ dependencies {
     androidTestImplementation 'androidx.test:rules:1.4.0'
     androidTestImplementation 'androidx.test.espresso:espresso-intents:3.4.0'
     androidTestImplementation 'com.adevinta.android:barista:4.2.0'
+    def fragment_version = "1.4.1"
+    debugImplementation "androidx.fragment:fragment-testing:$fragment_version"
+    def nav_version = "2.4.1"
+    androidTestImplementation "androidx.navigation:navigation-testing:$nav_version"
 }
 
 tasks.withType(Test) {

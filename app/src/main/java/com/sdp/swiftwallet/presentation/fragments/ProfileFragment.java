@@ -22,14 +22,9 @@ public class ProfileFragment extends Fragment {
 
     private ClientAuth clientAuth;
 
-    public ProfileFragment() {
-        // Required empty public constructor
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     /**
