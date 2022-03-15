@@ -33,8 +33,12 @@ public class MainActivity extends AppCompatActivity {
                 new HomeFragment()).commit();
     }
 
-    // Setup bottom navigation listener
+    /**
+     * Setup bottom navigation listener
+     */
     private final BottomNavigationView.OnItemSelectedListener navigationItemSelectedListener =
+
+            //Sets up on click listener to fragments of the home activity
             new NavigationBarView.OnItemSelectedListener() {
                 @Override
                 public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -60,7 +64,6 @@ public class MainActivity extends AppCompatActivity {
                         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                                 selectedFragment).commit();
                     }
-
                     return true;
                 }
             };

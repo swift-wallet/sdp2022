@@ -12,6 +12,8 @@ public class User {
   private String username;
   private String email;
   private Uri profilePic;
+  //Hardcoded login methods names
+  private String loginMethods;
 
   /**
    * Creates a user
@@ -19,20 +21,28 @@ public class User {
    * @param email email
    * @param profilePic profile picture
    */
-  public User(String username, String email, Uri profilePic){
+  public User(String username, String email, Uri profilePic, String loginMethod){
     Objects.requireNonNull(username);
     Objects.requireNonNull(email);
     Objects.requireNonNull(profilePic);
+    Objects.requireNonNull(loginMethod);
 
+    if (!loginMethod.equals("GOOGLE") || !loginMethod.equals("BASIC")) throw new IllegalArgumentException();
+
+    this.loginMethods = loginMethod;
     this.username=username;
     this.email=email;
     this.profilePic=profilePic;
   }
 
-  public User(String username, String email){
+  public User(String username, String email, String loginMethod){
     Objects.requireNonNull(username);
     Objects.requireNonNull(email);
+    Objects.requireNonNull(loginMethod);
 
+    if (!loginMethod.equals("GOOGLE") || !loginMethod.equals("BASIC")) throw new IllegalArgumentException();
+
+    this.loginMethods = loginMethod;
     this.username=username;
     this.email=email;
 
@@ -50,6 +60,11 @@ public class User {
   public Uri getProfilePic() {
     return profilePic;
   }
+
+  public String getLoginMethod() {
+    return loginMethods;
+  }
+
 
   public void setEmail(String email) {
     Objects.requireNonNull(email);

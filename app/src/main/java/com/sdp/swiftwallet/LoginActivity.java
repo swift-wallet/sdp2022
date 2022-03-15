@@ -30,6 +30,7 @@ import com.sdp.swiftwallet.domain.repository.ClientAuth;
 import java.util.Locale;
 
 public class LoginActivity extends AppCompatActivity {
+
     public static final String EXTRA_MESSAGE = "com.sdp.swiftwallet.LOGIN";
     private static final String WELCOME_MESSAGE = "Welcome to SwiftWallet!";
     private static final String ADMIN_USERNAME = "admin";
@@ -61,7 +62,6 @@ public class LoginActivity extends AppCompatActivity {
 
     /**
      * Login method which is launched by the LOGIN button on the login screen
-     *
      * @param view current View of the user
      */
     public void login(View view) {
