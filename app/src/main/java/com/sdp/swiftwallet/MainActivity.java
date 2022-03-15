@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
                 new HomeFragment()).commit();
     }
 
+    // Setup bottom navigation listener
     private final BottomNavigationView.OnItemSelectedListener navigationItemSelectedListener =
             new NavigationBarView.OnItemSelectedListener() {
                 @Override
