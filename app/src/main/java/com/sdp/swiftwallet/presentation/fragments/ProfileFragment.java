@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import android.view.View.OnClickListener;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -27,7 +28,9 @@ public class ProfileFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+        user = new User("admin", "admin", "BASIC");
     }
 
     @Override
@@ -38,7 +41,12 @@ public class ProfileFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
-        //Button logoutButton
+        Button logoutButton = view.findViewById(R.id.logoutBtn);
+        logoutButton.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+                logout(user.getLoginMethod(), v);
+            }
+        });
 
         return view;
     }
@@ -62,7 +70,6 @@ public class ProfileFragment extends Fragment {
             Intent intent = new Intent(getActivity(), LoginActivity.class);
             startActivity(intent);
         }
-
     }
 
 
