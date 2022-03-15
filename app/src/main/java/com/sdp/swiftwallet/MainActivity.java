@@ -68,21 +68,21 @@ public class MainActivity extends AppCompatActivity {
             };
 
     public void startQR(View view){
-        Intent intent = new Intent(getActivity(), QRActivity.class);
+        Intent intent = new Intent(MainActivity.this, QRActivity.class);
         startActivity(intent);
     }
     public void openWallet(View view) {
-        Intent intent = new Intent(getActivity(), WalletActivity.class);
+        Intent intent = new Intent(MainActivity.this, WalletActivity.class);
         startActivity(intent);
     }
 
     public void startLogin(View view) {
-        Intent intent = new Intent(getActivity(), LoginActivity.class);
+        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
         startActivity(intent);
     }
 
     public void startCryptoValues(View view){
-        Intent intent = new Intent(getActivity(), CryptoValuesActivity.class);
+        Intent intent = new Intent(MainActivity.this, CryptoValuesActivity.class);
         startActivity(intent);
     }
 }
