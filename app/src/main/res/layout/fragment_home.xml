@@ -10,5 +10,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:gravity="center">
+
+        <ImageButton
+            android:id="@+id/create_address_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/zxing_transparent"
+            android:src="@drawable/ic_baseline_add_circle_outline_24" />
+    </LinearLayout>
 
 </FrameLayout>

@@ -14,7 +14,7 @@ public class SeedGenerator {
         String[] seed = new String[SEED_SIZE];
         int wordsLength = words.length;
         for( int i = 0; i < SEED_SIZE; i++ ){
-            int index = secureRandom.nextInt();
+            int index = Math.abs(secureRandom.nextInt());
             seed[i] = words[index % wordsLength];
         }
         return seed;

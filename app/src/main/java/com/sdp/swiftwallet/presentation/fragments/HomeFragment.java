@@ -17,6 +17,8 @@ import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.CryptoValuesActivity;
 import com.sdp.swiftwallet.QRActivity;
 import com.sdp.swiftwallet.WalletActivity;
+import com.sdp.swiftwallet.domain.model.wallet.Wallets;
+import com.sdp.swiftwallet.domain.model.wallet.cryptography.SeedGenerator;
 import com.sdp.swiftwallet.presentation.fragments.wallets.WalletItemFragment;
 
 /**
@@ -32,6 +34,8 @@ public class HomeFragment extends Fragment {
     /**
      * Assign proper methods upon creating view (for buttons)
      */
+    private WalletItemFragment walletItemFragment;
+    private Wallets wallets;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -67,6 +71,16 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
-        getChildFragmentManager().beginTransaction().replace(R.id.home_nested_frag_container, new WalletItemFragment()).commit();
+        walletItemFragment = new WalletItemFragment();
+        wallets = new Wallets(SeedGenerator.generateSeed());
+        getChildFragmentManager().beginTransaction().replace(R.id.home_nested_frag_container, walletItemFragment).commit();
+        requireActivity().findViewById(R.id.create_address_button).setOnClickListener((v) -> createAddress());
     }
+
+    public void createAddress(){
+        int walletID = wallets.generateWallet();
+        walletItemFragment.addWalletItem(wallets.getWalletFromId(walletID));
+    }
+
+
 }

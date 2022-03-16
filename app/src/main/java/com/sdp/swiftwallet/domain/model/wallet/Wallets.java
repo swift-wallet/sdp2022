@@ -21,11 +21,11 @@ public class Wallets implements IWallets {
     public Wallets(String[] seed){
         byte[] byteSeed = SeedGenerator.stringSeedToByteSeed(seed);
         keyPairGenerator = new KeyPairGenerator(byteSeed);
+        keyPairs = new ArrayList<>();
     }
 
     private Wallets(String[] seed, int to){
-        byte[] byteSeed = SeedGenerator.stringSeedToByteSeed(seed);
-        keyPairGenerator = new KeyPairGenerator(byteSeed);
+        this(seed);
         while(counter < to){
             generateWallet();
         }

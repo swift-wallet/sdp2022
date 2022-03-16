@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.sdp.cryptowalletapp.R;
+import com.sdp.swiftwallet.domain.model.wallet.WalletKeyPair;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +22,7 @@ import java.util.List;
  */
 public class WalletItemFragment extends Fragment {
     private List<WalletItem> walletItems;
-
+    private WalletItemRecyclerViewAdapter walletItemRecyclerViewAdapter;
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
@@ -40,14 +41,17 @@ public class WalletItemFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_wallet_item_list, container, false);
-
+        walletItemRecyclerViewAdapter = new WalletItemRecyclerViewAdapter(walletItems);
         // Set the adapter
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
             RecyclerView recyclerView = (RecyclerView) view;
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            recyclerView.setAdapter(new WalletItemRecyclerViewAdapter(walletItems));
+            recyclerView.setAdapter(walletItemRecyclerViewAdapter);
         }
         return view;
+    }
+    public void addWalletItem(WalletKeyPair keyPair){
+        walletItems.add(new WalletItem(keyPair.getHexPublicKey()));
     }
 }
