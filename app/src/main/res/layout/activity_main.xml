@@ -57,10 +57,10 @@
         android:id="@+id/loginscreen_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         android:layout_below="@+id/qr_goto_button"
-        android:onClick="startLogin"
-        android:text="Go to login"/>
+        android:layout_centerHorizontal="true"
+        android:onClick="startHistory"
+        android:text="Go to login" />
 
     <Button
         android:id="@+id/cryptoValues"
