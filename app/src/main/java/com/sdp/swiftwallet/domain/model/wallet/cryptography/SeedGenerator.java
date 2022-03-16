@@ -28,4 +28,12 @@ public class SeedGenerator {
             throw new IllegalArgumentException("SeedGenerator: Error while creating the seed byte array");
         }
     }
+    public static byte[] stringSeedToByteSeed(String seed){
+        Optional<String> string = Arrays.stream(seed.split("-")).reduce(String::concat);
+        if(string.isPresent()){
+            return string.get().getBytes(StandardCharsets.UTF_8);
+        }else{
+            throw new IllegalArgumentException("SeedGenerator: Error while creating the seed byte array");
+        }
+    }
 }
