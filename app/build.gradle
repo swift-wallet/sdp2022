@@ -33,10 +33,12 @@ android {
 
     buildFeatures {
         viewBinding true
+        dataBinding true
     }
 }
 
 dependencies {
+    implementation 'androidx.recyclerview:recyclerview:1.2.1'
     def fragment_version = "1.4.1"
     implementation 'com.android.volley:volley:1.2.1'
     implementation 'androidx.appcompat:appcompat:1.4.1'
