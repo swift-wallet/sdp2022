@@ -9,7 +9,7 @@
         android:color="#cecece" />
 
     // The corner radius, reduce it to make it more square
-    <corners android:radius="15dp"/>
+    <corners android:radius="4dp"/>
     <solid
         android:color="#ededed"
         />

@@ -1,4 +1,4 @@
-package com.sdp.swiftwallet.domain.model.cryptography;
+package com.sdp.swiftwallet.domain.model.wallet.cryptography;
 
 import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
