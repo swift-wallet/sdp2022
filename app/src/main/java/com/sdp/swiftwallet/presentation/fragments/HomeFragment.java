@@ -42,7 +42,7 @@ public class HomeFragment extends Fragment {
         Button walletButton = view.findViewById(R.id.walletButton);
         walletButton.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
-                openWallet(v);
+                openWallet();
             }
         });
 
@@ -50,7 +50,7 @@ public class HomeFragment extends Fragment {
         Button qrButton = view.findViewById(R.id.qr_goto_button);
         qrButton.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
-                startQR(v);
+                startQR();
             }
         });
 
@@ -58,7 +58,7 @@ public class HomeFragment extends Fragment {
         Button cryptoButton = view.findViewById(R.id.cryptoValues);
         cryptoButton.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
-                startCryptoValues(v);
+                startCryptoValues();
             }
         });
 
@@ -67,27 +67,24 @@ public class HomeFragment extends Fragment {
 
     /**
      * start QR activity
-     * @param view current view
      */
-    public void startQR(View view){
+    public void startQR(){
         Intent intent = new Intent(getActivity(), QRActivity.class);
         startActivity(intent);
     }
 
     /**
      * opens the wallet
-     * @param view current view
      */
-    public void openWallet(View view) {
+    public void openWallet() {
         Intent intent = new Intent(getActivity(), WalletActivity.class);
         startActivity(intent);
     }
 
     /**
      * Starts the crypto values
-     * @param view current view
      */
-    public void startCryptoValues(View view){
+    public void startCryptoValues(){
         Intent intent = new Intent(getActivity(), CryptoValuesActivity.class);
         startActivity(intent);
     }

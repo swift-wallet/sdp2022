@@ -20,6 +20,7 @@ import com.sdp.swiftwallet.MainActivity;
 import com.sdp.swiftwallet.data.repository.FirebaseAuthImpl;
 import com.sdp.swiftwallet.domain.model.User;
 import com.sdp.swiftwallet.domain.repository.ClientAuth;
+import java.util.Objects;
 
 public class ProfileFragment extends Fragment {
 
@@ -31,6 +32,7 @@ public class ProfileFragment extends Fragment {
 
         super.onCreate(savedInstanceState);
         user = new User("admin", "admin", "BASIC");
+
     }
 
     @Override
@@ -56,6 +58,8 @@ public class ProfileFragment extends Fragment {
      * Logs out the user
      */
     public void logout(String loginMethod, View view){
+        Objects.requireNonNull(loginMethod);
+
         if (loginMethod.equals("GOOGLE")){
             // setup fragment screen as soon as view is ready
             clientAuth = new FirebaseAuthImpl();
@@ -66,7 +70,7 @@ public class ProfileFragment extends Fragment {
                 clientAuth.signOut();
                 checkUser(view);
             });
-        } else {
+        } else if (loginMethod.equals("BASIC")) {
             Intent intent = new Intent(getActivity(), LoginActivity.class);
             startActivity(intent);
         }
