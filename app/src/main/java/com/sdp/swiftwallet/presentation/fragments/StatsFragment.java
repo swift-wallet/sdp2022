@@ -12,7 +12,7 @@ import com.sdp.cryptowalletapp.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link StatsFragment#newInstance} factory method to
+ * Use the {@link StatsFragment} factory method to
  * create an instance of this fragment.
  */
 public class StatsFragment extends Fragment {

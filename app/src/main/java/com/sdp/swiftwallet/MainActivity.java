@@ -21,6 +21,9 @@ public class MainActivity extends AppCompatActivity {
     private BottomNavigationView bottomNavigationView;
     Fragment selectedFragment = null;
 
+    /**
+     * Methods that are called on creation
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,37 +37,37 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Setup bottom navigation listener
+     * Setup bottom navigation listener on the menu
      */
     private final BottomNavigationView.OnItemSelectedListener navigationItemSelectedListener =
 
-            //Sets up on click listener to fragments of the home activity
-            new NavigationBarView.OnItemSelectedListener() {
-                @Override
-                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                    switch (item.getItemId()) {
-                        case R.id.bar_home:
-                            selectedFragment = new HomeFragment();
-                            break;
-                        case R.id.bar_stats:
-                            selectedFragment = new StatsFragment();
-                            break;
-                        case R.id.bar_payment:
-                            selectedFragment = new PaymentFragment();
-                            break;
-                        case R.id.bar_message:
-                            selectedFragment = new MessageFragment();
-                            break;
-                        case R.id.bar_profile:
-                            selectedFragment = new ProfileFragment();
-                            break;
-                    }
+        //Sets up on click listener to fragments of the home activity
+        new NavigationBarView.OnItemSelectedListener() {
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.bar_home:
+                    selectedFragment = new HomeFragment();
+                    break;
+                case R.id.bar_stats:
+                    selectedFragment = new StatsFragment();
+                    break;
+                case R.id.bar_payment:
+                    selectedFragment = new PaymentFragment();
+                    break;
+                case R.id.bar_message:
+                    selectedFragment = new MessageFragment();
+                    break;
+                case R.id.bar_profile:
+                    selectedFragment = new ProfileFragment();
+                    break;
+            }
 
-                    if (selectedFragment != null) {
-                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                                selectedFragment).commit();
-                    }
-                    return true;
+            if (selectedFragment != null) {
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                    selectedFragment).commit();
                 }
-            };
+                    return true;
+        }
+        };
 }

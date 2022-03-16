@@ -11,6 +11,10 @@ import android.widget.TextView;
 import com.sdp.cryptowalletapp.R;
 
 public class WalletActivity extends AppCompatActivity {
+
+    /**
+     * Methods called on creation
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

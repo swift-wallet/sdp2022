@@ -74,7 +74,7 @@ public class HomeFragment extends Fragment {
     }
 
     /**
-     * opens the wallet
+     * Opens the wallet
      */
     public void openWallet() {
         Intent intent = new Intent(getActivity(), WalletActivity.class);

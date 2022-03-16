@@ -25,7 +25,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.data.repository.FirebaseAuthImpl;
+import com.sdp.swiftwallet.domain.model.User;
 import com.sdp.swiftwallet.domain.repository.ClientAuth;
+import com.sdp.swiftwallet.data.repository.UserDatabase;
 
 import java.util.Locale;
 
@@ -52,7 +54,7 @@ public class LoginActivity extends AppCompatActivity {
         attemptsTextView = (TextView) findViewById(R.id.attemptsMessage);
         attemptsTextView.setText("");
 
-        // init client authentication and launcher for google signIn
+        //Init client authentication and launcher for google signIn
         clientAuth = new FirebaseAuthImpl();
         initGoogleSignInResultLauncher();
 
@@ -65,27 +67,29 @@ public class LoginActivity extends AppCompatActivity {
      * @param view current View of the user
      */
     public void login(View view) {
-        // Retrieve username and password from login screen
+        //Retrieve username and password from login screen
         EditText editText = (EditText) findViewById(R.id.loginUsername);
         String username = editText.getText().toString();
         editText = (EditText) findViewById(R.id.loginPassword);
         String password = editText.getText().toString();
 
-        // Authenticate username and password
+        //Authenticate username and password
         boolean successfulLogin = authCredentials(username, password);
 
         if (successfulLogin) {
-            // Launch next activity
+            //Launch next activity
+            ((UserDatabase) this.getApplication())
+                .addAndUpdate(new User("admin", "admin", "BASIC"));
             startActivity(nextActivity(this));
         } else {
-            // Check if over max attempts
+            //Check if over max attempts
             if (++loginAttempts >= MAX_LOGIN_ATTEMPTS) {
                 Intent mainIntent = new Intent(this, MainActivity.class);
                 tooManyAttemptsError(this, mainIntent).show();
                 return;
             }
 
-            // Set attempts left text
+            //Set attempts left text
             String attemptsLeft = String.format(
                     Locale.US,
                     "You have %d attempt(s) remaining",
@@ -93,7 +97,7 @@ public class LoginActivity extends AppCompatActivity {
             );
             attemptsTextView.setText(attemptsLeft);
 
-            // Display error message
+            //Display error message
             incorrectCredentialsError(this).show();
         }
     }

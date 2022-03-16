@@ -1,4 +1,4 @@
-package com.sdp.swiftwallet;
+package com.sdp.swiftwallet.UiTest;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -24,6 +24,8 @@ import androidx.test.platform.app.InstrumentationRegistry;
 
 import com.sdp.cryptowalletapp.R;
 
+import com.sdp.swiftwallet.LoginActivity;
+import com.sdp.swiftwallet.MainActivity;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -54,8 +56,6 @@ public class LoginActivityTest {
 
     @Test
     public void successfulLoginLaunchesGreeting() {
-//        Intents.init();
-
         onView(withId(R.id.loginUsername)).perform(typeText("admin"), closeSoftKeyboard());
         onView(withId(R.id.loginPassword)).perform(typeText("admin"), closeSoftKeyboard());
         onView(withId(R.id.loginButton)).perform(click());
@@ -63,20 +63,16 @@ public class LoginActivityTest {
         intended(toPackage("com.sdp.swiftwallet"));
         intended(hasComponent(MainActivity.class.getName()));
 
-//        Intents.release();
     }
 
     @Test
     public void successfulLoginLaunchesGreetingWithCorrectMessage() {
-//        Intents.init();
 
         onView(withId(R.id.loginUsername)).perform(typeText("admin"), closeSoftKeyboard());
         onView(withId(R.id.loginPassword)).perform(typeText("admin"), closeSoftKeyboard());
         onView(withId(R.id.loginButton)).perform(click());
 
         intended(hasExtra(LoginActivity.EXTRA_MESSAGE, "Welcome to SwiftWallet!"));
-
-//        Intents.release();
     }
 
     @Test

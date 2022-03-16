@@ -1,5 +1,6 @@
 package com.sdp.swiftwallet.domain.model;
 
+import android.app.Application;
 import android.net.Uri;
 import java.util.Objects;
 
@@ -24,7 +25,9 @@ public class User {
     Objects.requireNonNull(email);
     Objects.requireNonNull(loginMethod);
 
-    if (!loginMethod.equals("GOOGLE") && !loginMethod.equals("BASIC")) throw new IllegalArgumentException();
+    if (!loginMethod.equals("GOOGLE") && !loginMethod.equals("BASIC")) {
+      throw new IllegalArgumentException();
+    }
 
     this.loginMethods=loginMethod;
     this.username=username;

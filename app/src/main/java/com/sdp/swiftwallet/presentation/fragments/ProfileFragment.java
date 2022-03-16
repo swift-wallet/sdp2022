@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import android.service.autofill.UserData;
 import android.view.View.OnClickListener;
 import androidx.fragment.app.Fragment;
 
@@ -21,6 +22,8 @@ import com.sdp.swiftwallet.data.repository.FirebaseAuthImpl;
 import com.sdp.swiftwallet.domain.model.User;
 import com.sdp.swiftwallet.domain.repository.ClientAuth;
 import java.util.Objects;
+import com.sdp.swiftwallet.data.repository.UserDatabase;
+
 
 public class ProfileFragment extends Fragment {
 
@@ -31,8 +34,9 @@ public class ProfileFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        user = new User("admin", "admin", "BASIC");
-
+        //user = new User("admin", "admin", "BASIC");
+        //i == hardcoded
+        user = ((UserDatabase) getActivity().getApplication()).getUser(0);
     }
 
     @Override
@@ -49,6 +53,9 @@ public class ProfileFragment extends Fragment {
                 logout(user.getLoginMethod(), v);
             }
         });
+
+        TextView textView = (TextView) view.findViewById(R.id.email);
+        textView.setText(user.getEmail());
 
         return view;
     }
