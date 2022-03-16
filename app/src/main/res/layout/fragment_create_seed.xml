@@ -4,7 +4,7 @@
     android:layout_height="400dp"
     android:layout_gravity="center"
     android:background="@drawable/fragment_seed"
-    tools:context="com.sdp.swiftwallet.CreateSeedFragment">
+    tools:context="com.sdp.swiftwallet.presentation.fragments.wallets.CreateSeedFragment">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

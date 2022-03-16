@@ -25,6 +25,7 @@
             android:parentActivityName="com.sdp.swiftwallet.QRActivity"
             android:screenOrientation="fullSensor"
             tools:replace="screenOrientation" />
+
         <activity
             android:name="com.sdp.swiftwallet.MainActivity"
             android:exported="false" />

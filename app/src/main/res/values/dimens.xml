@@ -3,4 +3,9 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="text_margin">16dp</dimen>
+
+    <!-- WALLET -->
+    <dimen name="wallet_item_text_margin">10dp</dimen>
+    <dimen name="wallet_item_address_size">12sp</dimen>
+
 </resources>

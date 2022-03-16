@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -13,17 +12,15 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.sdp.cryptowalletapp.R;
-import com.sdp.swiftwallet.presentation.fragments.wallets.placeholder.PlaceholderContent;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A fragment representing a list of Items.
  */
 public class WalletItemFragment extends Fragment {
-
-    // TODO: Customize parameter argument names
-    private static final String ARG_COLUMN_COUNT = "column-count";
-    // TODO: Customize parameters
-    private int mColumnCount = 1;
+    private List<WalletItem> walletItems;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -31,26 +28,14 @@ public class WalletItemFragment extends Fragment {
      */
     public WalletItemFragment() {
     }
-
-    // TODO: Customize parameter initialization
-    @SuppressWarnings("unused")
-    public static WalletItemFragment newInstance(int columnCount) {
-        WalletItemFragment fragment = new WalletItemFragment();
-        Bundle args = new Bundle();
-        args.putInt(ARG_COLUMN_COUNT, columnCount);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        if (getArguments() != null) {
-            mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
-        }
+        walletItems = new ArrayList<>();
+        walletItems.add(new WalletItem(getString(R.string.random_example_address)));
+        walletItems.add(new WalletItem(getString(R.string.random_example_address)));
+        walletItems.add(new WalletItem(getString(R.string.random_example_address)));
     }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -60,12 +45,8 @@ public class WalletItemFragment extends Fragment {
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
             RecyclerView recyclerView = (RecyclerView) view;
-            if (mColumnCount <= 1) {
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            } else {
-                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
-            }
-            recyclerView.setAdapter(new MyWalletItemRecyclerViewAdapter(PlaceholderContent.ITEMS));
+            recyclerView.setLayoutManager(new LinearLayoutManager(context));
+            recyclerView.setAdapter(new WalletItemRecyclerViewAdapter(walletItems));
         }
         return view;
     }

@@ -1,20 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:background="@drawable/fragment_seed"
+    android:layout_margin="1dp"
+    android:orientation="vertical">
 
     <TextView
-        android:id="@+id/item_number"
+        android:id="@+id/item_address"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
+        android:layout_margin="@dimen/wallet_item_text_margin"
+        android:layout_gravity="center_horizontal"
+        android:textSize="@dimen/wallet_item_address_size"
+        android:text="@string/random_example_address"
+        android:textIsSelectable="true"
         android:textAppearance="?attr/textAppearanceListItem" />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        >
+        <TextView
+            android:id="@+id/item_balance_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/balance_label_text"
+            android:layout_margin="@dimen/wallet_item_text_margin"
+            android:textAppearance="?attr/textAppearanceListItem" />
+        <TextView
+            android:id="@+id/item_balance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="10.2997"
+            android:layout_margin="@dimen/wallet_item_text_margin"
+            android:textAppearance="?attr/textAppearanceListItem" />
 
-    <TextView
-        android:id="@+id/content"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
-        android:textAppearance="?attr/textAppearanceListItem" />
+        <ImageView
+            android:id="@+id/item_balance_currency"
+            android:layout_margin="@dimen/wallet_item_text_margin"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            app:srcCompat="@drawable/ether"
+            android:contentDescription="@string/ether_logo_description" />
+    </LinearLayout>
 </LinearLayout>

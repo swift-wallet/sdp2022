@@ -6,8 +6,8 @@
     android:name="com.sdp.swiftwallet.presentation.fragments.wallets.WalletItemFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
+    android:layout_marginLeft="2dp"
+    android:layout_marginRight="2dp"
     app:layoutManager="LinearLayoutManager"
     tools:context="com.sdp.swiftwallet.presentation.fragments.wallets.WalletItemFragment"
     tools:listitem="@layout/fragment_wallet_item" />
