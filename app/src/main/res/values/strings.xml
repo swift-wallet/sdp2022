@@ -28,4 +28,6 @@
     <string name="coinMarketCapLatestURL">https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest</string>
     <string name="value">Value</string>
     <string name="go_to_crypto_values">Go to Crypto Values</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

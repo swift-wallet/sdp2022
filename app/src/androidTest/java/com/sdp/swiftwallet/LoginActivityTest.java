@@ -61,7 +61,7 @@ public class LoginActivityTest {
         onView(withId(R.id.loginButton)).perform(click());
 
         intended(toPackage("com.sdp.swiftwallet"));
-        intended(hasComponent(GreetingActivity.class.getName()));
+        intended(hasComponent(MainActivity.class.getName()));
 
 //        Intents.release();
     }
@@ -74,7 +74,7 @@ public class LoginActivityTest {
         onView(withId(R.id.loginPassword)).perform(typeText("admin"), closeSoftKeyboard());
         onView(withId(R.id.loginButton)).perform(click());
 
-        intended(hasExtra(GreetingActivity.EXTRA_MESSAGE, "Welcome to SwiftWallet!"));
+        intended(hasExtra(LoginActivity.EXTRA_MESSAGE, "Welcome to SwiftWallet!"));
 
 //        Intents.release();
     }
@@ -130,6 +130,22 @@ public class LoginActivityTest {
         intended(toPackage("com.sdp.swiftwallet"));
         intended(hasComponent(MainActivity.class.getName()));
 
+//        Intents.release();
+    }
+
+    @Test
+    public void login_btn_correctly_displayed() {
+//        Intents.init();
+        onView(withId(R.id.googleSignInBtn)).check(matches(isDisplayed()));
+//        Intents.release();
+    }
+
+    @Test
+    public void press_login_fires_correct_intent() {
+//        Intents.init();
+        onView(withId(R.id.googleSignInBtn)).perform(click());
+
+        intended(toPackage("com.sdp.swiftwallet"));
 //        Intents.release();
     }
 }
