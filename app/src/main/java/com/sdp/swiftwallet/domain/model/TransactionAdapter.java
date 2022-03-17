@@ -1,12 +1,14 @@
 package com.sdp.swiftwallet.domain.model;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.sdp.cryptowalletapp.R;
@@ -35,6 +37,9 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Transaction t = transactionHistory.get(position);
         holder.transactionTextView.setText(t.toString());
+        if (t.getAmount() < 0) {
+            holder.transactionCardView.setCardBackgroundColor(Color.parseColor("#FFF44336"));
+        }
     }
 
     @Override
@@ -44,10 +49,12 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView transactionTextView;
+        private final CardView transactionCardView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             this.transactionTextView = itemView.findViewById(R.id.transactionText);
+            this.transactionCardView = itemView.findViewById(R.id.transactionCard);
         }
     }
 }

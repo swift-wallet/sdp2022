@@ -14,18 +14,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SwiftWallet">
         <activity
-            android:name="com.sdp.swiftwallet.presentation.TransactionHistoryActivity"
-            android:exported="false" />
-        <activity
-            android:name="com.sdp.swiftwallet.ProfileActivity"
+            android:name="com.sdp.swiftwallet.TransactionHistoryActivity"
             android:exported="false" />
         <activity
             android:name="com.journeyapps.barcodescanner.CaptureActivity"
-            android:parentActivityName="com.sdp.swiftwallet.QRActivity"
             android:screenOrientation="fullSensor"
-            tools:replace="screenOrientation" />
+            tools:replace="screenOrientation"
+            android:parentActivityName="com.sdp.swiftwallet.QRActivity" />
         <activity
-            android:name="com.sdp.swiftwallet.LoginActivity"
+            android:name="com.sdp.swiftwallet.MainActivity"
             android:exported="false" />
         <activity
             android:name="com.sdp.swiftwallet.QRActivity"
@@ -34,24 +31,20 @@
         <activity
             android:name="com.sdp.swiftwallet.WalletActivity"
             android:exported="false"
-            android:parentActivityName="com.sdp.swiftwallet.MainActivity" />
+            android:parentActivityName="com.sdp.swiftwallet.MainActivity"
+            />
         <activity
-            android:name="com.sdp.swiftwallet.GreetingActivity"
-            android:exported="false"
-            android:parentActivityName="com.sdp.swiftwallet.MainActivity" />
-        <activity
-            android:name="com.sdp.swiftwallet.MainActivity"
+            android:name="com.sdp.swiftwallet.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name="com.sdp.swiftwallet.CryptoValuesActivity"
-            android:exported="false"
-            android:parentActivityName="com.sdp.swiftwallet.MainActivity" />
+            android:parentActivityName="com.sdp.swiftwallet.MainActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

@@ -5,20 +5,21 @@ import java.util.List;
 import java.util.Locale;
 
 public class Transaction {
-    private double amount;
-    private Currency curr;
+    private final double amount;
+    private final Currency curr;
 
-    private String them; // How to store who the transaction is with?
-    private int transactionID; // transactionID to be stored in DB?
+    private final int transactionID; // transactionID to be stored in DB?
 
-    private String myWallet;
-    private String theirWallet;
+    private final String myWallet;
+    private final String theirWallet;
 
-    public Transaction(double amount, Currency curr, String them, int transactionID) {
+    public Transaction(double amount, Currency curr, String myWallet, String theirWallet, int transactionID) {
         this.amount = amount;
         this.curr = curr;
-        this.them = them;
         this.transactionID = transactionID;
+
+        this.myWallet = new String(myWallet);
+        this.theirWallet = new String(theirWallet);
     }
 
     public double getAmount() {
@@ -38,26 +39,17 @@ public class Transaction {
         if (amount < 0) {
             return String.format(
                     Locale.US,
-                    "%f %s from your wallet %s to %s\'s wallet %s",
-                    -amount, curr.getSymbol(),
-                    myWallet, them, theirWallet
+                    "Transaction ID %d\n%f %s from your wallet %s to wallet %s",
+                    transactionID, -amount, getSymbol(),
+                    myWallet, theirWallet
             );
         } else {
             return String.format(
                     Locale.US,
-                    "%f %s from %s\'s wallet %s to your wallet %s",
-                    amount, curr.getSymbol(),
-                    them, theirWallet, myWallet
+                    "Transaction ID %d\n%f %s from wallet %s to your wallet %s",
+                    transactionID, amount, getSymbol(),
+                    theirWallet, myWallet
             );
         }
-    }
-
-    public static List<Transaction> genDummyHistory() {
-        List<Transaction> list = new ArrayList<>();
-        Currency curr = new Currency("CoolCoin", "CC", 50);
-        list.add(new Transaction(5, curr, "John", 1));
-        list.add(new Transaction(4, curr, "Dave", 2));
-        list.add(new Transaction(1, curr, "Bob", 3));
-        return list;
     }
 }
