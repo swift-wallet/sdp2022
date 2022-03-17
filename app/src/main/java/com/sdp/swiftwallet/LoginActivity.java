@@ -78,6 +78,7 @@ public class LoginActivity extends AppCompatActivity {
 
         if (successfulLogin) {
             //Launch next activity
+            //Sets up a first User DB
             ((UserDatabase) this.getApplication())
                 .addAndUpdate(new User("admin", "admin", "BASIC"));
             startActivity(nextActivity(this));

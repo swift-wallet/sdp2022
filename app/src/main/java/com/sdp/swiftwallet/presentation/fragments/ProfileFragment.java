@@ -36,7 +36,13 @@ public class ProfileFragment extends Fragment {
         super.onCreate(savedInstanceState);
         //user = new User("admin", "admin", "BASIC");
         //i == hardcoded
-        user = ((UserDatabase) getActivity().getApplication()).getUser(0);
+        //Try test case to avoid calling getActivity() on MainActivity without having called
+        //at login the setup og the database
+        try {
+            user = ((UserDatabase) getActivity().getApplication()).getUser(0);
+        } catch (Exception e) {
+            user = new User("admin", "admin", "BASIC");
+        }
     }
 
     @Override
@@ -99,5 +105,6 @@ public class ProfileFragment extends Fragment {
             emailTv.setText(email);
         }
     }
+
 
 }

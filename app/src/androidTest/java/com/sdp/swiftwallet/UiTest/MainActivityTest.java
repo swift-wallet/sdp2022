@@ -22,12 +22,15 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule;
 
 import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.MainActivity;
+import com.sdp.swiftwallet.data.repository.UserDatabase;
+import com.sdp.swiftwallet.domain.model.User;
 import com.sdp.swiftwallet.presentation.fragments.ProfileFragment;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 public class MainActivityTest {
 
