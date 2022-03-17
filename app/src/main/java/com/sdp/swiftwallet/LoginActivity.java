@@ -4,25 +4,44 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.Api;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.sdp.cryptowalletapp.R;
+import com.sdp.swiftwallet.data.repository.FirebaseAuthImpl;
+import com.sdp.swiftwallet.domain.repository.ClientAuth;
 
 import java.util.Locale;
 
 public class LoginActivity extends AppCompatActivity {
+    public static final String EXTRA_MESSAGE = "com.sdp.swiftwallet.LOGIN";
     private static final String WELCOME_MESSAGE = "Welcome to SwiftWallet!";
     private static final String ADMIN_USERNAME = "admin";
     private static final String ADMIN_PASSWORD = "admin";
+    private static final String TAG = "GOOGLE_SIGN_IN_TAG";
 
     private TextView attemptsTextView;
     private static final int MAX_LOGIN_ATTEMPTS = 3;
     private int loginAttempts = 0;
+
+    private ClientAuth clientAuth;
+    private ActivityResultLauncher<Intent> googleSignInActivityResultLauncher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +50,13 @@ public class LoginActivity extends AppCompatActivity {
 
         attemptsTextView = (TextView) findViewById(R.id.attemptsMessage);
         attemptsTextView.setText("");
+
+        // init client authentication and launcher for google signIn
+        clientAuth = new FirebaseAuthImpl();
+        initGoogleSignInResultLauncher();
+
+        SignInButton googleSignInBtn = findViewById(R.id.googleSignInBtn);
+        googleSignInBtn.setOnClickListener(v -> startGoogleSignIn());
     }
 
     /**
@@ -79,8 +105,8 @@ public class LoginActivity extends AppCompatActivity {
      * @return an Intent to launch the next activity
      */
     private Intent nextActivity(Context context) {
-        Intent nextActivity = new Intent(context, GreetingActivity.class);
-        nextActivity.putExtra(GreetingActivity.EXTRA_MESSAGE, WELCOME_MESSAGE);
+        Intent nextActivity = new Intent(context, MainActivity.class);
+        nextActivity.putExtra(EXTRA_MESSAGE, WELCOME_MESSAGE);
         return nextActivity;
     }
 
@@ -130,5 +156,42 @@ public class LoginActivity extends AppCompatActivity {
      */
     private boolean authCredentials(String username, String password) {
         return (username.equals(ADMIN_USERNAME) && password.equals(ADMIN_PASSWORD));
+    }
+
+    /**
+     * Init google SignIn launcher,
+     * Perform signIn through clientAuth by giving this activity and the result activity
+     */
+    private void initGoogleSignInResultLauncher() {
+        googleSignInActivityResultLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == RESULT_OK) {
+                        Log.d(TAG, "onActivityResult: Google signIn intent result");
+                        Task<GoogleSignInAccount> accountTask = GoogleSignIn.getSignedInAccountFromIntent(result.getData());
+                        try {
+                            GoogleSignInAccount account = accountTask.getResult(ApiException.class);
+                            clientAuth.signInWithGoogleAccount(account, LoginActivity.this, new MainActivity(), TAG);
+                        } catch (Exception e) {
+                            Log.d(TAG, "onActivityResult: " + e.getMessage());
+                        }
+                    }
+                });
+    }
+
+    /**
+     * Setup GoogleSignInClient and launch google signIn with intent
+     */
+    private void startGoogleSignIn() {
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+
+        GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(LoginActivity.this, gso);
+
+        Log.d(TAG, "onClick: launch Google signIn");
+        Intent it = googleSignInClient.getSignInIntent();
+        googleSignInActivityResultLauncher.launch(it);
     }
 }
