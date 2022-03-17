@@ -34,21 +34,12 @@
             />
 
         <Button
-            android:id="@+id/loginscreen_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@+id/qr_goto_button"
-            android:text="Go to login"
-            />
-
-        <Button
             android:id="@+id/cryptoValues"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/go_to_crypto_values"
             android:layout_centerHorizontal="true"
-            android:layout_below="@+id/loginscreen_button"
+            android:layout_below="@+id/walletButton"
             />
 
     </RelativeLayout>
