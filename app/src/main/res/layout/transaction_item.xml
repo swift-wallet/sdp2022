@@ -1,24 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingTop="3dp"
+    android:paddingBottom="3dp">
+
+    <TextView
+        android:id="@+id/transactionIDTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textAlignment="viewStart"
+        android:textSize="10sp" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/transactionCard"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
+        android:layout_marginEnd="3dp"
         app:cardBackgroundColor="#4CAF50"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:cardCornerRadius="4dp">
 
         <TextView
             android:id="@+id/transactionText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="3dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginEnd="3dp"
+            android:layout_marginBottom="3dp"
             android:text="TextView" />
     </androidx.cardview.widget.CardView>
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/transactionDateTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Date: 22/02/2022"
+        android:textAlignment="viewEnd"
+        android:textSize="8sp" />
+</LinearLayout>
+
+<!--<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    android:id="@+id/transactionCard"-->
+<!--    xmlns:tools="http://schemas.android.com/tools"-->
+<!--    android:layout_width="match_parent"-->
+<!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
+<!--    android:layout_margin="4dp"-->
+<!--    app:cardCornerRadius="4dp"-->
+<!--    app:cardElevation="3dp"-->
+<!--    app:cardBackgroundColor="#4CAF50"-->
+<!--    android:layout_height="wrap_content"-->
+<!--    tools:ignore="ExtraText">-->
+
+<!--    <RelativeLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:id="@+id/idRelativeLayoutCurrency"-->
+<!--        >-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/transactionText"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="2dp"-->
+<!--            android:layout_marginTop="2dp"-->
+<!--            android:layout_marginEnd="2dp"-->
+<!--            android:layout_marginBottom="2dp"-->
+<!--            android:gravity="center"-->
+<!--            android:padding="3dp"-->
+<!--            android:text="@string/value"-->
+<!--            android:textColor="@color/black" />-->
+<!--    </RelativeLayout>-->
+<!--</androidx.cardview.widget.CardView>-->

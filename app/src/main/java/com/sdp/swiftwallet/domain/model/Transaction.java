@@ -74,20 +74,29 @@ public class Transaction {
         return curr.getSymbol();
     }
 
+    /**
+     * Getter for the transaction ID
+     *
+     * @return the unique transaction ID for this transaction
+     */
+    public int getTransactionID() {
+        return transactionID;
+    }
+
     @Override
     public String toString() {
         if (amount < 0) {
             return String.format(
                     Locale.US,
-                    "Transaction ID %d\n%.1f %s from your wallet %s to wallet %s",
-                    transactionID, -amount, getSymbol(),
+                    "%.1f %s from your wallet %s to wallet %s",
+                    -amount, getSymbol(),
                     myWallet, theirWallet
             );
         } else {
             return String.format(
                     Locale.US,
-                    "Transaction ID %d\n%.1f %s from wallet %s to your wallet %s",
-                    transactionID, amount, getSymbol(),
+                    "%.1f %s from wallet %s to your wallet %s",
+                    amount, getSymbol(),
                     theirWallet, myWallet
             );
         }

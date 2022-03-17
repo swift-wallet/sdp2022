@@ -81,12 +81,22 @@ public class TransactionTest {
     @Test
     public void toStringReturnsCorrectStringOnNegativeAmount() {
         Transaction t = new Transaction(-15, CURR, MY_WALL, THEIR_WALL, 0);
-        assertThat(t.toString(), is("Transaction ID 0\n15.0 DUM from your wallet MY_WALL to wallet THEIR_WALL"));
+        assertThat(t.toString(), is("15.0 DUM from your wallet MY_WALL to wallet THEIR_WALL"));
     }
 
     @Test
     public void toStringReturnsCorrectStringOnPositiveAmount() {
         Transaction t = new Transaction(15, CURR, MY_WALL, THEIR_WALL, 0);
-        assertThat(t.toString(), is("Transaction ID 0\n15.0 DUM from wallet THEIR_WALL to your wallet MY_WALL"));
+        assertThat(t.toString(), is("15.0 DUM from wallet THEIR_WALL to your wallet MY_WALL"));
+    }
+
+    @Test
+    public void getTransactionIDReturnsCorrectID() {
+        Random r = new Random();
+        for (int i = 0; i < 100; i++) {
+            int id = r.nextInt();
+            Transaction t = new Transaction(0, CURR, MY_WALL, THEIR_WALL, id);
+            assertThat(t.getTransactionID(), is(id));
+        }
     }
 }
