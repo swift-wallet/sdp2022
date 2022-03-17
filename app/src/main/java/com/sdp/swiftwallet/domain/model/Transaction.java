@@ -6,6 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+/**
+ * Transaction object
+ * Represents a transaction between 2 wallets
+ */
 public class Transaction {
     private final double amount;
     private final Currency curr;

@@ -16,6 +16,10 @@ import com.sdp.cryptowalletapp.R;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Transaction Adapter
+ * Used to display Transactions in a RecyclerView
+ */
 public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.ViewHolder> {
     private List<Transaction> transactionHistory;
     private Context context;
@@ -47,6 +51,9 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
         return transactionHistory.size();
     }
 
+    /**
+     * Individual ViewHolder for a Transaction
+     */
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView transactionTextView;
         private final CardView transactionCardView;
