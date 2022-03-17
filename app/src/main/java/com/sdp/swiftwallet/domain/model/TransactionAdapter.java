@@ -46,6 +46,11 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
                 "Transaction ID #%d",
                 t.getTransactionID()
         ));
+        holder.transactionNumberTextView.setText(String.format(
+                Locale.US,
+                "%.1f %s",
+                t.getAmount(), t.getSymbol()
+        ));
         holder.transactionTextView.setText(t.toString());
         if (t.getAmount() < 0) {
             holder.transactionCardView.setCardBackgroundColor(Color.parseColor("#FFF44336"));
@@ -62,11 +67,13 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
      */
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView transactionIDTextView;
+        private final TextView transactionNumberTextView;
         private final TextView transactionTextView;
         private final CardView transactionCardView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            this.transactionNumberTextView = itemView.findViewById(R.id.transactionBigNumber);
             this.transactionIDTextView = itemView.findViewById(R.id.transactionIDTextView);
             this.transactionTextView = itemView.findViewById(R.id.transactionText);
             this.transactionCardView = itemView.findViewById(R.id.transactionCard);

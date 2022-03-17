@@ -19,20 +19,41 @@
         android:id="@+id/transactionCard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="3dp"
-        android:layout_marginEnd="3dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
         app:cardBackgroundColor="#4CAF50"
-        app:cardCornerRadius="4dp">
+        app:cardCornerRadius="5dp">
 
-        <TextView
-            android:id="@+id/transactionText"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="3dp"
-            android:layout_marginTop="3dp"
-            android:layout_marginEnd="3dp"
-            android:layout_marginBottom="3dp"
-            android:text="TextView" />
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/transactionBigNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="3dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginEnd="3dp"
+                android:layout_marginBottom="3dp"
+                android:gravity="center_horizontal"
+                android:text="TextView"
+                android:textSize="34sp" />
+
+            <TextView
+                android:id="@+id/transactionText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="3dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginEnd="3dp"
+                android:layout_marginBottom="3dp"
+                android:gravity="center_horizontal"
+                android:text="TextView"
+                android:textSize="16sp" />
+
+        </LinearLayout>
     </androidx.cardview.widget.CardView>
 
     <TextView
@@ -43,36 +64,3 @@
         android:textAlignment="viewEnd"
         android:textSize="8sp" />
 </LinearLayout>
-
-<!--<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"-->
-<!--    android:id="@+id/transactionCard"-->
-<!--    xmlns:tools="http://schemas.android.com/tools"-->
-<!--    android:layout_width="match_parent"-->
-<!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
-<!--    android:layout_margin="4dp"-->
-<!--    app:cardCornerRadius="4dp"-->
-<!--    app:cardElevation="3dp"-->
-<!--    app:cardBackgroundColor="#4CAF50"-->
-<!--    android:layout_height="wrap_content"-->
-<!--    tools:ignore="ExtraText">-->
-
-<!--    <RelativeLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:id="@+id/idRelativeLayoutCurrency"-->
-<!--        >-->
-
-<!--        <TextView-->
-<!--            android:id="@+id/transactionText"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginStart="2dp"-->
-<!--            android:layout_marginTop="2dp"-->
-<!--            android:layout_marginEnd="2dp"-->
-<!--            android:layout_marginBottom="2dp"-->
-<!--            android:gravity="center"-->
-<!--            android:padding="3dp"-->
-<!--            android:text="@string/value"-->
-<!--            android:textColor="@color/black" />-->
-<!--    </RelativeLayout>-->
-<!--</androidx.cardview.widget.CardView>-->
