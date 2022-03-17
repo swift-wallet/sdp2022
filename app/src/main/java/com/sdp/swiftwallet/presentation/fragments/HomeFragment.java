@@ -64,7 +64,7 @@ public class HomeFragment extends Fragment {
 
         return view;
     }
-
+  
     /**
      * start QR activity
      */
