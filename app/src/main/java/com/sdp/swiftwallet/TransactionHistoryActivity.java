@@ -1,10 +1,10 @@
 package com.sdp.swiftwallet;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.domain.model.Transaction;

@@ -1,39 +1,23 @@
 package com.sdp.swiftwallet;
 
 import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
-import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.intent.Intents.intended;
-import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
-import static androidx.test.espresso.intent.matcher.IntentMatchers.hasExtra;
-import static androidx.test.espresso.intent.matcher.IntentMatchers.toPackage;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.core.app.ApplicationProvider;
-import androidx.test.espresso.intent.Intents;
-import androidx.test.espresso.matcher.ViewMatchers;
-import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
-import androidx.test.platform.app.InstrumentationRegistry;
 
 import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.domain.model.Currency;
 import com.sdp.swiftwallet.domain.model.Transaction;
 import com.sdp.swiftwallet.domain.model.TransactionHistoryGenerator;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -47,6 +31,7 @@ public class TransactionActivityTest {
     private final static String MY_WALL = "MY_WALL";
     private final static String THEIR_WALL = "THEIR_WALL";
     private final static List<Transaction> list = new ArrayList<>();
+
     static {
         Random r = new Random();
         for (int i = 0; i < 50; i++) {
@@ -77,7 +62,8 @@ public class TransactionActivityTest {
         }
 
         @Override
-        public void writeToParcel(Parcel dest, int flags) {}
+        public void writeToParcel(Parcel dest, int flags) {
+        }
 
         @Override
         public List<Transaction> getTransactionHistory() {
@@ -96,8 +82,10 @@ public class TransactionActivityTest {
             }
         };
 
-        private DummyTransactionGenerator(Parcel in) {}
+        private DummyTransactionGenerator(Parcel in) {
+        }
 
-        public DummyTransactionGenerator() {}
+        public DummyTransactionGenerator() {
+        }
     }
 }

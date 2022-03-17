@@ -7,11 +7,7 @@ import static org.junit.Assert.assertThrows;
 import com.sdp.swiftwallet.domain.model.Currency;
 import com.sdp.swiftwallet.domain.model.Transaction;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
@@ -74,7 +70,7 @@ public class TransactionTest {
 
     @Test
     public void getSymbolReturnsCorrectSymbol() {
-        Transaction t = new Transaction(10, CURR, MY_WALL, THEIR_WALL,0);
+        Transaction t = new Transaction(10, CURR, MY_WALL, THEIR_WALL, 0);
         assertThat(t.getSymbol(), is(CURR.getSymbol()));
     }
 

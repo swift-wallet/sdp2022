@@ -22,8 +22,8 @@ import java.util.Locale;
  * Used to display Transactions in a RecyclerView
  */
 public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.ViewHolder> {
-    private List<Transaction> transactionHistory;
-    private Context context;
+    private final List<Transaction> transactionHistory;
+    private final Context context;
 
     public TransactionAdapter(Context context, List<Transaction> transactionHistory) {
         this.context = context;

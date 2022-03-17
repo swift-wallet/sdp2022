@@ -2,8 +2,6 @@ package com.sdp.swiftwallet.domain.model;
 
 import androidx.annotation.NonNull;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
 /**
@@ -22,10 +20,10 @@ public class Transaction {
     /**
      * Transaction object constructor
      *
-     * @param amount the amount of the transaction
-     * @param curr with which currency the transaction was performed
-     * @param myWallet the ID of this user's wallet
-     * @param theirWallet the ID of the other wallet in the transaction
+     * @param amount        the amount of the transaction
+     * @param curr          with which currency the transaction was performed
+     * @param myWallet      the ID of this user's wallet
+     * @param theirWallet   the ID of the other wallet in the transaction
      * @param transactionID the unique ID of the transaction
      */
     public Transaction(
@@ -43,8 +41,8 @@ public class Transaction {
         this.amount = amount;
         this.curr = curr;
         this.transactionID = transactionID;
-        this.myWallet = new String(myWallet);
-        this.theirWallet = new String(theirWallet);
+        this.myWallet = myWallet;
+        this.theirWallet = theirWallet;
     }
 
     /**

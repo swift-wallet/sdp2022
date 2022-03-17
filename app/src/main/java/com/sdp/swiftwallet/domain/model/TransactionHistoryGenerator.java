@@ -9,6 +9,7 @@ import java.util.List;
 public interface TransactionHistoryGenerator {
     /**
      * Getter for the list of previous transactions
+     *
      * @return a list of past transactions
      */
     public List<Transaction> getTransactionHistory();
