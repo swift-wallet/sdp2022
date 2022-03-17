@@ -75,14 +75,14 @@ public class Transaction {
         if (amount < 0) {
             return String.format(
                     Locale.US,
-                    "Transaction ID %d\n%f %s from your wallet %s to wallet %s",
+                    "Transaction ID %d\n%.1f %s from your wallet %s to wallet %s",
                     transactionID, -amount, getSymbol(),
                     myWallet, theirWallet
             );
         } else {
             return String.format(
                     Locale.US,
-                    "Transaction ID %d\n%f %s from wallet %s to your wallet %s",
+                    "Transaction ID %d\n%.1f %s from wallet %s to your wallet %s",
                     transactionID, amount, getSymbol(),
                     theirWallet, myWallet
             );
