@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import android.service.autofill.UserData;
+import android.view.View.OnClickListener;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -13,22 +15,83 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.sdp.cryptowalletapp.R;
+import com.sdp.swiftwallet.CryptoValuesActivity;
 import com.sdp.swiftwallet.LoginActivity;
 import com.sdp.swiftwallet.MainActivity;
 import com.sdp.swiftwallet.data.repository.FirebaseAuthImpl;
+import com.sdp.swiftwallet.domain.model.User;
 import com.sdp.swiftwallet.domain.repository.ClientAuth;
+import java.util.Objects;
+import com.sdp.swiftwallet.data.repository.UserDatabase;
+
 
 public class ProfileFragment extends Fragment {
 
     private ClientAuth clientAuth;
+    private User user;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+        //user = new User("admin", "admin", "BASIC");
+        //i == hardcoded
+        //Try test case to avoid calling getActivity() on MainActivity without having called
+        //at login the setup og the database
+        try {
+            user = ((UserDatabase) getActivity().getApplication()).getUser(0);
+        } catch (Exception e) {
+            user = new User("admin", "admin", "BASIC");
+        }
     }
 
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+
+        // View is accessible from this moment
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_profile, container, false);
+
+        Button logoutButton = view.findViewById(R.id.logoutBtn);
+        logoutButton.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+                logout(user.getLoginMethod(), v);
+            }
+        });
+
+        TextView textView = (TextView) view.findViewById(R.id.email);
+        textView.setText(user.getEmail());
+
+        return view;
+    }
+
+
     /**
-     * Checks if a user is logged
+     * Logs out the user
+     */
+    public void logout(String loginMethod, View view){
+        Objects.requireNonNull(loginMethod);
+
+        if (loginMethod.equals("GOOGLE")){
+            // setup fragment screen as soon as view is ready
+            clientAuth = new FirebaseAuthImpl();
+            checkUser(view);
+
+            Button logoutBtn = view.findViewById(R.id.logoutBtn);
+            logoutBtn.setOnClickListener(v -> {
+                clientAuth.signOut();
+                checkUser(view);
+            });
+        } else if (loginMethod.equals("BASIC")) {
+            Intent intent = new Intent(getActivity(), LoginActivity.class);
+            startActivity(intent);
+        }
+    }
+
+
+    /**
+     * Checks if a user is logged using google auth
      */
     private void checkUser(View view) {
         if (!clientAuth.currUserIsChecked()) {
@@ -43,24 +106,5 @@ public class ProfileFragment extends Fragment {
         }
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
 
-        // View is accessible from this moment
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_profile, container, false);
-
-        // setup fragment screen as soon as view is ready
-        clientAuth = new FirebaseAuthImpl();
-        checkUser(view);
-
-        Button logoutBtn = view.findViewById(R.id.logoutBtn);
-        logoutBtn.setOnClickListener(v -> {
-            clientAuth.signOut();
-            checkUser(view);
-        });
-
-        return view;
-    }
 }

@@ -20,6 +20,10 @@ public class QRActivity extends AppCompatActivity {
     private ImageView imageView;
 
     private QRCodeScanner scanner;
+
+    /**
+     * Method called on creation
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +52,9 @@ public class QRActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Generated the QR code
+     */
     private void generateQR(){
         String toConvert = resultEditText.getText().toString();
         Bitmap bitmap = null;

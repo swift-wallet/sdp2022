@@ -21,7 +21,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:onClick="openWallet"
             android:text="Wallet"
             />
 
@@ -29,30 +28,18 @@
             android:id="@+id/qr_goto_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="startQR"
             android:text="@string/goto_qr"
             android:layout_centerHorizontal="true"
             android:layout_below="@+id/walletButton"
             />
 
         <Button
-            android:id="@+id/loginscreen_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@+id/qr_goto_button"
-            android:onClick="startLogin"
-            android:text="Go to login"
-            />
-
-        <Button
             android:id="@+id/cryptoValues"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="startCryptoValues"
             android:text="@string/go_to_crypto_values"
             android:layout_centerHorizontal="true"
-            android:layout_below="@+id/loginscreen_button"
+            android:layout_below="@+id/walletButton"
             />
 
     </RelativeLayout>

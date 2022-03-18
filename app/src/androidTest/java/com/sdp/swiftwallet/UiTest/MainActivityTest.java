@@ -1,4 +1,4 @@
-package com.sdp.swiftwallet;
+package com.sdp.swiftwallet.UiTest;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -11,13 +11,18 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule;
 
 import com.sdp.cryptowalletapp.R;
 
+import com.sdp.swiftwallet.MainActivity;
+import com.sdp.swiftwallet.data.repository.UserDatabase;
+import com.sdp.swiftwallet.domain.model.User;
+import com.sdp.swiftwallet.presentation.fragments.ProfileFragment;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
 
+import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
 public class MainActivityTest {
@@ -47,14 +52,6 @@ public class MainActivityTest {
 
     @Test
     public void click_display_fragments() {
-//        TestNavHostController navController = new TestNavHostController(
-//                ApplicationProvider.getApplicationContext());
-//
-//        FragmentScenario<ProfileFragment> profileScenario = FragmentScenario.launchInContainer(ProfileFragment.class);
-//        profileScenario.onFragment(fragment -> {
-//
-//            Navigation.setViewNavController(fragment.requireView(), navController);
-//        });
         onView(withId(R.id.bar_home)).perform(click());
         onView(withId(R.id.bar_stats)).perform(click());
         onView(withId(R.id.bar_payment)).perform(click());
