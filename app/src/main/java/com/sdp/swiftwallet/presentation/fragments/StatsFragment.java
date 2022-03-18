@@ -5,6 +5,8 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +14,6 @@ import android.widget.Button;
 
 import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.CryptoValuesActivity;
-import com.sdp.swiftwallet.MainActivity;
 import com.sdp.swiftwallet.TransactionHistoryActivity;
 
 /**
