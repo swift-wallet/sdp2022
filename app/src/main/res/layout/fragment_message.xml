@@ -4,10 +4,13 @@
     android:layout_height="match_parent"
     tools:context="com.sdp.swiftwallet.presentation.fragments.MessageFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Message" />
+        android:text="@string/nav_message"
+        android:textSize="@dimen/nav_title"
+        android:layout_margin="@dimen/nav_title_margin"
+        android:textColor="@color/black"/>
+
 
 </FrameLayout>

@@ -23,6 +23,9 @@ public class MainActivity extends AppCompatActivity {
     private BottomNavigationView bottomNavigationView;
     Fragment selectedFragment = null;
 
+    /**
+     * Methods that are called on creation
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,54 +38,39 @@ public class MainActivity extends AppCompatActivity {
                 new HomeFragment()).commit();
     }
 
-    // Setup bottom navigation listener
+    /**
+     * Setup bottom navigation listener on the menu
+     */
     private final BottomNavigationView.OnItemSelectedListener navigationItemSelectedListener =
-            new NavigationBarView.OnItemSelectedListener() {
-                @Override
-                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                    switch (item.getItemId()) {
-                        case R.id.bar_home:
-                            selectedFragment = new HomeFragment();
-                            break;
-                        case R.id.bar_stats:
-                            selectedFragment = new StatsFragment();
-                            break;
-                        case R.id.bar_payment:
-                            selectedFragment = new PaymentFragment();
-                            break;
-                        case R.id.bar_message:
-                            selectedFragment = new MessageFragment();
-                            break;
-                        case R.id.bar_profile:
-                            selectedFragment = new ProfileFragment();
-                            break;
-                    }
 
-                    if (selectedFragment != null) {
-                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                                selectedFragment).commit();
-                    }
+        //Sets up on click listener to fragments of the home activity
+        new NavigationBarView.OnItemSelectedListener() {
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.bar_home:
+                    selectedFragment = new HomeFragment();
+                    break;
+                case R.id.bar_stats:
+                    selectedFragment = new StatsFragment();
+                    break;
+                case R.id.bar_payment:
+                    selectedFragment = new PaymentFragment();
+                    break;
+                case R.id.bar_message:
+                    selectedFragment = new MessageFragment();
+                    break;
+                case R.id.bar_profile:
+                    selectedFragment = new ProfileFragment();
+                    break;
+            }
 
-                    return true;
+            if (selectedFragment != null) {
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                    selectedFragment).commit();
                 }
-            };
+                    return true;
+        }
+        };
 
-    public void startQR(View view){
-        Intent intent = new Intent(MainActivity.this, QRActivity.class);
-        startActivity(intent);
-    }
-    public void openWallet(View view) {
-        Intent intent = new Intent(MainActivity.this, WalletActivity.class);
-        startActivity(intent);
-    }
-
-    public void startLogin(View view) {
-        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-        startActivity(intent);
-    }
-
-    public void startCryptoValues(View view){
-        Intent intent = new Intent(MainActivity.this, CryptoValuesActivity.class);
-        startActivity(intent);
-    }
 }

@@ -1,5 +1,6 @@
 package com.sdp.swiftwallet.domain.model;
 
+import android.app.Application;
 import android.net.Uri;
 import java.util.Objects;
 
@@ -11,28 +12,24 @@ public class User {
   //Some basic attributes representing a user
   private String username;
   private String email;
-  private Uri profilePic;
+  //Hardcoded login methods names
+  private String loginMethods;
 
   /**
    * Creates a user
    * @param username username
    * @param email email
-   * @param profilePic profile picture
    */
-  public User(String username, String email, Uri profilePic){
+  public User(String username, String email, String loginMethod){
     Objects.requireNonNull(username);
     Objects.requireNonNull(email);
-    Objects.requireNonNull(profilePic);
+    Objects.requireNonNull(loginMethod);
 
-    this.username=username;
-    this.email=email;
-    this.profilePic=profilePic;
-  }
+    if (!loginMethod.equals("GOOGLE") && !loginMethod.equals("BASIC")) {
+      throw new IllegalArgumentException();
+    }
 
-  public User(String username, String email){
-    Objects.requireNonNull(username);
-    Objects.requireNonNull(email);
-
+    this.loginMethods=loginMethod;
     this.username=username;
     this.email=email;
 
@@ -47,18 +44,14 @@ public class User {
     return email;
   }
 
-  public Uri getProfilePic() {
-    return profilePic;
+  public String getLoginMethod() {
+    return loginMethods;
   }
+
 
   public void setEmail(String email) {
     Objects.requireNonNull(email);
     this.email = email;
-  }
-
-  public void modifyProfilePic(Uri profilePic) {
-    Objects.requireNonNull(profilePic);
-    this.profilePic = profilePic;
   }
 
   public void modifyUsername(String username) {
