@@ -20,6 +20,10 @@ import com.sdp.cryptowalletapp.R;
 import java.security.KeyStore;
 
 public class WalletActivity extends AppCompatActivity {
+
+    /**
+     * Methods called on creation
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

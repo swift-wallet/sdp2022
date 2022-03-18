@@ -1,4 +1,4 @@
-package com.sdp.swiftwallet;
+package com.sdp.swiftwallet.UiTest;
 
 import static androidx.test.espresso.intent.Intents.intended;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasAction;
@@ -18,6 +18,7 @@ import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 
 import com.sdp.cryptowalletapp.R;
+import com.sdp.swiftwallet.QRActivity;
 import com.sdp.swiftwallet.domain.model.QRCodeGenerator;
 
 import org.junit.Assert;
