@@ -8,4 +8,7 @@
     <dimen name="wallet_item_text_margin">10dp</dimen>
     <dimen name="wallet_item_address_size">12sp</dimen>
 
+    <!-- NAV -->
+    <dimen name="nav_title">20sp</dimen>
+    <dimen name="nav_title_margin">10dp</dimen>
 </resources>
