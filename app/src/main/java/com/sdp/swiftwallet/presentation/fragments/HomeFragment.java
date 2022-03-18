@@ -77,7 +77,7 @@ public class HomeFragment extends Fragment {
         requireActivity().findViewById(R.id.create_address_button).setOnClickListener((v) -> createAddress());
     }
 
-    public void createAddress(){
+    private void createAddress(){
         int walletID = wallets.generateWallet();
         walletItemFragment.addWalletItem(wallets.getWalletFromId(walletID));
     }

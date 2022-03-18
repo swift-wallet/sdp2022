@@ -35,6 +35,7 @@
     <string name="default_qr_result_text">Scan result</string>
 
     <!-- WALLET -->
+    <string name="home_title">Your wallets</string>
     <string name="balance_label_text">Balance:</string>
     <string name="ether_logo_description">The ether currency logo</string>
     <string name="random_example_address">0x000000000000000000000000000000000000dead</string>
