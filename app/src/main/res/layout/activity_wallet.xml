@@ -18,24 +18,38 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/balance"
-        android:layout_width="190dp"
-        android:layout_height="32dp"
-        android:layout_marginEnd="50dp"
-        android:text="$0"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/CurrencyLabel" />
+    <LinearLayout
+        android:id="@+id/wallet_layout2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="100dp"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"></LinearLayout>
+    <!--        <LinearLayout-->
+<!--            android:id="@+id/obj"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:orientation="horizontal"-->
+<!--            android:paddingTop="20dp"-->
+<!--            android:paddingLeft="40dp">-->
+<!--            <TextView-->
+<!--                android:id="@+id/CurrencyLabel"-->
+<!--                android:layout_width="90dp"-->
+<!--                android:layout_height="32dp"-->
+<!--                android:layout_marginEnd="50dp"-->
+<!--                android:text="BitCoin"-->
+<!--                android:textSize="24sp"-->
+<!--                app:layout_constraintEnd_toStartOf="@+id/balance"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/balanceLabel" />-->
+<!--            <TextView-->
+<!--                android:id="@+id/balance"-->
+<!--                android:layout_width="190dp"-->
+<!--                android:layout_height="32dp"-->
+<!--                android:text="$0"-->
+<!--                android:textSize="24sp"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintTop_toTopOf="@+id/CurrencyLabel" />-->
+<!--        </LinearLayout>-->
 
-    <TextView
-        android:id="@+id/CurrencyLabel"
-        android:layout_width="90dp"
-        android:layout_height="32dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="30dp"
-        android:text="BitCoin"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toStartOf="@+id/balance"
-        app:layout_constraintTop_toBottomOf="@+id/balanceLabel" />
 </androidx.constraintlayout.widget.ConstraintLayout>
