@@ -25,32 +25,6 @@ public class WalletActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wallet);
         createText();
-//        LinearLayout currencylayout = new LinearLayout(this);
-//        currencylayout.setOrientation(LinearLayout.HORIZONTAL);
-//        currencylayout.setShowDividers(LinearLayout.SHOW_DIVIDER_END);
-//
-//        ConstraintLayout walletLayout = findViewById(R.id.wallet_layout);
-//        TextView currencyLabel = new TextView(this);
-//        currencyLabel.setText("test");
-//        currencyLabel.setWidth(90);
-//        currencyLabel.setHeight(90);
-//        currencyLabel.setTextSize(24);
-//        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-//                LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-//        layoutParams.setMargins(50, 20, 30, 0);
-//        currencyLabel.setLayoutParams(layoutParams);
-//        TextView currencyBalance = new TextView(this);
-//        currencyLabel.setText(String.format("%s", 0.002));
-//        currencyLabel.setWidth(190);
-//        currencyLabel.setHeight(322);
-//        currencyLabel.setTextSize(24);
-//
-//        currencylayout.addView(currencyLabel);
-//        currencylayout.addView(currencyBalance);
-//        LinearLayout.LayoutParams currencylayoutParams = new LinearLayout.LayoutParams(
-//                LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-//        layoutParams.setMargins(50, 20, 30, 0);
-//        walletLayout.addView(currencylayout,currencylayoutParams);
     }
 
     private void createText() {
