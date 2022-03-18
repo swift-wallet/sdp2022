@@ -3,21 +3,23 @@ package com.sdp.swiftwallet.presentation.fragments;
 import android.content.Intent;
 import android.os.Bundle;
 
+
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.android.gms.common.SignInButton;
 import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.CryptoValuesActivity;
-import com.sdp.swiftwallet.LoginActivity;
-import com.sdp.swiftwallet.MainActivity;
 import com.sdp.swiftwallet.QRActivity;
 import com.sdp.swiftwallet.WalletActivity;
+import com.sdp.swiftwallet.domain.model.wallet.Wallets;
+import com.sdp.swiftwallet.domain.model.wallet.cryptography.SeedGenerator;
+import com.sdp.swiftwallet.presentation.fragments.wallets.WalletItemFragment;
 
 /**
  * Home screen
@@ -32,36 +34,13 @@ public class HomeFragment extends Fragment {
     /**
      * Assign proper methods upon creating view (for buttons)
      */
+    private WalletItemFragment walletItemFragment;
+    private Wallets wallets;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-
-        //Set up listeners for button related to activities
-        Button walletButton = view.findViewById(R.id.walletButton);
-        walletButton.setOnClickListener(new OnClickListener() {
-            public void onClick(View v) {
-                openWallet();
-            }
-        });
-
-        //assign
-        Button qrButton = view.findViewById(R.id.qr_goto_button);
-        qrButton.setOnClickListener(new OnClickListener() {
-            public void onClick(View v) {
-                startQR();
-            }
-        });
-
-        //assign crypto activities
-        Button cryptoButton = view.findViewById(R.id.cryptoValues);
-        cryptoButton.setOnClickListener(new OnClickListener() {
-            public void onClick(View v) {
-                startCryptoValues();
-            }
-        });
-
         return view;
     }
   
@@ -88,4 +67,20 @@ public class HomeFragment extends Fragment {
         Intent intent = new Intent(getActivity(), CryptoValuesActivity.class);
         startActivity(intent);
     }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        walletItemFragment = new WalletItemFragment();
+        wallets = new Wallets(SeedGenerator.generateSeed());
+        getChildFragmentManager().beginTransaction().replace(R.id.home_nested_frag_container, walletItemFragment).commit();
+        requireActivity().findViewById(R.id.create_address_button).setOnClickListener((v) -> createAddress());
+    }
+
+    private void createAddress(){
+        int walletID = wallets.generateWallet();
+        walletItemFragment.addWalletItem(wallets.getWalletFromId(walletID));
+    }
+
+
 }
