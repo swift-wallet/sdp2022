@@ -8,6 +8,7 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
@@ -21,8 +22,13 @@ import com.sdp.swiftwallet.presentation.fragments.StatsFragment;
 public class MainActivity extends AppCompatActivity {
 
     private BottomNavigationView bottomNavigationView;
+    private FragmentManager fragmentManager;
     Fragment selectedFragment = null;
-
+    HomeFragment homeFragment;
+    StatsFragment statsFragment;
+    PaymentFragment paymentFragment;
+    MessageFragment messageFragment;
+    ProfileFragment profileFragment;
     /**
      * Methods that are called on creation
      */
@@ -33,9 +39,20 @@ public class MainActivity extends AppCompatActivity {
 
         bottomNavigationView = findViewById(R.id.bottom_bar);
         bottomNavigationView.setOnItemSelectedListener(navigationItemSelectedListener);
+        //Creating all the navigation fragments
+        homeFragment = new HomeFragment();
+        statsFragment = new StatsFragment();
+        messageFragment = new MessageFragment();
+        paymentFragment = new PaymentFragment();
+        profileFragment = new ProfileFragment();
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                new HomeFragment()).commit();
+        fragmentManager = getSupportFragmentManager();
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, homeFragment)
+                .addToBackStack(null)
+                .commit();
     }
 
     /**
@@ -49,25 +66,28 @@ public class MainActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.bar_home:
-                    selectedFragment = new HomeFragment();
+                    selectedFragment = homeFragment;
                     break;
                 case R.id.bar_stats:
-                    selectedFragment = new StatsFragment();
+                    selectedFragment = statsFragment;
                     break;
                 case R.id.bar_payment:
-                    selectedFragment = new PaymentFragment();
+                    selectedFragment = paymentFragment;
                     break;
                 case R.id.bar_message:
-                    selectedFragment = new MessageFragment();
+                    selectedFragment = messageFragment;
                     break;
                 case R.id.bar_profile:
-                    selectedFragment = new ProfileFragment();
+                    selectedFragment = profileFragment;
                     break;
             }
 
             if (selectedFragment != null) {
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                    selectedFragment).commit();
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, selectedFragment)
+                        .addToBackStack(null)
+                        .commit();
                 }
                     return true;
         }

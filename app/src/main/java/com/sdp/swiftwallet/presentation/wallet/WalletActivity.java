@@ -1,4 +1,4 @@
-package com.sdp.swiftwallet;
+package com.sdp.swiftwallet.presentation.wallet;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;

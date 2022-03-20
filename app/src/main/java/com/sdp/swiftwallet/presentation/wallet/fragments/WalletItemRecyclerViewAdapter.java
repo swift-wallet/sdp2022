@@ -1,10 +1,10 @@
-package com.sdp.swiftwallet.presentation.fragments.wallets;
-
-import androidx.recyclerview.widget.RecyclerView;
+package com.sdp.swiftwallet.presentation.wallet.fragments;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.sdp.cryptowalletapp.databinding.FragmentWalletItemBinding;
 
