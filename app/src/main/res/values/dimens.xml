@@ -7,6 +7,7 @@
     <!-- WALLET -->
     <dimen name="wallet_item_text_margin">10dp</dimen>
     <dimen name="wallet_item_address_size">12sp</dimen>
+    <dimen name="wallet_important">18sp</dimen>
 
     <!-- NAV -->
     <dimen name="nav_title">20sp</dimen>

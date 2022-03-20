@@ -1,5 +1,6 @@
 package com.sdp.swiftwallet.presentation.fragments;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -13,8 +14,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.kenai.jffi.Main;
 import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.CryptoValuesActivity;
+import com.sdp.swiftwallet.MainActivity;
 import com.sdp.swiftwallet.QRActivity;
 import com.sdp.swiftwallet.WalletActivity;
 import com.sdp.swiftwallet.domain.model.wallet.Wallets;
@@ -43,43 +46,34 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         return view;
     }
-  
-    /**
-     * start QR activity
-     */
-    public void startQR(){
-        Intent intent = new Intent(getActivity(), QRActivity.class);
-        startActivity(intent);
-    }
-
-    /**
-     * Opens the wallet
-     */
-    public void openWallet() {
-        Intent intent = new Intent(getActivity(), WalletActivity.class);
-        startActivity(intent);
-    }
-
-    /**
-     * Starts the crypto values
-     */
-    public void startCryptoValues(){
-        Intent intent = new Intent(getActivity(), CryptoValuesActivity.class);
-        startActivity(intent);
-    }
 
     @Override
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
-        walletItemFragment = new WalletItemFragment();
-        wallets = new Wallets(SeedGenerator.generateSeed());
-        getChildFragmentManager().beginTransaction().replace(R.id.home_nested_frag_container, walletItemFragment).commit();
-        requireActivity().findViewById(R.id.create_address_button).setOnClickListener((v) -> createAddress());
+        MainActivity mainActivity = (MainActivity) requireActivity();
+        if( Wallets.hasSeed( mainActivity ) ){
+            wallets = Wallets.recoverWallets( mainActivity );
+            View seedNotSetup = mainActivity.findViewById(R.id.seed_not_setup);
+            View seedSetup = mainActivity.findViewById(R.id.seed_setup);
+            ViewGroup viewGroup = ((ViewGroup) seedSetup.getParent());
+            viewGroup.removeView(seedNotSetup);
+            viewGroup.removeView(seedSetup);
+        } else {
+            mainActivity.findViewById(R.id.seed_setup).setOnClickListener((v) -> goToSeedSetup());
+            mainActivity.findViewById(R.id.create_address_button).setVisibility(View.INVISIBLE);
+        }
+        //wallets = new Wallets(SeedGenerator.generateSeed());
+        //walletItemFragment = new WalletItemFragment();
+        //getChildFragmentManager().beginTransaction().replace(R.id.home_nested_frag_container, walletItemFragment).commit();
+        //requireActivity().findViewById(R.id.create_address_button).setOnClickListener((v) -> createAddress());
     }
 
     private void createAddress(){
         int walletID = wallets.generateWallet();
         walletItemFragment.addWalletItem(wallets.getWalletFromId(walletID));
+    }
+    private void goToSeedSetup(){
+
     }
 
 
