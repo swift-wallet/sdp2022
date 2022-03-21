@@ -8,6 +8,8 @@ checks:
       threshold: 6
   method-lines:
     enabled: true 
+    config:
+      threshold: 40
   nested-control-flow:
     enabled: false 
 exclude_patterns:
