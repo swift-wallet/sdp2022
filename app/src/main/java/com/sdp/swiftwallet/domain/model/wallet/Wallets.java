@@ -16,8 +16,8 @@ public class Wallets implements IWallets {
     private int counter = 0;
 
     public Wallets(String[] seed){
-        byte[] byteSeed = SeedGenerator.stringSeedToByteSeed(seed);
-        keyPairGenerator = new KeyPairGenerator(byteSeed);
+        long longSeed = SeedGenerator.stringSeedToLong(seed);
+        keyPairGenerator = new KeyPairGenerator(longSeed);
         keyPairs = new ArrayList<>();
     }
 

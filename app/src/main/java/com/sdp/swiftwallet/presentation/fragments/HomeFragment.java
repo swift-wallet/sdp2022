@@ -11,7 +11,6 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.domain.model.wallet.Wallets;
@@ -60,6 +59,8 @@ public class HomeFragment extends Fragment {
         if( !hasSeed ){
             fragmentView.findViewById(R.id.seed_setup).setOnClickListener((v) -> goToSeedSetup());
             fragmentView.findViewById(R.id.create_address_button).setVisibility(View.GONE);
+        } else {
+            recoverWalletsView();
         }
     }
 

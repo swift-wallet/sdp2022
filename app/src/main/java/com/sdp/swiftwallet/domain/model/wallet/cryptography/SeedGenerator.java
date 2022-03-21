@@ -3,6 +3,7 @@ package com.sdp.swiftwallet.domain.model.wallet.cryptography;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.widget.Toast;
 
 import com.sdp.swiftwallet.domain.model.wallet.Wallets;
 import com.sdp.swiftwallet.presentation.wallet.CreateSeedActivity;
@@ -26,20 +27,37 @@ public class SeedGenerator {
     }
 
     public String getSeed() {
-        return Arrays.stream(seed).reduce("", (a, b) -> a + " " + b);
+        return Arrays.stream(seed).reduce("", (a, b) -> {
+            if( !a.equals("") ){
+                return a + " " + b;
+            }
+            return b;
+        });
     }
 
     public void reGenerateSeed(){
         seed = generateSeed();
     }
 
-    public void saveSeed(Activity context) {
+    public void saveSeed(Activity context, String[] seed){
+        this.seed = seed;
+        saveSeed(context);
+    }
+    private void saveSeed(Activity context) {
         SharedPreferences prefs = context.getSharedPreferences(WALLETS_SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
+        Toast toast = new Toast(context);
+        toast.setText(toSavedSeedFormat());
+        toast.show();
         prefs.edit().putString(PREF_SEED_ID, toSavedSeedFormat()).apply();
     }
 
     private String toSavedSeedFormat() {
-        return Arrays.stream(seed).reduce("", (a, b) -> a + "-" + b);
+        return Arrays.stream(seed).reduce("", (a, b) -> {
+            if( a.equals("") ){
+                return b;
+            }
+            return a + "-" + b;
+        });
     }
 
     public static boolean hasSeed(Activity context){
@@ -67,7 +85,7 @@ public class SeedGenerator {
         return seed;
     }
 
-    public static byte[] stringSeedToByteSeed(String[] seed){
+    private static byte[] stringSeedToByteSeed(String[] seed){
         Optional<String> string = Arrays.stream(seed).reduce(String::concat);
         if(string.isPresent()){
             return string.get().getBytes(StandardCharsets.UTF_8);
@@ -75,7 +93,16 @@ public class SeedGenerator {
             throw new IllegalArgumentException("SeedGenerator: Error while creating the seed byte array");
         }
     }
-    public static byte[] stringSeedToByteSeed(String seed){
+    public static long stringSeedToLong(String[] seed){
+        byte[] byteSeed = stringSeedToByteSeed(seed);
+        long longSeed = 0;
+        int seedLength = seed.length;
+        for(int i=0; i<seed.length; i++){
+            longSeed = longSeed + byteSeed[i];
+        }
+        return longSeed;
+    }
+    private static byte[] stringSeedToByteSeed(String seed){
         Optional<String> string = Arrays.stream(seed.split("-")).reduce(String::concat);
         if(string.isPresent()){
             return string.get().getBytes(StandardCharsets.UTF_8);

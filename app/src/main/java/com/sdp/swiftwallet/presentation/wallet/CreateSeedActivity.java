@@ -3,6 +3,7 @@ package com.sdp.swiftwallet.presentation.wallet;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.sdp.cryptowalletapp.R;
@@ -10,7 +11,7 @@ import com.sdp.swiftwallet.domain.model.wallet.cryptography.SeedGenerator;
 
 public class CreateSeedActivity extends AppCompatActivity {
     String seed;
-    TextView seedView;
+    EditText seedView;
     SeedGenerator seedGenerator;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,7 +21,7 @@ public class CreateSeedActivity extends AppCompatActivity {
         seed = seedGenerator.getSeed();
         findViewById(R.id.generate_seed_button).setOnClickListener((v) -> reGenerateSeed());
         findViewById(R.id.save_seed_button).setOnClickListener((v) -> saveSeed());
-        seedView = (TextView)findViewById(R.id.seed_view);
+        seedView = (EditText)findViewById(R.id.seed_view);
         seedView.setText(seed);
     }
     private void reGenerateSeed() {
@@ -29,7 +30,8 @@ public class CreateSeedActivity extends AppCompatActivity {
         seedView.setText(seed);
     }
     private void saveSeed() {
-        seedGenerator.saveSeed(this);
+        String[] seedArray = seed.split(" ");
+        seedGenerator.saveSeed(this, seedArray);
         this.finish();
     }
 }
