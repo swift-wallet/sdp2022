@@ -27,6 +27,10 @@ public interface ClientAuth {
      */
     public String getCurrUserEmail();
 
+    public void createUserWithEmailAndPassword(String username, String email, String password, Activity signInActivity, Activity resultActivity);
+
+    public void signInWithEmailAndPassword(String email, String password, Activity signInActivity, Activity resultActivity);
+
     /**
      * Perform SignIn to database using a googleSignIn account and the corresponded TAG for log
      * signInActivity is the activity from where the intent is launched
@@ -36,7 +40,7 @@ public interface ClientAuth {
      * @param resultActivity the activity where the intent is fired
      * @param TAG a log TAG corresponding to the signIn
      */
-    public void signInWithGoogleAccount(GoogleSignInAccount account, Activity signInActivity, Activity resultActivity, String TAG);
+    public void signInWithGoogleAccount(GoogleSignInAccount account, Activity signInActivity, Activity resultActivity);
 
     /**
      * Perform signOut from google account

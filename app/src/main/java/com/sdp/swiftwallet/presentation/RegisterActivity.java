@@ -8,6 +8,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.sdp.cryptowalletapp.R;
+import com.sdp.swiftwallet.LoginActivity;
+import com.sdp.swiftwallet.data.repository.FirebaseAuthImpl;
 import com.sdp.swiftwallet.domain.repository.ClientAuth;
 
 import org.web3j.abi.datatypes.Bool;
@@ -22,6 +24,8 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
+        clientAuth = new FirebaseAuthImpl();
 
         registerUsernameEt = findViewById(R.id.registerUsernameEt);
         registerEmailEt = findViewById(R.id.registerEmailEt);
@@ -40,6 +44,7 @@ public class RegisterActivity extends AppCompatActivity {
         if (!isEmailValid(email)) return;
         if (!isPasswordValid(password)) return;
 
+        clientAuth.createUserWithEmailAndPassword(username, email, password, RegisterActivity.this, new LoginActivity());
     }
 
     private Boolean isUserValid(String username) {

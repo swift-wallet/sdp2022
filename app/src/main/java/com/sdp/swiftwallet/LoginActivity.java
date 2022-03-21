@@ -79,34 +79,36 @@ public class LoginActivity extends AppCompatActivity {
         editText = (EditText) findViewById(R.id.loginPassword);
         String password = editText.getText().toString();
 
-        //Authenticate username and password
-        boolean successfulLogin = authCredentials(username, password);
+        clientAuth.signInWithEmailAndPassword(username, password, LoginActivity.this, new MainActivity());
 
-        if (successfulLogin) {
-            //Launch next activity
-            //Sets up a first User DB
-            ((UserDatabase) this.getApplication())
-                .addAndUpdate(new User("admin", "admin", "BASIC"));
-            startActivity(nextActivity(this));
-        } else {
-            //Check if over max attempts
-            if (++loginAttempts >= MAX_LOGIN_ATTEMPTS) {
-                Intent mainIntent = new Intent(this, MainActivity.class);
-                tooManyAttemptsError(this, mainIntent).show();
-                return;
-            }
-
-            //Set attempts left text
-            String attemptsLeft = String.format(
-                    Locale.US,
-                    "You have %d attempt(s) remaining",
-                    MAX_LOGIN_ATTEMPTS - loginAttempts
-            );
-            attemptsTextView.setText(attemptsLeft);
-
-            //Display error message
-            incorrectCredentialsError(this).show();
-        }
+//        //Authenticate username and password
+//        boolean successfulLogin = authCredentials(username, password);
+//
+//        if (successfulLogin) {
+//            //Launch next activity
+//            //Sets up a first User DB
+//            ((UserDatabase) this.getApplication())
+//                .addAndUpdate(new User("admin", "admin", "BASIC"));
+//            startActivity(nextActivity(this));
+//        } else {
+//            //Check if over max attempts
+//            if (++loginAttempts >= MAX_LOGIN_ATTEMPTS) {
+//                Intent mainIntent = new Intent(this, MainActivity.class);
+//                tooManyAttemptsError(this, mainIntent).show();
+//                return;
+//            }
+//
+//            //Set attempts left text
+//            String attemptsLeft = String.format(
+//                    Locale.US,
+//                    "You have %d attempt(s) remaining",
+//                    MAX_LOGIN_ATTEMPTS - loginAttempts
+//            );
+//            attemptsTextView.setText(attemptsLeft);
+//
+//            //Display error message
+//            incorrectCredentialsError(this).show();
+//        }
     }
 
     /**
@@ -182,7 +184,7 @@ public class LoginActivity extends AppCompatActivity {
                         Task<GoogleSignInAccount> accountTask = GoogleSignIn.getSignedInAccountFromIntent(result.getData());
                         try {
                             GoogleSignInAccount account = accountTask.getResult(ApiException.class);
-                            clientAuth.signInWithGoogleAccount(account, LoginActivity.this, new MainActivity(), TAG);
+                            clientAuth.signInWithGoogleAccount(account, LoginActivity.this, new MainActivity());
                         } catch (Exception e) {
                             Log.d(TAG, "onActivityResult: " + e.getMessage());
                         }
@@ -195,7 +197,7 @@ public class LoginActivity extends AppCompatActivity {
      */
     private void startGoogleSignIn() {
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestIdToken(getString(R.string.webclient_id))
                 .requestEmail()
                 .build();
 
