@@ -3,7 +3,6 @@ package com.sdp.swiftwallet.presentation.fragments;
 import android.content.Intent;
 import android.os.Bundle;
 
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;

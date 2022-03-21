@@ -1,13 +1,11 @@
 package com.sdp.swiftwallet.domain.model.wallet;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 
 import com.sdp.swiftwallet.domain.model.wallet.cryptography.KeyPairGenerator;
 import com.sdp.swiftwallet.domain.model.wallet.cryptography.SeedGenerator;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Wallets implements IWallets {
 

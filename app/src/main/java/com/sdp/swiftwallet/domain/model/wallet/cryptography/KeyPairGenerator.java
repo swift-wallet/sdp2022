@@ -1,7 +1,5 @@
 package com.sdp.swiftwallet.domain.model.wallet.cryptography;
 
-import android.util.Log;
-
 import org.web3j.crypto.ECKeyPair;
 
 import java.math.BigInteger;

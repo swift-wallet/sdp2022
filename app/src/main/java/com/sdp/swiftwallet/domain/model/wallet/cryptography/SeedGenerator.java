@@ -3,10 +3,8 @@ package com.sdp.swiftwallet.domain.model.wallet.cryptography;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.widget.Toast;
 
 import com.sdp.swiftwallet.domain.model.wallet.Wallets;
-import com.sdp.swiftwallet.presentation.wallet.CreateSeedActivity;
 
 import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
