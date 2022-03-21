@@ -45,9 +45,6 @@ public class SeedGenerator {
     }
     private void saveSeed(Activity context) {
         SharedPreferences prefs = context.getSharedPreferences(WALLETS_SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
-        Toast toast = new Toast(context);
-        toast.setText(toSavedSeedFormat());
-        toast.show();
         prefs.edit().putString(PREF_SEED_ID, toSavedSeedFormat()).apply();
     }
 
@@ -58,6 +55,11 @@ public class SeedGenerator {
             }
             return a + "-" + b;
         });
+    }
+
+    public static void saveCounter( Context context , int counter ){
+        SharedPreferences prefs = context.getSharedPreferences(WALLETS_SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
+        prefs.edit().putInt(PREF_COUNTER_ID, counter).apply();
     }
 
     public static boolean hasSeed(Activity context){

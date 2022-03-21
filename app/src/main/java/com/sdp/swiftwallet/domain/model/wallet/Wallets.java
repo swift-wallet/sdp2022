@@ -34,6 +34,14 @@ public class Wallets implements IWallets {
         return counter++;
     }
 
+    public int getCounter() {
+        return counter;
+    }
+
+    public void saveCounter(Context context) {
+        SeedGenerator.saveCounter(context, counter);
+    }
+
     @Override
     public WalletKeyPair[] getWallets() {
         return (WalletKeyPair[]) keyPairs.clone();

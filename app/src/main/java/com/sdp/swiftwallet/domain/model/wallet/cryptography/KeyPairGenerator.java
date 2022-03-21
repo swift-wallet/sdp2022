@@ -5,7 +5,6 @@ import android.util.Log;
 import org.web3j.crypto.ECKeyPair;
 
 import java.math.BigInteger;
-import java.security.SecureRandom;
 import java.util.Random;
 
 public class KeyPairGenerator {

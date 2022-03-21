@@ -42,7 +42,6 @@ public class HomeFragment extends Fragment {
         if( hasSeed ){
             wallets = SeedGenerator.recoverWallets( requireActivity() );
         }
-
     }
 
     @Override
@@ -61,6 +60,7 @@ public class HomeFragment extends Fragment {
             fragmentView.findViewById(R.id.create_address_button).setVisibility(View.GONE);
         } else {
             recoverWalletsView();
+            recoverWalletsList();
         }
     }
 
@@ -71,9 +71,16 @@ public class HomeFragment extends Fragment {
             if( !hasSeed ){
                 wallets = SeedGenerator.recoverWallets(requireActivity());
                 recoverWalletsView();
+                recoverWalletsList();
                 hasSeed = true;
             }
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        wallets.saveCounter(requireActivity());
     }
 
     // Resetting the view to handle wallets list
@@ -85,6 +92,13 @@ public class HomeFragment extends Fragment {
         viewGroup.removeView(seedSetup);
         fragmentView.findViewById(R.id.create_address_button).setVisibility(View.VISIBLE);
         fragmentView.findViewById(R.id.create_address_button).setOnClickListener((v) -> createAddress());
+    }
+
+    private void recoverWalletsList(){
+        int counter = wallets.getCounter();
+        for(int i=0 ; i< counter; i++){
+            walletItemFragment.addWalletItem(wallets.getWalletFromId(i));
+        }
     }
 
     private void createAddress(){
