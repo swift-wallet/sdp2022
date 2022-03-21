@@ -17,6 +17,8 @@ import com.sdp.swiftwallet.domain.model.wallet.cryptography.SeedGenerator;
 import com.sdp.swiftwallet.presentation.wallet.CreateSeedActivity;
 import com.sdp.swiftwallet.presentation.wallet.fragments.WalletItemFragment;
 
+import java.util.Objects;
+
 /**
  * Home screen
  */
@@ -79,7 +81,9 @@ public class HomeFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        wallets.saveCounter(requireActivity());
+        if ( !Objects.isNull(wallets) ){
+            wallets.saveCounter(requireActivity());
+        }
     }
 
     // Resetting the view to handle wallets list

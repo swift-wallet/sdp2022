@@ -15,9 +15,9 @@ public class SeedGenerator {
     public static final int SEED_SIZE = 5;
     public static final String[] words = {"Avion", "Papier", "Feuille", "Caillou", "Ciseau", "Oui", "Non", "Mot", "Inspiration"};
 
-    private static final String WALLETS_SHARED_PREFERENCES_NAME = "WALLETS";
-    private static final String PREF_SEED_ID = "SEED";
-    private static final String PREF_COUNTER_ID = "COUNTER";
+    public static final String WALLETS_SHARED_PREFERENCES_NAME = "WALLETS";
+    public static final String PREF_SEED_ID = "SEED";
+    public static final String PREF_COUNTER_ID = "COUNTER";
 
     private String[] seed;
     public SeedGenerator(){
@@ -101,13 +101,5 @@ public class SeedGenerator {
             longSeed = longSeed + byteSeed[i];
         }
         return longSeed;
-    }
-    private static byte[] stringSeedToByteSeed(String seed){
-        Optional<String> string = Arrays.stream(seed.split("-")).reduce(String::concat);
-        if(string.isPresent()){
-            return string.get().getBytes(StandardCharsets.UTF_8);
-        }else{
-            throw new IllegalArgumentException("SeedGenerator: Error while creating the seed byte array");
-        }
     }
 }
