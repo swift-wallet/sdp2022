@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.domain.model.wallet.Wallets;
@@ -26,14 +27,23 @@ public class HomeFragment extends Fragment {
     private View fragmentView;
     private WalletItemFragment walletItemFragment;
     private Wallets wallets;
+    private boolean hasSeed;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if( SeedGenerator.hasSeed(requireActivity()) ){
+
+        walletItemFragment = new WalletItemFragment();
+        getChildFragmentManager().beginTransaction()
+                .add(R.id.home_nested_frag_container, walletItemFragment, WalletItemFragment.class.getName())
+                .setReorderingAllowed(true)
+                .commit();
+
+        hasSeed = SeedGenerator.hasSeed(requireActivity());
+        if( hasSeed ){
             wallets = SeedGenerator.recoverWallets( requireActivity() );
-            walletItemFragment = new WalletItemFragment();
         }
+
     }
 
     @Override
@@ -47,11 +57,21 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         fragmentView = view;
-        if( SeedGenerator.hasSeed(requireActivity()) ){
-            recoverWalletsView();
-        } else {
+        if( !hasSeed ){
             fragmentView.findViewById(R.id.seed_setup).setOnClickListener((v) -> goToSeedSetup());
             fragmentView.findViewById(R.id.create_address_button).setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if( hasSeed != SeedGenerator.hasSeed(requireActivity()) ){
+            if( !hasSeed ){
+                wallets = SeedGenerator.recoverWallets(requireActivity());
+                recoverWalletsView();
+                hasSeed = true;
+            }
         }
     }
 
@@ -62,12 +82,8 @@ public class HomeFragment extends Fragment {
         ViewGroup viewGroup = ((ViewGroup) seedSetup.getParent());
         viewGroup.removeView(seedNotSetup);
         viewGroup.removeView(seedSetup);
+        fragmentView.findViewById(R.id.create_address_button).setVisibility(View.VISIBLE);
         fragmentView.findViewById(R.id.create_address_button).setOnClickListener((v) -> createAddress());
-        getChildFragmentManager()
-                .beginTransaction()
-                .replace(R.id.home_nested_frag_container, walletItemFragment)
-                .addToBackStack(null)
-                .commit();
     }
 
     private void createAddress(){
@@ -78,6 +94,4 @@ public class HomeFragment extends Fragment {
         Intent intent = new Intent(requireActivity(), CreateSeedActivity.class);
         startActivity(intent);
     }
-
-
 }

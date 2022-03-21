@@ -21,7 +21,6 @@ import com.sdp.swiftwallet.presentation.fragments.StatsFragment;
 
 public class MainActivity extends AppCompatActivity {
 
-    private BottomNavigationView bottomNavigationView;
     private FragmentManager fragmentManager;
     Fragment selectedFragment = null;
     HomeFragment homeFragment;
@@ -29,6 +28,9 @@ public class MainActivity extends AppCompatActivity {
     PaymentFragment paymentFragment;
     MessageFragment messageFragment;
     ProfileFragment profileFragment;
+
+    Fragment activeFragment;
+
     /**
      * Methods that are called on creation
      */
@@ -37,8 +39,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        bottomNavigationView = findViewById(R.id.bottom_bar);
-        bottomNavigationView.setOnItemSelectedListener(navigationItemSelectedListener);
+        ((BottomNavigationView)findViewById(R.id.bottom_bar)).setOnItemSelectedListener(navigationItemSelectedListener);
         //Creating all the navigation fragments
         homeFragment = new HomeFragment();
         statsFragment = new StatsFragment();
@@ -46,12 +47,19 @@ public class MainActivity extends AppCompatActivity {
         paymentFragment = new PaymentFragment();
         profileFragment = new ProfileFragment();
 
+        activeFragment = homeFragment;
+
         fragmentManager = getSupportFragmentManager();
 
-        getSupportFragmentManager()
+        fragmentManager
                 .beginTransaction()
-                .replace(R.id.fragment_container, homeFragment)
-                .addToBackStack(null)
+                .add(R.id.fragment_container,homeFragment, HomeFragment.class.getName())
+                .add(R.id.fragment_container,statsFragment, StatsFragment.class.getName())
+                .add(R.id.fragment_container,messageFragment, MessageFragment.class.getName())
+                .add(R.id.fragment_container,paymentFragment, PaymentFragment.class.getName())
+                .add(R.id.fragment_container,profileFragment, ProfileFragment.class.getName())
+                .hide(statsFragment).hide(messageFragment).hide(paymentFragment).hide(profileFragment)
+                .setReorderingAllowed(true)
                 .commit();
     }
 
@@ -83,11 +91,13 @@ public class MainActivity extends AppCompatActivity {
             }
 
             if (selectedFragment != null) {
-                getSupportFragmentManager()
+                fragmentManager
                         .beginTransaction()
-                        .replace(R.id.fragment_container, selectedFragment)
-                        .addToBackStack(null)
+                        .hide(activeFragment)
+                        .show(selectedFragment)
+                        .setReorderingAllowed(true)
                         .commit();
+                activeFragment = selectedFragment;
                 }
                     return true;
         }
