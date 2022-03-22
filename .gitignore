@@ -1,3 +1,4 @@
 local.properties
 .idea/*
 .gradle/*
+app/src/main/java/com/sdp/swiftwallet/WalletActivity
