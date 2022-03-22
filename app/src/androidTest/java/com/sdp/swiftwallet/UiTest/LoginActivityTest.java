@@ -56,8 +56,8 @@ public class LoginActivityTest {
 
     @Test
     public void successfulLoginLaunchesGreeting() {
-        onView(withId(R.id.loginEmail)).perform(typeText("admin"), closeSoftKeyboard());
-        onView(withId(R.id.loginPassword)).perform(typeText("admin"), closeSoftKeyboard());
+        onView(withId(R.id.loginEmail)).perform(typeText("jerome.ceccaldi@epfl.ch"), closeSoftKeyboard());
+        onView(withId(R.id.loginPassword)).perform(typeText("abcdef"), closeSoftKeyboard());
         onView(withId(R.id.loginButton)).perform(click());
 
         intended(toPackage("com.sdp.swiftwallet"));
@@ -67,9 +67,8 @@ public class LoginActivityTest {
 
     @Test
     public void successfulLoginLaunchesGreetingWithCorrectMessage() {
-
-        onView(withId(R.id.loginEmail)).perform(typeText("admin"), closeSoftKeyboard());
-        onView(withId(R.id.loginPassword)).perform(typeText("admin"), closeSoftKeyboard());
+        onView(withId(R.id.loginEmail)).perform(typeText("jerome.ceccaldi@epfl.ch"), closeSoftKeyboard());
+        onView(withId(R.id.loginPassword)).perform(typeText("abcdef"), closeSoftKeyboard());
         onView(withId(R.id.loginButton)).perform(click());
 
         intended(hasExtra(LoginActivity.EXTRA_MESSAGE, "Welcome to SwiftWallet!"));
@@ -114,8 +113,6 @@ public class LoginActivityTest {
 
     @Test
     public void tooManyFailedAttemptsSendsBackToMainActivity() {
-//        Intents.init();
-
         onView(withId(R.id.loginButton)).perform(click());
         onView(withText("OK")).perform(click());
         onView(withId(R.id.loginButton)).perform(click());
@@ -125,23 +122,17 @@ public class LoginActivityTest {
 
         intended(toPackage("com.sdp.swiftwallet"));
         intended(hasComponent(MainActivity.class.getName()));
-
-//        Intents.release();
     }
 
     @Test
     public void login_btn_correctly_displayed() {
-//        Intents.init();
         onView(withId(R.id.googleSignInBtn)).check(matches(isDisplayed()));
-//        Intents.release();
     }
 
     @Test
     public void press_login_fires_correct_intent() {
-//        Intents.init();
         onView(withId(R.id.googleSignInBtn)).perform(click());
 
         intended(toPackage("com.sdp.swiftwallet"));
-//        Intents.release();
     }
 }

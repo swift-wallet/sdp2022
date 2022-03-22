@@ -1,6 +1,5 @@
 package com.sdp.swiftwallet.presentation.main.fragments;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -17,11 +16,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.common.FirebaseUtil;
 import com.sdp.swiftwallet.presentation.signIn.LoginActivity;
-import com.sdp.swiftwallet.data.repository.FirebaseAuthImpl;
-import com.sdp.swiftwallet.domain.model.User;
-import com.sdp.swiftwallet.domain.repository.ClientAuth;
-import java.util.Objects;
-import com.sdp.swiftwallet.data.repository.UserDatabase;
 
 
 public class ProfileFragment extends Fragment {
