@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 
 
-import android.view.View.OnClickListener;
-import android.widget.Button;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
@@ -19,7 +17,7 @@ import com.sdp.swiftwallet.QRActivity;
 import com.sdp.swiftwallet.WalletActivity;
 import com.sdp.swiftwallet.domain.model.wallet.Wallets;
 import com.sdp.swiftwallet.domain.model.wallet.cryptography.SeedGenerator;
-import com.sdp.swiftwallet.presentation.fragments.wallets.WalletItemFragment;
+import com.sdp.swiftwallet.presentation.wallets.WalletItemFragment;
 
 /**
  * Home screen
