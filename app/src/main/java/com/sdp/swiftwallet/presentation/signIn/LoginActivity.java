@@ -1,4 +1,4 @@
-package com.sdp.swiftwallet;
+package com.sdp.swiftwallet.presentation.signIn;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -19,11 +19,10 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
-import com.google.android.gms.common.api.Api;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
 import com.sdp.cryptowalletapp.R;
+import com.sdp.swiftwallet.presentation.main.MainActivity;
 import com.sdp.swiftwallet.data.repository.FirebaseAuthImpl;
 import com.sdp.swiftwallet.domain.model.User;
 import com.sdp.swiftwallet.domain.repository.ClientAuth;
@@ -189,7 +188,7 @@ public class LoginActivity extends AppCompatActivity {
      */
     private void startGoogleSignIn() {
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestIdToken(getString(R.string.webclient_id))
                 .requestEmail()
                 .build();
 

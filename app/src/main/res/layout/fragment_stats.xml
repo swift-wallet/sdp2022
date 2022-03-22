@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.sdp.swiftwallet.presentation.fragments.StatsFragment">
+    tools:context="com.sdp.swiftwallet.presentation.main.fragments.StatsFragment">
 
     <TextView
         android:layout_width="match_parent"
