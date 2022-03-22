@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -25,12 +24,7 @@ import com.google.android.gms.tasks.Task;
 import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.presentation.main.MainActivity;
 import com.sdp.swiftwallet.data.repository.FirebaseAuthImpl;
-import com.sdp.swiftwallet.domain.model.User;
 import com.sdp.swiftwallet.domain.repository.ClientAuth;
-import com.sdp.swiftwallet.data.repository.UserDatabase;
-import com.sdp.swiftwallet.presentation.RegisterActivity;
-
-import java.util.Locale;
 
 public class LoginActivity extends AppCompatActivity {
 

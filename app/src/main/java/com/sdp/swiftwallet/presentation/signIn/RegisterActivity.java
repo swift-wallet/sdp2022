@@ -1,18 +1,14 @@
-package com.sdp.swiftwallet.presentation;
+package com.sdp.swiftwallet.presentation.signIn;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.sdp.cryptowalletapp.R;
-import com.sdp.swiftwallet.LoginActivity;
 import com.sdp.swiftwallet.data.repository.FirebaseAuthImpl;
 import com.sdp.swiftwallet.domain.repository.ClientAuth;
-
-import org.web3j.abi.datatypes.Bool;
 
 public class RegisterActivity extends AppCompatActivity {
 

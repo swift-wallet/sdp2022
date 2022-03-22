@@ -1,8 +1,6 @@
 package com.sdp.swiftwallet.data.repository;
 
 import android.app.Activity;
-import android.app.Application;
-import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
@@ -23,7 +21,6 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.sdp.swiftwallet.domain.model.User;
 import com.sdp.swiftwallet.domain.repository.ClientAuth;
-import com.sdp.swiftwallet.presentation.RegisterActivity;
 
 public class FirebaseAuthImpl implements ClientAuth {
     private static final String EMAIL_REGISTER_TAG = "EMAIL_REGISTER_TAG";

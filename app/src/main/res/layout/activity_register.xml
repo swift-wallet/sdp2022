@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="35dp"
-    tools:context="com.sdp.swiftwallet.presentation.RegisterActivity">
+    tools:context="com.sdp.swiftwallet.presentation.signIn.RegisterActivity">
 
     <TextView
         android:id="@+id/registerUsernameTv"
