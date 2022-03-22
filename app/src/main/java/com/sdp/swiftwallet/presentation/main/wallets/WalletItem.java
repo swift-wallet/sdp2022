@@ -1,4 +1,4 @@
-package com.sdp.swiftwallet.presentation.wallets;
+package com.sdp.swiftwallet.presentation.main.wallets;
 
 // Simple wallet model
 public class WalletItem {

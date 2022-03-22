@@ -1,4 +1,4 @@
-package com.sdp.swiftwallet.presentation.fragments;
+package com.sdp.swiftwallet.presentation.main.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,11 +13,11 @@ import android.view.ViewGroup;
 
 import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.CryptoValuesActivity;
-import com.sdp.swiftwallet.QRActivity;
+import com.sdp.swiftwallet.presentation.qrcode.QRActivity;
 import com.sdp.swiftwallet.WalletActivity;
 import com.sdp.swiftwallet.domain.model.wallet.Wallets;
 import com.sdp.swiftwallet.domain.model.wallet.cryptography.SeedGenerator;
-import com.sdp.swiftwallet.presentation.wallets.WalletItemFragment;
+import com.sdp.swiftwallet.presentation.main.wallets.fragments.WalletItemFragment;
 
 /**
  * Home screen

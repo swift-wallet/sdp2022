@@ -1,4 +1,4 @@
-package com.sdp.swiftwallet.presentation.fragments;
+package com.sdp.swiftwallet.presentation.main.fragments;
 
 import android.os.Bundle;
 

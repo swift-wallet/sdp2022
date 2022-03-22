@@ -9,5 +9,5 @@
     android:layout_marginLeft="2dp"
     android:layout_marginRight="2dp"
     app:layoutManager="LinearLayoutManager"
-    tools:context="com.sdp.swiftwallet.presentation.fragments.wallets.WalletItemFragment"
+    tools:context="com.sdp.swiftwallet.presentation.main.wallets.fragments.WalletItemFragment"
     tools:listitem="@layout/fragment_wallet_item" />
