@@ -58,14 +58,24 @@ public class LoginActivity extends AppCompatActivity {
 
         //Init client authentication and launcher for google signIn
         clientAuth = new FirebaseAuthImpl();
+        clientAuth.setLanguage("en", "en_gb");
+
         initGoogleSignInResultLauncher();
 
+        //Sets up google sign in button
         SignInButton googleSignInBtn = findViewById(R.id.googleSignInBtn);
         googleSignInBtn.setOnClickListener(v -> startGoogleSignIn());
+
+        //Sets up register user option
         TextView registerTv = findViewById(R.id.register);
         registerTv.setOnClickListener(v ->
                 startActivity(new Intent(this, RegisterActivity.class))
         );
+
+        //Sets up sign in button
+        Button signInButton = findViewById(R.id.loginButton);
+        signInButton.setOnClickListener(v->
+            login(v));
     }
 
     /**
@@ -79,36 +89,9 @@ public class LoginActivity extends AppCompatActivity {
         editText = (EditText) findViewById(R.id.loginPassword);
         String password = editText.getText().toString();
 
-        clientAuth.signInWithEmailAndPassword(username, password, LoginActivity.this, new MainActivity());
+        clientAuth
+            .signInWithEmailAndPassword(username, password, LoginActivity.this, new MainActivity());
 
-//        //Authenticate username and password
-//        boolean successfulLogin = authCredentials(username, password);
-//
-//        if (successfulLogin) {
-//            //Launch next activity
-//            //Sets up a first User DB
-//            ((UserDatabase) this.getApplication())
-//                .addAndUpdate(new User("admin", "admin", "BASIC"));
-//            startActivity(nextActivity(this));
-//        } else {
-//            //Check if over max attempts
-//            if (++loginAttempts >= MAX_LOGIN_ATTEMPTS) {
-//                Intent mainIntent = new Intent(this, MainActivity.class);
-//                tooManyAttemptsError(this, mainIntent).show();
-//                return;
-//            }
-//
-//            //Set attempts left text
-//            String attemptsLeft = String.format(
-//                    Locale.US,
-//                    "You have %d attempt(s) remaining",
-//                    MAX_LOGIN_ATTEMPTS - loginAttempts
-//            );
-//            attemptsTextView.setText(attemptsLeft);
-//
-//            //Display error message
-//            incorrectCredentialsError(this).show();
-//        }
     }
 
     /**

@@ -29,8 +29,10 @@ public class FirebaseAuthImpl implements ClientAuth {
     private static final String EMAIL_REGISTER_TAG = "EMAIL_REGISTER_TAG";
     private static final String EMAIL_SIGNIN_TAG = "EMAIL_SIGNIN_TAG";
     private static final String GOOGLE_SIGNIN_TAG = "GOOGLE_SIGNIN_TAG";
+    private static final String RESET_PASSWORD_TAG = "RESET_PASSWORD_TAG";
 
-    private final FirebaseAuth firebaseAuth;
+
+  private final FirebaseAuth firebaseAuth;
     private final FirebaseFirestore db;
 
     public FirebaseAuthImpl() {
@@ -38,6 +40,14 @@ public class FirebaseAuthImpl implements ClientAuth {
         this.db = FirebaseFirestore.getInstance();
     }
 
+  /**
+   * Creates a User in the Firebase database
+   * @param username his username
+   * @param email his email
+   * @param password his password
+   * @param registerActivity from register activity
+   * @param resultActivity to login activity back
+   */
     public void createUserWithEmailAndPassword(String username, String email, String password, Activity registerActivity, Activity resultActivity) {
         firebaseAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -74,6 +84,13 @@ public class FirebaseAuthImpl implements ClientAuth {
                 });
     }
 
+  /**
+   * Signs in with basic email / pw
+   * @param email email
+   * @param password password
+   * @param signInActivity from sign in activity
+   * @param resultActivity to restult main activity
+   */
     public void signInWithEmailAndPassword(String email, String password, Activity signInActivity, Activity resultActivity) {
         Log.d(EMAIL_SIGNIN_TAG, "signInWithEmailAndPassword: begin firebase auth with email account");
         firebaseAuth.signInWithEmailAndPassword(email, password)
@@ -128,6 +145,23 @@ public class FirebaseAuthImpl implements ClientAuth {
                 }).addOnFailureListener(e -> Log.d(GOOGLE_SIGNIN_TAG, "onFailure: Loggin failed"+e.getMessage()));
     }
 
+
+    public void sendPasswordResetEmail(String email, String country, String countryCode){
+      setLanguage(country, countryCode);
+      Log.d(RESET_PASSWORD_TAG, "Trying to send a confirmation email");
+      firebaseAuth.sendPasswordResetEmail(email)
+          .addOnSuccessListener( a -> {
+
+          }).addOnFailureListener( a -> {
+
+      });
+
+    }
+
+
+
+
+
     /**
      * @return check over the firebase if the user has already been registered
      */
@@ -151,6 +185,17 @@ public class FirebaseAuthImpl implements ClientAuth {
      */
     public void signOut() {
         firebaseAuth.signOut();
+    }
+
+  /**
+   * Sets up language for authentication
+   * @param country country (format "fr=France", ...)
+   * @param countryLanguage country language (format "en_gb"= UK british)
+   */
+  @Override
+  public void setLanguage(String country, String countryLanguage){
+      firebaseAuth.setLanguageCode(country);
+      firebaseAuth.setLanguageCode(countryLanguage);
     }
 
 }

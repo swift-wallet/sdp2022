@@ -21,6 +21,16 @@ public interface ClientAuth {
      */
     public String getCurrUserName();
 
+
+    /**
+     * Sets up language for authentication
+     * @param country country (format "fr=France", ...)
+     * @param countryLanguage country language (format "en_gb"= UK british)
+     */
+    public void setLanguage(String country, String countryLanguage);
+
+
+
     /**
      * Getter for user email
      * @return a String of user email

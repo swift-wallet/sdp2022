@@ -35,6 +35,9 @@ public class RegisterActivity extends AppCompatActivity {
         registerBtn.setOnClickListener(v -> registerUser());
     }
 
+    /**
+     * Registers the user
+     */
     private void registerUser() {
         String username = registerUsernameEt.getText().toString().trim();
         String email = registerEmailEt.getText().toString().trim();
@@ -47,6 +50,9 @@ public class RegisterActivity extends AppCompatActivity {
         clientAuth.createUserWithEmailAndPassword(username, email, password, RegisterActivity.this, new LoginActivity());
     }
 
+    /**
+     * Check if the username is correctly formatted
+     */
     private Boolean isUserValid(String username) {
         if (username.isEmpty()) {
             registerUsernameEt.setError("Username required");
@@ -67,6 +73,9 @@ public class RegisterActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * Check if email is correctly formatted
+     */
     private Boolean isEmailValid(String email) {
         if (email.isEmpty()) {
             registerEmailEt.setError("Email required");
@@ -77,14 +86,17 @@ public class RegisterActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * Check if the password is correctly formatted
+     */
     private Boolean isPasswordValid(String password) {
         if (password.isEmpty()) {
             registerPasswordEt.setError("Password required");
             registerPasswordEt.requestFocus();
             return false;
         }
-
         return true;
     }
+
 
 }
