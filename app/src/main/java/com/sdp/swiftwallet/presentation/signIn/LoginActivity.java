@@ -24,18 +24,19 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.BuildConfig;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.sdp.cryptowalletapp.R;
+import com.sdp.swiftwallet.common.FirebaseUtil;
 import com.sdp.swiftwallet.presentation.main.MainActivity;
 
 import java.util.Locale;
 
 public class LoginActivity extends AppCompatActivity {
-
     public static final String EXTRA_MESSAGE = "com.sdp.swiftwallet.LOGIN";
     private static final String WELCOME_MESSAGE = "Welcome to SwiftWallet!";
     private static final String EMAIL_SIGNIN_TAG = "EMAIL_SIGNIN_TAG";
@@ -57,7 +58,7 @@ public class LoginActivity extends AppCompatActivity {
         attemptsTextView.setText("");
 
         //Init client authentication and launcher for google signIn
-        mAuth = FirebaseAuth.getInstance();
+        mAuth = FirebaseUtil.getAuth();
         initGoogleSignInResultLauncher();
 
         SignInButton googleSignInBtn = findViewById(R.id.googleSignInBtn);

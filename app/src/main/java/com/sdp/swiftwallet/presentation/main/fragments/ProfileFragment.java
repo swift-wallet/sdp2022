@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.sdp.cryptowalletapp.R;
+import com.sdp.swiftwallet.common.FirebaseUtil;
 import com.sdp.swiftwallet.presentation.signIn.LoginActivity;
 import com.sdp.swiftwallet.data.repository.FirebaseAuthImpl;
 import com.sdp.swiftwallet.domain.model.User;
@@ -30,7 +31,7 @@ public class ProfileFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mAuth = FirebaseAuth.getInstance();
+        mAuth = FirebaseUtil.getAuth();
     }
 
     @Override

@@ -19,6 +19,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.sdp.cryptowalletapp.R;
+import com.sdp.swiftwallet.common.FirebaseUtil;
 import com.sdp.swiftwallet.domain.model.User;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -33,8 +34,8 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        mAuth = FirebaseAuth.getInstance();
-        db = FirebaseFirestore.getInstance();
+        mAuth = FirebaseUtil.getAuth();
+        db = FirebaseUtil.getFirestore();
 
         registerUsernameEt = findViewById(R.id.registerUsernameEt);
         registerEmailEt = findViewById(R.id.registerEmailEt);

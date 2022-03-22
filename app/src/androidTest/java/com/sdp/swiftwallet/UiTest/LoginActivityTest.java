@@ -56,7 +56,7 @@ public class LoginActivityTest {
 
     @Test
     public void successfulLoginLaunchesGreeting() {
-        onView(withId(R.id.loginUsername)).perform(typeText("admin"), closeSoftKeyboard());
+        onView(withId(R.id.loginEmail)).perform(typeText("admin"), closeSoftKeyboard());
         onView(withId(R.id.loginPassword)).perform(typeText("admin"), closeSoftKeyboard());
         onView(withId(R.id.loginButton)).perform(click());
 
@@ -68,7 +68,7 @@ public class LoginActivityTest {
     @Test
     public void successfulLoginLaunchesGreetingWithCorrectMessage() {
 
-        onView(withId(R.id.loginUsername)).perform(typeText("admin"), closeSoftKeyboard());
+        onView(withId(R.id.loginEmail)).perform(typeText("admin"), closeSoftKeyboard());
         onView(withId(R.id.loginPassword)).perform(typeText("admin"), closeSoftKeyboard());
         onView(withId(R.id.loginButton)).perform(click());
 
@@ -77,7 +77,7 @@ public class LoginActivityTest {
 
     @Test
     public void incorrectUsernameDisplaysAlert() {
-        onView(withId(R.id.loginUsername)).perform(typeText("wrong"), closeSoftKeyboard());
+        onView(withId(R.id.loginEmail)).perform(typeText("wrong"), closeSoftKeyboard());
         onView(withId(R.id.loginPassword)).perform(typeText("admin"), closeSoftKeyboard());
         onView(withId(R.id.loginButton)).perform(click());
 
@@ -86,7 +86,7 @@ public class LoginActivityTest {
 
     @Test
     public void incorrectPasswordDisplaysAlert() {
-        onView(withId(R.id.loginUsername)).perform(typeText("admin"), closeSoftKeyboard());
+        onView(withId(R.id.loginEmail)).perform(typeText("admin"), closeSoftKeyboard());
         onView(withId(R.id.loginPassword)).perform(typeText("wrong"), closeSoftKeyboard());
         onView(withId(R.id.loginButton)).perform(click());
 
