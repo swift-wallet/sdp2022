@@ -24,8 +24,8 @@ import androidx.test.platform.app.InstrumentationRegistry;
 
 import com.sdp.cryptowalletapp.R;
 
-import com.sdp.swiftwallet.LoginActivity;
-import com.sdp.swiftwallet.MainActivity;
+import com.sdp.swiftwallet.presentation.signIn.LoginActivity;
+import com.sdp.swiftwallet.presentation.main.MainActivity;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
