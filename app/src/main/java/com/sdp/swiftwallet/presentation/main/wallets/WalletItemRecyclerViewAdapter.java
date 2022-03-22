@@ -1,4 +1,4 @@
-package com.sdp.swiftwallet.presentation.fragments.wallets;
+package com.sdp.swiftwallet.presentation.main.wallets;
 
 import androidx.recyclerview.widget.RecyclerView;
 

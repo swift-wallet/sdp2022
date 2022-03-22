@@ -1,4 +1,4 @@
-package com.sdp.swiftwallet;
+package com.sdp.swiftwallet.presentation.qrcode;
 
 import androidx.appcompat.app.AppCompatActivity;
 

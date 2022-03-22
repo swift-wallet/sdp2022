@@ -2,11 +2,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.sdp.swiftwallet.presentation.fragments.HomeFragment">
+    tools:context="com.sdp.swiftwallet.presentation.main.fragments.HomeFragment">
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/home_nested_frag_container"
-        android:name="com.sdp.swiftwallet.presentation.fragments.wallets.WalletItemFragment"
+        android:name="com.sdp.swiftwallet.presentation.main.wallets.fragments.WalletItemFragment"
         android:layout_width="wrap_content"
         android:layout_height="500dp"
         android:layout_gravity="center"/>

@@ -1,10 +1,9 @@
-package com.sdp.swiftwallet.presentation.fragments;
+package com.sdp.swiftwallet.presentation.main.fragments;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
-import android.service.autofill.UserData;
 import android.view.View.OnClickListener;
 import androidx.fragment.app.Fragment;
 
@@ -15,9 +14,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.sdp.cryptowalletapp.R;
-import com.sdp.swiftwallet.CryptoValuesActivity;
-import com.sdp.swiftwallet.LoginActivity;
-import com.sdp.swiftwallet.MainActivity;
+import com.sdp.swiftwallet.presentation.signIn.LoginActivity;
 import com.sdp.swiftwallet.data.repository.FirebaseAuthImpl;
 import com.sdp.swiftwallet.domain.model.User;
 import com.sdp.swiftwallet.domain.repository.ClientAuth;
