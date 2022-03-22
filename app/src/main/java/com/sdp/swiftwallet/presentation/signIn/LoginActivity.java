@@ -77,8 +77,18 @@ public class LoginActivity extends AppCompatActivity {
         //Retrieve username and password from login screen
         EditText editText = (EditText) findViewById(R.id.loginEmail);
         String email = editText.getText().toString().trim();
+        if (email.isEmpty()) {
+            editText.setError("email required");
+            editText.requestFocus();
+            return;
+        }
         editText = (EditText) findViewById(R.id.loginPassword);
         String password = editText.getText().toString().trim();
+        if (password.isEmpty()) {
+            editText.setError("password required");
+            editText.requestFocus();
+            return;
+        }
 
         signInWithEmailAndPassword(email, password);
     }
@@ -86,7 +96,7 @@ public class LoginActivity extends AppCompatActivity {
     private void checkAttempts() {
         //Check if over max attempts
         if (++loginAttempts >= MAX_LOGIN_ATTEMPTS) {
-            Intent mainIntent = new Intent(this, MainActivity.class);
+            Intent mainIntent = new Intent(LoginActivity.this, MainActivity.class);
             tooManyAttemptsError(this, mainIntent).show();
             return;
         }
@@ -100,7 +110,7 @@ public class LoginActivity extends AppCompatActivity {
         attemptsTextView.setText(attemptsLeft);
 
         //Display error message
-        incorrectCredentialsError(this).show();
+        incorrectCredentialsError(LoginActivity.this).show();
     }
 
     /**
@@ -162,8 +172,9 @@ public class LoginActivity extends AppCompatActivity {
                             Log.d(EMAIL_SIGNIN_TAG, "Login successful for email: " + email);
                             Toast.makeText(LoginActivity.this, "User successfully signedIn", Toast.LENGTH_LONG).show();
 
-                            startActivity(nextActivity(LoginActivity.this));
-                            finish();
+                            Intent nextActivity = new Intent(LoginActivity.this, MainActivity.class);
+                            nextActivity.putExtra(EXTRA_MESSAGE, WELCOME_MESSAGE);
+                            LoginActivity.this.startActivity(nextActivity);
                         }
                         else {
                             Log.w(EMAIL_SIGNIN_TAG, "Error from task", task.getException());
