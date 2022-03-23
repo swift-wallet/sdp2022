@@ -20,18 +20,14 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
-import com.google.android.gms.common.api.Api;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
 import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.data.repository.FirebaseAuthImpl;
-import com.sdp.swiftwallet.domain.model.User;
 import com.sdp.swiftwallet.domain.repository.ClientAuth;
-import com.sdp.swiftwallet.data.repository.UserDatabase;
 import com.sdp.swiftwallet.presentation.RegisterActivity;
 
-import java.util.Locale;
+import org.jetbrains.annotations.NotNull;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -69,7 +65,13 @@ public class LoginActivity extends AppCompatActivity {
         //Sets up register user option
         TextView registerTv = findViewById(R.id.register);
         registerTv.setOnClickListener(v ->
-                startActivity(new Intent(this, RegisterActivity.class))
+            startActivity(new Intent(this, RegisterActivity.class))
+        );
+
+        //Sets up the forgot password recover option for users
+        TextView forgoPwTv = findViewById(R.id.forgotPassword);
+        forgoPwTv.setOnClickListener(v ->
+            startActivity(new Intent(this, ForgotPasswordActivity.class))
         );
 
         //Sets up sign in button
@@ -190,4 +192,12 @@ public class LoginActivity extends AppCompatActivity {
         Intent it = googleSignInClient.getSignInIntent();
         googleSignInActivityResultLauncher.launch(it);
     }
+
+
+    //Starts the password recovery fragments
+    private void startPasswordRecovery(@NotNull View v){
+        Intent intent = new Intent(this, ForgotPasswordActivity.class);
+        startActivity(intent);
+    }
+
 }

@@ -21,6 +21,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.sdp.swiftwallet.LoginActivity;
 import com.sdp.swiftwallet.domain.model.User;
 import com.sdp.swiftwallet.domain.repository.ClientAuth;
 import com.sdp.swiftwallet.presentation.RegisterActivity;
@@ -145,21 +146,27 @@ public class FirebaseAuthImpl implements ClientAuth {
                 }).addOnFailureListener(e -> Log.d(GOOGLE_SIGNIN_TAG, "onFailure: Loggin failed"+e.getMessage()));
     }
 
-
-    public void sendPasswordResetEmail(String email, String country, String countryCode){
+  /**
+   * Sends a password reset email to the user
+   * @param email email that must previously have been checked
+   * @param country country code, checked by the check language function
+   * @param countryCode country code for language, checked by the check language function
+   */
+    public void sendPasswordResetEmail(String email, String country, String countryCode, Activity from){
       setLanguage(country, countryCode);
       Log.d(RESET_PASSWORD_TAG, "Trying to send a confirmation email");
       firebaseAuth.sendPasswordResetEmail(email)
           .addOnSuccessListener( a -> {
-
+            Log.d(RESET_PASSWORD_TAG, "Password successfully sent on \n"+email);
+            Toast.makeText(from, "Password successfully sent on \n"+email, Toast.LENGTH_SHORT).show();
+            //Start again login activity if successful
+            Intent nextIntent = new Intent(from, LoginActivity.class);
+            from.startActivity(nextIntent);
           }).addOnFailureListener( a -> {
-
+            Log.d(RESET_PASSWORD_TAG, "Something went wrong, please enter a valid email \n"+email);
+            Toast.makeText(from, "Reset error, please correct your email! \n"+email, Toast.LENGTH_SHORT).show();
       });
-
     }
-
-
-
 
 
     /**
@@ -197,5 +204,6 @@ public class FirebaseAuthImpl implements ClientAuth {
       firebaseAuth.setLanguageCode(country);
       firebaseAuth.setLanguageCode(countryLanguage);
     }
+
 
 }

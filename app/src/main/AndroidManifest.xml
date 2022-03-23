@@ -50,6 +50,7 @@
             android:name="com.sdp.swiftwallet.CryptoValuesActivity"
             android:exported="false"
             android:parentActivityName="com.sdp.swiftwallet.MainActivity" />
+        <activity android:name="com.sdp.swiftwallet.ForgotPasswordActivity" />
     </application>
 
 </manifest>

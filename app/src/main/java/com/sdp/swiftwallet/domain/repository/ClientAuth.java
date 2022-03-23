@@ -41,6 +41,9 @@ public interface ClientAuth {
 
     public void signInWithEmailAndPassword(String email, String password, Activity signInActivity, Activity resultActivity);
 
+    public void sendPasswordResetEmail(String email, String country, String countryCode, Activity from);
+
+
     /**
      * Perform SignIn to database using a googleSignIn account and the corresponded TAG for log
      * signInActivity is the activity from where the intent is launched
@@ -48,7 +51,6 @@ public interface ClientAuth {
      * @param account a GoogleSignInAccount already setup
      * @param signInActivity the activity that launch signIn
      * @param resultActivity the activity where the intent is fired
-     * @param TAG a log TAG corresponding to the signIn
      */
     public void signInWithGoogleAccount(GoogleSignInAccount account, Activity signInActivity, Activity resultActivity);
 
