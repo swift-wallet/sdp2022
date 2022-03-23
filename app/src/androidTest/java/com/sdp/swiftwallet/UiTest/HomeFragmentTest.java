@@ -2,12 +2,9 @@ package com.sdp.swiftwallet.UiTest;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static com.adevinta.android.barista.interaction.BaristaClickInteractions.clickOn;
-
-import static org.hamcrest.Matchers.not;
 
 import android.content.Context;
 import android.content.SharedPreferences;
