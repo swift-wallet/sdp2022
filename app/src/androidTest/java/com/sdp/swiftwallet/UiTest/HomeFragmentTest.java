@@ -7,6 +7,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static com.adevinta.android.barista.interaction.BaristaClickInteractions.clickOn;
 
 import static org.hamcrest.Matchers.not;
+import static org.junit.Assert.fail;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -70,6 +71,19 @@ public class HomeFragmentTest {
         testRule.getScenario().onActivity(activity -> {
             setValidSeedAndCounter(activity);
             onView(withId(R.id.seed_setup)).check(matches(not(isDisplayed())));
+        });
+    }
+    @Test
+    public void shouldBeAbleToCreateAddressesWhenSeed(){
+        testRule.getScenario().onActivity(activity -> {
+            setValidSeedAndCounter(activity);
+            onView(withId(R.id.create_address_button)).check(matches(isDisplayed()));
+            try{
+                clickOn(R.id.create_address_button);
+            }
+            catch(Exception e){
+                fail();
+            }
         });
     }
 }
