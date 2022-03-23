@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,6 +31,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.kenai.jffi.Main;
 import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.common.FirebaseUtil;
 import com.sdp.swiftwallet.presentation.main.MainActivity;
@@ -38,7 +40,7 @@ import java.util.Locale;
 
 public class LoginActivity extends AppCompatActivity {
     public static final String EXTRA_MESSAGE = "com.sdp.swiftwallet.LOGIN";
-    private static final String WELCOME_MESSAGE = "Welcome to SwiftWallet!";
+    public static final String WELCOME_MESSAGE = "Welcome to SwiftWallet!";
     private static final String EMAIL_SIGNIN_TAG = "EMAIL_SIGNIN_TAG";
     private static final String GOOGLE_SIGNIN_TAG = "GOOGLE_SIGNIN_TAG";
 
@@ -63,17 +65,20 @@ public class LoginActivity extends AppCompatActivity {
 
         SignInButton googleSignInBtn = findViewById(R.id.googleSignInBtn);
         googleSignInBtn.setOnClickListener(v -> startGoogleSignIn());
+
+        Button loginBtn = findViewById(R.id.loginButton);
+        loginBtn.setOnClickListener(v -> login());
+
         TextView registerTv = findViewById(R.id.register);
         registerTv.setOnClickListener(v ->
-                startActivity(new Intent(this, RegisterActivity.class))
+                startActivity(new Intent(LoginActivity.this, RegisterActivity.class))
         );
     }
 
     /**
      * Login method which is launched by the LOGIN button on the login screen
-     * @param view current View of the user
      */
-    public void login(View view) {
+    public void login() {
         //Retrieve username and password from login screen
         EditText editText = (EditText) findViewById(R.id.loginEmail);
         String email = editText.getText().toString().trim();
@@ -172,9 +177,7 @@ public class LoginActivity extends AppCompatActivity {
                             Log.d(EMAIL_SIGNIN_TAG, "Login successful for email: " + email);
                             Toast.makeText(LoginActivity.this, "User successfully signedIn", Toast.LENGTH_LONG).show();
 
-                            Intent nextActivity = new Intent(LoginActivity.this, MainActivity.class);
-                            nextActivity.putExtra(EXTRA_MESSAGE, WELCOME_MESSAGE);
-                            LoginActivity.this.startActivity(nextActivity);
+                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
                         }
                         else {
                             Log.w(EMAIL_SIGNIN_TAG, "Error from task", task.getException());
@@ -212,7 +215,6 @@ public class LoginActivity extends AppCompatActivity {
             }
 
             startActivity(nextActivity(this));
-            finish();
         }).addOnFailureListener(e -> Log.d(GOOGLE_SIGNIN_TAG, "onFailure: Loggin failed"+e.getMessage()));
     }
 

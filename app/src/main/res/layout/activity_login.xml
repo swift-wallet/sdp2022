@@ -77,7 +77,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:onClick="login"
         android:text="Login"
         app:layout_constraintTop_toBottomOf="@+id/loginPassword"
         app:layout_constraintRight_toRightOf="parent"

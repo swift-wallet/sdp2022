@@ -33,7 +33,6 @@ public class RegisterActivityTest {
 
     @Test
     public void register_user_add_it_to_db() {
-        onView(withId(R.id.registerEmailEt));
-
+        // TODO
     }
 }
