@@ -34,17 +34,23 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
+        // Init auth client and db client
         mAuth = FirebaseUtil.getAuth();
         db = FirebaseUtil.getFirestore();
 
+        // Find EditText view and registerBtn
         registerUsernameEt = findViewById(R.id.registerUsernameEt);
         registerEmailEt = findViewById(R.id.registerEmailEt);
         registerPasswordEt = findViewById(R.id.registerPasswordEt);
         Button registerBtn = findViewById(R.id.registerBtn);
 
+        // Set registerBtn listener
         registerBtn.setOnClickListener(v -> registerUser());
     }
 
+    /**
+     * Check for registration infos validity and create user on client auth
+     */
     private void registerUser() {
         String username = registerUsernameEt.getText().toString().trim();
         String email = registerEmailEt.getText().toString().trim();
@@ -57,6 +63,11 @@ public class RegisterActivity extends AppCompatActivity {
         createUserWithEmailAndPassword(username, email, password);
     }
 
+    /**
+     * Check if username is valid
+     * @param username some username
+     * @return true if valid, false otherwise
+     */
     private Boolean isUserValid(String username) {
         if (username.isEmpty()) {
             registerUsernameEt.setError("Username required");
@@ -73,30 +84,49 @@ public class RegisterActivity extends AppCompatActivity {
             registerUsernameEt.requestFocus();
             return false;
         }
+        // TODO: add more checks
 
         return true;
     }
 
+    /**
+     * Check if an email is valid
+     * @param email some email
+     * @return true if valid, false otherwise
+     */
     private Boolean isEmailValid(String email) {
         if (email.isEmpty()) {
             registerEmailEt.setError("Email required");
             registerEmailEt.requestFocus();
             return false;
         }
+        // TODO: add more checks
 
         return true;
     }
 
+    /**
+     * Check if a password is valid
+     * @param password some password
+     * @return true if valid, false otherwise
+     */
     private Boolean isPasswordValid(String password) {
         if (password.isEmpty()) {
             registerPasswordEt.setError("Password required");
             registerPasswordEt.requestFocus();
             return false;
         }
+        // TODO: add more checks
 
         return true;
     }
 
+    /**
+     * create user with username, email and password with client auth
+     * @param username user username
+     * @param email user email
+     * @param password user password
+     */
     private void createUserWithEmailAndPassword(String username, String email, String password) {
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -115,6 +145,10 @@ public class RegisterActivity extends AppCompatActivity {
                 });
     }
 
+    /**
+     * Add a user to the database and go back to login activity
+     * @param user the user to add to the database
+     */
     private void registerUserToDatabase(User user) {
         db.collection("users")
                 .add(user)

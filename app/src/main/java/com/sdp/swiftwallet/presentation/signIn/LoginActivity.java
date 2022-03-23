@@ -63,6 +63,7 @@ public class LoginActivity extends AppCompatActivity {
         mAuth = FirebaseUtil.getAuth();
         initGoogleSignInResultLauncher();
 
+        // Set Listeners
         SignInButton googleSignInBtn = findViewById(R.id.googleSignInBtn);
         googleSignInBtn.setOnClickListener(v -> startGoogleSignIn());
 
@@ -77,11 +78,13 @@ public class LoginActivity extends AppCompatActivity {
 
     /**
      * Login method which is launched by the LOGIN button on the login screen
+     * check email and password validity before signIn
      */
     public void login() {
         //Retrieve username and password from login screen
         EditText editText = (EditText) findViewById(R.id.loginEmail);
         String email = editText.getText().toString().trim();
+        // Display error if not valid
         if (email.isEmpty()) {
             editText.setError("email required");
             editText.requestFocus();
@@ -95,9 +98,14 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
+        // Finally Launch signIn
         signInWithEmailAndPassword(email, password);
     }
 
+    /**
+     * Perform a max attempts check by updating the value and raising error if necessary
+     * Also Display error if credentials were wrong
+     */
     private void checkAttempts() {
         //Check if over max attempts
         if (++loginAttempts >= MAX_LOGIN_ATTEMPTS) {
@@ -167,6 +175,11 @@ public class LoginActivity extends AppCompatActivity {
                 .create();
     }
 
+    /**
+     * Perform email signIn with the authentication client
+     * @param email user email to connect with
+     * @param password corresponding password
+     */
     private void signInWithEmailAndPassword(String email, String password) {
         Log.d(EMAIL_SIGNIN_TAG, "signInWithEmailAndPassword: begin firebase auth with email account");
         mAuth.signInWithEmailAndPassword(email, password)
