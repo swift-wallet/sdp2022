@@ -14,18 +14,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SwiftWallet">
-
+        <activity
+            android:name="com.sdp.swiftwallet.presentation.transactions.TransactionActivity"
+            android:exported="false" />
         <activity
             android:name="com.sdp.swiftwallet.TransactionHistoryActivity"
             android:exported="false"
             android:parentActivityName="com.sdp.swiftwallet.presentation.main.MainActivity" />
-
         <activity
             android:name="com.journeyapps.barcodescanner.CaptureActivity"
             android:parentActivityName="com.sdp.swiftwallet.presentation.qrcode.QRActivity"
             android:screenOrientation="fullSensor"
             tools:replace="screenOrientation" />
-
         <activity
             android:name="com.sdp.swiftwallet.presentation.main.MainActivity"
             android:exported="false" />
@@ -42,6 +42,7 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
