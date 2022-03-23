@@ -101,3 +101,8 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'crea
 connectedCheck {
     finalizedBy jacocoTestReport
 }
+
+// Do not remove this part, required because protobuf conflicts with firebase when using Espresso
+configurations.configureEach {
+    exclude group: "com.google.protobuf", module: "protobuf-lite"
+}
