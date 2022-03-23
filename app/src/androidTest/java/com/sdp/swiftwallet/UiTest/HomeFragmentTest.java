@@ -64,7 +64,7 @@ public class HomeFragmentTest {
     public void releaseIntents() {
         Intents.release();
     }
-    
+
     @Test
     public void shouldBeAbleToCreateAddressesWhenSeed(){
         testRule.getScenario().onActivity(this::setValidSeedAndCounter);
