@@ -96,65 +96,6 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    /**
-     * Prepares the intent for the next intent to launch when the login is successful
-     *
-     * @param context the context of the current Activity
-     * @return an Intent to launch the next activity
-     */
-    private Intent nextActivity(Context context) {
-        Intent nextActivity = new Intent(context, MainActivity.class);
-        nextActivity.putExtra(EXTRA_MESSAGE, WELCOME_MESSAGE);
-        return nextActivity;
-    }
-
-    /**
-     * Creates an AlertDialog to inform the user they used incorrect credentials
-     *
-     * @param context the context of the alert
-     * @return an AlertDialog informing the user their login attempt was unsuccessful
-     */
-    private AlertDialog incorrectCredentialsError(Context context) {
-        return new AlertDialog.Builder(context)
-                .setTitle("Unsuccessful login")
-                .setMessage("Incorrect username or password")
-                .setPositiveButton("OK", null)
-                .setCancelable(true)
-                .create();
-    }
-
-    /**
-     * Creates an AlertDialog to inform the user they have used up their login attempts
-     *
-     * @param context    the context of the alert
-     * @param homeScreen the Intent of the Activity the user is sent to (i.e. the home screen)
-     * @return an AlertDialog informing the user they used up their login attempts which also
-     * starts another activity
-     */
-    private AlertDialog tooManyAttemptsError(Context context, Intent homeScreen) {
-        return new AlertDialog.Builder(context)
-                .setTitle("Too many unsuccessful attempts")
-                .setMessage("You have tried to login unsuccessfully too many times")
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        startActivity(homeScreen);
-                    }
-                })
-                .setCancelable(false)
-                .create();
-    }
-
-    /**
-     * Authenticates the user-provided credentials
-     *
-     * @param username the user-provided username
-     * @param password the user-provided password
-     * @return whether or not the credentials correspond to a valid account or not
-     */
-    private boolean authCredentials(String username, String password) {
-        return (username.equals(ADMIN_USERNAME) && password.equals(ADMIN_PASSWORD));
-    }
 
     /**
      * Init google SignIn launcher,
@@ -193,11 +134,5 @@ public class LoginActivity extends AppCompatActivity {
         googleSignInActivityResultLauncher.launch(it);
     }
 
-
-    //Starts the password recovery fragments
-    private void startPasswordRecovery(@NotNull View v){
-        Intent intent = new Intent(this, ForgotPasswordActivity.class);
-        startActivity(intent);
-    }
 
 }

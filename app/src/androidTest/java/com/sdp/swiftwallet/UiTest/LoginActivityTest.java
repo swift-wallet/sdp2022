@@ -24,8 +24,10 @@ import androidx.test.platform.app.InstrumentationRegistry;
 
 import com.sdp.cryptowalletapp.R;
 
+import com.sdp.swiftwallet.ForgotPasswordActivity;
 import com.sdp.swiftwallet.LoginActivity;
 import com.sdp.swiftwallet.MainActivity;
+import com.sdp.swiftwallet.presentation.RegisterActivity;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -131,17 +133,32 @@ public class LoginActivityTest {
 
     @Test
     public void login_btn_correctly_displayed() {
-//        Intents.init();
         onView(withId(R.id.googleSignInBtn)).check(matches(isDisplayed()));
-//        Intents.release();
     }
 
     @Test
     public void press_login_fires_correct_intent() {
-//        Intents.init();
         onView(withId(R.id.googleSignInBtn)).perform(click());
-
         intended(toPackage("com.sdp.swiftwallet"));
-//        Intents.release();
+    }
+
+    @Test
+    public void press_forgot_pw_firesForgotActivity(){
+        onView(withId(R.id.forgotPassword)).perform(click());
+        intended(toPackage("com.sdp.swiftwallet"));
+        intended(hasComponent(ForgotPasswordActivity.class.getName()));
+    }
+
+    @Test
+    public void components_are_correctly_displayed() {
+        onView(withId(R.id.forgotPassword)).check(matches(isDisplayed()));
+        onView(withId(R.id.register)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void press_register_firesForgotActivity(){
+        onView(withId(R.id.register)).perform(click());
+        intended(toPackage("com.sdp.swiftwallet"));
+        intended(hasComponent(RegisterActivity.class.getName()));
     }
 }
