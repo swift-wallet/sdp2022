@@ -38,6 +38,9 @@ public class SeedGenerator {
     }
 
     public void saveSeed(Activity context, String[] seed){
+        if(seed.length != SEED_SIZE){
+            throw new IllegalArgumentException("Bad seed length");
+        }
         this.seed = seed;
         saveSeed(context);
     }

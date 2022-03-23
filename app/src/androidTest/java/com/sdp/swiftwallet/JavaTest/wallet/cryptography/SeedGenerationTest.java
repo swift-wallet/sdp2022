@@ -8,8 +8,8 @@ import android.content.SharedPreferences;
 
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 
-import com.sdp.swiftwallet.MainActivity;
 import com.sdp.swiftwallet.domain.model.wallet.cryptography.SeedGenerator;
+import com.sdp.swiftwallet.presentation.main.MainActivity;
 
 import org.junit.Before;
 import org.junit.Rule;

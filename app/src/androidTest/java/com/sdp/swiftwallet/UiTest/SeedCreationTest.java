@@ -1,10 +1,15 @@
 package com.sdp.swiftwallet.UiTest;
 
+import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static com.adevinta.android.barista.interaction.BaristaClickInteractions.clickOn;
 import static com.adevinta.android.barista.interaction.BaristaEditTextInteractions.clearText;
 import static com.adevinta.android.barista.interaction.BaristaEditTextInteractions.typeTo;
 import static com.adevinta.android.barista.interaction.BaristaKeyboardInteractions.closeKeyboard;
 
+import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.fail;
 
 import android.widget.EditText;
@@ -39,36 +44,8 @@ public class SeedCreationTest {
     }
     @Test
     public void shouldGenerateANewSeedOnClick(){
-        testRule.getScenario().onActivity(activity -> {
-            EditText seedView = (EditText)activity.findViewById(R.id.seed_view);
-            String seed = seedView.getText().toString();
-            clickOn(R.id.generate_seed_button);
-            assert(!seedView.getText().toString().equals(seed));
-        });
-    }
-
-    @Test
-    public void shouldFailWhenSavingABadSeed(){
         clearText(R.id.seed_view);
-        typeTo(R.id.seed_view, badSeed);
-        closeKeyboard();
-        try{
-            clickOn(R.id.save_seed_button);
-        }catch(Exception e){
-            return;
-        }
-        fail();
+        clickOn(R.id.generate_seed_button);
+        onView(withId(R.id.seed_view)).check(matches(not(withText(""))));
     }
-    @Test
-    public void shouldSuccessWhenSavingACorrectSeed(){
-        clearText(R.id.seed_view);
-        typeTo(R.id.seed_view, correctSeed);
-        closeKeyboard();
-        try{
-            clickOn(R.id.save_seed_button);
-        }catch(Exception e){
-            fail();
-        }
-    }
-
 }
