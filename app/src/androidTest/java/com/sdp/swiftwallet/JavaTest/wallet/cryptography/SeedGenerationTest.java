@@ -22,7 +22,7 @@ public class SeedGenerationTest {
 
     public final static String mockSeed = "test-testouille-bad-good-lol";
     public final static String mockSpaceSeed = "test testouille bad good lol";
-    public final static String[] mockArraySeed = new String[]{"test", "testouille"," bad", "good", "lol"};
+    public final static String[] mockArraySeed = new String[]{"test", "testouille","bad", "good", "lol"};
 
     public final static int mockCounter = 10;
 
