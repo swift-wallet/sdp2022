@@ -36,10 +36,6 @@
             android:exported="false"
             android:parentActivityName="com.sdp.swiftwallet.presentation.main.MainActivity" />
         <activity
-            android:name="com.sdp.swiftwallet.presentation.wallet.WalletActivity"
-            android:exported="false"
-            android:parentActivityName="com.sdp.swiftwallet.presentation.main.MainActivity" />
-        <activity
             android:name="com.sdp.swiftwallet.presentation.signIn.LoginActivity"
             android:exported="true">
             <intent-filter>
