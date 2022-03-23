@@ -29,7 +29,6 @@ check_android_task:
     chmod +x ./cc-test-reporter
     ./cc-test-reporter before-build
   check_script:
-    firebase emulators:start
     ./gradlew check connectedCheck
   report_codeclimate_script: |
     export JACOCO_SOURCE_PATH=app/src/main/java/
