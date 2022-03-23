@@ -159,7 +159,6 @@ public class RegisterActivity extends AppCompatActivity {
                         Log.d(EMAIL_REGISTER_TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
 
                         RegisterActivity.this.startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
-                        RegisterActivity.this.finish();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {

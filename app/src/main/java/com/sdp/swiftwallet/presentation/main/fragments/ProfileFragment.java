@@ -55,7 +55,6 @@ public class ProfileFragment extends Fragment {
     private void checkUser(View view) {
         if (mAuth.getCurrentUser() == null) {
             startActivity(new Intent(getActivity(), LoginActivity.class));
-            getActivity().finish();
         }
         else {
             String email = mAuth.getCurrentUser().getEmail();
