@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 
 import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.domain.model.wallet.WalletKeyPair;
+import com.sdp.swiftwallet.presentation.wallet.fragments.WalletItem;
+import com.sdp.swiftwallet.presentation.wallet.fragments.WalletItemRecyclerViewAdapter;
 
 import java.util.ArrayList;
 import java.util.List;

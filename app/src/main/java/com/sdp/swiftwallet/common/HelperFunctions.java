@@ -1,4 +1,4 @@
 package com.sdp.swiftwallet.common;
 
-public class Filler {
+public class HelperFunctions {
 }

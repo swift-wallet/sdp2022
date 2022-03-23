@@ -1,5 +1,6 @@
 package com.sdp.swiftwallet.presentation.wallet.fragments;
 
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.TextView;

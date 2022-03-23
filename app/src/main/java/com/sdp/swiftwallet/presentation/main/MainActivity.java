@@ -1,9 +1,7 @@
-package com.sdp.swiftwallet;
+package com.sdp.swiftwallet.presentation.main;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,11 +11,11 @@ import androidx.fragment.app.FragmentManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.sdp.cryptowalletapp.R;
-import com.sdp.swiftwallet.presentation.fragments.HomeFragment;
-import com.sdp.swiftwallet.presentation.fragments.MessageFragment;
-import com.sdp.swiftwallet.presentation.fragments.PaymentFragment;
-import com.sdp.swiftwallet.presentation.fragments.ProfileFragment;
-import com.sdp.swiftwallet.presentation.fragments.StatsFragment;
+import com.sdp.swiftwallet.presentation.main.fragments.HomeFragment;
+import com.sdp.swiftwallet.presentation.main.fragments.MessageFragment;
+import com.sdp.swiftwallet.presentation.main.fragments.PaymentFragment;
+import com.sdp.swiftwallet.presentation.main.fragments.ProfileFragment;
+import com.sdp.swiftwallet.presentation.main.fragments.StatsFragment;
 
 public class MainActivity extends AppCompatActivity {
 

@@ -1,12 +1,15 @@
 checks:
   complex-logic:
+    config:
+      threshold: 6
+  method-complexity:
     enabled: true
     config:
-      threshold: 5
-  method-complexity:
-    enabled: false 
+      threshold: 6
   method-lines:
-    enabled: false 
+    enabled: true 
+    config:
+      threshold: 40
   nested-control-flow:
     enabled: false 
 exclude_patterns:
