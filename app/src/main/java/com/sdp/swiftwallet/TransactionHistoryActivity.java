@@ -48,7 +48,7 @@ public class TransactionHistoryActivity extends AppCompatActivity {
         catch(Exception e){
            transactionHistory = list;
         }
-        RecyclerView recyclerView = findViewById(R.id.transactionsRecyclerView);
+        RecyclerView recyclerView = findViewById(R.id.transaction_recyclerView);
         recyclerView.setAdapter(new TransactionAdapter(this, transactionHistory));
         recyclerView.setHasFixedSize(true);
     }
