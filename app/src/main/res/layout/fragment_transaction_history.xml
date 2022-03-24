@@ -1,4 +1,5 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/transaction_historyFragment"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -6,7 +7,7 @@
     tools:context="com.sdp.swiftwallet.presentation.transactions.fragments.TransactionHistoryFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/transactionsRecyclerView"
+        android:id="@+id/transaction_recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="vertical"
