@@ -34,7 +34,51 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Email" />
+        <TextView
+            style="@style/TextAppearance.MaterialComponents.Headline5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="LANGUAGE:" />
+        <TextView
+            android:id="@+id/langauge"
+            style="@style/TextAppearance.MaterialComponents.Body1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="language" />
+        <EditText
+            android:id="@+id/langaugeEdit"
+            style="@style/TextAppearance.MaterialComponents.Body1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="language"
+            android:visibility="gone"/>
+        <TextView
+            style="@style/TextAppearance.MaterialComponents.Headline5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="USERNAME:" />
+        <TextView
+            android:id="@+id/username"
+            style="@style/TextAppearance.MaterialComponents.Body1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="username" />
 
+        <EditText
+            android:id="@+id/usernameEdit"
+            style="@style/TextAppearance.MaterialComponents.Body1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="usernameedit"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/editBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="EDIT"
+            />
         <Button
             android:id="@+id/logoutBtn"
             android:layout_width="wrap_content"
