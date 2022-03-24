@@ -17,16 +17,25 @@ import java.util.Random;
 public class TransactionActivity extends AppCompatActivity {
 
     //This is for demo purposes *********************************************
-    private final static Currency CURR = new Currency("DumbCoin", "DUM", 9.5);
+    private final static Currency CURR_1 = new Currency("DumbCoin", "DUM", 5);
+    private final static Currency CURR_2 = new Currency("BitCoin", "BTC", 3);
+    private final static Currency CURR_3 = new Currency("Ethereum", "ETH", 4);
+    private final static Currency CURR_4 = new Currency("SwiftCoin", "SWT", 6);
     private final static String MY_WALL = "MY_WALL";
     private final static String THEIR_WALL = "THEIR_WALL";
     private final static List<Transaction> list = new ArrayList<>();
 
     static {
+        ArrayList<Currency> currencies = new ArrayList<>();
+        currencies.add(CURR_1);
+        currencies.add(CURR_2);
+        currencies.add(CURR_3);
+        currencies.add(CURR_4);
         Random r = new Random();
         for (int i = 0; i < 50; i++) {
             double amount = -100 + r.nextDouble() * 200;
-            Transaction t = new Transaction(amount, CURR, MY_WALL, THEIR_WALL, i);
+            int curr = r.nextInt(4);
+            Transaction t = new Transaction(amount, currencies.get(curr), MY_WALL, THEIR_WALL, i);
             list.add(t);
         }
     } /////*******************************************************************

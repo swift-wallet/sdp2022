@@ -38,10 +38,10 @@ public class TransactionHistoryFragment extends Fragment {
 
     @Override
     public void onStart() {
+        super.onStart();
         recyclerView = rootAct.findViewById(R.id.transactionsRecyclerView);
         list = rootAct.getList();
         recyclerView.setAdapter(new TransactionAdapter(rootAct, list));
         recyclerView.setHasFixedSize(true);
-        super.onStart();
     }
 }

@@ -27,7 +27,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <fragment
-        android:name="com.sdp.swiftwallet.presentation.transactions.fragments.TransactionHistoryFragment"
+        android:name="com.sdp.swiftwallet.presentation.transactions.fragments.TransactionStatsFragment"
         android:id="@+id/transaction_fragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
