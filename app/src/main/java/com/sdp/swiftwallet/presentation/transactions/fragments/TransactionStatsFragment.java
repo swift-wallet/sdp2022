@@ -36,6 +36,16 @@ public class TransactionStatsFragment extends Fragment {
     private TransactionActivity rootAct;
     private PieChart pieChart;
 
+    private final static List<Integer> COLORS = new ArrayList<>();
+    static {
+        for (int color : ColorTemplate.MATERIAL_COLORS) {
+            COLORS.add(color);
+        }
+        for (int color : ColorTemplate.VORDIPLOM_COLORS) {
+            COLORS.add(color);
+        }
+    }
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -102,17 +112,8 @@ public class TransactionStatsFragment extends Fragment {
             entries.add(new PieEntry(fraction, entry.getKey().getSymbol()));
         }
 
-        ArrayList<Integer> colors = new ArrayList<>();
-        for (int color : ColorTemplate.MATERIAL_COLORS) {
-            colors.add(color);
-        }
-
-        for (int color : ColorTemplate.VORDIPLOM_COLORS) {
-            colors.add(color);
-        }
-
         PieDataSet dataSet = new PieDataSet(entries, "Currency");
-        dataSet.setColors(colors);
+        dataSet.setColors(COLORS);
 
         PieData data = new PieData(dataSet);
         data.setDrawValues(true);
