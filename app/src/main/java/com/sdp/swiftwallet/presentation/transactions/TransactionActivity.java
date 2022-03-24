@@ -26,6 +26,7 @@ public class TransactionActivity extends AppCompatActivity {
     private FragmentManager fragmentManager;
     private Fragment historyFragment, statsFragment;
     private Fragment activeFragment;
+    private List<Transaction> transactions = new ArrayList<>();
 
     //This is for demo purposes *********************************************
     private final static Currency CURR_1 = new Currency("DumbCoin", "DUM", 5);
@@ -34,7 +35,7 @@ public class TransactionActivity extends AppCompatActivity {
     private final static Currency CURR_4 = new Currency("SwiftCoin", "SWT", 6);
     private final static String MY_WALL = "MY_WALL";
     private final static String THEIR_WALL = "THEIR_WALL";
-    private final static List<Transaction> list = new ArrayList<>();
+    private final static List<Transaction> dummyList = new ArrayList<>();
 
     static {
         ArrayList<Currency> currencies = new ArrayList<>();
@@ -47,7 +48,7 @@ public class TransactionActivity extends AppCompatActivity {
             double amount = -100 + r.nextDouble() * 200;
             int curr = r.nextInt(4);
             Transaction t = new Transaction(amount, currencies.get(curr), MY_WALL, THEIR_WALL, i);
-            list.add(t);
+            dummyList.add(t);
         }
     } /////*******************************************************************
 
@@ -62,9 +63,9 @@ public class TransactionActivity extends AppCompatActivity {
         try {
             TransactionHistoryGenerator historyGenerator =
                     (TransactionHistoryGenerator) i.getParcelableExtra(getString(R.string.transactionHistoryGeneratorExtraKey));
-            transactionHistory = historyGenerator.getTransactionHistory();
+            transactions = historyGenerator.getTransactionHistory();
         } catch (Exception e) {
-            transactionHistory = list;
+            transactions = dummyList;
         }
         //**********************************************************
 
@@ -119,6 +120,6 @@ public class TransactionActivity extends AppCompatActivity {
      * @return the list of transactions
      */
     public List<Transaction> getList() {
-        return new ArrayList<>(list);
+        return new ArrayList<>(transactions);
     }
 }
