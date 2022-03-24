@@ -48,7 +48,7 @@ public class TransactionTest {
         Intent intent = new Intent(ApplicationProvider.getApplicationContext(), TransactionActivity.class);
 
         try (ActivityScenario<TransactionHistoryActivity> scenario = ActivityScenario.launch(intent)) {
-            for(;;);
+//            for(;;);
         }
     }
 
