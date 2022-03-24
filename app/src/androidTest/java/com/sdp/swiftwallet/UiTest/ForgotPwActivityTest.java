@@ -9,7 +9,7 @@ import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import com.sdp.cryptowalletapp.R;
-import com.sdp.swiftwallet.ForgotPasswordActivity;
+import com.sdp.swiftwallet.presentation.signIn.ForgotPasswordActivity;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;

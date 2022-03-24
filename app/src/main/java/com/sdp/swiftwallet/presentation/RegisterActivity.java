@@ -8,7 +8,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.sdp.cryptowalletapp.R;
-import com.sdp.swiftwallet.LoginActivity;
+import com.sdp.swiftwallet.presentation.signIn.LoginActivity;
 import com.sdp.swiftwallet.data.repository.FirebaseAuthImpl;
 import com.sdp.swiftwallet.domain.repository.ClientAuth;
 

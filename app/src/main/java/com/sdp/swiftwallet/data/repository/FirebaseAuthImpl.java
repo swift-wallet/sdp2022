@@ -21,10 +21,11 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.sdp.swiftwallet.LoginActivity;
+import com.sdp.swiftwallet.presentation.signIn.LoginActivity;
 import com.sdp.swiftwallet.domain.model.User;
 import com.sdp.swiftwallet.domain.repository.ClientAuth;
 import com.sdp.swiftwallet.presentation.RegisterActivity;
+import com.sdp.swiftwallet.presentation.signIn.LoginActivity;
 
 public class FirebaseAuthImpl implements ClientAuth {
     private static final String EMAIL_REGISTER_TAG = "EMAIL_REGISTER_TAG";
