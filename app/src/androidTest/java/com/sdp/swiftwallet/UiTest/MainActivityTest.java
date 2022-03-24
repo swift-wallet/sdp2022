@@ -48,11 +48,32 @@ public class MainActivityTest {
     }
 
     @Test
-    public void click_display_fragments() {
+    public void press_home_display_fragments() {
         onView(withId(R.id.bar_home)).perform(click());
+        onView(withId(R.id.home_fragment)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void press_stats_display_fragments() {
         onView(withId(R.id.bar_stats)).perform(click());
+        onView(withId(R.id.stats_fragment)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void press_payment_display_fragments() {
         onView(withId(R.id.bar_payment)).perform(click());
+        onView(withId(R.id.payment_fragment)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void press_message_display_fragments() {
         onView(withId(R.id.bar_message)).perform(click());
+        onView(withId(R.id.message_fragment)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void press_profile_display_fragments() {
         onView(withId(R.id.bar_profile)).perform(click());
+        onView(withId(R.id.profile_fragment)).check(matches(isDisplayed()));
     }
 }

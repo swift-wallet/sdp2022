@@ -39,6 +39,7 @@ android {
 
 dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
+    implementation 'com.google.firebase:firebase-firestore:24.0.1'
     def fragment_version = "1.4.1"
     implementation 'com.android.volley:volley:1.2.1'
     implementation 'androidx.appcompat:appcompat:1.4.1'
@@ -99,4 +100,9 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'crea
 
 connectedCheck {
     finalizedBy jacocoTestReport
+}
+
+// Do not remove this part, required because protobuf conflicts with firebase when using Espresso
+configurations.configureEach {
+    exclude group: "com.google.protobuf", module: "protobuf-lite"
 }

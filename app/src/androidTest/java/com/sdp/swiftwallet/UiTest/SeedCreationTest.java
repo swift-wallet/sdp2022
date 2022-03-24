@@ -14,12 +14,15 @@ import static org.junit.Assert.fail;
 
 import android.widget.EditText;
 
+import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 
 import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.domain.model.wallet.cryptography.SeedGenerator;
 import com.sdp.swiftwallet.presentation.wallet.CreateSeedActivity;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,6 +34,16 @@ public class SeedCreationTest {
     public static final String correctSeed = "add juu ss ll dd";
     @Rule
     public ActivityScenarioRule<CreateSeedActivity> testRule = new ActivityScenarioRule<>(CreateSeedActivity.class);
+
+    @Before
+    public void setUp() throws Exception {
+        Intents.init();
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        Intents.release();
+    }
 
     @Test
     public void shouldGenerateASeedOnStart(){
