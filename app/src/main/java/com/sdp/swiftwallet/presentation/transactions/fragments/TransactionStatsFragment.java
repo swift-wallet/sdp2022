@@ -2,16 +2,14 @@ package com.sdp.swiftwallet.presentation.transactions.fragments;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.data.PieData;
@@ -48,15 +46,6 @@ public class TransactionStatsFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-
-        pieChart = rootAct.findViewById(R.id.transaction_pieChart);
-        setupPieChart();
-        loadPieChartData();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
 
         pieChart = rootAct.findViewById(R.id.transaction_pieChart);
         setupPieChart();
@@ -114,11 +103,11 @@ public class TransactionStatsFragment extends Fragment {
         }
 
         ArrayList<Integer> colors = new ArrayList<>();
-        for (int color: ColorTemplate.MATERIAL_COLORS) {
+        for (int color : ColorTemplate.MATERIAL_COLORS) {
             colors.add(color);
         }
 
-        for (int color: ColorTemplate.VORDIPLOM_COLORS) {
+        for (int color : ColorTemplate.VORDIPLOM_COLORS) {
             colors.add(color);
         }
 
@@ -133,7 +122,5 @@ public class TransactionStatsFragment extends Fragment {
 
         pieChart.setData(data);
         pieChart.invalidate();
-
-        pieChart.animateY(1400, Easing.EaseInOutQuad);
     }
 }

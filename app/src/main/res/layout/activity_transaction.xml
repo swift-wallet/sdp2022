@@ -10,6 +10,7 @@
         android:id="@+id/transaction_historyButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:onClick="openHistory"
         android:text="History"
         app:layout_constraintEnd_toStartOf="@+id/transaction_statsButton"
         app:layout_constraintHorizontal_bias="0.5"
@@ -20,15 +21,15 @@
         android:id="@+id/transaction_statsButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:onClick="openStats"
         android:text="Stats"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/transaction_historyButton"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <fragment
-        android:name="com.sdp.swiftwallet.presentation.transactions.fragments.TransactionStatsFragment"
-        android:id="@+id/transaction_fragment"
+    <FrameLayout
+        android:id="@+id/transaction_flFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"

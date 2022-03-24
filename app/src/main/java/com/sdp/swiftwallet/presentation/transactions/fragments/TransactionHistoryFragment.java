@@ -1,18 +1,16 @@
 package com.sdp.swiftwallet.presentation.transactions.fragments;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import com.sdp.cryptowalletapp.R;
-import com.sdp.swiftwallet.TransactionHistoryActivity;
 import com.sdp.swiftwallet.domain.model.Transaction;
 import com.sdp.swiftwallet.domain.model.TransactionAdapter;
 import com.sdp.swiftwallet.presentation.transactions.TransactionActivity;
