@@ -1,8 +1,9 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/payment_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.sdp.swiftwallet.presentation.fragments.PaymentFragment">
+    tools:context="com.sdp.swiftwallet.presentation.main.fragments.PaymentFragment">
 
     <TextView
         android:layout_width="match_parent"
@@ -10,6 +11,7 @@
         android:text="@string/nav_send"
         android:textSize="@dimen/nav_title"
         android:layout_margin="@dimen/nav_title_margin"
-        android:textColor="@color/black"/>
+        android:textColor="@color/black"
+        android:gravity="center"/>
 
 </FrameLayout>

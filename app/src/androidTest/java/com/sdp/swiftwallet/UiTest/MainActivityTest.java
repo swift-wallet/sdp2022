@@ -11,10 +11,7 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule;
 
 import com.sdp.cryptowalletapp.R;
 
-import com.sdp.swiftwallet.MainActivity;
-import com.sdp.swiftwallet.data.repository.UserDatabase;
-import com.sdp.swiftwallet.domain.model.User;
-import com.sdp.swiftwallet.presentation.fragments.ProfileFragment;
+import com.sdp.swiftwallet.presentation.main.MainActivity;
 
 import org.junit.After;
 import org.junit.Before;
@@ -51,11 +48,32 @@ public class MainActivityTest {
     }
 
     @Test
-    public void click_display_fragments() {
+    public void press_home_display_fragments() {
         onView(withId(R.id.bar_home)).perform(click());
+        onView(withId(R.id.home_fragment)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void press_stats_display_fragments() {
         onView(withId(R.id.bar_stats)).perform(click());
+        onView(withId(R.id.stats_fragment)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void press_payment_display_fragments() {
         onView(withId(R.id.bar_payment)).perform(click());
+        onView(withId(R.id.payment_fragment)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void press_message_display_fragments() {
         onView(withId(R.id.bar_message)).perform(click());
+        onView(withId(R.id.message_fragment)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void press_profile_display_fragments() {
         onView(withId(R.id.bar_profile)).perform(click());
+        onView(withId(R.id.profile_fragment)).check(matches(isDisplayed()));
     }
 }

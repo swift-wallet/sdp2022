@@ -17,7 +17,7 @@ import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.TransactionHistoryActivity;
 import com.sdp.swiftwallet.domain.model.Currency;
 import com.sdp.swiftwallet.domain.model.Transaction;
-import com.sdp.swiftwallet.domain.model.TransactionHistoryGenerator;
+import com.sdp.swiftwallet.domain.repository.TransactionHistoryGenerator;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

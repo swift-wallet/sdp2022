@@ -8,7 +8,7 @@ public class WalletKeyPair {
     private ECKeyPair keyPair;
     private String hexPublicKey;
     private int ID;
-    protected WalletKeyPair(ECKeyPair keyPair, int ID){
+    public WalletKeyPair(ECKeyPair keyPair, int ID){
         byte[] encodedPK = Hash.sha3(keyPair.getPublicKey().toString(16).getBytes());
         byte[] finalPK = new byte[20];
         System.arraycopy(encodedPK, 12, finalPK, 0, 20);
@@ -16,7 +16,7 @@ public class WalletKeyPair {
         this.hexPublicKey = Numeric.toHexString(finalPK);
         this.ID = ID;
     }
-    protected WalletKeyPair(ECKeyPair keyPair, String hexPublicKey, int ID){
+    public WalletKeyPair(ECKeyPair keyPair, String hexPublicKey, int ID){
         this.keyPair = keyPair;
         this.hexPublicKey = hexPublicKey;
         this.ID = ID;
