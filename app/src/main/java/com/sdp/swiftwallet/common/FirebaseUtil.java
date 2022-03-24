@@ -6,7 +6,7 @@ import com.sdp.cryptowalletapp.BuildConfig;
 
 public class FirebaseUtil {
     /** Use emulators only in debug builds **/
-    private static final boolean sUseEmulators = BuildConfig.DEBUG;
+    private static final boolean sUseEmulators = false;
     private static final int FIREBASE_AUTH_EMULATOR_HOST = 9099;
     private static final int FIREBASE_FIRESTORE_EMULATOR_HOST = 8080;
 
