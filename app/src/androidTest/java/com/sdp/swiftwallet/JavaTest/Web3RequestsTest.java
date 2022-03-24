@@ -1,4 +1,4 @@
-package com.sdp.swiftwallet;
+package com.sdp.swiftwallet.JavaTest;
 
 import static org.junit.Assert.fail;
 
