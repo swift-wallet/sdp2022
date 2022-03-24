@@ -42,6 +42,11 @@
     <string name="balance_label_text">Balance:</string>
     <string name="ether_logo_description">The ether currency logo</string>
     <string name="random_example_address">0x000000000000000000000000000000000000dead</string>
+    <string name="no_seed">Your seed is not setup</string>
+    <string name="setup_seed">Setup your seed</string>
+    <string name="seed_info">A seed is a secret key made of random words for you to keep your wallets, you need to keep it in a secret place.</string>
+    <string name="generate_seed">Generate a seed</string>
+    <string name="save_seed">Save this seed</string>
 
     <!-- NAVIGATION -->
     <string name="nav_message">Conversations</string>

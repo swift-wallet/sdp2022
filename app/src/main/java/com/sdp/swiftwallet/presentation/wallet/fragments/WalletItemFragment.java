@@ -1,4 +1,4 @@
-package com.sdp.swiftwallet.presentation.main.wallets.fragments;
+package com.sdp.swiftwallet.presentation.wallet.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -13,8 +13,6 @@ import android.view.ViewGroup;
 
 import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.domain.model.wallet.WalletKeyPair;
-import com.sdp.swiftwallet.presentation.main.wallets.WalletItem;
-import com.sdp.swiftwallet.presentation.main.wallets.WalletItemRecyclerViewAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,22 +24,16 @@ import java.util.Random;
 public class WalletItemFragment extends Fragment {
     private List<WalletItem> walletItems;
     private WalletItemRecyclerViewAdapter walletItemRecyclerViewAdapter;
-    /**
-     * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
-     */
+
     public WalletItemFragment() {
-    }
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         walletItems = new ArrayList<>();
+        walletItemRecyclerViewAdapter = new WalletItemRecyclerViewAdapter(walletItems);
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_wallet_item_list, container, false);
-        walletItemRecyclerViewAdapter = new WalletItemRecyclerViewAdapter(walletItems);
         // Set the adapter
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
@@ -55,7 +47,7 @@ public class WalletItemFragment extends Fragment {
     public void addWalletItem(WalletKeyPair keyPair){
         int count = walletItemRecyclerViewAdapter.getItemCount();
         WalletItem newItem = new WalletItem(keyPair.getHexPublicKey());
-        //This is only for testing purposes
+        //This is only for demo purposes
         newItem.updateBalance(Math.abs(new Random().nextDouble()));
         walletItems.add(newItem);
         walletItemRecyclerViewAdapter.notifyItemChanged(count);
