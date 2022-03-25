@@ -1,6 +1,8 @@
 package com.sdp.swiftwallet.domain.model;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,13 +12,15 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.sdp.cryptowalletapp.R;
+import com.sdp.swiftwallet.CryptoGraphActivity;
+import com.sdp.swiftwallet.CryptoValuesActivity;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class CurrencyAdapter extends RecyclerView.Adapter<CurrencyAdapter.ViewHolder> {
-    private ArrayList<Currency> currencyArrayList;
-    private final Context context;
+    private static ArrayList<Currency> currencyArrayList;
+    private static Context context;
     private static final DecimalFormat currencyValueFormat = new DecimalFormat("#.##");
 
     public CurrencyAdapter(ArrayList<Currency> currencyArrayList, Context context) {
@@ -59,6 +63,18 @@ public class CurrencyAdapter extends RecyclerView.Adapter<CurrencyAdapter.ViewHo
             nameTextView = itemView.findViewById(R.id.idTextViewName);
             symbolTextView = itemView.findViewById(R.id.idTextViewSymbol);
             valueTextView = itemView.findViewById(R.id.idTextViewValue);
+
+            itemView.setOnClickListener(new View.OnClickListener(){
+
+                @Override
+                public void onClick(View view) {
+
+                    Intent intent = new Intent(context, CryptoGraphActivity.class);
+                    int pos = getAbsoluteAdapterPosition();
+                    intent.putExtra("currency", currencyArrayList.get(pos));
+                    context.startActivity(intent);
+                }
+            });
         }
     }
 }
