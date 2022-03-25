@@ -1,5 +1,6 @@
 package com.sdp.swiftwallet;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -29,7 +30,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CryptoValuesActivity extends AppCompatActivity {
-
     private ProgressBar progressBar;
     private ArrayList<Currency> currencyArrayList;
     private CurrencyAdapter currencyAdapter;
@@ -120,4 +120,5 @@ public class CryptoValuesActivity extends AppCompatActivity {
         };
         requestQueue.add(jsonObjectRequest);
     }
+
 }
