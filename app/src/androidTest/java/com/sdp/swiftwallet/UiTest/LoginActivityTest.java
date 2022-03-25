@@ -35,6 +35,7 @@ import androidx.test.rule.ActivityTestRule;
 
 import com.sdp.cryptowalletapp.R;
 
+import com.sdp.swiftwallet.presentation.signIn.ForgotPasswordActivity;
 import com.sdp.swiftwallet.presentation.signIn.LoginActivity;
 import com.sdp.swiftwallet.presentation.main.MainActivity;
 import com.sdp.swiftwallet.presentation.signIn.RegisterActivity;
@@ -180,4 +181,20 @@ public class LoginActivityTest {
                 hasComponent(hasClassName(RegisterActivity.class.getName()))
         ));
     }
+
+
+    public void press_forgot_pw_firesForgotActivity(){
+        onView(withId(R.id.forgotPassword)).perform(click());
+        intended(allOf(
+            toPackage("com.sdp.swiftwallet"),
+            hasComponent(hasClassName(ForgotPasswordActivity.class.getName()))
+        ));
+    }
+
+    @Test
+    public void components_are_correctly_displayed() {
+        onView(withId(R.id.forgotPassword)).check(matches(isDisplayed()));
+        onView(withId(R.id.register)).check(matches(isDisplayed()));
+    }
+
 }

@@ -29,4 +29,6 @@ public class DatabaseTest {
     assertEquals("admin", db.getUser(0).getUsername());
   }
 
+
+
 }
