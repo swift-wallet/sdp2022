@@ -15,7 +15,6 @@ import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.sdp.cryptowalletapp.R;
-import com.sdp.swiftwallet.TransactionHistoryActivity;
 import com.sdp.swiftwallet.domain.model.Currency;
 import com.sdp.swiftwallet.domain.model.Transaction;
 import com.sdp.swiftwallet.domain.repository.TransactionHistoryGenerator;
