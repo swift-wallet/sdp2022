@@ -1,6 +1,7 @@
 package com.sdp.swiftwallet.UiTest;
 
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
@@ -18,7 +19,9 @@ import com.sdp.swiftwallet.TransactionHistoryActivity;
 import com.sdp.swiftwallet.domain.model.Currency;
 import com.sdp.swiftwallet.domain.model.Transaction;
 import com.sdp.swiftwallet.domain.repository.TransactionHistoryGenerator;
+import com.sdp.swiftwallet.presentation.transactions.TransactionActivity;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -42,17 +45,85 @@ public class TransactionActivityTest {
         }
     }
 
+    private Intent i;
 
-    @Test
-    public void test() {
-        Intent intent = new Intent(ApplicationProvider.getApplicationContext(), TransactionHistoryActivity.class);
-        intent.putExtra(
+    @Before
+    public void setupIntent() {
+        i = new Intent(ApplicationProvider.getApplicationContext(), TransactionActivity.class);
+        i.putExtra(
                 ApplicationProvider.getApplicationContext().getString(R.string.transactionHistoryGeneratorExtraKey),
                 (Parcelable) new DummyTransactionGenerator()
         );
+    }
 
-        try (ActivityScenario<TransactionHistoryActivity> scenario = ActivityScenario.launch(intent)) {
-            onView(withId(R.id.transactionsRecyclerView)).check(matches(isDisplayed()));
+    @Test
+    public void historyButtonIsDisplayed() {
+        try (ActivityScenario<TransactionActivity> scenario = ActivityScenario.launch(i)) {
+            onView(withId(R.id.transaction_historyButton)).check(matches(isDisplayed()));
+        }
+    }
+
+    @Test
+    public void statsButtonIsDisplayed() {
+        try (ActivityScenario<TransactionActivity> scenario = ActivityScenario.launch(i)) {
+            onView(withId(R.id.transaction_statsButton)).check(matches(isDisplayed()));
+        }
+    }
+
+    @Test
+    public void fragmentLayoutIsDisplayed() {
+        try (ActivityScenario<TransactionActivity> scenario = ActivityScenario.launch(i)) {
+            onView(withId(R.id.transaction_flFragment)).check(matches(isDisplayed()));
+        }
+    }
+
+    @Test
+    public void activityStartsWithHistoryFragmentDisplayed() {
+        try (ActivityScenario<TransactionActivity> scenario = ActivityScenario.launch(i)) {
+            onView(withId(R.id.transaction_historyFragment)).check(matches(isDisplayed()));
+        }
+    }
+
+    @Test
+    public void historyButtonDisplaysHistoryFragment() {
+        try (ActivityScenario<TransactionActivity> scenario = ActivityScenario.launch(i)) {
+            onView(withId(R.id.transaction_historyButton)).perform(click());
+            onView(withId(R.id.transaction_historyFragment)).check(matches(isDisplayed()));
+        }
+    }
+
+    @Test
+    public void statsButtonDisplaysStatsFragment() {
+        try (ActivityScenario<TransactionActivity> scenario = ActivityScenario.launch(i)) {
+            onView(withId(R.id.transaction_statsButton)).perform(click());
+            onView(withId(R.id.transaction_statsFragment)).check(matches(isDisplayed()));
+        }
+    }
+
+    @Test
+    public void canSwitchBackToHistoryFragmentAfterGoingToStats() {
+        try (ActivityScenario<TransactionActivity> scenario = ActivityScenario.launch(i)) {
+            onView(withId(R.id.transaction_statsButton)).perform(click());
+            onView(withId(R.id.transaction_historyButton)).perform(click());
+            onView(withId(R.id.transaction_historyFragment)).check(matches(isDisplayed()));
+        }
+    }
+
+    @Test
+    public void recyclerViewIsDisplayedInHistoryFragment() {
+        try (ActivityScenario<TransactionActivity> scenario = ActivityScenario.launch(i)) {
+            onView(withId(R.id.transaction_historyButton)).perform(click());
+            onView(withId(R.id.transaction_historyFragment)).check(matches(isDisplayed()));
+            onView(withId(R.id.transaction_recyclerView)).check(matches(isDisplayed()));
+        }
+    }
+
+    @Test
+    public void pieChartIsDisplayedInStatsFragment() {
+        try (ActivityScenario<TransactionActivity> scenario = ActivityScenario.launch(i)) {
+            onView(withId(R.id.transaction_statsButton)).perform(click());
+            onView(withId(R.id.transaction_statsFragment)).check(matches(isDisplayed()));
+            onView(withId(R.id.transaction_pieChart)).check(matches(isDisplayed()));
         }
     }
 

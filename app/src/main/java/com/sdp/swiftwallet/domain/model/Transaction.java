@@ -81,6 +81,13 @@ public class Transaction {
         return transactionID;
     }
 
+    /**
+     * Getter for the currency
+     *
+     * @return the currency of this transaction
+     */
+    public Currency getCurr() { return curr; }
+
     @Override
     public String toString() {
         if (amount < 0) {
