@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -25,13 +24,11 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.BuildConfig;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
-import com.kenai.jffi.Main;
 import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.common.FirebaseUtil;
 import com.sdp.swiftwallet.presentation.main.MainActivity;
@@ -69,6 +66,12 @@ public class LoginActivity extends AppCompatActivity {
 
         Button loginBtn = findViewById(R.id.loginButton);
         loginBtn.setOnClickListener(v -> login());
+
+      //Sets up the forgot password recover option for users
+        TextView forgoPwTv = findViewById(R.id.forgotPassword);
+        forgoPwTv.setOnClickListener(v ->
+          startActivity(new Intent(this, ForgotPasswordActivity.class))
+        );
 
         TextView registerTv = findViewById(R.id.register);
         registerTv.setOnClickListener(v ->

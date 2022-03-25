@@ -1,4 +1,4 @@
-package com.sdp.swiftwallet;
+package com.sdp.swiftwallet.JavaTest;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
