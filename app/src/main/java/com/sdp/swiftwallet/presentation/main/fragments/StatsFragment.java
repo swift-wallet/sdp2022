@@ -12,7 +12,7 @@ import android.widget.Button;
 
 import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.CryptoValuesActivity;
-import com.sdp.swiftwallet.TransactionHistoryActivity;
+import com.sdp.swiftwallet.presentation.transactions.TransactionActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -41,7 +41,7 @@ public class StatsFragment extends Fragment {
         startActivity(intent);
     }
     private void startTransactionHistory(){
-        Intent intent = new Intent(getContext(), TransactionHistoryActivity.class);
+        Intent intent = new Intent(getContext(), TransactionActivity.class);
         startActivity(intent);
     }
 }
