@@ -23,7 +23,7 @@
             android:exported="false"
             android:parentActivityName="com.sdp.swiftwallet.presentation.main.MainActivity"/>
         <activity
-            android:name="com.sdp.swiftwallet.TransactionHistoryActivity"
+            android:name="com.sdp.swiftwallet.presentation.transactions.TransactionActivity"
             android:exported="false"
             android:parentActivityName="com.sdp.swiftwallet.presentation.main.MainActivity" />
         <activity
