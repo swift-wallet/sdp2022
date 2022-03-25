@@ -65,7 +65,6 @@ dependencies {
     androidTestImplementation 'com.adevinta.android:barista:4.2.0'
     debugImplementation "androidx.fragment:fragment-testing:$fragment_version"
     androidTestImplementation "androidx.navigation:navigation-testing:2.4.1"
-
 }
 
 tasks.withType(Test) {
