@@ -41,7 +41,7 @@ public class WalletInfoActivityTest {
         );
         testIntent.putExtra(
                 WalletInfoActivity.ADDRESS_EXTRA,
-                mockBalance
+                mockAddress
         );
     }
     @Test
