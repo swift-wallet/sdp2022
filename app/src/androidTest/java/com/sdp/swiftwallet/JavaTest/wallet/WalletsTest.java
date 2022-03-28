@@ -14,8 +14,8 @@ public class WalletsTest {
     private final static int mockCounter = 10;
     @Test
     public void creatingAnObjectShouldWork(){
-        Wallets wallets = new Wallets(SeedGenerator.generateSeed());
-        wallets = new Wallets(SeedGenerator.generateSeed(), mockCounter);
+        new Wallets(SeedGenerator.generateSeed());
+        new Wallets(SeedGenerator.generateSeed(), mockCounter);
     }
 
     @Test
@@ -34,5 +34,21 @@ public class WalletsTest {
         Web3Requests web3Requests = new Web3Requests();
         WalletKeyPair walletKeyPair = WalletKeyPair.fromKeyPair(keyPairGenerator.generateKeyPair(), id, web3Requests);
         assert(wallets.getWalletFromId(id).getHexPublicKey().equals(walletKeyPair.getHexPublicKey()));
+    }
+    @Test
+    public void getCounterShouldWork(){
+        Wallets wallets = new Wallets(SeedGenerator.generateSeed(), mockCounter);
+        assert(mockCounter == wallets.getCounter());
+    }
+    @Test
+    public void getWalletsShouldWork(){
+        String[] seed = SeedGenerator.generateSeed();
+        KeyPairGenerator keyPairGenerator = new KeyPairGenerator(SeedGenerator.stringSeedToLong(seed));
+        Wallets wallets = new Wallets(seed, 0);
+        int id = wallets.generateWallet();
+        assert(id == wallets.getCounter()-1);
+        Web3Requests web3Requests = new Web3Requests();
+        WalletKeyPair walletKeyPair = WalletKeyPair.fromKeyPair(keyPairGenerator.generateKeyPair(), id, web3Requests);
+        assert(wallets.getWallets()[0].getHexPublicKey().equals(walletKeyPair.getHexPublicKey()));
     }
 }

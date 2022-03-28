@@ -1,8 +1,10 @@
 package com.sdp.swiftwallet.JavaTest.wallet;
+import com.sdp.swiftwallet.JavaTest.mocks.MockWeb3Requests;
 import com.sdp.swiftwallet.data.repository.Web3Requests;
 import com.sdp.swiftwallet.domain.model.wallet.WalletKeyPair;
 import com.sdp.swiftwallet.domain.model.wallet.cryptography.KeyPairGenerator;
 import com.sdp.swiftwallet.domain.model.wallet.cryptography.SeedGenerator;
+import com.sdp.swiftwallet.domain.repository.IWeb3Requests;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -28,7 +30,7 @@ public class WalletKeyPairTest {
 
     @Test
     public void creatingAnObjectShouldWork(){
-        WalletKeyPair walletKeyPair = WalletKeyPair.fromKeyPair(ecKeyPair,mockID, web3Requests);
+        WalletKeyPair.fromKeyPair(ecKeyPair,mockID, web3Requests);
     }
 
     @Test
@@ -41,5 +43,15 @@ public class WalletKeyPairTest {
     public void nativeBalanceGetterShouldWork(){
         WalletKeyPair walletKeyPair = WalletKeyPair.fromKeyPair(ecKeyPair, mockID, web3Requests);
         assert( walletKeyPair.getNativeBalance().equals(BigInteger.ZERO) );
+    }
+
+    @Test
+    public void updatingBalanceShouldWork(){
+        IWeb3Requests mockWeb3 = new MockWeb3Requests();
+        WalletKeyPair walletKeyPair = WalletKeyPair.fromKeyPair(ecKeyPair, mockID, mockWeb3);
+        BigInteger oldBalance = walletKeyPair.getNativeBalance();
+        walletKeyPair.updateBalance();
+        BigInteger newBalance = walletKeyPair.getNativeBalance();
+        assert(!oldBalance.equals(newBalance));
     }
 }
