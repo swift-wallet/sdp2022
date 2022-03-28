@@ -22,8 +22,8 @@ import java.util.Random;
  * A fragment representing a list of Items.
  */
 public class WalletItemFragment extends Fragment {
-    private List<WalletItem> walletItems;
-    private WalletItemRecyclerViewAdapter walletItemRecyclerViewAdapter;
+    private final List<WalletItem> walletItems;
+    private final WalletItemRecyclerViewAdapter walletItemRecyclerViewAdapter;
 
     public WalletItemFragment() {
         walletItems = new ArrayList<>();
