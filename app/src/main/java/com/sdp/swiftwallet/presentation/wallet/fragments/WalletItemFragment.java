@@ -16,7 +16,6 @@ import com.sdp.swiftwallet.domain.model.wallet.WalletKeyPair;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 /**
  * A fragment representing a list of wallet items.

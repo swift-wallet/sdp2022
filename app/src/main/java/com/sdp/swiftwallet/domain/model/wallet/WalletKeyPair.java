@@ -1,7 +1,5 @@
 package com.sdp.swiftwallet.domain.model.wallet;
 
-import android.util.Log;
-
 import com.sdp.swiftwallet.data.repository.Web3Requests;
 
 import org.web3j.crypto.ECKeyPair;
