@@ -1,4 +1,5 @@
 package com.sdp.swiftwallet.JavaTest.wallet;
+import com.sdp.swiftwallet.data.repository.Web3Requests;
 import com.sdp.swiftwallet.domain.model.wallet.WalletKeyPair;
 import com.sdp.swiftwallet.domain.model.wallet.Wallets;
 import com.sdp.swiftwallet.domain.model.wallet.cryptography.KeyPairGenerator;
@@ -30,7 +31,8 @@ public class WalletsTest {
         Wallets wallets = new Wallets(seed, 0);
         int id = wallets.generateWallet();
         assert(id == wallets.getCounter()-1);
-        WalletKeyPair walletKeyPair = new WalletKeyPair(keyPairGenerator.generateKeyPair(), id);
+        Web3Requests web3Requests = new Web3Requests();
+        WalletKeyPair walletKeyPair = WalletKeyPair.fromKeyPair(keyPairGenerator.generateKeyPair(), id, web3Requests);
         assert(wallets.getWalletFromId(id).getHexPublicKey().equals(walletKeyPair.getHexPublicKey()));
     }
 }

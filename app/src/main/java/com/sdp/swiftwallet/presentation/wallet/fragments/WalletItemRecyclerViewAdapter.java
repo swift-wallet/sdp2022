@@ -29,8 +29,8 @@ public class WalletItemRecyclerViewAdapter extends RecyclerView.Adapter<WalletIt
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.item = mValues.get(position);
-        holder.addressView.setText(mValues.get(position).address);
-        holder.balanceView.setText(String.valueOf(mValues.get(position).balance));
+        holder.addressView.setText(mValues.get(position).getAddress());
+        holder.balanceView.setText(mValues.get(position).getBalance());
     }
 
     @Override

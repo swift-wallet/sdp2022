@@ -1,4 +1,5 @@
 package com.sdp.swiftwallet.JavaTest.wallet;
+import com.sdp.swiftwallet.data.repository.Web3Requests;
 import com.sdp.swiftwallet.domain.model.wallet.WalletKeyPair;
 import com.sdp.swiftwallet.domain.model.wallet.cryptography.KeyPairGenerator;
 import com.sdp.swiftwallet.domain.model.wallet.cryptography.SeedGenerator;
@@ -9,20 +10,36 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import org.web3j.crypto.ECKeyPair;
 
+import java.math.BigInteger;
+
 @RunWith(JUnit4.class)
 public class WalletKeyPairTest {
     ECKeyPair ecKeyPair;
     KeyPairGenerator keyPairGenerator;
     public final static int mockID = 10;
+    Web3Requests web3Requests;
+
     @Before
     public void init(){
         keyPairGenerator = new KeyPairGenerator(SeedGenerator.stringSeedToLong(SeedGenerator.generateSeed()));
         ecKeyPair = keyPairGenerator.generateKeyPair();
+        web3Requests = new Web3Requests();
     }
 
     @Test
     public void creatingAnObjectShouldWork(){
-        WalletKeyPair walletKeyPair = new WalletKeyPair(ecKeyPair,mockID);
-        walletKeyPair = new WalletKeyPair(ecKeyPair, "mock", mockID);
+        WalletKeyPair walletKeyPair = WalletKeyPair.fromKeyPair(ecKeyPair,mockID, web3Requests);
+    }
+
+    @Test
+    public void idGetterShouldWork(){
+        WalletKeyPair walletKeyPair = WalletKeyPair.fromKeyPair(ecKeyPair, mockID, web3Requests);
+        assert( walletKeyPair.getID() == mockID );
+    }
+
+    @Test
+    public void nativeBalanceGetterShouldWork(){
+        WalletKeyPair walletKeyPair = WalletKeyPair.fromKeyPair(ecKeyPair, mockID, web3Requests);
+        assert( walletKeyPair.getNativeBalance().equals(BigInteger.ZERO) );
     }
 }

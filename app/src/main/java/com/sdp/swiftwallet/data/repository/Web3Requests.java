@@ -11,7 +11,7 @@ import java.util.concurrent.CompletableFuture;
 
 public class Web3Requests {
     private final static String INFURA_API = "https://mainnet.infura.io/v3/33d8d39a78464db1b58bdd016f274760";
-    private Web3j web3;
+    private final Web3j web3;
 
     public Web3Requests(){
         web3 = Web3j.build(new HttpService(INFURA_API));
