@@ -1,5 +1,7 @@
 package com.sdp.swiftwallet.domain.model.wallet;
 
+import android.util.Log;
+
 import com.sdp.swiftwallet.data.repository.Web3Requests;
 
 import org.web3j.crypto.ECKeyPair;
@@ -12,7 +14,7 @@ public class WalletKeyPair {
     private ECKeyPair keyPair;
     private String hexPublicKey;
     private int ID;
-    private BigInteger nativeBalance;
+    private BigInteger nativeBalance = BigInteger.ZERO;
     private Web3Requests web3Requests;
 
     private WalletKeyPair(ECKeyPair keyPair, String hexPublicKey, int ID, Web3Requests web3Requests){
@@ -29,9 +31,7 @@ public class WalletKeyPair {
         return new WalletKeyPair(keyPair, Numeric.toHexString(finalPK), ID, web3Requests);
     }
     private void updateBalance() {
-        try{
-            this.nativeBalance = web3Requests.getBalanceOf(this.hexPublicKey);
-        }catch (Exception ignored){}
+        web3Requests.getFutureBalanceOf(this.hexPublicKey).thenAccept((nativeBalance) -> { this.nativeBalance = nativeBalance; });
     }
     public BigInteger getNativeBalance(){ return nativeBalance; }
     public int getID() {

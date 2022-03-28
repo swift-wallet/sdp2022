@@ -21,6 +21,7 @@
             android:textAlignment="center"
             android:text="@string/address_label_text"/>
         <TextView
+            android:id="@+id/wallet_info_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAlignment="center"
@@ -34,6 +35,7 @@
             android:textAlignment="center"
             android:text="@string/balance_label_text"/>
         <TextView
+            android:id="@+id/wallet_info_balance"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAlignment="center"

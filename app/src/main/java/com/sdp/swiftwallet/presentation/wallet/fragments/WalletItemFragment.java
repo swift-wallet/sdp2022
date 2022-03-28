@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * A fragment representing a list of Items.
+ * A fragment representing a list of wallet items.
  */
 public class WalletItemFragment extends Fragment {
     private final List<WalletItem> walletItems;
