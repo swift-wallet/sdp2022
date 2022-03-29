@@ -45,7 +45,8 @@ public class Wallets implements IWallets {
 
     @Override
     public WalletKeyPair[] getWallets() {
-        return (WalletKeyPair[]) keyPairs.clone();
+        WalletKeyPair[] walletKeyPairs = new WalletKeyPair[counter];
+        return keyPairs.toArray(walletKeyPairs).clone();
     }
 
     @Override

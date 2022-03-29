@@ -1,4 +1,6 @@
 package com.sdp.swiftwallet.JavaTest.wallet;
+import android.util.Log;
+
 import com.sdp.swiftwallet.JavaTest.mocks.MockWeb3Requests;
 import com.sdp.swiftwallet.data.repository.Web3Requests;
 import com.sdp.swiftwallet.domain.model.wallet.WalletKeyPair;
@@ -49,9 +51,9 @@ public class WalletKeyPairTest {
     public void updatingBalanceShouldWork(){
         IWeb3Requests mockWeb3 = new MockWeb3Requests();
         WalletKeyPair walletKeyPair = WalletKeyPair.fromKeyPair(ecKeyPair, mockID, mockWeb3);
-        BigInteger oldBalance = walletKeyPair.getNativeBalance();
         walletKeyPair.updateBalance();
-        BigInteger newBalance = walletKeyPair.getNativeBalance();
-        assert(!oldBalance.equals(newBalance));
+        mockWeb3.getBalanceOf(walletKeyPair.getHexPublicKey()).join();
+        BigInteger balance = walletKeyPair.getNativeBalance();
+        assert(!balance.equals(BigInteger.ZERO));
     }
 }
