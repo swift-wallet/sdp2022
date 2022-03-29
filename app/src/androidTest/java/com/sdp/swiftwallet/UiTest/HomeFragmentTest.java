@@ -92,6 +92,7 @@ public class HomeFragmentTest {
     @Test
     public void shouldBeAbleToSeeConfigureButtonsWhenNoSeed(){
         try (ActivityScenario<MainActivity> scenario = ActivityScenario.launch(setupReset())) {
+            scenario.moveToState(Lifecycle.State.RESUMED);
             onView(withId(R.id.seed_setup)).check(matches(isDisplayed()));
             onView(withId(R.id.seed_not_setup)).check(matches(isDisplayed()));
         }
@@ -99,6 +100,7 @@ public class HomeFragmentTest {
     @Test
     public void shouldBeAbleToLaunchSeedActivityWhenNoSeed(){
         try (ActivityScenario<MainActivity> scenario = ActivityScenario.launch(setupReset())) {
+            scenario.moveToState(Lifecycle.State.RESUMED);
             clickOn(R.id.seed_setup);
             intended(hasComponent(CreateSeedActivity.class.getName()));
         }
@@ -106,6 +108,7 @@ public class HomeFragmentTest {
     @Test
     public void shouldBeAbleToCreateAddressesWhenSeed(){
         try (ActivityScenario<MainActivity> scenario = ActivityScenario.launch(setupValid())) {
+            scenario.moveToState(Lifecycle.State.RESUMED);
             onView(withId(R.id.create_address_button)).check(matches(isDisplayed()));
             clickOn(R.id.create_address_button);
             onView(withId(R.id.home_nested_frag_container)).check(matches(hasMinimumChildCount(1)));
