@@ -69,15 +69,13 @@ public class HomeFragmentTest {
         resetPrefs(context);
     }
 
-    public void setupReset(){
-        Intent intent = new Intent(context, MainActivity.class);
-        testScenario = ActivityScenario.launch(intent);
+    public Intent setupReset(){
+        return new Intent(context, MainActivity.class);
     }
 
-    public void setupValid(){
+    public Intent setupValid(){
         setValidSeedAndCounter(context);
-        Intent intent = new Intent(context, MainActivity.class);
-        testScenario = ActivityScenario.launch(intent);
+        return new Intent(context, MainActivity.class);
     }
 
 
@@ -93,21 +91,24 @@ public class HomeFragmentTest {
 
     @Test
     public void shouldBeAbleToSeeConfigureButtonsWhenNoSeed(){
-        setupReset();
-        onView(withId(R.id.seed_setup)).check(matches(isDisplayed()));
-        onView(withId(R.id.seed_not_setup)).check(matches(isDisplayed()));
+        try (ActivityScenario<MainActivity> scenario = ActivityScenario.launch(setupReset())) {
+            onView(withId(R.id.seed_setup)).check(matches(isDisplayed()));
+            onView(withId(R.id.seed_not_setup)).check(matches(isDisplayed()));
+        }
     }
     @Test
     public void shouldBeAbleToLaunchSeedActivityWhenNoSeed(){
-        setupReset();
-        clickOn(R.id.seed_setup);
-        intended(hasComponent(CreateSeedActivity.class.getName()));
+        try (ActivityScenario<MainActivity> scenario = ActivityScenario.launch(setupReset())) {
+            clickOn(R.id.seed_setup);
+            intended(hasComponent(CreateSeedActivity.class.getName()));
+        }
     }
     @Test
     public void shouldBeAbleToCreateAddressesWhenSeed(){
-        setupValid();
-        onView(withId(R.id.create_address_button)).check(matches(isDisplayed()));
-        clickOn(R.id.create_address_button);
-        onView(withId(R.id.home_nested_frag_container)).check(matches(hasMinimumChildCount(1)));
+        try (ActivityScenario<MainActivity> scenario = ActivityScenario.launch(setupValid())) {
+            onView(withId(R.id.create_address_button)).check(matches(isDisplayed()));
+            clickOn(R.id.create_address_button);
+            onView(withId(R.id.home_nested_frag_container)).check(matches(hasMinimumChildCount(1)));
+        }
     }
 }
