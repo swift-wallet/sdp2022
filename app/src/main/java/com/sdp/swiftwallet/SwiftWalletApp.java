@@ -2,17 +2,17 @@ package com.sdp.swiftwallet;
 
 import android.app.Application;
 
-import com.sdp.swiftwallet.domain.repository.FirebaseTransactionHistoryProducer;
+import com.sdp.swiftwallet.domain.repository.TransactionHistoryProducer;
 
 public class SwiftWalletApp extends Application {
-    private FirebaseTransactionHistoryProducer transactionHistoryProducer;
+    private TransactionHistoryProducer transactionHistoryProducer = null;
 
     /**
      * Getter for the TransactionHistoryProducer
      *
      * @return the TransactionHistoryProducer
      */
-    public FirebaseTransactionHistoryProducer getTransactionHistoryProducer() {
+    public TransactionHistoryProducer getTransactionHistoryProducer() {
         return transactionHistoryProducer;
     }
 
@@ -21,7 +21,10 @@ public class SwiftWalletApp extends Application {
      *
      * @param transactionHistoryProducer the new TransactionHistoryProducer
      */
-    public void setTransactionHistoryProducer(FirebaseTransactionHistoryProducer transactionHistoryProducer) {
+    public void setTransactionHistoryProducer(TransactionHistoryProducer transactionHistoryProducer) {
+        if (transactionHistoryProducer == null) {
+            throw new IllegalArgumentException("Null HistoryProducer");
+        }
         this.transactionHistoryProducer = transactionHistoryProducer;
     }
 }
