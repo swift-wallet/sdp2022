@@ -88,6 +88,20 @@ public class Transaction {
      */
     public Currency getCurr() { return curr; }
 
+    /**
+     * Getter for the wallet of the user
+     *
+     * @return the wallet of the user
+     */
+    public String getMyWallet() { return myWallet; }
+
+    /**
+     * Getter for the wallet of the partner user
+     *
+     * @return the wallet of the other user
+     */
+    public String getTheirWallet() { return theirWallet; }
+
     @Override
     public String toString() {
         if (amount < 0) {
