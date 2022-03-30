@@ -20,6 +20,7 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.domain.model.Currency;
 import com.sdp.swiftwallet.domain.model.Transaction;
+import com.sdp.swiftwallet.domain.repository.TransactionHistorySubscriber;
 import com.sdp.swiftwallet.presentation.transactions.TransactionActivity;
 
 import java.util.ArrayList;
@@ -32,7 +33,7 @@ import java.util.Map;
  * Use the {@link TransactionStatsFragment} factory method to
  * create an instance of this fragment.
  */
-public class TransactionStatsFragment extends Fragment {
+public class TransactionStatsFragment extends Fragment implements TransactionHistorySubscriber {
     private TransactionActivity rootAct;
     private PieChart pieChart;
 
@@ -50,17 +51,20 @@ public class TransactionStatsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         rootAct = (TransactionActivity) getActivity();
+        pieChart = rootAct.findViewById(R.id.transaction_pieChart);
+        setupPieChart();
+        rootAct.getProducer().subscribe(this);
+
         return inflater.inflate(R.layout.fragment_transaction_stats, container, false);
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        pieChart = rootAct.findViewById(R.id.transaction_pieChart);
-        setupPieChart();
-        loadPieChartData();
-    }
+//    @Override
+//    public void onStart() {
+//        super.onStart();
+//
+//        pieChart = rootAct.findViewById(R.id.transaction_pieChart);
+//        setupPieChart();
+//    }
 
     /**
      * Basic PieChart setup methods
@@ -85,9 +89,8 @@ public class TransactionStatsFragment extends Fragment {
     /**
      * Method used to initialize the PieChart with Transactions data
      */
-    private void loadPieChartData() {
+    private void loadPieChartData(List<Transaction> transactions) {
         List<PieEntry> entries = new ArrayList<>();
-        List<Transaction> transactions = rootAct.getList();
 
         double totalActivity = 0;
         Map<Currency, Double> activityByCurrency = new HashMap<>();
@@ -123,5 +126,10 @@ public class TransactionStatsFragment extends Fragment {
 
         pieChart.setData(data);
         pieChart.invalidate();
+    }
+
+    @Override
+    public void receiveTransactions(List<Transaction> transactions) {
+        loadPieChartData(transactions);
     }
 }
