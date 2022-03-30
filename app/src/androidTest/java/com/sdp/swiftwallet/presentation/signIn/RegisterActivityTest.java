@@ -19,6 +19,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.common.FirebaseUtil;
 
+import org.bouncycastle.pqc.crypto.newhope.NHOtherInfoGenerator.PartyU;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -75,6 +76,7 @@ public class RegisterActivityTest {
 
         onView(withId(R.id.registerBtn)).perform(click());
         onView(withId(R.id.registerEmailEt)).check(matches(hasFocus()));
+
     }
 
     @Test
@@ -95,4 +97,40 @@ public class RegisterActivityTest {
         onView(withId(R.id.registerBtn)).perform(click());
 //        intended(toPackage("com.sdp.swiftwallet"));
     }
+
+    @Test
+    public void wrong_email_raises_error() {
+        onView(withId(R.id.registerUsernameEt)).perform(typeText("usernameTest"), closeSoftKeyboard());
+        onView(withId(R.id.registerPasswordEt)).perform(typeText("passwordTest"), closeSoftKeyboard());
+        onView(withId(R.id.registerEmailEt)).perform(typeText("michel"), closeSoftKeyboard());
+
+        onView(withId(R.id.registerBtn)).perform(click());
+        onView(withId(R.id.registerEmailEt)).check(matches(hasFocus()));
+
+    }
+
+    @Test
+    public void wrong_password_raises_error() {
+        onView(withId(R.id.registerUsernameEt)).perform(typeText("usernameTest"), closeSoftKeyboard());
+        onView(withId(R.id.registerPasswordEt)).perform(typeText("url"), closeSoftKeyboard());
+        onView(withId(R.id.registerEmailEt)).perform(typeText("michel@gmail.com"), closeSoftKeyboard());
+
+        onView(withId(R.id.registerBtn)).perform(click());
+        onView(withId(R.id.registerEmailEt)).check(matches(hasFocus()));
+
+    }
+
+    @Test
+    public void wrong_username_raises_error() {
+        onView(withId(R.id.registerUsernameEt)).perform(typeText("usernameTest"), closeSoftKeyboard());
+        onView(withId(R.id.registerPasswordEt)).perform(typeText("Aliska74!"), closeSoftKeyboard());
+        onView(withId(R.id.registerEmailEt)).perform(typeText("michel@gmail.com"), closeSoftKeyboard());
+
+        onView(withId(R.id.registerBtn)).perform(click());
+        onView(withId(R.id.registerEmailEt)).check(matches(hasFocus()));
+
+    }
+
+
+
 }

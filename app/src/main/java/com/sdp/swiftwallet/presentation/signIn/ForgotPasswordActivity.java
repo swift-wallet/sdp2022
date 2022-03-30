@@ -1,5 +1,8 @@
 package com.sdp.swiftwallet.presentation.signIn;
 
+import static com.sdp.swiftwallet.common.HelperFunctions.*;
+
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,14 +17,16 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.common.FirebaseUtil;
 import com.sdp.swiftwallet.domain.repository.ClientAuth;
+import java.util.regex.Pattern;
 import org.jetbrains.annotations.NotNull;
 
 public class ForgotPasswordActivity extends AppCompatActivity {
 
+
   private ClientAuth dbClient;
-  private String country;
-  private String countryCodeLanguage;
   private FirebaseAuth mAuth;
+  private final String COUNTRY = "en";
+  private final String COUNTRY_CODE = "en_gb";
 
 
   private EditText emailView;
@@ -36,18 +41,22 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
     //Sets up the db
     mAuth = FirebaseUtil.getAuth();
-
-    // Get the contents of the email fieldemailView = findViewById(R.id.emailField);
-    country = "en";
-    countryCodeLanguage = "en_gb";
+    setLanguage(COUNTRY, COUNTRY_CODE);
 
     emailView = findViewById(R.id.emailField);
 
-    // Sets up the button for confirming
+    //Sets up the button for confirming
     Button sendLink = findViewById(R.id.sendReset);
     sendLink.setOnClickListener(new OnClickListener() {
       public void onClick(View v) {
         checkAndSend(emailView.getText().toString().trim());
+      }
+    });
+
+    Button goBack = findViewById(R.id.goBackForgotPW);
+    goBack.setOnClickListener(new OnClickListener() {
+      public void onClick(View v) {
+        ForgotPasswordActivity.this.startActivity(new Intent(ForgotPasswordActivity.this, LoginActivity.class));
       }
     });
 
@@ -63,23 +72,16 @@ public class ForgotPasswordActivity extends AppCompatActivity {
    */
   public void checkAndSend(@NotNull String email){
 
-    if (isEmailValid(email)) {
-      sendPasswordResetEmail(email, country, countryCodeLanguage, this);
-    } else {
-      Toast.makeText(this,
-          "Erro, please check again the format of the email", Toast.LENGTH_LONG).show();
+    if (checkEmail(email, emailView)) {
+      sendPasswordResetEmail(email, this);
     }
-
   }
 
   /**
    * Sends a password reset email to the user
    * @param email email that must previously have been checked
-   * @param country country code, checked by the check language function
-   * @param countryCode country code for language, checked by the check language function
    */
-  public void sendPasswordResetEmail(String email, String country, String countryCode, Activity from){
-    setLanguage(country, countryCode);
+  public void sendPasswordResetEmail(String email, Activity from){
     Log.d(RESET_PASSWORD_TAG, "Trying to send a confirmation email");
     mAuth.sendPasswordResetEmail(email)
         .addOnSuccessListener( a -> {
@@ -95,26 +97,13 @@ public class ForgotPasswordActivity extends AppCompatActivity {
   }
 
   /**
-   * Check if email is correctly formatted, might become a function called everywhere
-   * It's purely a 'String' format method
-   */
-  private Boolean isEmailValid(String email) {
-    if (email.isEmpty()) {
-      emailView.setError("Email required");
-      emailView.requestFocus();
-      return false;
-    }
-    return true;
-  }
-
-  /**
    * Sets up language for authentication
    * @param country country (format "fr=France", ...)
    * @param countryLanguage country language (format "en_gb"= UK british)
    */
   public void setLanguage(String country, String countryLanguage){
-    mAuth.setLanguageCode(country);
-    mAuth.setLanguageCode(countryLanguage);
+    mAuth.setLanguageCode(COUNTRY);
+    mAuth.setLanguageCode(COUNTRY_CODE);
   }
 
 }
