@@ -1,6 +1,5 @@
 package com.sdp.swiftwallet.presentation.main.fragments;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -13,33 +12,20 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.sdp.cryptowalletapp.R;
+import com.sdp.swiftwallet.common.FirebaseUtil;
 import com.sdp.swiftwallet.presentation.signIn.LoginActivity;
-import com.sdp.swiftwallet.data.repository.FirebaseAuthImpl;
-import com.sdp.swiftwallet.domain.model.User;
-import com.sdp.swiftwallet.domain.repository.ClientAuth;
-import java.util.Objects;
-import com.sdp.swiftwallet.data.repository.UserDatabase;
 
 
 public class ProfileFragment extends Fragment {
-
-    private ClientAuth clientAuth;
-    private User user;
+    private FirebaseAuth mAuth;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
-        //user = new User("admin", "admin", "BASIC");
-        //i == hardcoded
-        //Try test case to avoid calling getActivity() on MainActivity without having called
-        //at login the setup og the database
-        try {
-            user = ((UserDatabase) getActivity().getApplication()).getUser(0);
-        } catch (Exception e) {
-            user = new User("admin", "admin", "BASIC");
-        }
+
+        mAuth = FirebaseUtil.getAuth();
     }
 
     @Override
@@ -53,51 +39,25 @@ public class ProfileFragment extends Fragment {
         Button logoutButton = view.findViewById(R.id.logoutBtn);
         logoutButton.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
-                logout(user.getLoginMethod(), v);
+                mAuth.signOut();
             }
         });
 
-        TextView textView = (TextView) view.findViewById(R.id.email);
-        textView.setText(user.getEmail());
+        checkUser(view);
 
         return view;
     }
 
-
     /**
-     * Logs out the user
-     */
-    public void logout(String loginMethod, View view){
-        Objects.requireNonNull(loginMethod);
-
-        if (loginMethod.equals("GOOGLE")){
-            // setup fragment screen as soon as view is ready
-            clientAuth = new FirebaseAuthImpl();
-            checkUser(view);
-
-            Button logoutBtn = view.findViewById(R.id.logoutBtn);
-            logoutBtn.setOnClickListener(v -> {
-                clientAuth.signOut();
-                checkUser(view);
-            });
-        } else if (loginMethod.equals("BASIC")) {
-            Intent intent = new Intent(getActivity(), LoginActivity.class);
-            startActivity(intent);
-        }
-    }
-
-
-    /**
-     * Checks if a user is logged using google auth
+     * If user is logged show user infos, else return to login
+     * @param view The view to display profile infos
      */
     private void checkUser(View view) {
-        if (!clientAuth.currUserIsChecked()) {
+        if (mAuth.getCurrentUser() == null) {
             startActivity(new Intent(getActivity(), LoginActivity.class));
-            getActivity().finish();
         }
         else {
-            String email = clientAuth.getCurrUserEmail();
-            Activity act = getActivity();
+            String email = mAuth.getCurrentUser().getEmail();
             TextView emailTv = view.findViewById(R.id.email);
             emailTv.setText(email);
         }

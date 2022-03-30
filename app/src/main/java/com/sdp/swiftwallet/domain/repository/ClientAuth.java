@@ -21,11 +21,28 @@ public interface ClientAuth {
      */
     public String getCurrUserName();
 
+
+    /**
+     * Sets up language for authentication
+     * @param country country (format "fr=France", ...)
+     * @param countryLanguage country language (format "en_gb"= UK british)
+     */
+    public void setLanguage(String country, String countryLanguage);
+
+
+
     /**
      * Getter for user email
      * @return a String of user email
      */
     public String getCurrUserEmail();
+
+    public void createUserWithEmailAndPassword(String username, String email, String password, Activity signInActivity, Activity resultActivity);
+
+    public void signInWithEmailAndPassword(String email, String password, Activity signInActivity, Activity resultActivity);
+
+    public void sendPasswordResetEmail(String email, String country, String countryCode, Activity from);
+
 
     /**
      * Perform SignIn to database using a googleSignIn account and the corresponded TAG for log
@@ -34,9 +51,8 @@ public interface ClientAuth {
      * @param account a GoogleSignInAccount already setup
      * @param signInActivity the activity that launch signIn
      * @param resultActivity the activity where the intent is fired
-     * @param TAG a log TAG corresponding to the signIn
      */
-    public void signInWithGoogleAccount(GoogleSignInAccount account, Activity signInActivity, Activity resultActivity, String TAG);
+    public void signInWithGoogleAccount(GoogleSignInAccount account, Activity signInActivity, Activity resultActivity);
 
     /**
      * Perform signOut from google account
