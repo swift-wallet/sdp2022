@@ -18,6 +18,7 @@ import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.sdp.cryptowalletapp.R;
+import com.sdp.swiftwallet.SwiftWalletApp;
 import com.sdp.swiftwallet.domain.model.Currency;
 import com.sdp.swiftwallet.domain.model.Transaction;
 import com.sdp.swiftwallet.domain.repository.TransactionHistorySubscriber;
@@ -53,7 +54,7 @@ public class TransactionStatsFragment extends Fragment implements TransactionHis
         rootAct = (TransactionActivity) getActivity();
         pieChart = rootAct.findViewById(R.id.transaction_pieChart);
         setupPieChart();
-        rootAct.getProducer().subscribe(this);
+        ((SwiftWalletApp) rootAct.getApplication()).getTransactionHistoryProducer().subscribe(this);
 
         return inflater.inflate(R.layout.fragment_transaction_stats, container, false);
     }

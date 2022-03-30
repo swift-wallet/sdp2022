@@ -18,7 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class FirebaseTransactionHistoryProducer implements TransactionHistoryProducer, Parcelable {
+public class FirebaseTransactionHistoryProducer implements TransactionHistoryProducer {
     private static final String COLLECTION_NAME = "transactions";
     private static final String AMOUNT_KEY = "amount";
     public static final String CURRENCY_KEY = "currency";
@@ -46,21 +46,6 @@ public class FirebaseTransactionHistoryProducer implements TransactionHistoryPro
         this.db = db;
         initSnapshotListener();
     }
-
-    protected FirebaseTransactionHistoryProducer(Parcel in) {
-    }
-
-    public static final Creator<FirebaseTransactionHistoryProducer> CREATOR = new Creator<FirebaseTransactionHistoryProducer>() {
-        @Override
-        public FirebaseTransactionHistoryProducer createFromParcel(Parcel in) {
-            return new FirebaseTransactionHistoryProducer(in);
-        }
-
-        @Override
-        public FirebaseTransactionHistoryProducer[] newArray(int size) {
-            return new FirebaseTransactionHistoryProducer[size];
-        }
-    };
 
     private void initSnapshotListener() {
         db.collection(COLLECTION_NAME).addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -105,14 +90,5 @@ public class FirebaseTransactionHistoryProducer implements TransactionHistoryPro
         } else {
             return false;
         }
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
     }
 }

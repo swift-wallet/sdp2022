@@ -3,11 +3,14 @@ package com.sdp.swiftwallet;
 import android.app.Application;
 
 import com.sdp.swiftwallet.domain.model.User;
+import com.sdp.swiftwallet.domain.repository.FirebaseTransactionHistoryProducer;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SwiftWalletApp extends Application {
+    private FirebaseTransactionHistoryProducer transactionHistoryProducer;
+
     List<User> userDatabase = new ArrayList<>();
     //Indice of the user in database
     int currentlyLogged;
@@ -49,5 +52,23 @@ public class SwiftWalletApp extends Application {
      */
     public int getLoggedUserIndex(){
         return currentlyLogged;
+    }
+
+    /**
+     * Getter for the TransactionHistoryProducer
+     *
+     * @return the TransactionHistoryProducer
+     */
+    public FirebaseTransactionHistoryProducer getTransactionHistoryProducer() {
+        return transactionHistoryProducer;
+    }
+
+    /**
+     * Setter for the TransactionHistoryProducer
+     *
+     * @param transactionHistoryProducer the new TransactionHistoryProducer
+     */
+    public void setTransactionHistoryProducer(FirebaseTransactionHistoryProducer transactionHistoryProducer) {
+        this.transactionHistoryProducer = transactionHistoryProducer;
     }
 }

@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.sdp.cryptowalletapp.R;
+import com.sdp.swiftwallet.SwiftWalletApp;
 import com.sdp.swiftwallet.domain.model.Transaction;
 import com.sdp.swiftwallet.domain.model.TransactionAdapter;
 import com.sdp.swiftwallet.domain.repository.TransactionHistorySubscriber;
@@ -25,7 +26,6 @@ import java.util.List;
  */
 public class TransactionHistoryFragment extends Fragment implements TransactionHistorySubscriber {
     private TransactionActivity rootAct;
-    private List<Transaction> list;
     private RecyclerView recyclerView;
 
     @Override
@@ -33,7 +33,7 @@ public class TransactionHistoryFragment extends Fragment implements TransactionH
         // Inflate the layout for this fragment
         rootAct = (TransactionActivity) getActivity();
         recyclerView = rootAct.findViewById(R.id.transaction_recyclerView);
-        rootAct.getProducer().subscribe(this);
+        ((SwiftWalletApp) rootAct.getApplication()).getTransactionHistoryProducer().subscribe(this);
 
         return inflater.inflate(R.layout.fragment_transaction_history, container, false);
     }
@@ -47,7 +47,7 @@ public class TransactionHistoryFragment extends Fragment implements TransactionH
     //TODO check if extra steps needed to update the RecyclerView
     @Override
     public void receiveTransactions(List<Transaction> transactions) {
-        recyclerView.setAdapter(new TransactionAdapter(rootAct, list));
+        recyclerView.setAdapter(new TransactionAdapter(rootAct, transactions));
         recyclerView.setHasFixedSize(true);
     }
 }
