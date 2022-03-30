@@ -44,6 +44,7 @@ import jnr.ffi.annotations.In;
 
 @RunWith(JUnit4.class)
 public class HomeFragmentTest {
+    /*
     public final static String mockSeed = "test-testouille-aille-deux-trois";
     public final static String mockSpaceSeed = "test testouille aille deux trois";
     public final static String[] mockArraySeed = new String[]{"test", "testouille", "aille", "deux", "trois"};
@@ -113,5 +114,5 @@ public class HomeFragmentTest {
             clickOn(R.id.create_address_button);
             onView(withId(R.id.home_nested_frag_container)).check(matches(hasMinimumChildCount(1)));
         }
-    }
+    }*/
 }
