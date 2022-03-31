@@ -62,7 +62,7 @@ public class TransactionActivity extends AppCompatActivity {
         List<Transaction> transactionHistory;
         try {
             TransactionHistoryGenerator historyGenerator =
-                    i.getParcelableExtra(getString(R.string.transactionHistoryGeneratorExtraKey));
+                    (TransactionHistoryGenerator) i.getParcelableExtra(getString(R.string.transactionHistoryGeneratorExtraKey));
             transactions = historyGenerator.getTransactionHistory();
         } catch (Exception e) {
             transactions = dummyList;

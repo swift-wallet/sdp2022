@@ -21,7 +21,7 @@ public class CreateSeedActivity extends AppCompatActivity {
         seed = seedGenerator.getSeed();
         findViewById(R.id.generate_seed_button).setOnClickListener((v) -> reGenerateSeed());
         findViewById(R.id.save_seed_button).setOnClickListener((v) -> saveSeed());
-        seedView = findViewById(R.id.seed_view);
+        seedView = (EditText)findViewById(R.id.seed_view);
         seedView.setText(seed);
     }
     private void reGenerateSeed() {

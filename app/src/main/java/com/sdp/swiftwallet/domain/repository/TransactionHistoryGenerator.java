@@ -14,5 +14,5 @@ public interface TransactionHistoryGenerator {
      *
      * @return a list of past transactions
      */
-    List<Transaction> getTransactionHistory();
+    public List<Transaction> getTransactionHistory();
 }

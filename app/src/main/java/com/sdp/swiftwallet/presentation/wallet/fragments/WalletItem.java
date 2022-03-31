@@ -6,8 +6,8 @@ import java.math.BigInteger;
 
 // Simple wallet model
 public class WalletItem {
-    private final String address;
-    private final BigInteger balance;
+    private String address;
+    private BigInteger balance;
 
     public WalletItem(WalletKeyPair walletKeyPair) {
         this.address = walletKeyPair.getHexPublicKey();

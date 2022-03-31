@@ -2,6 +2,7 @@ package com.sdp.swiftwallet.common;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.sdp.cryptowalletapp.BuildConfig;
 
 public class FirebaseUtil {
     /** Use emulators only in debug builds **/

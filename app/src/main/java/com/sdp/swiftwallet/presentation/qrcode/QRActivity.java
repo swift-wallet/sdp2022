@@ -32,12 +32,12 @@ public class QRActivity extends AppCompatActivity {
         //View variables initialization
         resultEditText = findViewById(R.id.qr_result_edittext);
         imageView = findViewById(R.id.qr_imageView);
-        findViewById(R.id.qr_button).setOnClickListener(
+        ((Button) findViewById(R.id.qr_button)).setOnClickListener(
                 (View v) -> {
                     scanner.launch();
                 }
         );
-        findViewById(R.id.qr_button_generate_qr).setOnClickListener(
+        ((Button) findViewById(R.id.qr_button_generate_qr)).setOnClickListener(
                 (View v) ->{
                     generateQR();
                 }

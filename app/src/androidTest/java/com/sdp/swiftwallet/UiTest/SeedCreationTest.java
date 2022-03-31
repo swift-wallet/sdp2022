@@ -48,7 +48,7 @@ public class SeedCreationTest {
     @Test
     public void shouldGenerateASeedOnStart(){
         testRule.getScenario().onActivity(activity -> {
-            EditText seedView = activity.findViewById(R.id.seed_view);
+            EditText seedView = (EditText)activity.findViewById(R.id.seed_view);
             String seed = seedView.getText().toString();
             assert(!seed.equals(""));
             String[] generatedSeed = seed.split(" ");

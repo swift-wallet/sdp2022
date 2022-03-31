@@ -13,13 +13,13 @@ public interface ClientAuth {
      * Check if there is a current user connected
      * @return True if the user is not null
      */
-    boolean currUserIsChecked();
+    public boolean currUserIsChecked();
 
     /**
      * Getter for user name
      * @return a String of user name
      */
-    String getCurrUserName();
+    public String getCurrUserName();
 
 
     /**
@@ -27,7 +27,7 @@ public interface ClientAuth {
      * @param country country (format "fr=France", ...)
      * @param countryLanguage country language (format "en_gb"= UK british)
      */
-    void setLanguage(String country, String countryLanguage);
+    public void setLanguage(String country, String countryLanguage);
 
 
 
@@ -35,13 +35,13 @@ public interface ClientAuth {
      * Getter for user email
      * @return a String of user email
      */
-    String getCurrUserEmail();
+    public String getCurrUserEmail();
 
-    void createUserWithEmailAndPassword(String username, String email, String password, Activity signInActivity, Activity resultActivity);
+    public void createUserWithEmailAndPassword(String username, String email, String password, Activity signInActivity, Activity resultActivity);
 
-    void signInWithEmailAndPassword(String email, String password, Activity signInActivity, Activity resultActivity);
+    public void signInWithEmailAndPassword(String email, String password, Activity signInActivity, Activity resultActivity);
 
-    void sendPasswordResetEmail(String email, String country, String countryCode, Activity from);
+    public void sendPasswordResetEmail(String email, String country, String countryCode, Activity from);
 
 
     /**
@@ -52,10 +52,10 @@ public interface ClientAuth {
      * @param signInActivity the activity that launch signIn
      * @param resultActivity the activity where the intent is fired
      */
-    void signInWithGoogleAccount(GoogleSignInAccount account, Activity signInActivity, Activity resultActivity);
+    public void signInWithGoogleAccount(GoogleSignInAccount account, Activity signInActivity, Activity resultActivity);
 
     /**
      * Perform signOut from google account
      */
-    void signOut();
+    public void signOut();
 }

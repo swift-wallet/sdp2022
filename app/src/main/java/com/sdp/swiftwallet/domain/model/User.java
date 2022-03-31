@@ -13,7 +13,7 @@ public class User {
   private String username;
   private String email;
   //Hardcoded login methods names
-  private final String loginMethods;
+  private String loginMethods;
 
   /**
    * Creates a user

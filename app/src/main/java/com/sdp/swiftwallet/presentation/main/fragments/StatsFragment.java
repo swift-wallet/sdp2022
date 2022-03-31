@@ -32,8 +32,8 @@ public class StatsFragment extends Fragment {
     public void onStart() {
         super.onStart();
         //This is temporary
-        getActivity().findViewById(R.id.cryptovalues_button).setOnClickListener((v) -> startCryptovalues());
-        getActivity().findViewById(R.id.transaction_history_button).setOnClickListener((v) -> startTransactionHistory());
+        ((Button)getActivity().findViewById(R.id.cryptovalues_button)).setOnClickListener((v) -> startCryptovalues());
+        ((Button)getActivity().findViewById(R.id.transaction_history_button)).setOnClickListener((v) -> startTransactionHistory());
     }
 
     private void startCryptovalues(){
