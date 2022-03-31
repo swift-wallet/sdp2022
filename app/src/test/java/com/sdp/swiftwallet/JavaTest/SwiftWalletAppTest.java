@@ -20,10 +20,9 @@ import java.util.Random;
 public class SwiftWalletAppTest {
     private SwiftWalletApp app;
 
-    @Before
+    @Test
     void createApp() {
         app = new SwiftWalletApp();
     }
-
 
 }
