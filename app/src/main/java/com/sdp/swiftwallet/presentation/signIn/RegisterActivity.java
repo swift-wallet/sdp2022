@@ -1,6 +1,8 @@
 package com.sdp.swiftwallet.presentation.signIn;
 
-import static com.sdp.swiftwallet.common.HelperFunctions.*;
+import static com.sdp.swiftwallet.common.HelperFunctions.checkEmail;
+import static com.sdp.swiftwallet.common.HelperFunctions.checkPassword;
+import static com.sdp.swiftwallet.common.HelperFunctions.checkUsername;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -25,7 +27,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.common.FirebaseUtil;
 import com.sdp.swiftwallet.domain.model.User;
-import java.util.regex.Pattern;
 
 public class RegisterActivity extends AppCompatActivity {
     private static final String EMAIL_REGISTER_TAG = "EMAIL_REGISTER_TAG";

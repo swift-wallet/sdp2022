@@ -1,28 +1,17 @@
 package com.sdp.swiftwallet.presentation.main;
 
 import android.os.Bundle;
-import android.view.MenuItem;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.SwiftWalletApp;
 import com.sdp.swiftwallet.domain.repository.FirebaseTransactionHistoryProducer;
-import com.sdp.swiftwallet.presentation.main.fragments.HomeFragment;
-import com.sdp.swiftwallet.presentation.main.fragments.MessageFragment;
-import com.sdp.swiftwallet.presentation.main.fragments.PaymentFragment;
-import com.sdp.swiftwallet.presentation.main.fragments.ProfileFragment;
-import com.sdp.swiftwallet.presentation.main.fragments.StatsFragment;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
@@ -39,6 +28,10 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = navHostFragment.getNavController();
         BottomNavigationView bottomNavigationView = findViewById(R.id.mainBottomNavView);
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
+
+        ((SwiftWalletApp) getApplication()).setTransactionHistoryProducer(
+                new FirebaseTransactionHistoryProducer(FirebaseFirestore.getInstance())
+        );
     }
 
 }
