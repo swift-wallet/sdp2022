@@ -75,29 +75,25 @@ public class HelperFunctions {
     //Pattern match username
     boolean matchPattern = Pattern.compile(USERNAME_PATTERN)
         .matcher(username).matches();
+    boolean isCorrect = true;
 
     if (username.isEmpty()) {
       textView.setError("Username required");
       textView.requestFocus();
-      return false;
-    }
-    if (username.length() < 3) {
+      isCorrect = false;
+    } else if (username.length() < 3) {
       textView.setError("Username is at least 3 chars");
       textView.requestFocus();
-      return false;
-    }
-    if (username.length() > 20) {
+      isCorrect = false;
+    } else if (username.length() > 20) {
       textView.setError("Username is at most 20 chars");
       textView.requestFocus();
-      return false;
-    }
-    if (!matchPattern) {
+      isCorrect = false;
+    } else if (!matchPattern) {
       textView.setError("Username should use conventional naming and have more than 3 characters");
       textView.requestFocus();
-      return false;
+      isCorrect =false;
     }
-
-    return true;
+    return isCorrect;
   }
-
 }
