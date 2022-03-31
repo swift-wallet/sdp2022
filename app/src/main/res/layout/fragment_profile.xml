@@ -1,104 +1,60 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:app="http://schemas.android.com/apk/res-auto"
   xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/profile_fragment"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.sdp.swiftwallet.presentation.main.fragments.ProfileFragment">
+  android:id="@+id/profile_fragment"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  tools:context="com.sdp.swiftwallet.presentation.main.fragments.ProfileFragment">
 
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
       android:layout_width="match_parent"
       android:layout_height="match_parent"
-      android:gravity="top"
       android:orientation="vertical"
-      tools:context="com.sdp.swiftwallet.presentation.main.fragments.ProfileFragment">
-
-        <Button
-          android:id="@+id/button_email_update"
-          android:layout_width="135dp"
-          android:layout_height="26dp"
-          app:layout_constraintBottom_toBottomOf="parent"
-          app:layout_constraintEnd_toEndOf="parent"
-          app:layout_constraintHorizontal_bias="0.184"
-          app:layout_constraintStart_toStartOf="parent"
-          app:layout_constraintTop_toTopOf="parent"
-          app:layout_constraintVertical_bias="0.483" />
-
-        <Button
-          android:id="@+id/logout_button"
-          android:layout_width="111dp"
-          android:layout_height="40dp"
-          android:text="Logout"
-          app:layout_constraintBottom_toBottomOf="parent"
-          app:layout_constraintEnd_toEndOf="parent"
-          app:layout_constraintStart_toStartOf="parent"
-          app:layout_constraintTop_toTopOf="parent"
-          app:layout_constraintVertical_bias="0.962" />
-
-        <EditText
-          android:id="@+id/edit_email"
-          android:layout_width="118dp"
-          android:layout_height="18dp"
-          app:layout_constraintBottom_toBottomOf="parent"
-          app:layout_constraintEnd_toEndOf="parent"
-          app:layout_constraintHorizontal_bias="0.174"
-          app:layout_constraintStart_toStartOf="parent"
-          app:layout_constraintTop_toTopOf="parent"
-          app:layout_constraintVertical_bias="0.436" />
+      android:gravity="top"
+      tools:context="com.sdp.swiftwallet.ProfileActivity">
 
         <TextView
-          android:id="@+id/profile_view"
-          style="@style/TextAppearance.MaterialComponents.Body1"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:layout_marginStart="148dp"
-          android:text="profile"
-          app:layout_constraintBottom_toBottomOf="parent"
-          app:layout_constraintEnd_toEndOf="PROFILE"
-          app:layout_constraintHorizontal_bias="0.447"
-          app:layout_constraintStart_toStartOf="parent"
-          app:layout_constraintTop_toTopOf="parent"
-          app:layout_constraintVertical_bias="0.083" />
+          android:text="@string/nav_profile"
+          android:textSize="@dimen/nav_title"
+          android:textColor="@color/black"
+          android:layout_gravity="center"
+          android:layout_margin="@dimen/nav_title_margin"
+          />
 
         <TextView
-          android:id="@+id/update_text_email"
-          style="@style/TextAppearance.MaterialComponents.Caption"
-          android:layout_width="119dp"
-          android:layout_height="23dp"
-          android:text="Update email:"
-          app:layout_constraintBottom_toBottomOf="parent"
-          app:layout_constraintEnd_toEndOf="parent"
-          app:layout_constraintHorizontal_bias="0.171"
-          app:layout_constraintStart_toStartOf="parent"
-          app:layout_constraintTop_toTopOf="parent"
-          app:layout_constraintVertical_bias="0.391" />
-
-        <TextView
-          android:id="@+id/login_text"
           style="@style/TextAppearance.MaterialComponents.Caption"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:text="@string/logged_in_as"
-          app:layout_constraintBottom_toBottomOf="parent"
-          app:layout_constraintEnd_toEndOf="parent"
-          app:layout_constraintHorizontal_bias="0.168"
-          app:layout_constraintStart_toStartOf="parent"
-          app:layout_constraintTop_toTopOf="parent"
-          app:layout_constraintVertical_bias="0.225" />
+          android:layout_marginTop="80dp"
+          />
+
         <TextView
-          android:id="@+id/user_email"
+          android:id="@+id/email"
           style="@style/TextAppearance.MaterialComponents.Body1"
-          android:layout_width="156dp"
-          android:layout_height="18dp"
-          app:layout_constraintBottom_toBottomOf="parent"
-          app:layout_constraintEnd_toEndOf="parent"
-          app:layout_constraintHorizontal_bias="0.831"
-          app:layout_constraintStart_toStartOf="parent"
-          app:layout_constraintTop_toTopOf="parent"
-          app:layout_constraintVertical_bias="0.237" />
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="Email" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:textScale="Change your email:"/>
 
+        <EditText
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginLeft="30dp"/>
+
+
+        <Button
+          android:id="@+id/logoutBtn"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="550dp"
+          android:layout_marginLeft="50dp"
+          android:text="Logout"/>
+    </LinearLayout>
 
 </FrameLayout>

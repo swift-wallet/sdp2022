@@ -54,8 +54,10 @@ public class HelperFunctions {
       textView.requestFocus();
       return false;
     } else if (!matchPattern){
-      textView.setError("Check that your contains at least upper case,\n"
-          + " one lower case letter and one digit, and 6 - 10 character long");
+      textView.setError(
+          "Check that your contains at least one upper case,\n"
+          + "one lower case letter and one digit,\n "
+          + "and 6 - 10 character long");
       textView.requestFocus();
     }
     return true;
