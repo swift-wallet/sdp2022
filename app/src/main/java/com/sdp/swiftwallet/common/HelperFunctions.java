@@ -31,7 +31,7 @@ public class HelperFunctions {
       textView.requestFocus();
       return false;
     } else if (!matchPattern){
-      textView.setError("Your email should not use special characters and use and have '@' in it");
+      textView.setError("Your email should not use special characters and use '@' in it");
       textView.requestFocus();
       return false;
     }
@@ -55,9 +55,9 @@ public class HelperFunctions {
       return false;
     } else if (!matchPattern){
       textView.setError(
-          "Check that your contains at least one upper case,\n"
-          + "one lower case letter and one digit,\n "
-          + "and 6 - 10 character long");
+          "Check that your password contains at least one upper case, "
+          + "one lower case letter and one digit, "
+          + "and is 6 - 10 character long");
       textView.requestFocus();
     }
     return true;
@@ -92,7 +92,7 @@ public class HelperFunctions {
       return false;
     }
     if (!matchPattern) {
-      textView.setError("Username respect the following pattern");
+      textView.setError("Username should use conventional naming and have more than 3 characters");
       textView.requestFocus();
       return false;
     }

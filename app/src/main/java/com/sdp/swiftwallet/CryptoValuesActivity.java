@@ -57,7 +57,6 @@ public class CryptoValuesActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
             }
-
             @Override
             public void afterTextChanged(Editable editable) {
                 filterCurrencies(editable.toString());
