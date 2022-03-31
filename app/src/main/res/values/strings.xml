@@ -13,6 +13,7 @@
     <string name="forgotPasswordTv">Forgot Password?</string>
     <string name="registerTv">Register</string>
     <string name="usernameTv">Username</string>
+    <string name="useOfflineTv">Use Offline</string>
 
     <!-- CRYPTOVALUES -->
     <string name="search_crypto_name">Search Crypto Name</string>

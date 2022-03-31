@@ -72,12 +72,17 @@ public class LoginActivity extends AppCompatActivity {
 
         TextView forgotPasswordTv = findViewById(R.id.forgotPasswordTv);
         forgotPasswordTv.setOnClickListener(v ->
-                startActivity(new Intent(LoginActivity.this, ForgotPasswordActivity.class))
+            startActivity(new Intent(LoginActivity.this, ForgotPasswordActivity.class))
         );
 
         TextView registerTv = findViewById(R.id.registerTv);
         registerTv.setOnClickListener(v ->
-                startActivity(new Intent(LoginActivity.this, RegisterActivity.class))
+            startActivity(new Intent(LoginActivity.this, RegisterActivity.class))
+        );
+
+        TextView useOfflineTv = findViewById(R.id.useOfflineTv);
+        useOfflineTv.setOnClickListener(v ->
+            startActivity(new Intent(LoginActivity.this, MainActivity.class))
         );
     }
 
