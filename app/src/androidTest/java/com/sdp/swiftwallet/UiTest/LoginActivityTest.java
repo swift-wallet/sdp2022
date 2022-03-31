@@ -142,6 +142,7 @@ public class LoginActivityTest {
         onView(withId(R.id.loginEmailEt))
                 .perform(typeText("email.test@gmail.com"),
                         closeSoftKeyboard());
+        onView(withId(R.id.loginPasswordEt)).perform(typeText(""));
         onView(withId(R.id.loginButton)).perform(click());
 
         onView(withId(R.id.loginPasswordEt)).check(matches(hasFocus()));
@@ -226,13 +227,12 @@ public class LoginActivityTest {
 
     @Test
     public void pressGoogleSignInStartAuth() {
-        onView(withId(R.id.googleSignInBtn)).perform(click());
-
         Bundle googleBundle = new Bundle();
         googleBundle.putParcelable("googleSignInAccount", GoogleSignInAccount.createDefault());
         Intent googleIntent = new Intent();
         googleIntent.putExtra("account bundle", googleBundle);
         Instrumentation.ActivityResult result = new Instrumentation.ActivityResult(RESULT_OK, googleIntent);
+        onView(withId(R.id.googleSignInBtn)).perform(click());
         intending(toPackage("com.google.android.gms")).respondWith(result);
     }
 
