@@ -51,7 +51,7 @@ public class TransactionActivityTest {
         i = new Intent(ApplicationProvider.getApplicationContext(), TransactionActivity.class);
         i.putExtra(
                 ApplicationProvider.getApplicationContext().getString(R.string.transactionHistoryGeneratorExtraKey),
-                (Parcelable) new DummyTransactionGenerator()
+                new DummyTransactionGenerator()
         );
     }
 
