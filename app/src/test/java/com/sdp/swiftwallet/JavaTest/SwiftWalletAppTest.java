@@ -7,6 +7,8 @@ import static org.junit.Assert.assertThrows;
 import com.sdp.swiftwallet.SwiftWalletApp;
 import com.sdp.swiftwallet.domain.model.Currency;
 import com.sdp.swiftwallet.domain.model.Transaction;
+import com.sdp.swiftwallet.domain.repository.TransactionHistoryProducer;
+import com.sdp.swiftwallet.domain.repository.TransactionHistorySubscriber;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -20,9 +22,37 @@ import java.util.Random;
 public class SwiftWalletAppTest {
     private SwiftWalletApp app;
 
-    @Test
+    @Before
     public void createApp() {
         app = new SwiftWalletApp();
     }
 
+    @Test
+    public void settingNullHistoryProducerThrowsIAE() {
+        IllegalArgumentException exception =
+                assertThrows(
+                        IllegalArgumentException.class,
+                        () -> app.setTransactionHistoryProducer(null)
+                );
+
+        assertThat(exception.getMessage(), is("Null HistoryProducer"));
+    }
+
+    @Test
+    public void settingAndGettingHistoryProducerReturnsSameProvider() {
+        TransactionHistoryProducer producer = new TransactionHistoryProducer() {
+            @Override
+            public boolean subscribe(TransactionHistorySubscriber subscriber) {
+                return false;
+            }
+
+            @Override
+            public boolean unsubscribe(TransactionHistorySubscriber subscriber) {
+                return false;
+            }
+        };
+
+        app.setTransactionHistoryProducer(producer);
+        assertThat(app.getTransactionHistoryProducer(), is(producer));
+    }
 }

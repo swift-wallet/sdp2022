@@ -88,6 +88,20 @@ public class Transaction {
      */
     public Currency getCurr() { return curr; }
 
+    /**
+     * Getter for the wallet of the user
+     *
+     * @return the wallet of the user
+     */
+    public String getMyWallet() { return myWallet; }
+
+    /**
+     * Getter for the wallet of the partner user
+     *
+     * @return the wallet of the other user
+     */
+    public String getTheirWallet() { return theirWallet; }
+
     @Override
     public String toString() {
         if (amount < 0) {
@@ -104,6 +118,109 @@ public class Transaction {
                     amount, getSymbol(),
                     theirWallet, myWallet
             );
+        }
+    }
+
+    /**
+     * Transaction builder class
+     *
+     * TODO: add tests for builder
+     */
+    public static class Builder {
+        private double amount;
+        private Currency curr;
+        private String myWallet, theirWallet;
+        private int id;
+
+        /**
+         * Default Builder constructor
+         * By default, both amount and id are set to 0.
+         * setCurr(), setMyWallet() and setTheirWallet() MUST be called before calling build.
+         */
+        public Builder() {
+            amount = 0;
+            curr = null;
+            myWallet = null;
+            theirWallet = null;
+            id = 0;
+        }
+
+        /**
+         * Builder constructor with amount
+         * setCurr(), setMyWallet() and setTheirWallet() MUST be called before calling build.
+         *
+         * @param amount the amount of the transaction
+         */
+        public Builder(double amount) {
+            this();
+            this.amount = amount;
+        }
+
+        /**
+         * Build method.
+         * setCurr(), setMyWallet() and setTheirWallet() MUST be called before calling build.
+         *
+         * @return a new Transaction associated to the parameters of this Builder
+         */
+        public Transaction build() {
+            if (curr == null || myWallet == null || theirWallet == null)
+                throw new IllegalStateException("Cannot build transaction with null parameters");
+            else return new Transaction(amount, curr, myWallet, theirWallet, id);
+        }
+
+        /**
+         * Setter for the amount
+         *
+         * @param amount the amount of the transaction to be built
+         * @return the current Builder
+         */
+        public Builder setAmount(double amount) {
+            this.amount = amount;
+            return this;
+        }
+
+        /**
+         * Setter for the currency
+         *
+         * @param curr the currency of the transaction to be built
+         * @return the current Builder
+         */
+        public Builder setCurr(Currency curr) {
+            this.curr = curr;
+            return this;
+        }
+
+        /**
+         * Setter for the wallet of the user
+         *
+         * @param myWallet the walletId of the user
+         * @return the current Builder
+         */
+        public Builder setMyWallet(String myWallet) {
+            this.myWallet = myWallet;
+            return this;
+        }
+
+        /**
+         * Setter for the wallet of the partner user in the transaction
+         *
+         * @param theirWallet the walletId of the other user
+         * @return the current Builder
+         */
+        public Builder setTheirWallet(String theirWallet) {
+            this.theirWallet = theirWallet;
+            return this;
+        }
+
+        /**
+         * Setter for the id of the current transaction
+         *
+         * @param id the transactionId of the transaction to be built
+         * @return the current Builder
+         */
+        public Builder setId(int id) {
+            this.id = id;
+            return this;
         }
     }
 }
