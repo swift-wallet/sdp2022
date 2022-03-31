@@ -19,6 +19,7 @@ import com.sdp.swiftwallet.presentation.signIn.LoginActivity;
 
 import javax.inject.Inject;
 
+import dagger.hilt.DefineComponent;
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint

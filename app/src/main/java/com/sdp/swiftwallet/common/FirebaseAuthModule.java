@@ -1,16 +1,17 @@
 package com.sdp.swiftwallet.common;
 import com.google.firebase.auth.FirebaseAuth;
-import com.sdp.swiftwallet.presentation.main.MainActivity;
 
 import dagger.Binds;
 import dagger.Module;
+import dagger.Provides;
 import dagger.hilt.InstallIn;
+import dagger.hilt.android.components.ActivityComponent;
 
 @Module
-@InstallIn(MainActivity.class)
-public abstract class FirebaseAuthModule {
-    @Binds
-    public FirebaseAuth bindFirebaseAuth(){
+@InstallIn(ActivityComponent.class)
+public class FirebaseAuthModule {
+    @Provides
+    public FirebaseAuth firebaseAuthProvider(){
         return FirebaseUtil.getAuth();
     }
 }
