@@ -9,6 +9,9 @@ public class FirebaseUtil {
     private static final boolean sUseEmulators = false;
     private static final int FIREBASE_AUTH_EMULATOR_HOST = 9099;
     private static final int FIREBASE_FIRESTORE_EMULATOR_HOST = 8080;
+    private static final String ANDROID_HOST =  "10.0.2.2";
+
+
 
     private static FirebaseFirestore FIRESTORE;
     private static FirebaseAuth AUTH;
@@ -34,7 +37,7 @@ public class FirebaseUtil {
             // Connect to the Firebase Auth emulator when appropriate. The host '10.0.2.2' is a
             // special IP address to let the Android emulator connect to 'localhost'.
             if (sUseEmulators) {
-                AUTH.useEmulator("10.0.2.2", FIREBASE_AUTH_EMULATOR_HOST);
+                AUTH.useEmulator(ANDROID_HOST, FIREBASE_AUTH_EMULATOR_HOST);
             }
         }
 

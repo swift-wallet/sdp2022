@@ -29,6 +29,17 @@
     <string name="go_to_transaction_history">Go to transaction history</string>
     <string name="transactionHistoryProducerExtraKey">TRANSAC_HIST_GEN_KEY</string>
 
+    <!-- RESET FIELDS -->
+    <string name="reset_your_email">Reset your email:</string>
+    <string name="reset">RESET</string>
+    <string name="send_reset">Send reset link</string>
+
+
+    <!-- LOGIN FIELDS -->
+    <string name="logout">LOGOUT</string>
+
+
+
     <!-- QR -->
     <string name="qr_generate_button">Generate a QR-CODE</string>
     <string name="qr_scan_button">Tap to Scan Stuffff</string>

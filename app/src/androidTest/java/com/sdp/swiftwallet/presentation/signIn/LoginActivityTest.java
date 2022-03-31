@@ -1,4 +1,4 @@
-package com.sdp.swiftwallet.UiTest;
+package com.sdp.swiftwallet.presentation.signIn;
 
 import static android.app.Activity.RESULT_OK;
 import static androidx.test.espresso.Espresso.onView;
@@ -120,6 +120,16 @@ public class LoginActivityTest {
     }
 
     @Test
+    public void emptyPasswordRequestFocus() {
+        onView(withId(R.id.loginEmailEt))
+            .perform(typeText("email.test@gmail.com"),
+                closeSoftKeyboard());
+        onView(withId(R.id.loginButton)).perform(click());
+
+        onView(withId(R.id.loginPasswordEt)).check(matches(hasFocus()));
+    }
+
+    @Test
     public void pressRegisterFiresIntentCorrectly() {
         onView(withId(R.id.registerTv)).perform(click());
 
@@ -137,16 +147,6 @@ public class LoginActivityTest {
         onView(withId(R.id.loginButton)).perform(click());
 
         onView(withId(R.id.loginEmailEt)).check(matches(hasFocus()));
-    }
-
-    @Test
-    public void emptyPasswordRequestFocus() {
-        onView(withId(R.id.loginEmailEt))
-                .perform(typeText("email.test@gmail.com"),
-                        closeSoftKeyboard());
-        onView(withId(R.id.loginButton)).perform(click());
-
-        onView(withId(R.id.loginPasswordEt)).check(matches(hasFocus()));
     }
 
     @Test

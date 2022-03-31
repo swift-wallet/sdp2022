@@ -1,47 +1,79 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/profile_fragment"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.sdp.swiftwallet.presentation.main.fragments.ProfileFragment">
+  xmlns:tools="http://schemas.android.com/tools"
+  android:id="@+id/profile_fragment"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  tools:context="com.sdp.swiftwallet.presentation.main.fragments.ProfileFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center"
-        tools:context="com.sdp.swiftwallet.ProfileActivity">
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:orientation="vertical"
+      android:gravity="top"
+      tools:context="com.sdp.swiftwallet.ProfileActivity">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/nav_profile"
-            android:textSize="@dimen/nav_title"
-            android:textColor="@color/black"
-            android:layout_gravity="center"
-            android:layout_margin="@dimen/nav_title_margin"
-            />
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="@string/nav_profile"
+          android:textSize="@dimen/nav_title"
+          android:textColor="@color/black"
+          android:layout_gravity="center"
+          android:layout_margin="@dimen/nav_title_margin"
+          />
 
         <TextView
-            style="@style/TextAppearance.MaterialComponents.Caption"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/logged_in_as" />
+          style="@style/TextAppearance.MaterialComponents.Caption"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="@string/logged_in_as"
+          android:layout_marginTop="80dp"
+          android:layout_marginLeft="20dp"
+          />
+
         <TextView
-            android:id="@+id/email"
-            style="@style/TextAppearance.MaterialComponents.Body1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Email" />
+          android:id="@+id/email"
+          style="@style/TextAppearance.MaterialComponents.Body1"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="@string/email"
+          android:layout_marginLeft="20dp"/>
+
+        <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginBottom="200dp"
+          android:layout_marginLeft="20dp"/>
+
+
+        <TextView
+          android:id="@+id/reset_email_view"
+          android:layout_width="157dp"
+          android:layout_height="wrap_content"
+          android:layout_marginLeft="20dp"
+          android:text="@string/reset_your_email" />
+
+        <EditText
+          android:id="@+id/reset_email_field"
+          android:layout_width="157dp"
+          android:layout_height="wrap_content"
+          android:layout_marginLeft="20dp" />
 
         <Button
-            android:id="@+id/logoutBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="Logout"/>
+          android:id="@+id/reset_email_Btn"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="10dp"
+          android:layout_marginLeft="40dp"
+          android:text="@string/reset"/>
 
+        <Button
+          android:id="@+id/logout_Btn"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="80dp"
+          android:layout_marginLeft="150dp"
+          android:text="@string/logout" />
     </LinearLayout>
 
 </FrameLayout>
