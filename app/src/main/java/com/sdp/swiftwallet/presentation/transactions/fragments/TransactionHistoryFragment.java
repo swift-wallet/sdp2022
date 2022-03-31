@@ -42,9 +42,7 @@ public class TransactionHistoryFragment extends Fragment implements TransactionH
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-//        rootAct = (TransactionActivity) getActivity();
-//        recyclerView = rootAct.findViewById(R.id.transaction_recyclerView);
-//        ((SwiftWalletApp) rootAct.getApplication()).getTransactionHistoryProducer().subscribe(this);
+        rootAct = (TransactionActivity) getActivity();
 
         return inflater.inflate(R.layout.fragment_transaction_history, container, false);
     }
@@ -52,7 +50,7 @@ public class TransactionHistoryFragment extends Fragment implements TransactionH
     @Override
     public void onStart() {
         super.onStart();
-        rootAct = (TransactionActivity) getActivity();
+
         recyclerView = rootAct.findViewById(R.id.transaction_recyclerView);
         transactions = new ArrayList<>();
         adapter = new TransactionAdapter(rootAct, transactions);
@@ -60,38 +58,9 @@ public class TransactionHistoryFragment extends Fragment implements TransactionH
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
 
-//        FirebaseFirestore db = FirebaseFirestore.getInstance();
-//        db.collection("transactions").orderBy("id").addSnapshotListener(new EventListener<QuerySnapshot>() {
-//            @Override
-//            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-//                if (error != null) {
-//                    Log.e("Transactions Firestore", error.getMessage());
-//                    return;
-//                }
-//
-//                transactions.clear();
-//                for (DocumentSnapshot snapshot : value) {
-//                    double amount = snapshot.getDouble("amount");
-//                    Currency curr = FirebaseTransactionHistoryProducer.currencyMap.get(
-//                            snapshot.get("currency")
-//                    );
-//                    int id = snapshot.getLong("id").intValue();
-//                    String myWallet = snapshot.getString("wallet1");
-//                    String theirWallet = snapshot.getString("wallet2");
-//
-//                    Transaction t = new Transaction(amount, curr, myWallet, theirWallet, id);
-//                    transactions.add(t);
-//                }
-//
-//                recyclerView.setAdapter(new TransactionAdapter(rootAct, transactions));
-//            }
-//        });
-
         while (!((SwiftWalletApp) rootAct.getApplication()).getTransactionHistoryProducer().subscribe(this));
-
     }
 
-    //TODO check if extra steps needed to update the RecyclerView
     @Override
     public void receiveTransactions(List<Transaction> transactions) {
         rootAct.runOnUiThread(new Runnable() {
@@ -100,8 +69,5 @@ public class TransactionHistoryFragment extends Fragment implements TransactionH
                 recyclerView.setAdapter(new TransactionAdapter(rootAct, transactions));
             }
         });
-//        recyclerView.setAdapter(new TransactionAdapter(rootAct, transactions));
-//        recyclerView.setAdapter(new TransactionAdapter(rootAct, transactions));
-//        recyclerView.setHasFixedSize(true);
     }
 }

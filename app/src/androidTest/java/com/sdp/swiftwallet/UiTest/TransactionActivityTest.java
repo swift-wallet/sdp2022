@@ -62,12 +62,12 @@ public class TransactionActivityTest {
                 .setTransactionHistoryProducer(producer);
     }
 
-//    @Test
-//    public void foreverTest() {
-//        try (ActivityScenario<TransactionActivity> scenario = ActivityScenario.launch(i)) {
-//            for(;;);
-//        }
-//    }
+    @Test
+    public void foreverTest() {
+        try (ActivityScenario<TransactionActivity> scenario = ActivityScenario.launch(i)) {
+            for(;;);
+        }
+    }
 
 //    @Test
 //    public void historyButtonIsDisplayed() {
