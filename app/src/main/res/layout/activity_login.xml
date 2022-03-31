@@ -33,7 +33,7 @@
         android:id="@+id/loginEmailTv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/EmailTv"
+        android:text="@string/emailTv"
         app:layout_constraintTop_toBottomOf="@+id/appLogo"
         android:layout_marginTop="50dp"
         app:layout_constraintRight_toRightOf="parent"
