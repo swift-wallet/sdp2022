@@ -14,15 +14,19 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.common.FirebaseUtil;
 
+import javax.inject.Inject;
 
+import dagger.hilt.DefineComponent;
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class ProfileFragment extends Fragment {
-    private FirebaseAuth mAuth;
+    @Inject
+    protected FirebaseAuth mAuth;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        mAuth = FirebaseUtil.getAuth();
     }
 
     @Override
