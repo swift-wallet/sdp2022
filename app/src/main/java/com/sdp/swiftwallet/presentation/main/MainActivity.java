@@ -10,7 +10,11 @@ import androidx.fragment.app.FragmentManager;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.sdp.cryptowalletapp.R;
+import com.sdp.swiftwallet.SwiftWalletApp;
+import com.sdp.swiftwallet.domain.repository.FirebaseTransactionHistoryProducer;
+
 import com.sdp.swiftwallet.presentation.friend.FriendFragment;
 import com.sdp.swiftwallet.presentation.main.fragments.HomeFragment;
 import com.sdp.swiftwallet.presentation.main.fragments.MessageFragment;
@@ -41,6 +45,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        ((SwiftWalletApp) getApplication()).setTransactionHistoryProducer(
+                new FirebaseTransactionHistoryProducer(FirebaseFirestore.getInstance())
+        );
 
         ((BottomNavigationView)findViewById(R.id.bottom_bar)).setOnItemSelectedListener(navigationItemSelectedListener);
         //Creating all the navigation fragments
