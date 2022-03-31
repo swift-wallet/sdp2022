@@ -62,6 +62,12 @@ public class TransactionHistoryFragment extends Fragment implements TransactionH
     }
 
     @Override
+    public void onStop() {
+        while (!((SwiftWalletApp) rootAct.getApplication()).getTransactionHistoryProducer().unsubscribe(this));
+        super.onStop();
+    }
+
+    @Override
     public void receiveTransactions(List<Transaction> transactions) {
         rootAct.runOnUiThread(new Runnable() {
             @Override

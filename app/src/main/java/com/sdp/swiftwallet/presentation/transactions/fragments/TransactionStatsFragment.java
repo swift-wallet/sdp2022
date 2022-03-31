@@ -65,6 +65,12 @@ public class TransactionStatsFragment extends Fragment implements TransactionHis
         while (!((SwiftWalletApp) rootAct.getApplication()).getTransactionHistoryProducer().subscribe(this));
     }
 
+    @Override
+    public void onStop() {
+        while (!((SwiftWalletApp) rootAct.getApplication()).getTransactionHistoryProducer().unsubscribe(this));
+        super.onStop();
+    }
+
     /**
      * Basic PieChart setup methods
      */
