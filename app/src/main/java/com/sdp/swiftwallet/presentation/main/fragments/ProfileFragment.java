@@ -1,21 +1,18 @@
 package com.sdp.swiftwallet.presentation.main.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
-
-import android.view.View.OnClickListener;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.fragment.app.Fragment;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.common.FirebaseUtil;
-import com.sdp.swiftwallet.presentation.signIn.LoginActivity;
 
 import javax.inject.Inject;
 
@@ -53,14 +50,11 @@ public class ProfileFragment extends Fragment {
     }
 
     /**
-     * If user is logged show user infos, else return to login
+     * If user is logged show user infos
      * @param view The view to display profile infos
      */
     private void checkUser(View view) {
-        if (mAuth.getCurrentUser() == null) {
-            startActivity(new Intent(getActivity(), LoginActivity.class));
-        }
-        else {
+        if (mAuth.getCurrentUser() != null) {
             String email = mAuth.getCurrentUser().getEmail();
             TextView emailTv = view.findViewById(R.id.email);
             emailTv.setText(email);
