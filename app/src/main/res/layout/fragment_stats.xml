@@ -25,11 +25,19 @@
             android:text="@string/go_to_crypto_values"
             android:layout_gravity="center">
         </Button>
+
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/transaction_history_button"
             android:text="@string/go_to_transaction_history"
+            />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/create_transaction_button"
+            android:text="Create dummy transaction"
             />
     </LinearLayout>
 

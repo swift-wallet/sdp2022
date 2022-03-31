@@ -29,7 +29,7 @@
 
     <!-- TRANSACTION HISTORY -->
     <string name="go_to_transaction_history">Go to transaction history</string>
-    <string name="transactionHistoryGeneratorExtraKey">TRANSAC_HIST_GEN_KEY</string>
+    <string name="transactionHistoryProducerExtraKey">TRANSAC_HIST_GEN_KEY</string>
 
     <!-- QR -->
     <string name="qr_generate_button">Generate a QR-CODE</string>
