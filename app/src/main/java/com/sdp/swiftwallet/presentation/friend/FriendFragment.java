@@ -56,20 +56,11 @@ public class FriendFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.fragment_friend, container, false);
 
         Button showAddFriendButton = view.findViewById(R.id.showAddFriendBtn);
         showAddFriendButton.setOnClickListener(v -> {
-            if (view.findViewById(R.id.friendCode).getVisibility() != View.VISIBLE) {
-                view.findViewById(R.id.friendCode).setVisibility(View.VISIBLE);
-                view.findViewById(R.id.addFriendBtn).setVisibility(View.VISIBLE);
-                view.findViewById(R.id.addFriendStatus).setVisibility(View.GONE);
-            } else {
-                view.findViewById(R.id.friendCode).setVisibility(View.GONE);
-                view.findViewById(R.id.addFriendBtn).setVisibility(View.GONE);
-                view.findViewById(R.id.addFriendStatus).setVisibility(View.GONE);
-            }
+            setVisible(view, view.findViewById(R.id.friendCode).getVisibility() != View.VISIBLE);
         });
 
         Button addFriendButton = view.findViewById(R.id.addFriendBtn);
@@ -80,45 +71,50 @@ public class FriendFragment extends Fragment{
                         DocumentSnapshot document = task.getResult();
                         view.findViewById(R.id.addFriendStatus).setVisibility(View.VISIBLE);
                         String friendId = ((EditText)view.findViewById(R.id.friendCode)).getText().toString();
-                        assert document != null;
-                        if (friendId == mAuth.getCurrentUser().getUid()) {
-                            ((TextView)view.findViewById(R.id.addFriendStatus)).setText("Cannot Add Yourself");
-                        }
-                        if (!document.exists() || Objects.requireNonNull(document.getData()).get(friendId) == null) {
-                            //friend request has not sent -> show friend request sent
-                            db.collection("friend_list").document(mAuth.getCurrentUser().getUid())
-                                    .set(Collections.singletonMap(friendId, "1"), SetOptions.merge());
-                            db.collection("friend_list").document(friendId)
-                                    .set(Collections.singletonMap(mAuth.getCurrentUser().getUid(), "2"), SetOptions.merge());
-                            ((TextView)view.findViewById(R.id.addFriendStatus)).setText("Friend Request Sent");
-                        } else {
-                            //todo: create enum for friend status
-                            //1: request pending, 2: request from friend pending, 3: friends
-                            switch ((String)document.getData().get(friendId)) {
-                                //friend_list -> current_user_id -> friend_id : status(int)
-                                //friend_list -> friend_id -> current_user_id : status(int)
-                                case "1": //friend request pending -> show friend request already pending
-                                    ((TextView)view.findViewById(R.id.addFriendStatus)).setText("Friend Request Sent");
-                                case "2": //friend request from the person pending -> show friend added
-                                    db.collection("friend_list").document(mAuth.getCurrentUser().getUid())
-                                            .set(Collections.singletonMap(friendId, "3"), SetOptions.merge());
-                                    db.collection("friend_list").document(friendId)
-                                            .set(Collections.singletonMap(mAuth.getCurrentUser().getUid(), "3"), SetOptions.merge());
-                                    ((TextView)view.findViewById(R.id.addFriendStatus)).setText("Friend Added");
-                                case "3": //show is already friend
-                                    ((TextView)view.findViewById(R.id.addFriendStatus)).setText("Is Friend");
-                            }
-                        }
-                    } else {
-                        Log.d(TAG, "get failed with ", task.getException());
+                        String status = !document.exists() ? "0" : (String)document.getData().get(friendId);
+                        sendFriendRequest(view, mAuth.getCurrentUser().getUid(),
+                                friendId, status);
                     }
                 }));
-
         loadFriendItems();
         return view;
     }
+    private void setVisible(View view, boolean visible) {
+        view.findViewById(R.id.friendCode).setVisibility(visible ? View.VISIBLE : View.GONE);
+        view.findViewById(R.id.addFriendBtn).setVisibility(visible ? View.VISIBLE : View.GONE);
+        view.findViewById(R.id.addFriendStatus).setVisibility(View.GONE);
+    }
 
-
+    private void sendFriendRequest(View view, String userId, String friendId, String status) {
+        if (friendId.equals(userId)) {
+            ((TextView)view.findViewById(R.id.addFriendStatus)).setText("Cannot Add Yourself");
+        } else {
+            //0: has not sent request, 1: request pending, 2: request from friend pending, 3: friends
+            switch (status) {
+                case "1": //friend request pending -> show friend request already pending
+                    ((TextView)view.findViewById(R.id.addFriendStatus)).setText("Friend Request Sent");
+                    break;
+                case "2": //friend request from the person pending -> show friend added
+                    db.collection("friend_list").document(userId)
+                            .set(Collections.singletonMap(friendId, "3"), SetOptions.merge());
+                    db.collection("friend_list").document(friendId)
+                            .set(Collections.singletonMap(userId, "3"), SetOptions.merge());
+                    ((TextView)view.findViewById(R.id.addFriendStatus)).setText("Friend Added");
+                    break;
+                case "3": //show is already friend
+                    ((TextView)view.findViewById(R.id.addFriendStatus)).setText("Is Friend");
+                    break;
+                default:
+                case "0"://friend request has not sent -> show friend request sent
+                    db.collection("friend_list").document(userId)
+                            .set(Collections.singletonMap(friendId, "1"), SetOptions.merge());
+                    db.collection("friend_list").document(friendId)
+                            .set(Collections.singletonMap(userId, "2"), SetOptions.merge());
+                    ((TextView)view.findViewById(R.id.addFriendStatus)).setText("Friend Request Sent");
+                    break;
+            }
+        }
+    }
     public void loadFriendItems() {
         db.collection("friend_list")
                 .document(Objects.requireNonNull(mAuth.getCurrentUser()).getUid()).get()
