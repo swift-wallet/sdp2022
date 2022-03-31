@@ -17,6 +17,9 @@ import com.sdp.swiftwallet.presentation.main.fragments.PaymentFragment;
 import com.sdp.swiftwallet.presentation.main.fragments.ProfileFragment;
 import com.sdp.swiftwallet.presentation.main.fragments.StatsFragment;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class MainActivity extends AppCompatActivity {
 
     private FragmentManager fragmentManager;
