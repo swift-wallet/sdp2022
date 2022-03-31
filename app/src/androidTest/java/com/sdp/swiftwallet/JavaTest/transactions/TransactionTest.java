@@ -1,4 +1,4 @@
-package com.sdp.swiftwallet.JavaTest;
+package com.sdp.swiftwallet.JavaTest.transactions;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -95,5 +95,101 @@ public class TransactionTest {
             Transaction t = new Transaction(0, CURR, MY_WALL, THEIR_WALL, id);
             assertThat(t.getTransactionID(), is(id));
         }
+    }
+
+    @Test
+    public void builderThrowsISEIfCurrNotSet() {
+        Transaction.Builder builder = new Transaction.Builder();
+
+        builder
+                .setAmount(0)
+                .setMyWallet(MY_WALL)
+                .setTheirWallet(THEIR_WALL)
+                .setId(0);
+
+        IllegalStateException exception = assertThrows(IllegalStateException.class, () -> {
+            Transaction t = builder.build();
+        });
+
+        assertThat(exception.getMessage(), is("Cannot build transaction with null parameters"));
+    }
+
+    @Test
+    public void builderThrowsISEIfMyWallNotSet() {
+        Transaction.Builder builder = new Transaction.Builder();
+
+        builder
+                .setAmount(0)
+                .setCurr(CURR)
+                .setTheirWallet(THEIR_WALL)
+                .setId(0);
+
+        IllegalStateException exception = assertThrows(IllegalStateException.class, () -> {
+            Transaction t = builder.build();
+        });
+
+        assertThat(exception.getMessage(), is("Cannot build transaction with null parameters"));
+    }
+
+    @Test
+    public void builderThrowsISEIfTheirWalletNotSet() {
+        Transaction.Builder builder = new Transaction.Builder();
+
+        builder
+                .setAmount(0)
+                .setCurr(CURR)
+                .setMyWallet(MY_WALL)
+                .setId(0);
+
+        IllegalStateException exception = assertThrows(IllegalStateException.class, () -> {
+            Transaction t = builder.build();
+        });
+
+        assertThat(exception.getMessage(), is("Cannot build transaction with null parameters"));
+    }
+
+    @Test
+    public void builderWorksWhenAllSet() {
+        Transaction.Builder builder = new Transaction.Builder();
+
+        double amount = new Random().nextDouble() * 1000;
+        int id = new Random().nextInt();
+
+        builder
+                .setAmount(amount)
+                .setCurr(CURR)
+                .setMyWallet(MY_WALL)
+                .setTheirWallet(THEIR_WALL)
+                .setId(id);
+
+        Transaction t = builder.build();
+
+        assertThat(t.getTransactionID(), is(id));
+        assertThat(t.getAmount(), is(amount));
+        assertThat(t.getMyWallet(), is(MY_WALL));
+        assertThat(t.getTheirWallet(), is(THEIR_WALL));
+        assertThat(t.getCurr(), is(CURR));
+    }
+
+    @Test
+    public void builderCanSetAmountWithConstructor() {
+        double amount = new Random().nextDouble() * 1000;
+        Transaction.Builder builder = new Transaction.Builder(amount);
+
+        int id = new Random().nextInt();
+
+        builder
+                .setCurr(CURR)
+                .setMyWallet(MY_WALL)
+                .setTheirWallet(THEIR_WALL)
+                .setId(id);
+
+        Transaction t = builder.build();
+
+        assertThat(t.getTransactionID(), is(id));
+        assertThat(t.getAmount(), is(amount));
+        assertThat(t.getMyWallet(), is(MY_WALL));
+        assertThat(t.getTheirWallet(), is(THEIR_WALL));
+        assertThat(t.getCurr(), is(CURR));
     }
 }

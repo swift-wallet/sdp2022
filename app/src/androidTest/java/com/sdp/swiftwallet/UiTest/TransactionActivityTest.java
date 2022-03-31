@@ -1,10 +1,13 @@
 package com.sdp.swiftwallet.UiTest;
 
+import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withSubstring;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 import android.content.Intent;
 import android.os.Parcel;
@@ -30,9 +33,9 @@ import org.junit.runner.RunWith;
 import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 
-//TODO fix tests to work with new HistoryGenerator interface
 
 @RunWith(AndroidJUnit4.class)
 public class TransactionActivityTest {
@@ -62,13 +65,6 @@ public class TransactionActivityTest {
                 .getApplicationContext())
                 .setTransactionHistoryProducer(producer);
     }
-
-//    @Test
-//    public void foreverTest() {
-//        try (ActivityScenario<TransactionActivity> scenario = ActivityScenario.launch(i)) {
-//            for(;;);
-//        }
-//    }
 
     @Test
     public void historyButtonIsDisplayed() {
@@ -138,6 +134,41 @@ public class TransactionActivityTest {
             onView(withId(R.id.transaction_statsButton)).perform(click());
             onView(withId(R.id.transaction_statsFragment)).check(matches(isDisplayed()));
             onView(withId(R.id.transaction_pieChart)).check(matches(isDisplayed()));
+        }
+    }
+
+    @Test
+    public void addingANewTransactionDisplaysItInHistory() {
+        try (ActivityScenario<TransactionActivity> scenario = ActivityScenario.launch(i)) {
+            Transaction t1 = new Transaction(2.2, CURR_2, MY_WALL, THEIR_WALL, 1);
+            Transaction t2 = new Transaction(17.5, CURR_1, MY_WALL, THEIR_WALL, 2);
+            Transaction t3 = new Transaction(-19, CURR_3, MY_WALL, THEIR_WALL, 3);
+            Transaction t4 = new Transaction(22, CURR_4, MY_WALL, THEIR_WALL, 4);
+            Transaction t5 = new Transaction(76, CURR_2, MY_WALL, THEIR_WALL, 5);
+            producer.addTransaction(t1);
+            producer.addTransaction(t2);
+            producer.addTransaction(t3);
+            producer.addTransaction(t4);
+            producer.addTransaction(t5);
+            producer.alertAll();
+        }
+    }
+
+    @Test
+    public void addingANewTransactionDisplaysItInStats() {
+        try (ActivityScenario<TransactionActivity> scenario = ActivityScenario.launch(i)) {
+            onView(withId(R.id.transaction_statsButton)).perform(click());
+            Transaction t1 = new Transaction(2.2, CURR_2, MY_WALL, THEIR_WALL, 1);
+            Transaction t2 = new Transaction(17.5, CURR_1, MY_WALL, THEIR_WALL, 2);
+            Transaction t3 = new Transaction(-19, CURR_3, MY_WALL, THEIR_WALL, 3);
+            Transaction t4 = new Transaction(22, CURR_4, MY_WALL, THEIR_WALL, 4);
+            Transaction t5 = new Transaction(76, CURR_2, MY_WALL, THEIR_WALL, 5);
+            producer.addTransaction(t1);
+            producer.addTransaction(t2);
+            producer.addTransaction(t3);
+            producer.addTransaction(t4);
+            producer.addTransaction(t5);
+            producer.alertAll();
         }
     }
 
