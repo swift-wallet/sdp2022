@@ -13,7 +13,7 @@ public class HelperFunctions {
   //one lower case letter and one digit, and 6 - 10 character long
   public static String PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{6,10}$";
 
-  //USERNAME_PATTERN to complete
+  //USERNAME_PATTERN to complete (no stupid char + more than 3 characters)
   public static String USERNAME_PATTERN = "[a-zA-Z0-9\\._\\-]{3,}";
 
   /**
