@@ -25,7 +25,8 @@
             android:parentActivityName="com.sdp.swiftwallet.CryptoValuesActivity" />
         <activity
             android:name="com.sdp.swiftwallet.presentation.signIn.RegisterActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName="com.sdp.swiftwallet.presentation.signIn.LoginActivity" />
         <activity
             android:name="com.sdp.swiftwallet.presentation.wallet.CreateSeedActivity"
             android:exported="false"
@@ -51,7 +52,6 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -59,7 +59,11 @@
             android:name="com.sdp.swiftwallet.CryptoValuesActivity"
             android:exported="false"
             android:parentActivityName="com.sdp.swiftwallet.presentation.main.MainActivity" />
-        <activity android:name="com.sdp.swiftwallet.presentation.signIn.ForgotPasswordActivity" />
+
+        <activity
+            android:name="com.sdp.swiftwallet.presentation.signIn.ForgotPasswordActivity"
+            android:exported="false"
+            android:parentActivityName="com.sdp.swiftwallet.presentation.main.MainActivity" />
     </application>
 
 </manifest>
