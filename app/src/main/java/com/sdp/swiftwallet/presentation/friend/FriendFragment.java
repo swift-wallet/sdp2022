@@ -46,11 +46,11 @@ public class FriendFragment extends Fragment{
         mAuth = FirebaseUtil.getAuth();
         db = FirebaseFirestore.getInstance();
 
-//        friendItemFragment = new FriendItemFragment();
-//        getChildFragmentManager().beginTransaction()
-//                .add(R.id.home_nested_frag_container, friendItemFragment, WalletItemFragment.class.getName())
-//                .setReorderingAllowed(true)
-//                .commit();
+        friendItemFragment = new FriendItemFragment();
+        getChildFragmentManager().beginTransaction()
+                .add(R.id.friend_nested_frag_container, friendItemFragment, FriendItemFragment.class.getName())
+                .setReorderingAllowed(true)
+                .commit();
     }
 
     @Override
@@ -114,7 +114,7 @@ public class FriendFragment extends Fragment{
                     }
                 }));
 
-//        loadFriendItems();
+        loadFriendItems();
         return view;
     }
 
@@ -130,7 +130,9 @@ public class FriendFragment extends Fragment{
                             Map <String , Object > data = document.getData();
                             assert data != null;
                             for (String friendId : data.keySet()) {
-                                friendItemFragment.addFriendItem(friendId);
+                                if (data.get(friendId).toString().equals("3")) {
+                                    friendItemFragment.addFriendItem(friendId);
+                                }
                             }
                         } else {
                             Log.d(TAG, "user_friend_list empty");
