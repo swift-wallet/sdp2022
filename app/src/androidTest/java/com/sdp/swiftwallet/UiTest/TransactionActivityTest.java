@@ -153,6 +153,14 @@ public class TransactionActivityTest {
             return subscribers.add(subscriber);
         }
 
+        @Override
+        public boolean unsubscribe(TransactionHistorySubscriber subscriber) {
+            if (subscribers.contains(subscriber)) {
+                return subscribers.remove(subscriber);
+            }
+            return true;
+        }
+
         public void alertAll() {
             for (TransactionHistorySubscriber subscriber : subscribers) {
                 subscriber.receiveTransactions(list);
