@@ -45,6 +45,11 @@ public class SwiftWalletAppTest {
             public boolean subscribe(TransactionHistorySubscriber subscriber) {
                 return false;
             }
+
+            @Override
+            public boolean unsubscribe(TransactionHistorySubscriber subscriber) {
+                return false;
+            }
         };
 
         app.setTransactionHistoryProducer(producer);
