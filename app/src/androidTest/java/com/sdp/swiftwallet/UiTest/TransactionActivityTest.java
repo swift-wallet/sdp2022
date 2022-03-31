@@ -7,17 +7,17 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 
 import android.content.Intent;
-import android.os.Parcel;
-import android.os.Parcelable;
 
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.sdp.cryptowalletapp.R;
+import com.sdp.swiftwallet.SwiftWalletApp;
 import com.sdp.swiftwallet.domain.model.Currency;
 import com.sdp.swiftwallet.domain.model.Transaction;
-import com.sdp.swiftwallet.domain.repository.TransactionHistoryGenerator;
+import com.sdp.swiftwallet.domain.repository.TransactionHistoryProducer;
+import com.sdp.swiftwallet.domain.repository.TransactionHistorySubscriber;
 import com.sdp.swiftwallet.presentation.transactions.TransactionActivity;
 
 import org.junit.Before;
@@ -26,33 +26,35 @@ import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
+
 
 @RunWith(AndroidJUnit4.class)
 public class TransactionActivityTest {
-    private final static Currency CURR = new Currency("DumbCoin", "DUM", 9.5);
+    private final static Currency CURR_1 = new Currency("DumbCoin", "DUM", 5);
+    private final static Currency CURR_2 = new Currency("BitCoin", "BTC", 3);
+    private final static Currency CURR_3 = new Currency("Ethereum", "ETH", 4);
+    private final static Currency CURR_4 = new Currency("SwiftCoin", "SWT", 6);
     private final static String MY_WALL = "MY_WALL";
     private final static String THEIR_WALL = "THEIR_WALL";
-    private final static List<Transaction> list = new ArrayList<>();
+    private final static List<Currency> currencyList = new ArrayList<>();
 
     static {
-        Random r = new Random();
-        for (int i = 0; i < 50; i++) {
-            double amount = -100 + r.nextDouble() * 200;
-            Transaction t = new Transaction(amount, CURR, MY_WALL, THEIR_WALL, i);
-            list.add(t);
-        }
+        currencyList.add(CURR_1);
+        currencyList.add(CURR_2);
+        currencyList.add(CURR_3);
+        currencyList.add(CURR_4);
     }
 
     private Intent i;
+    private DummyHistoryProducer producer;
 
     @Before
     public void setupIntent() {
         i = new Intent(ApplicationProvider.getApplicationContext(), TransactionActivity.class);
-        i.putExtra(
-                ApplicationProvider.getApplicationContext().getString(R.string.transactionHistoryGeneratorExtraKey),
-                (Parcelable) new DummyTransactionGenerator()
-        );
+        producer = new DummyHistoryProducer();
+        ((SwiftWalletApp) ApplicationProvider
+                .getApplicationContext())
+                .setTransactionHistoryProducer(producer);
     }
 
     @Test
@@ -126,37 +128,67 @@ public class TransactionActivityTest {
         }
     }
 
-    public static class DummyTransactionGenerator implements TransactionHistoryGenerator, Parcelable {
+    @Test
+    public void addingANewTransactionDisplaysItInHistory() {
+        try (ActivityScenario<TransactionActivity> scenario = ActivityScenario.launch(i)) {
+            Transaction t1 = new Transaction(2.2, CURR_2, MY_WALL, THEIR_WALL, 1);
+            Transaction t2 = new Transaction(17.5, CURR_1, MY_WALL, THEIR_WALL, 2);
+            Transaction t3 = new Transaction(-19, CURR_3, MY_WALL, THEIR_WALL, 3);
+            Transaction t4 = new Transaction(22, CURR_4, MY_WALL, THEIR_WALL, 4);
+            Transaction t5 = new Transaction(76, CURR_2, MY_WALL, THEIR_WALL, 5);
+            producer.addTransaction(t1);
+            producer.addTransaction(t2);
+            producer.addTransaction(t3);
+            producer.addTransaction(t4);
+            producer.addTransaction(t5);
+            producer.alertAll();
+        }
+    }
+
+    @Test
+    public void addingANewTransactionDisplaysItInStats() {
+        try (ActivityScenario<TransactionActivity> scenario = ActivityScenario.launch(i)) {
+            onView(withId(R.id.transaction_statsButton)).perform(click());
+            Transaction t1 = new Transaction(2.2, CURR_2, MY_WALL, THEIR_WALL, 1);
+            Transaction t2 = new Transaction(17.5, CURR_1, MY_WALL, THEIR_WALL, 2);
+            Transaction t3 = new Transaction(-19, CURR_3, MY_WALL, THEIR_WALL, 3);
+            Transaction t4 = new Transaction(22, CURR_4, MY_WALL, THEIR_WALL, 4);
+            Transaction t5 = new Transaction(76, CURR_2, MY_WALL, THEIR_WALL, 5);
+            producer.addTransaction(t1);
+            producer.addTransaction(t2);
+            producer.addTransaction(t3);
+            producer.addTransaction(t4);
+            producer.addTransaction(t5);
+            producer.alertAll();
+        }
+    }
+
+    public static class DummyHistoryProducer implements TransactionHistoryProducer {
+        private List<TransactionHistorySubscriber> subscribers = new ArrayList<>();
+        private List<Transaction> transactions = new ArrayList<>();
+
         @Override
-        public int describeContents() {
-            return 0;
+        public boolean subscribe(TransactionHistorySubscriber subscriber) {
+            subscriber.receiveTransactions(transactions);
+            return subscribers.add(subscriber);
         }
 
         @Override
-        public void writeToParcel(Parcel dest, int flags) {
-        }
-
-        @Override
-        public List<Transaction> getTransactionHistory() {
-            return list;
-        }
-
-        public static final Parcelable.Creator<DummyTransactionGenerator> CREATOR = new Parcelable.Creator<DummyTransactionGenerator>() {
-            @Override
-            public DummyTransactionGenerator createFromParcel(Parcel source) {
-                return new DummyTransactionGenerator(source);
+        public boolean unsubscribe(TransactionHistorySubscriber subscriber) {
+            if (subscribers.contains(subscriber)) {
+                return subscribers.remove(subscriber);
             }
-
-            @Override
-            public DummyTransactionGenerator[] newArray(int size) {
-                return new DummyTransactionGenerator[size];
-            }
-        };
-
-        private DummyTransactionGenerator(Parcel in) {
+            return true;
         }
 
-        public DummyTransactionGenerator() {
+        public void alertAll() {
+            for (TransactionHistorySubscriber subscriber : subscribers) {
+                subscriber.receiveTransactions(transactions);
+            }
+        }
+
+        public void addTransaction(Transaction t) {
+            transactions.add(t);
         }
     }
 }
