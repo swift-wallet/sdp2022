@@ -19,6 +19,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * TransactionHistoryProducer implementation with a Firestore database
+ */
 public class FirebaseTransactionHistoryProducer implements TransactionHistoryProducer {
     private static final String COLLECTION_NAME = "transactions";
     private static final String AMOUNT_KEY = "amount";
@@ -48,6 +51,9 @@ public class FirebaseTransactionHistoryProducer implements TransactionHistoryPro
         initSnapshotListener();
     }
 
+    /**
+     * Register a snapshot listener to the Firestore database
+     */
     private void initSnapshotListener() {
         db.collection(COLLECTION_NAME).orderBy(TRANSACTION_ID_KEY).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
@@ -82,22 +88,44 @@ public class FirebaseTransactionHistoryProducer implements TransactionHistoryPro
         });
     }
 
+    /**
+     * Alert all subscribers of this producer of new transactions
+     */
     private void alertAll() {
         for (TransactionHistorySubscriber subscriber : subscribers) {
             subscriber.receiveTransactions(transactions);
         }
     }
 
+    /**
+     * Alert a single subscriber of new transactions
+     *
+     * @param subscriber the subscriber to alert
+     */
     private void alert(TransactionHistorySubscriber subscriber) {
         subscriber.receiveTransactions(transactions);
     }
 
     @Override
     public boolean subscribe(TransactionHistorySubscriber subscriber) {
-        if (subscriber != null && subscribers.add(subscriber)) {
-            subscriber.receiveTransactions(transactions);
+        if (subscriber == null) {
+            throw new IllegalArgumentException("Cannot subscribe a null subscriber");
+        }
+        if (subscribers.add(subscriber)) {
+            alert(subscriber);
             return true;
         }
         return false;
+    }
+
+    @Override
+    public boolean unsubscribe(TransactionHistorySubscriber subscriber) {
+        if (subscriber == null) {
+            throw new IllegalArgumentException("Cannot unsubscribe a null subscriber");
+        }
+        if (subscribers.contains(subscriber)) {
+            return subscribers.remove(subscriber);
+        }
+        return true;
     }
 }

@@ -16,4 +16,12 @@ public interface TransactionHistoryProducer {
      * @return
      */
     boolean subscribe(TransactionHistorySubscriber subscriber);
+
+    /**
+     * Method used by TransactionHistorySubscribers to unregister for updates
+     *
+     * @param subscriber a subscriber that should be unsubscribed from this producer
+     * @return
+     */
+    boolean unsubscribe(TransactionHistorySubscriber subscriber);
 }
