@@ -45,6 +45,7 @@
     <string name="seed_info">A seed is a secret key made of random words for you to keep your wallets, you need to keep it in a secret place.</string>
     <string name="generate_seed">Generate a seed</string>
     <string name="save_seed">Save this seed</string>
+    <string name="createAdressBtnDescription">A plus in a circle</string>
 
     <!-- NAVIGATION -->
     <string name="nav_message">Conversations</string>
