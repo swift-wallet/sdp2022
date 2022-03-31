@@ -5,13 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="35dp"
+    android:id="@+id/loginActivity"
     tools:context="com.sdp.swiftwallet.presentation.signIn.LoginActivity">
 
     <TextView
         android:id="@+id/loginTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="SwiftWallet"
+        android:text="@string/appTitle"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -26,68 +27,69 @@
         android:layout_marginTop="8dp"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        />
+        android:contentDescription="@string/appLogoDescription" />
 
     <TextView
-        android:id="@+id/emailHeader"
+        android:id="@+id/loginEmailTv"
         android:layout_width="match_parent"
-        android:layout_height="37dp"
-        android:text="Email"
+        android:layout_height="wrap_content"
+        android:text="@string/EmailTv"
         app:layout_constraintTop_toBottomOf="@+id/appLogo"
         android:layout_marginTop="50dp"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
+        android:labelFor="@+id/loginEmailEt"
         />
 
     <EditText
-        android:id="@+id/loginEmail"
+        android:id="@+id/loginEmailEt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:ems="10"
         android:inputType="textEmailAddress"
-        app:layout_constraintTop_toBottomOf="@+id/emailHeader"
+        app:layout_constraintTop_toBottomOf="@+id/loginEmailTv"
+        android:layout_marginTop="10dp"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        />
+        android:importantForAutofill="no" />
 
     <TextView
-        android:id="@+id/passwordHeader"
+        android:id="@+id/loginPasswordTv"
         android:layout_width="match_parent"
-        android:layout_height="44dp"
-        android:text="Password"
-        app:layout_constraintTop_toBottomOf="@+id/loginEmail"
+        android:layout_height="wrap_content"
+        android:text="@string/passwordTv"
+        app:layout_constraintTop_toBottomOf="@+id/loginEmailEt"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
+        android:labelFor="@+id/loginPasswordEt"
         />
 
     <EditText
-        android:id="@+id/loginPassword"
+        android:id="@+id/loginPasswordEt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
         android:inputType="textPassword"
-        app:layout_constraintTop_toBottomOf="@+id/passwordHeader"
+        app:layout_constraintTop_toBottomOf="@+id/loginPasswordTv"
+        android:layout_marginTop="10dp"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        />
+        android:importantForAutofill="no" />
 
     <Button
         android:id="@+id/loginButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="@string/loginBtnText"
+        app:layout_constraintTop_toBottomOf="@+id/loginPasswordEt"
         android:layout_marginTop="20dp"
-        android:text="Login"
-        app:layout_constraintTop_toBottomOf="@+id/loginPassword"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         />
 
     <TextView
-        android:id="@+id/forgotPassword"
+        android:id="@+id/forgotPasswordTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Forgot Password?"
+        android:text="@string/forgotPasswordTv"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintTop_toBottomOf="@+id/loginButton"
@@ -96,10 +98,10 @@
         />
 
     <TextView
-        android:id="@+id/register"
+        android:id="@+id/registerTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Register"
+        android:text="@string/registerTv"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintTop_toBottomOf="@+id/loginButton"
@@ -113,7 +115,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:textColor="#FF0000"
-        app:layout_constraintTop_toBottomOf="@+id/forgotPassword"
+        app:layout_constraintTop_toBottomOf="@+id/forgotPasswordTv"
         app:layout_constraintBottom_toTopOf="@+id/googleSignInBtn"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"

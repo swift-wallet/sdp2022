@@ -13,18 +13,23 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.os.Bundle;
+
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+
+import androidx.fragment.app.Fragment;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.common.FirebaseUtil;
-import com.sdp.swiftwallet.presentation.signIn.LoginActivity;
 
+import com.sdp.swiftwallet.presentation.signIn.LoginActivity;
 import javax.inject.Inject;
 
 import dagger.hilt.DefineComponent;
@@ -82,7 +87,7 @@ public class ProfileFragment extends Fragment {
     }
 
     /**
-     * If user is logged show user infos, else return to login
+     * If user is logged show user infos
      * @param view The view to display profile infos
      */
     private void checkUser(View view) {
