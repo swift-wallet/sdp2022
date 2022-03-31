@@ -116,26 +116,28 @@ public class FriendFragment extends Fragment{
         }
     }
     public void loadFriendItems() {
-        db.collection("friend_list")
-                .document(Objects.requireNonNull(mAuth.getCurrentUser()).getUid()).get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        DocumentSnapshot document = task.getResult();
-                        assert document != null;
-                        if (document.exists()) {
-                            Map <String , Object > data = document.getData();
-                            assert data != null;
-                            for (String friendId : data.keySet()) {
-                                if (data.get(friendId).toString().equals("3")) {
-                                    friendItemFragment.addFriendItem(friendId);
+        if (mAuth.getCurrentUser() != null) {
+            db.collection("friend_list")
+                    .document(mAuth.getCurrentUser().getUid()).get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            assert document != null;
+                            if (document.exists()) {
+                                Map<String, Object> data = document.getData();
+                                assert data != null;
+                                for (String friendId : data.keySet()) {
+                                    if (data.get(friendId).toString().equals("3")) {
+                                        friendItemFragment.addFriendItem(friendId);
+                                    }
                                 }
+                            } else {
+                                Log.d(TAG, "user_friend_list empty");
                             }
                         } else {
-                            Log.d(TAG, "user_friend_list empty");
+                            Log.d(TAG, "get failed with ", task.getException());
                         }
-                    } else {
-                        Log.d(TAG, "get failed with ", task.getException());
-                    }
-                });
+                    });
+        }
     }
 }
