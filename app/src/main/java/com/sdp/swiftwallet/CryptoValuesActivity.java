@@ -1,6 +1,5 @@
 package com.sdp.swiftwallet;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -12,6 +11,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.test.espresso.idling.CountingIdlingResource;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -34,6 +34,8 @@ public class CryptoValuesActivity extends AppCompatActivity {
     private ArrayList<Currency> currencyArrayList;
     private CurrencyAdapter currencyAdapter;
 
+    private CountingIdlingResource mIdlingResource;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +47,8 @@ public class CryptoValuesActivity extends AppCompatActivity {
         currencyAdapter = new CurrencyAdapter(currencyArrayList, this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(currencyAdapter);
+        mIdlingResource = new CountingIdlingResource("CryptoValue Calls");
+        mIdlingResource.increment();
         getCurrencyData();
         searchCrypto.addTextChangedListener(new TextWatcher() {
 
@@ -60,7 +64,9 @@ public class CryptoValuesActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
+                mIdlingResource.increment();
                 filterCurrencies(editable.toString());
+                mIdlingResource.decrement();
             }
         });
     }
@@ -101,6 +107,7 @@ public class CryptoValuesActivity extends AppCompatActivity {
                     currencyArrayList.add(new Currency(name, symbol, value));
                 }
                 currencyAdapter.notifyDataSetChanged();
+                mIdlingResource.decrement();
             } catch (JSONException e) {
                 e.printStackTrace();
                 Toast.makeText(CryptoValuesActivity.this, "Couldn't extract JSON data... Please try again later.", Toast.LENGTH_SHORT).show();
@@ -119,6 +126,10 @@ public class CryptoValuesActivity extends AppCompatActivity {
             }
         };
         requestQueue.add(jsonObjectRequest);
+    }
+
+    public CountingIdlingResource getIdlingResource() {
+        return mIdlingResource;
     }
 
 }

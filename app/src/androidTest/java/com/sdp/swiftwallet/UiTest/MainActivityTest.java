@@ -12,6 +12,7 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import com.sdp.cryptowalletapp.R;
 
 import com.sdp.swiftwallet.presentation.main.MainActivity;
+import com.sdp.swiftwallet.presentation.signIn.RegisterActivity;
 
 import org.junit.After;
 import org.junit.Before;

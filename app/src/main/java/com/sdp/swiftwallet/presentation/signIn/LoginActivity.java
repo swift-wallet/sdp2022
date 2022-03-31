@@ -1,7 +1,6 @@
 package com.sdp.swiftwallet.presentation.signIn;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,6 +14,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.test.espresso.idling.CountingIdlingResource;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -36,8 +36,6 @@ import com.sdp.swiftwallet.presentation.main.MainActivity;
 import java.util.Locale;
 
 public class LoginActivity extends AppCompatActivity {
-    public static final String EXTRA_MESSAGE = "com.sdp.swiftwallet.LOGIN";
-    public static final String WELCOME_MESSAGE = "Welcome to SwiftWallet!";
     private static final String EMAIL_SIGNIN_TAG = "EMAIL_SIGNIN_TAG";
     private static final String GOOGLE_SIGNIN_TAG = "GOOGLE_SIGNIN_TAG";
 
@@ -48,6 +46,8 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private ActivityResultLauncher<Intent> googleSignInActivityResultLauncher;
 
+    private CountingIdlingResource mIdlingResource;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,9 +56,12 @@ public class LoginActivity extends AppCompatActivity {
         attemptsTextView = (TextView) findViewById(R.id.attemptsMessage);
         attemptsTextView.setText("");
 
-        //Init client authentication and launcher for google signIn
+        // Init client authentication and launcher for google signIn
         mAuth = FirebaseUtil.getAuth();
         initGoogleSignInResultLauncher();
+
+        // Init idling resource for testing purpose
+        mIdlingResource = new CountingIdlingResource("Login Calls");
 
         // Set Listeners
         SignInButton googleSignInBtn = findViewById(R.id.googleSignInBtn);
@@ -67,13 +70,12 @@ public class LoginActivity extends AppCompatActivity {
         Button loginBtn = findViewById(R.id.loginButton);
         loginBtn.setOnClickListener(v -> login());
 
-      //Sets up the forgot password recover option for users
-        TextView forgoPwTv = findViewById(R.id.forgotPassword);
-        forgoPwTv.setOnClickListener(v ->
-          startActivity(new Intent(this, ForgotPasswordActivity.class))
+        TextView forgotPasswordTv = findViewById(R.id.forgotPasswordTv);
+        forgotPasswordTv.setOnClickListener(v ->
+                startActivity(new Intent(LoginActivity.this, ForgotPasswordActivity.class))
         );
 
-        TextView registerTv = findViewById(R.id.register);
+        TextView registerTv = findViewById(R.id.registerTv);
         registerTv.setOnClickListener(v ->
                 startActivity(new Intent(LoginActivity.this, RegisterActivity.class))
         );
@@ -84,8 +86,8 @@ public class LoginActivity extends AppCompatActivity {
      * check email and password validity before signIn
      */
     public void login() {
-        //Retrieve username and password from login screen
-        EditText editText = (EditText) findViewById(R.id.loginEmail);
+        // Retrieve username and password from login screen
+        EditText editText = (EditText) findViewById(R.id.loginEmailEt);
         String email = editText.getText().toString().trim();
         // Display error if not valid
         if (email.isEmpty()) {
@@ -93,7 +95,7 @@ public class LoginActivity extends AppCompatActivity {
             editText.requestFocus();
             return;
         }
-        editText = (EditText) findViewById(R.id.loginPassword);
+        editText = (EditText) findViewById(R.id.loginPasswordEt);
         String password = editText.getText().toString().trim();
         if (password.isEmpty()) {
             editText.setError("password required");
@@ -110,14 +112,14 @@ public class LoginActivity extends AppCompatActivity {
      * Also Display error if credentials were wrong
      */
     private void checkAttempts() {
-        //Check if over max attempts
+        // Check if over max attempts
         if (++loginAttempts >= MAX_LOGIN_ATTEMPTS) {
             Intent mainIntent = new Intent(LoginActivity.this, MainActivity.class);
-            tooManyAttemptsError(this, mainIntent).show();
+            tooManyAttemptsError(this).show();
             return;
         }
 
-        //Set attempts left text
+        // Set attempts left text
         String attemptsLeft = String.format(
                 Locale.US,
                 "You have %d attempt(s) remaining",
@@ -125,20 +127,8 @@ public class LoginActivity extends AppCompatActivity {
         );
         attemptsTextView.setText(attemptsLeft);
 
-        //Display error message
+        // Display error message
         incorrectCredentialsError(LoginActivity.this).show();
-    }
-
-    /**
-     * Prepares the intent for the next intent to launch when the login is successful
-     *
-     * @param context the context of the current Activity
-     * @return an Intent to launch the next activity
-     */
-    private Intent nextActivity(Context context) {
-        Intent nextActivity = new Intent(context, MainActivity.class);
-        nextActivity.putExtra(EXTRA_MESSAGE, WELCOME_MESSAGE);
-        return nextActivity;
     }
 
     /**
@@ -160,20 +150,13 @@ public class LoginActivity extends AppCompatActivity {
      * Creates an AlertDialog to inform the user they have used up their login attempts
      *
      * @param context    the context of the alert
-     * @param homeScreen the Intent of the Activity the user is sent to (i.e. the home screen)
-     * @return an AlertDialog informing the user they used up their login attempts which also
-     * starts another activity
+     * @return an AlertDialog informing the user they used up their login attempts
      */
-    private AlertDialog tooManyAttemptsError(Context context, Intent homeScreen) {
+    private AlertDialog tooManyAttemptsError(Context context) {
         return new AlertDialog.Builder(context)
                 .setTitle("Too many unsuccessful attempts")
                 .setMessage("You have tried to login unsuccessfully too many times")
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        startActivity(homeScreen);
-                    }
-                })
+                .setPositiveButton("OK", null)
                 .setCancelable(false)
                 .create();
     }
@@ -185,10 +168,12 @@ public class LoginActivity extends AppCompatActivity {
      */
     private void signInWithEmailAndPassword(String email, String password) {
         Log.d(EMAIL_SIGNIN_TAG, "signInWithEmailAndPassword: begin firebase auth with email account");
+        mIdlingResource.increment();
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+                        mIdlingResource.decrement();
                         if (task.isSuccessful()) {
                             Log.d(EMAIL_SIGNIN_TAG, "Login successful for email: " + email);
                             Toast.makeText(LoginActivity.this, "User successfully signedIn", Toast.LENGTH_LONG).show();
@@ -204,52 +189,57 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     /**
-     * Signs-in a user using google login
-     * @param account Google account
+     * Perform google signin with the authentication client
+     * @param credential credentials for authentication
      */
-    public void signInWithGoogleAccount(GoogleSignInAccount account) {
-        Log.d(GOOGLE_SIGNIN_TAG, "firebaseAuthWithGoogleAccount: begin firebase auth with google account");
-        AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
-
-        //Try to sign in the current user
+    public void signInWithCredential(AuthCredential credential) {
+        // Try to sign in the current user
         mAuth.signInWithCredential(credential).addOnSuccessListener(authResult -> {
-            Log.d(GOOGLE_SIGNIN_TAG, "onSuccess: Logged In");
+            Log.d(GOOGLE_SIGNIN_TAG, "Logged In");
             FirebaseUser firebaseUser = mAuth.getCurrentUser();
+
             String uid = firebaseUser.getUid();
             String email = firebaseUser.getEmail();
 
-            Log.d(GOOGLE_SIGNIN_TAG, "onSuccess: Email: "+email);
-            Log.d(GOOGLE_SIGNIN_TAG, "onSuccess: UID: "+uid);
+            Log.d(GOOGLE_SIGNIN_TAG, "With email: " + email);
+            Log.d(GOOGLE_SIGNIN_TAG, "With UID: " + uid);
 
             if (authResult.getAdditionalUserInfo().isNewUser()) {
-                Log.d(GOOGLE_SIGNIN_TAG, "onSuccess: Account Created...\n"+email);
+                Log.d(GOOGLE_SIGNIN_TAG, "Account Created...\n"+email);
                 Toast.makeText(LoginActivity.this, "Account Created...\n"+email, Toast.LENGTH_SHORT).show();
             }
             else {
-                Log.d(GOOGLE_SIGNIN_TAG, "onSuccess: Existing user...\n"+email);
+                Log.d(GOOGLE_SIGNIN_TAG, "Existing user...\n"+email);
                 Toast.makeText(LoginActivity.this, "Existing user...\n"+email, Toast.LENGTH_SHORT).show();
             }
 
-            startActivity(nextActivity(this));
-        }).addOnFailureListener(e -> Log.d(GOOGLE_SIGNIN_TAG, "onFailure: Loggin failed"+e.getMessage()));
+            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+        }).addOnFailureListener(e -> Log.d(GOOGLE_SIGNIN_TAG, "googleSignIn failed: " + e.getMessage()));
     }
 
     /**
-     * Init google SignIn launcher,
-     * Perform signIn through clientAuth by giving this activity and the result activity
+     * Init google SignInResult launcher,
+     * Takes an ActivityResultContracts and a Callback on result.
+     * Perform google signIn when an Intent is launched, see StartGoogleSignIn()
      */
     private void initGoogleSignInResultLauncher() {
         googleSignInActivityResultLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
                     if (result.getResultCode() == RESULT_OK) {
-                        Log.d(GOOGLE_SIGNIN_TAG, "onActivityResult: Google signIn intent result");
+                        Log.d(GOOGLE_SIGNIN_TAG, "GoogleSignIn got intent result");
                         Task<GoogleSignInAccount> accountTask = GoogleSignIn.getSignedInAccountFromIntent(result.getData());
+//                        Bundle bundle = result.getData().getExtras();
+//                        for (String key : bundle.keySet()){
+//                            Log.d(GOOGLE_SIGNIN_TAG, "Extra " + key + " -> " + bundle.get(key));
+//                        }
                         try {
                             GoogleSignInAccount account = accountTask.getResult(ApiException.class);
-                            signInWithGoogleAccount(account);
+                            Log.d(GOOGLE_SIGNIN_TAG, "Begin Auth with google account");
+                            AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
+                            signInWithCredential(credential);
                         } catch (Exception e) {
-                            Log.d(GOOGLE_SIGNIN_TAG, "onActivityResult: " + e.getMessage());
+                            Log.d(GOOGLE_SIGNIN_TAG, "GoogleSignIn failed on intent result: " + e.getMessage());
                         }
                     }
                 });
@@ -266,8 +256,17 @@ public class LoginActivity extends AppCompatActivity {
 
         GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(LoginActivity.this, gso);
 
-        Log.d(GOOGLE_SIGNIN_TAG, "onClick: launch Google signIn");
+        Log.d(GOOGLE_SIGNIN_TAG, "Launch Google signIn");
         Intent it = googleSignInClient.getSignInIntent();
         googleSignInActivityResultLauncher.launch(it);
     }
+
+    /**
+     * Getter for idling resource, used for testing
+     * @return idling resource used in this activity
+     */
+    public CountingIdlingResource getIdlingResource() {
+        return mIdlingResource;
+    }
+
 }
