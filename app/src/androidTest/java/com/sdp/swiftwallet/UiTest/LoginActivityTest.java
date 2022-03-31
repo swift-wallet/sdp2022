@@ -37,6 +37,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.common.FirebaseUtil;
+import com.sdp.swiftwallet.presentation.main.MainActivity;
 import com.sdp.swiftwallet.presentation.signIn.ForgotPasswordActivity;
 import com.sdp.swiftwallet.presentation.signIn.LoginActivity;
 import com.sdp.swiftwallet.presentation.signIn.RegisterActivity;
@@ -105,6 +106,7 @@ public class LoginActivityTest {
         onView(withId(R.id.forgotPasswordTv)).check(matches(isDisplayed()));
         onView(withId(R.id.registerTv)).check(matches(isDisplayed()));
         onView(withId(R.id.googleSignInBtn)).check(matches(isDisplayed()));
+        onView(withId(R.id.useOfflineTv)).check(matches(isDisplayed()));
     }
 
     @Test
@@ -234,6 +236,16 @@ public class LoginActivityTest {
         googleIntent.putExtra("account bundle", googleBundle);
         Instrumentation.ActivityResult result = new Instrumentation.ActivityResult(RESULT_OK, googleIntent);
         intending(toPackage("com.google.android.gms")).respondWith(result);
+    }
+
+    @Test
+    public void pressOfflineTvFiresIntentCorrectly() {
+        onView(withId(R.id.useOfflineTv)).perform(click());
+
+        intended(allOf(
+                toPackage("com.sdp.swiftwallet"),
+                hasComponent(hasClassName(MainActivity.class.getName()))
+        ));
     }
 
 }
