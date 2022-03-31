@@ -11,6 +11,7 @@ import androidx.fragment.app.FragmentManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.sdp.cryptowalletapp.R;
+import com.sdp.swiftwallet.presentation.friend.FriendFragment;
 import com.sdp.swiftwallet.presentation.main.fragments.HomeFragment;
 import com.sdp.swiftwallet.presentation.main.fragments.MessageFragment;
 import com.sdp.swiftwallet.presentation.main.fragments.PaymentFragment;
@@ -25,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     StatsFragment statsFragment;
     PaymentFragment paymentFragment;
     MessageFragment messageFragment;
+    FriendFragment friendFragment;
     ProfileFragment profileFragment;
 
     Fragment activeFragment;
@@ -41,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         //Creating all the navigation fragments
         homeFragment = new HomeFragment();
         statsFragment = new StatsFragment();
-        messageFragment = new MessageFragment();
+        friendFragment = new FriendFragment();
         paymentFragment = new PaymentFragment();
         profileFragment = new ProfileFragment();
 
@@ -53,10 +55,10 @@ public class MainActivity extends AppCompatActivity {
                 .beginTransaction()
                 .add(R.id.fragment_container,homeFragment, HomeFragment.class.getName())
                 .add(R.id.fragment_container,statsFragment, StatsFragment.class.getName())
-                .add(R.id.fragment_container,messageFragment, MessageFragment.class.getName())
+                .add(R.id.fragment_container,friendFragment, FriendFragment.class.getName())
                 .add(R.id.fragment_container,paymentFragment, PaymentFragment.class.getName())
                 .add(R.id.fragment_container,profileFragment, ProfileFragment.class.getName())
-                .hide(statsFragment).hide(messageFragment).hide(paymentFragment).hide(profileFragment)
+                .hide(statsFragment).hide(friendFragment).hide(paymentFragment).hide(profileFragment)
                 .setReorderingAllowed(true)
                 .commit();
     }
@@ -81,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
                     selectedFragment = paymentFragment;
                     break;
                 case R.id.bar_message:
-                    selectedFragment = messageFragment;
+                    selectedFragment = friendFragment;
                     break;
                 case R.id.bar_profile:
                     selectedFragment = profileFragment;

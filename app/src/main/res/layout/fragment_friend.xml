@@ -1,0 +1,70 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/profile_fragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.sdp.swiftwallet.presentation.main.fragments.ProfileFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/friend"
+            android:textSize="@dimen/nav_title"
+            android:textColor="@color/black"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/nav_title_margin"
+            />
+
+        <Button
+            android:id="@+id/showAddFriendBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="show ADD FRIEND"
+            />
+        <EditText
+        android:id="@+id/friendCode"
+        style="@style/TextAppearance.MaterialComponents.Body1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="language"
+        android:visibility="gone"
+            />
+        <Button
+            android:id="@+id/addFriendBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="ADD FRIEND"
+            android:visibility="gone"
+            />
+        <TextView
+            android:id="@+id/addFriendStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textSize="@dimen/wallet_item_address_size"
+            android:textColor="@color/grey"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvFriends"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </LinearLayout>
+
+</FrameLayout>
