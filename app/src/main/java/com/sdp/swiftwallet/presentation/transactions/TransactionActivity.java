@@ -28,6 +28,8 @@ public class TransactionActivity extends AppCompatActivity {
     private Fragment historyFragment, statsFragment;
     private Fragment activeFragment;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

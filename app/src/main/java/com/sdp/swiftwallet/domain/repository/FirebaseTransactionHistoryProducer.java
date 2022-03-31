@@ -2,6 +2,7 @@ package com.sdp.swiftwallet.domain.repository;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -30,7 +31,7 @@ public class FirebaseTransactionHistoryProducer implements TransactionHistoryPro
     private final FirebaseFirestore db;
 
     //TODO figure out better way to store currencies with Firestore
-    private final static Map<String, Currency> currencyMap = new HashMap<>();
+    public final static Map<String, Currency> currencyMap = new HashMap<>();
     private final static Currency CURR_1 = new Currency("DumbCoin", "DUM", 5);
     private final static Currency CURR_2 = new Currency("BitCoin", "BTC", 3);
     private final static Currency CURR_3 = new Currency("Ethereum", "ETH", 4);
@@ -48,9 +49,14 @@ public class FirebaseTransactionHistoryProducer implements TransactionHistoryPro
     }
 
     private void initSnapshotListener() {
-        db.collection(COLLECTION_NAME).addSnapshotListener(new EventListener<QuerySnapshot>() {
+        db.collection(COLLECTION_NAME).orderBy(TRANSACTION_ID_KEY).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot documentSnapshots, @Nullable FirebaseFirestoreException error) {
+                if (error != null) {
+                    Log.e("FirebaseTransactionHistoryProducer", error.getMessage());
+                    return;
+                }
+
                 transactions.clear();
 
                 for (DocumentSnapshot snapshot : documentSnapshots) {
@@ -76,19 +82,22 @@ public class FirebaseTransactionHistoryProducer implements TransactionHistoryPro
         });
     }
 
-    private boolean alertAll() {
+    private void alertAll() {
         for (TransactionHistorySubscriber subscriber : subscribers) {
             subscriber.receiveTransactions(transactions);
         }
-        return true;
+    }
+
+    private void alert(TransactionHistorySubscriber subscriber) {
+        subscriber.receiveTransactions(transactions);
     }
 
     @Override
     public boolean subscribe(TransactionHistorySubscriber subscriber) {
-        if (subscriber != null) {
-            return subscribers.add(subscriber) && alertAll();
-        } else {
-            return false;
+        if (subscriber != null && subscribers.add(subscriber)) {
+            subscriber.receiveTransactions(transactions);
+            return true;
         }
+        return false;
     }
 }

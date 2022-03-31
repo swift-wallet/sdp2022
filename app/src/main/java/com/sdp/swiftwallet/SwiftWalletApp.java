@@ -2,6 +2,8 @@ package com.sdp.swiftwallet;
 
 import android.app.Application;
 
+import androidx.annotation.Nullable;
+
 import com.sdp.swiftwallet.domain.repository.TransactionHistoryProducer;
 
 public class SwiftWalletApp extends Application {
@@ -12,6 +14,7 @@ public class SwiftWalletApp extends Application {
      *
      * @return the TransactionHistoryProducer
      */
+    @Nullable
     public TransactionHistoryProducer getTransactionHistoryProducer() {
         return transactionHistoryProducer;
     }

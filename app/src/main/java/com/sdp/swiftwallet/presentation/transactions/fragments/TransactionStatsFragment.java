@@ -51,21 +51,21 @@ public class TransactionStatsFragment extends Fragment implements TransactionHis
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        rootAct = (TransactionActivity) getActivity();
-        pieChart = rootAct.findViewById(R.id.transaction_pieChart);
-        setupPieChart();
-        ((SwiftWalletApp) rootAct.getApplication()).getTransactionHistoryProducer().subscribe(this);
+//        rootAct = (TransactionActivity) getActivity();
+//        pieChart = rootAct.findViewById(R.id.transaction_pieChart);
+//        setupPieChart();
+//        ((SwiftWalletApp) rootAct.getApplication()).getTransactionHistoryProducer().subscribe(this);
 
         return inflater.inflate(R.layout.fragment_transaction_stats, container, false);
     }
 
-//    @Override
-//    public void onStart() {
-//        super.onStart();
-//
-//        pieChart = rootAct.findViewById(R.id.transaction_pieChart);
-//        setupPieChart();
-//    }
+    @Override
+    public void onStart() {
+        super.onStart();
+        rootAct = (TransactionActivity) getActivity();
+        pieChart = rootAct.findViewById(R.id.transaction_pieChart);
+        setupPieChart();
+    }
 
     /**
      * Basic PieChart setup methods
