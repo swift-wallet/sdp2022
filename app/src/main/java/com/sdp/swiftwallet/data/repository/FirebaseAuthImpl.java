@@ -30,7 +30,7 @@ public class FirebaseAuthImpl implements ClientAuth {
     private static final String RESET_PASSWORD_TAG = "RESET_PASSWORD_TAG";
 
 
-  private final FirebaseAuth firebaseAuth;
+    private final FirebaseAuth firebaseAuth;
     private final FirebaseFirestore db;
 
     public FirebaseAuthImpl() {
