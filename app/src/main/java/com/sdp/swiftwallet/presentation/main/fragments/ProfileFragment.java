@@ -57,10 +57,7 @@ public class ProfileFragment extends Fragment {
      * @param view The view to display profile infos
      */
     private void checkUser(View view) {
-        if (mAuth.getCurrentUser() == null) {
-            startActivity(new Intent(getActivity(), LoginActivity.class));
-        }
-        else {
+        if (mAuth.getCurrentUser() != null) {
             String email = mAuth.getCurrentUser().getEmail();
             TextView emailTv = view.findViewById(R.id.email);
             emailTv.setText(email);
