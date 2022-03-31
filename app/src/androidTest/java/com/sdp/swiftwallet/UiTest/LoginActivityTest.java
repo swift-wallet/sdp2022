@@ -224,16 +224,4 @@ public class LoginActivityTest {
         currUser = FirebaseUtil.getAuth().getCurrentUser();
         assert(currUser == null);
     }
-
-    @Test
-    public void pressGoogleSignInStartAuth() {
-        Bundle googleBundle = new Bundle();
-        googleBundle.putParcelable("googleSignInAccount", GoogleSignInAccount.createDefault());
-        Intent googleIntent = new Intent();
-        googleIntent.putExtra("account bundle", googleBundle);
-        Instrumentation.ActivityResult result = new Instrumentation.ActivityResult(RESULT_OK, googleIntent);
-        onView(withId(R.id.googleSignInBtn)).perform(click());
-        intending(toPackage("com.google.android.gms")).respondWith(result);
-    }
-
 }
