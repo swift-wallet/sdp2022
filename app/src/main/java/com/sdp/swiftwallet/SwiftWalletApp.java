@@ -4,9 +4,9 @@ import android.app.Application;
 
 import androidx.annotation.Nullable;
 
-import dagger.hilt.android.HiltAndroidApp;
-
 import com.sdp.swiftwallet.domain.repository.TransactionHistoryProducer;
+
+import dagger.hilt.android.HiltAndroidApp;
 
 @HiltAndroidApp
 public class SwiftWalletApp extends Application {

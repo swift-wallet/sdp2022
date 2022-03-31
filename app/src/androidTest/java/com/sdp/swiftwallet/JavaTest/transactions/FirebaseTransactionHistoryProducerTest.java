@@ -10,14 +10,12 @@ import com.sdp.swiftwallet.domain.model.Transaction;
 import com.sdp.swiftwallet.domain.repository.FirebaseTransactionHistoryProducer;
 import com.sdp.swiftwallet.domain.repository.TransactionHistorySubscriber;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 import java.util.List;
-import java.util.Random;
 
 //TODO Test with a mock of Firestore
 
@@ -57,7 +55,7 @@ public class FirebaseTransactionHistoryProducerTest {
     @Test
     public void canAddSubscriber() {
         boolean wasAdded = producer.subscribe(new DummySubscriber());
-        
+
         assertThat(wasAdded, is(true));
     }
 
@@ -83,7 +81,6 @@ public class FirebaseTransactionHistoryProducerTest {
 
         assertThat(wasPinged, is(true));
     }
-
 
 
     public static class DummySubscriber implements TransactionHistorySubscriber {

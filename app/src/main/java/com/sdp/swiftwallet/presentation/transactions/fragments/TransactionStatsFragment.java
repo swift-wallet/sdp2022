@@ -39,6 +39,7 @@ public class TransactionStatsFragment extends Fragment implements TransactionHis
     private PieChart pieChart;
 
     private final static List<Integer> COLORS = new ArrayList<>();
+
     static {
         for (int color : ColorTemplate.MATERIAL_COLORS) {
             COLORS.add(color);
@@ -62,12 +63,14 @@ public class TransactionStatsFragment extends Fragment implements TransactionHis
         pieChart = rootAct.findViewById(R.id.transaction_pieChart);
         setupPieChart();
 
-        while (!((SwiftWalletApp) rootAct.getApplication()).getTransactionHistoryProducer().subscribe(this));
+        while (!((SwiftWalletApp) rootAct.getApplication()).getTransactionHistoryProducer().subscribe(this))
+            ;
     }
 
     @Override
     public void onStop() {
-        while (!((SwiftWalletApp) rootAct.getApplication()).getTransactionHistoryProducer().unsubscribe(this));
+        while (!((SwiftWalletApp) rootAct.getApplication()).getTransactionHistoryProducer().unsubscribe(this))
+            ;
         super.onStop();
     }
 

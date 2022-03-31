@@ -1,7 +1,5 @@
 package com.sdp.swiftwallet.domain.repository;
 
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
@@ -39,6 +37,7 @@ public class FirebaseTransactionHistoryProducer implements TransactionHistoryPro
     private final static Currency CURR_2 = new Currency("BitCoin", "BTC", 3);
     private final static Currency CURR_3 = new Currency("Ethereum", "ETH", 4);
     private final static Currency CURR_4 = new Currency("SwiftCoin", "SWT", 6);
+
     static {
         currencyMap.put(CURR_1.getSymbol(), CURR_1);
         currencyMap.put(CURR_2.getSymbol(), CURR_2);

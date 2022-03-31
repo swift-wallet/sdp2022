@@ -1,7 +1,6 @@
 package com.sdp.swiftwallet.presentation.transactions.fragments;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,17 +10,10 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.SwiftWalletApp;
-import com.sdp.swiftwallet.domain.model.Currency;
 import com.sdp.swiftwallet.domain.model.Transaction;
 import com.sdp.swiftwallet.domain.model.TransactionAdapter;
-import com.sdp.swiftwallet.domain.repository.FirebaseTransactionHistoryProducer;
 import com.sdp.swiftwallet.domain.repository.TransactionHistorySubscriber;
 import com.sdp.swiftwallet.presentation.transactions.TransactionActivity;
 
@@ -58,12 +50,14 @@ public class TransactionHistoryFragment extends Fragment implements TransactionH
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
 
-        while (!((SwiftWalletApp) rootAct.getApplication()).getTransactionHistoryProducer().subscribe(this));
+        while (!((SwiftWalletApp) rootAct.getApplication()).getTransactionHistoryProducer().subscribe(this))
+            ;
     }
 
     @Override
     public void onStop() {
-        while (!((SwiftWalletApp) rootAct.getApplication()).getTransactionHistoryProducer().unsubscribe(this));
+        while (!((SwiftWalletApp) rootAct.getApplication()).getTransactionHistoryProducer().unsubscribe(this))
+            ;
         super.onStop();
     }
 
