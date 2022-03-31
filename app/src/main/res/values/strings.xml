@@ -74,5 +74,6 @@
     <string name="forgotPasswordTv">Forgot Password?</string>
     <string name="passwordTv">Password</string>
     <string name="registerTv">Register</string>
+    <string name="friend">Friends</string>
 
 </resources>
