@@ -21,7 +21,7 @@ public class SwiftWalletAppTest {
     private SwiftWalletApp app;
 
     @Test
-    void createApp() {
+    public void createApp() {
         app = new SwiftWalletApp();
     }
 
