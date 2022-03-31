@@ -3,3 +3,4 @@ local.properties
 .gradle/*
 firestore-debug.log
 ui-debug.log
+app/jacoco.exec
