@@ -53,10 +53,10 @@ public class ProfileFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
         //Sets up EditText fields
-        email = view.findViewById(R.id.edit_email);
+        email = view.findViewById(R.id.reset_email_field);
 
         //Click to logout
-        Button logoutButton = view.findViewById(R.id.logout_button);
+        Button logoutButton = view.findViewById(R.id.logout_Btn);
         logoutButton.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
                 mAuth.signOut();
@@ -64,7 +64,7 @@ public class ProfileFragment extends Fragment {
         });
 
         //Click to update email
-        Button emailUpdateButton = view.findViewById(R.id.button_email_update);
+        Button emailUpdateButton = view.findViewById(R.id.reset_email_Btn);
         emailUpdateButton.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
                 updateEmail(email);
@@ -85,7 +85,7 @@ public class ProfileFragment extends Fragment {
         }
         else {
             String email = mUser.getEmail();
-            TextView emailTv = view.findViewById(R.id.user_email);
+            TextView emailTv = view.findViewById(R.id.email);
             emailTv.setText(email);
         }
     }

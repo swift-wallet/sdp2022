@@ -28,6 +28,7 @@
           android:layout_height="wrap_content"
           android:text="@string/logged_in_as"
           android:layout_marginTop="80dp"
+          android:layout_marginLeft="20dp"
           />
 
         <TextView
@@ -35,26 +36,44 @@
           style="@style/TextAppearance.MaterialComponents.Body1"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:text="Email" />
+          android:text="@string/email"
+          android:layout_marginLeft="20dp"/>
 
         <TextView
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:textScale="Change your email:"/>
+          android:layout_marginBottom="200dp"
+          android:layout_marginLeft="20dp"/>
+
+
+        <TextView
+          android:id="@+id/reset_email_view"
+          android:layout_width="157dp"
+          android:layout_height="wrap_content"
+          android:layout_marginLeft="20dp"
+          android:text="@string/reset_your_email" />
 
         <EditText
-          android:layout_width="wrap_content"
+          android:id="@+id/reset_email_field"
+          android:layout_width="157dp"
           android:layout_height="wrap_content"
-          android:layout_marginLeft="30dp"/>
-
+          android:layout_marginLeft="20dp" />
 
         <Button
-          android:id="@+id/logoutBtn"
+          android:id="@+id/reset_email_Btn"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:layout_marginTop="550dp"
-          android:layout_marginLeft="50dp"
-          android:text="Logout"/>
+          android:layout_marginTop="10dp"
+          android:layout_marginLeft="40dp"
+          android:text="@string/reset"/>
+
+        <Button
+          android:id="@+id/logout_Btn"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="80dp"
+          android:layout_marginLeft="150dp"
+          android:text="@string/logout" />
     </LinearLayout>
 
 </FrameLayout>

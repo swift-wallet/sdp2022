@@ -61,7 +61,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
     });
 
     //Hardcoded, to be changed
-    setLanguage("en", "en_gb");
+    setLanguage(COUNTRY, COUNTRY_CODE);
   }
 
 

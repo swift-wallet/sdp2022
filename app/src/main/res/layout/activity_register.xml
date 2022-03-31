@@ -86,7 +86,7 @@
       android:id="@+id/goBackRegister"
       android:layout_width="126dp"
       android:layout_height="43dp"
-      android:text="Back"
+      android:text="@string/back"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintHorizontal_bias="0.0"
