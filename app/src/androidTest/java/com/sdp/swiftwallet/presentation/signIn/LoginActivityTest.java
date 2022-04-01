@@ -229,12 +229,13 @@ public class LoginActivityTest {
     public void pressGoogleSignInStartAuth() {
         onView(withId(R.id.googleSignInBtn)).perform(click());
 
-        Bundle googleBundle = new Bundle();
-        googleBundle.putParcelable("googleSignInAccount", GoogleSignInAccount.createDefault());
-        Intent googleIntent = new Intent();
-        googleIntent.putExtra("account bundle", googleBundle);
-        Instrumentation.ActivityResult result = new Instrumentation.ActivityResult(RESULT_OK, googleIntent);
-        intending(toPackage("com.google.android.gms")).respondWith(result);
+//        Bundle googleBundle = new Bundle();
+//        googleBundle.putParcelable("googleSignInAccount", GoogleSignInAccount.createDefault());
+//        Intent googleIntent = new Intent();
+//        googleIntent.putExtra("account bundle", googleBundle);
+//        Instrumentation.ActivityResult result = new Instrumentation.ActivityResult(RESULT_OK, googleIntent);
+//        intending(toPackage("com.google.android.gms")).respondWith(result);
+
     }
 
     @Test
