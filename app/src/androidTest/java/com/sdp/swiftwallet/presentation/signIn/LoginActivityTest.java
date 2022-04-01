@@ -149,7 +149,6 @@ public class LoginActivityTest {
         onView(withId(R.id.loginEmailEt)).check(matches(hasFocus()));
     }
 
-    @Test
     public void incorrectEmailDisplaysAlert() {
         onView(withId(R.id.loginEmailEt)).perform(typeText("wrong"), closeSoftKeyboard());
         onView(withId(R.id.loginPasswordEt)).perform(typeText("admin"), closeSoftKeyboard());
