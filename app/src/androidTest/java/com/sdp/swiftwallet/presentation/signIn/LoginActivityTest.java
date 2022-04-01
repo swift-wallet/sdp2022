@@ -149,7 +149,6 @@ public class LoginActivityTest {
         onView(withId(R.id.loginEmailEt)).check(matches(hasFocus()));
     }
 
-    @Test
     public void incorrectEmailDisplaysAlert() {
         onView(withId(R.id.loginEmailEt)).perform(typeText("wrong"), closeSoftKeyboard());
         onView(withId(R.id.loginPasswordEt)).perform(typeText("admin"), closeSoftKeyboard());
@@ -225,6 +224,7 @@ public class LoginActivityTest {
         currUser = FirebaseUtil.getAuth().getCurrentUser();
         assert(currUser == null);
     }
+<<<<<<< HEAD
 
     @Test
     public void pressGoogleSignInStartAuth() {
@@ -248,4 +248,6 @@ public class LoginActivityTest {
         ));
     }
 
+=======
+>>>>>>> d82cb4e1ea139030ac67baaea1e8178850b59248
 }
