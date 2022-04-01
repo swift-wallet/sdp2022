@@ -5,7 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Adapter;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +39,9 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class CryptoGraphActivity extends AppCompatActivity {
+    private Spinner intervalSpinner;
+    private ArrayList<String> intervalsText;
+    private ArrayList<String> intervalsForRequest;
     private Currency currency;
     private String rateSymbol;
     private String interval;
@@ -49,6 +56,7 @@ public class CryptoGraphActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_crypto_graph);
 
         // Get the Intent that started this activity and extract the currency
@@ -70,7 +78,8 @@ public class CryptoGraphActivity extends AppCompatActivity {
 
         // Capture the layout's TextView and set the string as its text
         TextView textView = findViewById(R.id.idCurrencyToShowName);
-        textView.setText(closeTimes.size());
+        //textView.setText(closeTimes.size());
+        textView.setText(currency.getName());
 
         //textView.setText("LAST CLOSING TIME : "+closeTimes.get(closeTimes.size()-1) + " LAST CLOSING VALUE : "+closeValues.get(closeValues.size()-1));
     }
@@ -115,5 +124,34 @@ public class CryptoGraphActivity extends AppCompatActivity {
     };
 
         requestQueue.add(jsonArrayRequest);
+    }
+
+    private void setIntervalsSpinner(){
+        this.intervalSpinner = (Spinner) findViewById(R.id.idInterval);
+        this.intervalsText = Interval.getTextToShowUser();
+        this.intervalsForRequest = Interval.getIntervalForRequest();
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, intervalsText);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        this.intervalSpinner.setAdapter(adapter);
+
+        this.intervalSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                onItemSelectedHandler(adapterView, view, i, l);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+    }
+
+    private void onItemSelectedHandler(AdapterView<?> adapterView, View view, int position, long id){
+        Adapter adapter = adapterView.getAdapter();
+        String interval = (String) adapter.getItem(position);
+
+        Toast.makeText(getApplicationContext(), "Selected Interval: " + interval, Toast.LENGTH_SHORT).show();
     }
 }

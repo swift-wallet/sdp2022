@@ -35,7 +35,7 @@ public enum Interval {
         return intervalRequest;
     }
 
-    public ArrayList<String> getTextToShowUser(){
+    public static ArrayList<String> getTextToShowUser(){
         ArrayList<String> toReturn = new ArrayList<>();
         for(Interval interval : Interval.values()){
             toReturn.add(interval.getText());
@@ -43,7 +43,7 @@ public enum Interval {
         return toReturn;
     }
 
-    public ArrayList<String> getIntervalForRequest(){
+    public static ArrayList<String> getIntervalForRequest(){
         ArrayList<String> toReturn = new ArrayList<>();
         for(Interval interval : Interval.values()){
             toReturn.add(interval.getIntervalRequest());
