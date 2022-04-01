@@ -6,14 +6,11 @@ import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.intent.Intents.intended;
-import static androidx.test.espresso.intent.matcher.IntentMatchers.anyIntent;
-import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
-import static org.hamcrest.Matchers.not;
+import static org.junit.Assert.assertTrue;
 
 import android.content.Context;
 import android.content.Intent;
@@ -22,26 +19,23 @@ import androidx.test.espresso.IdlingRegistry;
 import androidx.test.espresso.idling.CountingIdlingResource;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 
 import com.sdp.cryptowalletapp.R;
+import com.sdp.swiftwallet.CryptoGraphActivity;
 import com.sdp.swiftwallet.CryptoValuesActivity;
+import com.sdp.swiftwallet.domain.model.Currency;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
-@RunWith(AndroidJUnit4.class)
-public class CryptoValuesActivityTest {
-
+public class CryptoGraphActivityTest {
     CountingIdlingResource mIdlingResource;
-
+    Currency ethereum;
     @Rule
-    public ActivityScenarioRule<CryptoValuesActivity> testRule = new ActivityScenarioRule<CryptoValuesActivity>(CryptoValuesActivity.class);
-
+    public ActivityScenarioRule<CryptoGraphActivity> testRule = new ActivityScenarioRule<>(CryptoGraphActivity.class);
 
     @Before
     public void initIntents() {
@@ -49,9 +43,12 @@ public class CryptoValuesActivityTest {
     }
 
     @Before
+    public void initEthereum(){ethereum = new Currency("ETH", "Ethereum", 2000);}
+
+    @Before
     public void registerIdlingResource() {
         testRule.getScenario().onActivity(activity ->
-            mIdlingResource = activity.getIdlingResource()
+                mIdlingResource = activity.getIdlingResource()
         );
         IdlingRegistry.getInstance().register(mIdlingResource);
     }
@@ -72,12 +69,15 @@ public class CryptoValuesActivityTest {
         IdlingRegistry.getInstance().unregister(mIdlingResource);
     }
 
-    @Test
-    public void dataDisplayedCorrectly() {
-        onView(withId(R.id.idCryptoSearch)).perform(typeText("ETH"), closeSoftKeyboard());
 
+    @Test
+    public void nameAndSpinnerCorrectlyDisplayed(){
+        onView(withId(R.id.idInterval)).check(matches(isDisplayed()));
+        onView(withId(R.id.idCurrencyToShowName)).check(matches(isDisplayed()));
+    }
+    @Test
+    public void nameDisplayedCorrectly() {
         onView(withText("Ethereum")).check(matches(isDisplayed()));
         onView(withText("Bitcoin")).check(doesNotExist());
     }
-
 }
