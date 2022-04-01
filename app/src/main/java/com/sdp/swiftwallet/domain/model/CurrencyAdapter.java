@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.sdp.cryptowalletapp.R;
-import com.sdp.swiftwallet.presentation.cryptoValues.CryptoGraphActivity;
+import com.sdp.swiftwallet.presentation.CryptoGraphActivity;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;

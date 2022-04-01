@@ -1,4 +1,4 @@
-package com.sdp.swiftwallet.presentation.cryptoValues;
+package com.sdp.swiftwallet.presentation;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -22,8 +22,6 @@ import com.sdp.swiftwallet.domain.model.Currency;
 import org.json.JSONArray;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class CryptoGraphActivity extends AppCompatActivity {
     private Spinner intervalSpinner;

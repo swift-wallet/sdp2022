@@ -20,7 +20,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 
 import com.sdp.cryptowalletapp.R;
-import com.sdp.swiftwallet.presentation.cryptoValues.CryptoValuesActivity;
+import com.sdp.swiftwallet.presentation.CryptoValuesActivity;
 
 import org.junit.After;
 import org.junit.Before;

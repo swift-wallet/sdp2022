@@ -1,4 +1,4 @@
-package com.sdp.swiftwallet.presentation.cryptoValues;
+package com.sdp.swiftwallet.presentation;
 
 import android.os.Bundle;
 import android.text.Editable;
