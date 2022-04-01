@@ -16,9 +16,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SwiftWallet" >
         <activity
-            android:name="com.sdp.swiftwallet.CryptoGraphActivity"
+            android:name="com.sdp.swiftwallet.presentation.cryptoValues.CryptoGraphActivity"
             android:exported="false"
-            android:parentActivityName="com.sdp.swiftwallet.CryptoValuesActivity" />
+            android:parentActivityName="com.sdp.swiftwallet.presentation.cryptoValues.CryptoValuesActivity" />
         <activity
             android:name="com.sdp.swiftwallet.presentation.signIn.RegisterActivity"
             android:exported="false" />
@@ -52,7 +52,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.sdp.swiftwallet.CryptoValuesActivity"
+            android:name="com.sdp.swiftwallet.presentation.cryptoValues.CryptoValuesActivity"
             android:exported="false"
             android:parentActivityName="com.sdp.swiftwallet.presentation.main.MainActivity" />
         <activity

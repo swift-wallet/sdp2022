@@ -2,7 +2,6 @@ package com.sdp.swiftwallet.domain.model;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,8 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.sdp.cryptowalletapp.R;
-import com.sdp.swiftwallet.CryptoGraphActivity;
-import com.sdp.swiftwallet.CryptoValuesActivity;
+import com.sdp.swiftwallet.presentation.cryptoValues.CryptoGraphActivity;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
