@@ -48,7 +48,7 @@ public class CryptoValuesActivityTest {
     @Before
     public void registerIdlingResource() {
         testRule.getScenario().onActivity(activity ->
-                mIdlingResource = activity.getIdlingResource()
+            mIdlingResource = activity.getIdlingResource()
         );
         IdlingRegistry.getInstance().register(mIdlingResource);
     }

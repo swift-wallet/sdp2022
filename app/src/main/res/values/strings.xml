@@ -6,7 +6,7 @@
     <string name="name">Name</string>
     <string name="crypto_logo_description">A crypto logo for the app</string>
     <string name="chose_auth_method">Please Chose a Sign In Method</string>
-    <string name="logged_in_as">You\'re Logged In as</string>
+    <string name="logged_in_as">You\'re Logged In as:</string>
     <string name="title_activity_login">LoginActivity</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
@@ -16,6 +16,8 @@
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
+    <string name="email">Email:</string>
+    <string name="back">Back</string>
 
     <!-- CRYPTOVALUES -->
     <string name="search_crypto_name">Search Crypto Name</string>
@@ -30,6 +32,17 @@
     <!-- TRANSACTION HISTORY -->
     <string name="go_to_transaction_history">Go to transaction history</string>
     <string name="transactionHistoryProducerExtraKey">TRANSAC_HIST_GEN_KEY</string>
+
+    <!-- RESET FIELDS -->
+    <string name="reset_your_email">Reset your email:</string>
+    <string name="reset">RESET</string>
+    <string name="send_reset">Send reset link</string>
+
+
+    <!-- LOGIN FIELDS -->
+    <string name="logout">LOGOUT</string>
+
+
 
     <!-- QR -->
     <string name="qr_generate_button">Generate a QR-CODE</string>
