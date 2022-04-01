@@ -27,11 +27,11 @@ public enum Interval {
         this.intervalRequest = intervalRequest;
     }
 
-    private String getText(){
+    public String getText(){
         return text;
     }
 
-    private String getIntervalRequest(){
+    public String getIntervalRequest(){
         return intervalRequest;
     }
 
