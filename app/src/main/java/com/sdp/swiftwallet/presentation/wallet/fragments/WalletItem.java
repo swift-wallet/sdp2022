@@ -1,14 +1,23 @@
 package com.sdp.swiftwallet.presentation.wallet.fragments;
 
+import com.sdp.swiftwallet.domain.model.wallet.WalletKeyPair;
+
+import java.math.BigInteger;
+
 // Simple wallet model
 public class WalletItem {
-    public String address;
-    public double balance = 10.2321;
+    private String address;
+    private BigInteger balance;
 
-    public WalletItem(String address) {
-        this.address = address;
+    public WalletItem(WalletKeyPair walletKeyPair) {
+        this.address = walletKeyPair.getHexPublicKey();
+        this.balance = walletKeyPair.getNativeBalance();
     }
-    public void updateBalance(double newBalance) {
-        balance = newBalance;
+
+    public String getBalance() {
+        return balance.toString(10);
+    }
+    public String getAddress(){
+        return address;
     }
 }
