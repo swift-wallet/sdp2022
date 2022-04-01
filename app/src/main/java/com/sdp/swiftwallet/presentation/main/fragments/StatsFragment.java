@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.sdp.cryptowalletapp.R;
-import com.sdp.swiftwallet.presentation.CryptoValuesActivity;
+import com.sdp.swiftwallet.CryptoValuesActivity;
 import com.sdp.swiftwallet.presentation.transactions.TransactionActivity;
 
 /**

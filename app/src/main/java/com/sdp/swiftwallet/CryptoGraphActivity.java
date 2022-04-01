@@ -1,4 +1,4 @@
-package com.sdp.swiftwallet.presentation;
+package com.sdp.swiftwallet;
 
 import androidx.appcompat.app.AppCompatActivity;
 
