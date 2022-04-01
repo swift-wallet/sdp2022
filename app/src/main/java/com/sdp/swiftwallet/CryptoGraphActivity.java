@@ -1,6 +1,7 @@
 package com.sdp.swiftwallet;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.test.espresso.idling.CountingIdlingResource;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -38,6 +39,36 @@ public class CryptoGraphActivity extends AppCompatActivity {
     private ArrayList<Double> volumeValues = new ArrayList<>();
     private ArrayList<Long> closeTimes = new ArrayList<>();
 
+    public ArrayList<Long> getOpenTimes() {
+        return openTimes;
+    }
+
+    public ArrayList<Double> getOpenValues() {
+        return openValues;
+    }
+
+    public ArrayList<Double> getHighValues() {
+        return highValues;
+    }
+
+    public ArrayList<Double> getLowValues() {
+        return lowValues;
+    }
+
+    public ArrayList<Double> getCloseValues() {
+        return closeValues;
+    }
+
+    public ArrayList<Double> getVolumeValues() {
+        return volumeValues;
+    }
+
+    public ArrayList<Long> getCloseTimes() {
+        return closeTimes;
+    }
+
+    private CountingIdlingResource mIdlingResource;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +82,8 @@ public class CryptoGraphActivity extends AppCompatActivity {
         interval = "1h";
 
         // Get the data from Binance API
+        mIdlingResource = new CountingIdlingResource("CryptoValue Calls");
+        mIdlingResource.increment();
         getData();
 
 
@@ -79,6 +112,7 @@ public class CryptoGraphActivity extends AppCompatActivity {
                     volumeValues.add(Double.parseDouble((String)array.get(5)));
                     closeTimes.add((Long)array.get(6));
                 }
+                mIdlingResource.decrement();
             } catch(Exception e){
                 e.printStackTrace();
                 Toast.makeText(CryptoGraphActivity.this, "Couldn't extract JSON data... Please try again later.", Toast.LENGTH_SHORT).show();
@@ -117,5 +151,9 @@ public class CryptoGraphActivity extends AppCompatActivity {
         String interval = (String) adapter.getItem(position);
 
         Toast.makeText(getApplicationContext(), "Selected Interval: " + interval, Toast.LENGTH_SHORT).show();
+    }
+
+    public CountingIdlingResource getIdlingResource() {
+        return mIdlingResource;
     }
 }
