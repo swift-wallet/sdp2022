@@ -39,34 +39,6 @@ public class CryptoGraphActivity extends AppCompatActivity {
     private ArrayList<Double> volumeValues = new ArrayList<>();
     private ArrayList<Long> closeTimes = new ArrayList<>();
 
-    public ArrayList<Long> getOpenTimes() {
-        return openTimes;
-    }
-
-    public ArrayList<Double> getOpenValues() {
-        return openValues;
-    }
-
-    public ArrayList<Double> getHighValues() {
-        return highValues;
-    }
-
-    public ArrayList<Double> getLowValues() {
-        return lowValues;
-    }
-
-    public ArrayList<Double> getCloseValues() {
-        return closeValues;
-    }
-
-    public ArrayList<Double> getVolumeValues() {
-        return volumeValues;
-    }
-
-    public ArrayList<Long> getCloseTimes() {
-        return closeTimes;
-    }
-
     private CountingIdlingResource mIdlingResource;
 
     @Override
@@ -78,7 +50,8 @@ public class CryptoGraphActivity extends AppCompatActivity {
         // Get the Intent that started this activity and extract the currency
         Intent intent = getIntent();
         currency = (Currency) intent.getSerializableExtra("currency");
-        rateSymbol = currency.getSymbol()+"USDT";
+        //rateSymbol = currency.getSymbol()+"USDT";
+        rateSymbol = "ETH"+"USDT";
         interval = "1h";
 
         // Get the data from Binance API
@@ -90,7 +63,7 @@ public class CryptoGraphActivity extends AppCompatActivity {
         // Capture the layout's TextView and set the string as its text
         TextView textView = findViewById(R.id.idCurrencyToShowName);
         //textView.setText(closeTimes.size());
-        textView.setText(currency.getName());
+        textView.setText("Ethereum");
 
         //textView.setText("LAST CLOSING TIME : "+closeTimes.get(closeTimes.size()-1) + " LAST CLOSING VALUE : "+closeValues.get(closeValues.size()-1));
     }

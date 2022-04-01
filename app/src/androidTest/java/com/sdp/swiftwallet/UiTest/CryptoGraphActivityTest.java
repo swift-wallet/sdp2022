@@ -24,6 +24,7 @@ import androidx.test.platform.app.InstrumentationRegistry;
 import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.CryptoGraphActivity;
 import com.sdp.swiftwallet.CryptoValuesActivity;
+import com.sdp.swiftwallet.domain.model.Currency;
 
 import org.junit.After;
 import org.junit.Before;
@@ -31,17 +32,18 @@ import org.junit.Rule;
 import org.junit.Test;
 
 public class CryptoGraphActivityTest {
-
     CountingIdlingResource mIdlingResource;
-    int size;
-
+    Currency ethereum;
     @Rule
-    public ActivityScenarioRule<CryptoGraphActivity> testRule = new ActivityScenarioRule<CryptoGraphActivity>(CryptoGraphActivity.class);
+    public ActivityScenarioRule<CryptoGraphActivity> testRule = new ActivityScenarioRule<>(CryptoGraphActivity.class);
 
     @Before
     public void initIntents() {
         Intents.init();
     }
+
+    @Before
+    public void initEthereum(){ethereum = new Currency("ETH", "Ethereum", 2000);}
 
     @Before
     public void registerIdlingResource() {
@@ -67,23 +69,15 @@ public class CryptoGraphActivityTest {
         IdlingRegistry.getInstance().unregister(mIdlingResource);
     }
 
+
+    @Test
+    public void nameAndSpinnerCorrectlyDisplayed(){
+        onView(withId(R.id.idInterval)).check(matches(isDisplayed()));
+        onView(withId(R.id.idCurrencyToShowName)).check(matches(isDisplayed()));
+    }
     @Test
     public void nameDisplayedCorrectly() {
-        onView(withId(R.id.idCryptoSearch)).perform(typeText("ETH"), closeSoftKeyboard());
-        onView(withId(R.id.idRelativeLayoutCurrency)).perform(click());
-
         onView(withText("Ethereum")).check(matches(isDisplayed()));
         onView(withText("Bitcoin")).check(doesNotExist());
-    }
-
-    @Test
-    public void dataContainsMoreThanAHundredSamples() throws InterruptedException {
-        onView(withId(R.id.idCryptoSearch)).perform(typeText("ETH"), closeSoftKeyboard());
-        onView(withId(R.id.idRelativeLayoutCurrency)).perform(click());
-        wait(5);
-        testRule.getScenario().onActivity(activity ->
-                size = activity.getOpenTimes().size()
-        );
-        assertTrue(size>100);
     }
 }
