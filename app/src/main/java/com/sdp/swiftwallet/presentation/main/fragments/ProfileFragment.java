@@ -2,6 +2,7 @@ package com.sdp.swiftwallet.presentation.main.fragments;
 
 import static com.sdp.swiftwallet.common.HelperFunctions.checkEmail;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,6 +21,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.common.FirebaseUtil;
+import com.sdp.swiftwallet.presentation.signIn.LoginActivity;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
@@ -59,6 +61,7 @@ public class ProfileFragment extends Fragment {
         logoutButton.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
                 mAuth.signOut();
+                startActivity(new Intent(getActivity(), LoginActivity.class));
             }
         });
 
