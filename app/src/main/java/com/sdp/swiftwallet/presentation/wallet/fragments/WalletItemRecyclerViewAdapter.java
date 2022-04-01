@@ -1,13 +1,15 @@
 package com.sdp.swiftwallet.presentation.wallet.fragments;
 
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.content.Intent;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.sdp.cryptowalletapp.databinding.FragmentWalletItemBinding;
+import com.sdp.swiftwallet.presentation.wallet.WalletInfoActivity;
 
 import java.util.List;
 
@@ -21,16 +23,16 @@ public class WalletItemRecyclerViewAdapter extends RecyclerView.Adapter<WalletIt
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
         return new ViewHolder(FragmentWalletItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
-
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.item = mValues.get(position);
-        holder.addressView.setText(mValues.get(position).address);
-        holder.balanceView.setText(String.valueOf(mValues.get(position).balance));
+        WalletItem item = mValues.get(position);
+        holder.item = item;
+        holder.addressView.setText(item.getAddress());
+        holder.balanceView.setText(item.getBalance());
+        holder.itemView.setOnClickListener(holder);
     }
 
     @Override
@@ -38,7 +40,7 @@ public class WalletItemRecyclerViewAdapter extends RecyclerView.Adapter<WalletIt
         return mValues.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public final TextView addressView;
         public final TextView balanceView;
         public WalletItem item;
@@ -47,6 +49,14 @@ public class WalletItemRecyclerViewAdapter extends RecyclerView.Adapter<WalletIt
             super(binding.getRoot());
             addressView = binding.itemAddress;
             balanceView = binding.itemBalance;
+        }
+
+        @Override
+        public void onClick(View view) {
+            Intent walletInfoIntent = new Intent(view.getContext(), WalletInfoActivity.class);
+            walletInfoIntent.putExtra(WalletInfoActivity.ADDRESS_EXTRA, item.getAddress());
+            walletInfoIntent.putExtra(WalletInfoActivity.BALANCE_EXTRA, item.getBalance());
+            view.getContext().startActivity(walletInfoIntent);
         }
     }
 }

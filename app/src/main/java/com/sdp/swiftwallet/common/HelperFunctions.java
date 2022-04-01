@@ -5,6 +5,9 @@ import java.util.regex.Pattern;
 
 public class HelperFunctions {
 
+    public static final int SHORTENED_ADDRESS_LENGTH = 4;
+    public static final String SHORTENED_ADDRESS_JOINER = "...";
+
   //EMAIL_PATTERN matches any string, that doesnt contains special characters nor the arobase special
   //chars
   public static String EMAIL_PATTERN = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$";
@@ -95,5 +98,11 @@ public class HelperFunctions {
       isCorrect =false;
     }
     return isCorrect;
+  }
+
+  public static String toShortenedFormatAddress(String fullHexAddress){
+    int len = fullHexAddress.length();
+    return fullHexAddress.substring(0, SHORTENED_ADDRESS_LENGTH) + SHORTENED_ADDRESS_JOINER +
+            fullHexAddress.substring(len - SHORTENED_ADDRESS_LENGTH, len);
   }
 }

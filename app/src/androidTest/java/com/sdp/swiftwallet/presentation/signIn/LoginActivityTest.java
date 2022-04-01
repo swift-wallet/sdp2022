@@ -147,7 +147,6 @@ public class LoginActivityTest {
         onView(withId(R.id.loginEmailEt)).check(matches(hasFocus()));
     }
 
-    @Test
     public void incorrectEmailDisplaysAlert() {
         onView(withId(R.id.loginEmailEt)).perform(typeText("wrong"), closeSoftKeyboard());
         onView(withId(R.id.loginPasswordEt)).perform(typeText("admin"), closeSoftKeyboard());
@@ -223,17 +222,4 @@ public class LoginActivityTest {
         currUser = FirebaseUtil.getAuth().getCurrentUser();
         assert(currUser == null);
     }
-
-    @Test
-    public void pressGoogleSignInStartAuth() {
-        onView(withId(R.id.googleSignInBtn)).perform(click());
-
-        Bundle googleBundle = new Bundle();
-        googleBundle.putParcelable("googleSignInAccount", GoogleSignInAccount.createDefault());
-        Intent googleIntent = new Intent();
-        googleIntent.putExtra("account bundle", googleBundle);
-        Instrumentation.ActivityResult result = new Instrumentation.ActivityResult(RESULT_OK, googleIntent);
-        intending(toPackage("com.google.android.gms")).respondWith(result);
-    }
-
 }

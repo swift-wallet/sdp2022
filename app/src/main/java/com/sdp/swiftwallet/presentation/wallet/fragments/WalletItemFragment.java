@@ -16,14 +16,13 @@ import com.sdp.swiftwallet.domain.model.wallet.WalletKeyPair;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 /**
- * A fragment representing a list of Items.
+ * A fragment representing a list of wallet items.
  */
 public class WalletItemFragment extends Fragment {
-    private List<WalletItem> walletItems;
-    private WalletItemRecyclerViewAdapter walletItemRecyclerViewAdapter;
+    private final List<WalletItem> walletItems;
+    private final WalletItemRecyclerViewAdapter walletItemRecyclerViewAdapter;
 
     public WalletItemFragment() {
         walletItems = new ArrayList<>();
@@ -46,9 +45,7 @@ public class WalletItemFragment extends Fragment {
     //Adds a Wallet Item from a keypair object
     public void addWalletItem(WalletKeyPair keyPair){
         int count = walletItemRecyclerViewAdapter.getItemCount();
-        WalletItem newItem = new WalletItem(keyPair.getHexPublicKey());
-        //This is only for demo purposes
-        newItem.updateBalance(Math.abs(new Random().nextDouble()));
+        WalletItem newItem = new WalletItem(keyPair);
         walletItems.add(newItem);
         walletItemRecyclerViewAdapter.notifyItemChanged(count);
     }

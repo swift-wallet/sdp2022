@@ -52,9 +52,12 @@
 
     <!-- WALLET -->
     <string name="home_title">Your wallets</string>
-    <string name="balance_label_text">Balance:</string>
+    <string name="balance_label_text">Balance</string>
+    <string name="address_label_text">Address</string>
+    <string name="wallet_info_send_with">Send with this wallet</string>
     <string name="ether_logo_description">The ether currency logo</string>
     <string name="random_example_address">0x000000000000000000000000000000000000dead</string>
+    <string name="random_example_balance">12.214</string>
     <string name="no_seed">Your seed is not setup</string>
     <string name="setup_seed">Setup your seed</string>
     <string name="seed_info">A seed is a secret key made of random words for you to keep your wallets, you need to keep it in a secret place.</string>
@@ -69,7 +72,7 @@
     <string name="nav_send">Send</string>
 
     <string name="title_activity_crypto_graph">CryptoGraphActivity</string>
-  
+
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>
