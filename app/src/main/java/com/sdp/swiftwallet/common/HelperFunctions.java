@@ -62,6 +62,7 @@ public class HelperFunctions {
           + "one lower case letter and one digit, "
           + "and is 6 - 10 character long");
       textView.requestFocus();
+      return false;
     }
     return true;
   }
