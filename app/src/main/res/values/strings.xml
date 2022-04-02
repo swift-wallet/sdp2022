@@ -1,23 +1,24 @@
 <resources>
     <string name="app_name">Swift Wallet</string>
     <string name="webclient_id">300434541324-4enk0efv10ktjhglqniasj135qjoht2p.apps.googleusercontent.com</string>
-    <string name="main_button">Go to greeting</string>
-    <string name="sign_in">Sign In</string>
     <string name="name">Name</string>
-    <string name="crypto_logo_description">A crypto logo for the app</string>
-    <string name="chose_auth_method">Please Chose a Sign In Method</string>
-    <string name="logged_in_as">You\'re Logged In as:</string>
-    <string name="title_activity_login">LoginActivity</string>
+    <string name="logged_in_as">You\'re Logged In as</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
-    <string name="action_sign_in">Sign in or register</string>
-    <string name="action_sign_in_short">Sign in</string>
     <string name="welcome">"Welcome !"</string>
-    <string name="invalid_username">Not a valid username</string>
-    <string name="invalid_password">Password must be >5 characters</string>
-    <string name="login_failed">"Login failed"</string>
-    <string name="email">Email:</string>
+    <string name="email">Email</string>
     <string name="back">Back</string>
+
+    <!-- LOGIN & REGISTER-->
+    <string name="appTitle">SwiftWallet</string>
+    <string name="appLogoDescription">SwiftWallet Logo</string>
+    <string name="emailTv">Email</string>
+    <string name="passwordTv">Password</string>
+    <string name="loginBtnText">Login</string>
+    <string name="forgotPasswordTv">Forgot Password?</string>
+    <string name="registerTv">Register</string>
+    <string name="usernameTv">Username</string>
+    <string name="useOfflineTv">Use Offline</string>
 
     <!-- CRYPTOVALUES -->
     <string name="search_crypto_name">Search Crypto Name</string>
@@ -63,6 +64,7 @@
     <string name="seed_info">A seed is a secret key made of random words for you to keep your wallets, you need to keep it in a secret place.</string>
     <string name="generate_seed">Generate a seed</string>
     <string name="save_seed">Save this seed</string>
+    <string name="createAdressBtnDescription">A plus in a circle</string>
 
     <!-- NAVIGATION -->
     <string name="nav_message">Conversations</string>
@@ -72,23 +74,5 @@
     <string name="nav_send">Send</string>
 
     <string name="title_activity_crypto_graph">CryptoGraphActivity</string>
-
-    <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
-
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="appTitle">SwiftWallet</string>
-    <string name="appLogoDescription">SwiftWallet Logo</string>
-    <string name="EmailTv">Email</string>
-    <string name="loginBtnText">Login</string>
-    <string name="forgotPasswordTv">Forgot Password?</string>
-    <string name="passwordTv">Password</string>
-    <string name="registerTv">Register</string>
 
 </resources>

@@ -54,6 +54,7 @@ public class ForgotPwActivityTest {
   public void no_email_raises_error() {
     onView(withId(R.id.emailField)).perform(typeText(""), closeSoftKeyboard());
     onView(withId(R.id.sendReset)).perform(click());
+
     onView(withId(R.id.emailField)).check(matches(hasFocus()));
   }
 

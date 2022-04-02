@@ -8,76 +8,98 @@
     tools:context="com.sdp.swiftwallet.presentation.signIn.RegisterActivity">
 
     <TextView
+        android:id="@+id/loginTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/appTitle"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        />
+
+    <ImageView
+        android:id="@+id/appLogo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@android:drawable/sym_def_app_icon"
+        app:layout_constraintTop_toBottomOf="@+id/loginTitle"
+        android:layout_marginTop="8dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:contentDescription="@string/appLogoDescription" />
+
+    <TextView
         android:id="@+id/registerUsernameTv"
         android:layout_width="match_parent"
-        android:layout_height="37dp"
-        android:text="Username"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_height="wrap_content"
+        android:text="@string/usernameTv"
+        app:layout_constraintTop_toBottomOf="@id/appLogo"
         android:layout_marginTop="50dp"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
+        android:labelFor="@+id/registerUsernameEt"
         />
 
     <EditText
         android:id="@+id/registerUsernameEt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:ems="10"
-        android:inputType="textEmailAddress"
         app:layout_constraintTop_toBottomOf="@+id/registerUsernameTv"
+        android:layout_marginTop="10dp"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        />
+        android:importantForAutofill="no" />
 
     <TextView
         android:id="@+id/registerEmailTv"
         android:layout_width="match_parent"
-        android:layout_height="44dp"
-        android:text="Email"
+        android:layout_height="wrap_content"
+        android:text="@string/emailTv"
         app:layout_constraintTop_toBottomOf="@+id/registerUsernameEt"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
+        android:labelFor="@+id/registerEmailEt"
         />
 
     <EditText
         android:id="@+id/registerEmailEt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
         android:inputType="textEmailAddress"
         app:layout_constraintTop_toBottomOf="@+id/registerEmailTv"
+        android:layout_marginTop="10dp"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        />
+        android:importantForAutofill="no" />
 
     <TextView
         android:id="@+id/registerPasswordTv"
         android:layout_width="match_parent"
-        android:layout_height="44dp"
-        android:text="Password"
+        android:layout_height="wrap_content"
+        android:text="@string/passwordTv"
         app:layout_constraintTop_toBottomOf="@+id/registerEmailEt"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
+        android:labelFor="@+id/registerPasswordEt"
         />
 
     <EditText
         android:id="@+id/registerPasswordEt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
         android:inputType="textPassword"
         app:layout_constraintTop_toBottomOf="@+id/registerPasswordTv"
+        android:layout_marginTop="10dp"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        />
+        android:importantForAutofill="no" />
 
     <Button
         android:id="@+id/registerBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="Register"
+        android:text="@string/registerTv"
         app:layout_constraintTop_toBottomOf="@+id/registerPasswordEt"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"

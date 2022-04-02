@@ -1,6 +1,8 @@
 package com.sdp.swiftwallet.presentation.signIn;
 
-import static com.sdp.swiftwallet.common.HelperFunctions.*;
+import static com.sdp.swiftwallet.common.HelperFunctions.checkEmail;
+import static com.sdp.swiftwallet.common.HelperFunctions.checkPassword;
+import static com.sdp.swiftwallet.common.HelperFunctions.checkUsername;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +15,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.test.espresso.idling.CountingIdlingResource;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -25,7 +28,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.common.FirebaseUtil;
 import com.sdp.swiftwallet.domain.model.User;
-import java.util.regex.Pattern;
 
 public class RegisterActivity extends AppCompatActivity {
     private static final String EMAIL_REGISTER_TAG = "EMAIL_REGISTER_TAG";
@@ -33,6 +35,9 @@ public class RegisterActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
     private EditText registerUsernameEt, registerEmailEt, registerPasswordEt;
+
+    // Used for debugging purpose
+    private CountingIdlingResource mIdlingResource;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +54,10 @@ public class RegisterActivity extends AppCompatActivity {
         registerPasswordEt = findViewById(R.id.registerPasswordEt);
         Button registerBtn = findViewById(R.id.registerBtn);
 
+        // Init counting resource for async call in test
+        mIdlingResource = new CountingIdlingResource("Register Calls");
 
+        // Init listeners
         Button goBack = findViewById(R.id.goBackRegister);
         goBack.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
@@ -57,7 +65,6 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
-        // Set registerBtn listener
         registerBtn.setOnClickListener(v -> registerUser());
     }
 
@@ -69,12 +76,13 @@ public class RegisterActivity extends AppCompatActivity {
         String email = registerEmailEt.getText().toString().trim();
         String password = registerPasswordEt.getText().toString().trim();
 
-        //Check validity of inputs
+        // Check validity of inputs
         if (!checkUsername(username, registerUsernameEt)) return;
-        // TODO: add a username database
         if (!checkEmail(email, registerEmailEt)) return;
         if (!checkPassword(password, registerPasswordEt)) return;
 
+        // Increment counter before creating user
+        mIdlingResource.increment();
         createUserWithEmailAndPassword(username, email, password);
     }
 
@@ -93,9 +101,15 @@ public class RegisterActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             User user = new User(username, email, "BASIC");
                             Log.d(EMAIL_REGISTER_TAG, "onComplete: User created for Auth");
+                            // If user successfuly created the account,
+                            // Increment before adding to db and decrement because user is created
+                            mIdlingResource.increment();
                             registerUserToDatabase(user);
+                            mIdlingResource.decrement();
                         }
                         else {
+                            // If user failed to create an account, decrement counter
+                            mIdlingResource.decrement();
                             Toast.makeText(RegisterActivity.this, "User failed to register", Toast.LENGTH_LONG).show();
                             Log.w(EMAIL_REGISTER_TAG, "Error from task", task.getException());
                         }
@@ -116,16 +130,28 @@ public class RegisterActivity extends AppCompatActivity {
                         Toast.makeText(RegisterActivity.this, "User successfully registered", Toast.LENGTH_LONG).show();
                         Log.d(EMAIL_REGISTER_TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
 
-                        RegisterActivity.this.startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+                        // Decrement counter if user successfully added to db
+                        mIdlingResource.decrement();
+                        startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
+                        // Decrement counter if user failed to add to db
+                        mIdlingResource.decrement();
                         Toast.makeText(RegisterActivity.this, "User failed to register", Toast.LENGTH_LONG).show();
                         Log.w(EMAIL_REGISTER_TAG, "Error adding document", e);
                     }
                 });
+    }
+
+    /**
+     * Getter for the idling resource (used only in testCase normally)
+     * @return the idling resource used by RegisterActivity
+     */
+    public CountingIdlingResource getIdlingResource() {
+        return mIdlingResource;
     }
 
 }
