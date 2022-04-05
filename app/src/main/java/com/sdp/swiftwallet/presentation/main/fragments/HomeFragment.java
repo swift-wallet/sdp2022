@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -60,13 +61,16 @@ public class HomeFragment extends Fragment {
             fragmentView.findViewById(R.id.create_address_button).setVisibility(View.GONE);
         } else {
             recoverWalletsView();
-            recoverWalletsList();
+            if(walletItemFragment.itemCount() != wallets.getCounter()){
+                recoverWalletsList();
+            }
         }
     }
 
     @Override
     public void onResume() {
         super.onResume();
+
         if( hasSeed != SeedGenerator.hasSeed(requireActivity()) ){
             if( !hasSeed ){
                 wallets = SeedGenerator.recoverWallets(requireActivity());

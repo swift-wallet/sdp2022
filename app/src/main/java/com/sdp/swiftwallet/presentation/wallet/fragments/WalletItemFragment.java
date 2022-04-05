@@ -42,6 +42,11 @@ public class WalletItemFragment extends Fragment {
         }
         return view;
     }
+
+    public int itemCount() {
+        return walletItemRecyclerViewAdapter.getItemCount();
+    }
+
     //Adds a Wallet Item from a keypair object
     public void addWalletItem(WalletKeyPair keyPair){
         int count = walletItemRecyclerViewAdapter.getItemCount();
