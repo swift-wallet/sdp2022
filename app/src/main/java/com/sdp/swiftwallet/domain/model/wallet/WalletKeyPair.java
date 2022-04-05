@@ -9,11 +9,11 @@ import org.web3j.utils.Numeric;
 import java.math.BigInteger;
 
 public class WalletKeyPair {
-    private ECKeyPair keyPair;
-    private String hexPublicKey;
-    private int ID;
+    private final ECKeyPair keyPair;
+    private final String hexPublicKey;
+    private final int ID;
     private BigInteger nativeBalance = BigInteger.ZERO;
-    private IWeb3Requests web3Requests;
+    private final IWeb3Requests web3Requests;
 
     private WalletKeyPair(ECKeyPair keyPair, String hexPublicKey, int ID, IWeb3Requests web3Requests){
         this.keyPair = keyPair;

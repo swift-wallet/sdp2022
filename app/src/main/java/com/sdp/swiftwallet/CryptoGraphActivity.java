@@ -31,13 +31,13 @@ public class CryptoGraphActivity extends AppCompatActivity {
     private Currency currency;
     private String rateSymbol;
     private String interval;
-    private ArrayList<Long> openTimes = new ArrayList<>();
-    private ArrayList<Double> openValues = new ArrayList<>();
-    private ArrayList<Double> highValues = new ArrayList<>();
-    private ArrayList<Double> lowValues = new ArrayList<>();
-    private ArrayList<Double> closeValues = new ArrayList<>();
-    private ArrayList<Double> volumeValues = new ArrayList<>();
-    private ArrayList<Long> closeTimes = new ArrayList<>();
+    private final ArrayList<Long> openTimes = new ArrayList<>();
+    private final ArrayList<Double> openValues = new ArrayList<>();
+    private final ArrayList<Double> highValues = new ArrayList<>();
+    private final ArrayList<Double> lowValues = new ArrayList<>();
+    private final ArrayList<Double> closeValues = new ArrayList<>();
+    private final ArrayList<Double> volumeValues = new ArrayList<>();
+    private final ArrayList<Long> closeTimes = new ArrayList<>();
 
     private CountingIdlingResource mIdlingResource;
 
