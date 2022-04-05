@@ -66,6 +66,11 @@
     <string name="save_seed">Save this seed</string>
     <string name="createAdressBtnDescription">A plus in a circle</string>
 
+    <!-- SEND -->
+    <string name="send_from">From</string>
+    <string name="send_to">To</string>
+    <string name="send_amount">Amount</string>
+
     <!-- NAVIGATION -->
     <string name="nav_message">Conversations</string>
     <string name="nav_profile">Profile</string>

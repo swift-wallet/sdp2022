@@ -13,7 +13,10 @@ import java.util.Optional;
 
 public class SeedGenerator {
     public static final int SEED_SIZE = 5;
-    public static final String[] words = {"Avion", "Papier", "Feuille", "Caillou", "Ciseau", "Oui", "Non", "Mot", "Inspiration"};
+    public static final String[] words =
+            {"Plane", "Paper", "Bird", "Tree", "Knife", "Expensive", "Cheap", "Cheaper", "Inspiration",
+            "Bad", "Mad", "Flat", "Squared", "Rectangle", "Guitar", "Secret", "Often", "This", "Large",
+            "List", "Array", "Words", "Long", "Many", "Batman", "Spiderman", "Hulk", "Epfl", "Sciper"};
 
     public static final String WALLETS_SHARED_PREFERENCES_NAME = "WALLETS";
     public static final String PREF_SEED_ID = "SEED";

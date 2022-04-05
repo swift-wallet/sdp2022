@@ -11,6 +11,11 @@
     <dimen name="wallet_important">18sp</dimen>
     <dimen name="wallet_text_highlight">15sp</dimen>
 
+    <!-- SEND -->
+    <dimen name="info_box_corner">5dp</dimen>
+    <dimen name="info_box_margin">5dp</dimen>
+    <dimen name="info_box_padding">5dp</dimen>
+
     <!-- NAV -->
     <dimen name="nav_title">20sp</dimen>
     <dimen name="nav_title_margin">10dp</dimen>
