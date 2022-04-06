@@ -3,10 +3,13 @@ package com.sdp.swiftwallet.domain.model;
 import android.app.Application;
 import android.net.Uri;
 import java.util.Objects;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 /**
  * Class representing a generic user
  */
+@Singleton
 public class User {
 
   //Some basic attributes representing a user
@@ -20,6 +23,7 @@ public class User {
    * @param username username
    * @param email email
    */
+  @Inject
   public User(String username, String email, String loginMethod){
     Objects.requireNonNull(username);
     Objects.requireNonNull(email);

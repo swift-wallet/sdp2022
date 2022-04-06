@@ -18,16 +18,22 @@ import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.intent.Intents;
 
 import com.sdp.cryptowalletapp.R;
+import com.sdp.swiftwallet.domain.model.User;
 import com.sdp.swiftwallet.domain.model.wallet.cryptography.SeedGenerator;
 import com.sdp.swiftwallet.presentation.main.MainActivity;
 import com.sdp.swiftwallet.presentation.wallet.CreateSeedActivity;
 
+import dagger.hilt.android.testing.HiltAndroidRule;
+import dagger.hilt.android.testing.HiltAndroidTest;
+import javax.inject.Inject;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
+@HiltAndroidTest
 @RunWith(JUnit4.class)
 public class HomeFragmentTest {
 
@@ -35,8 +41,12 @@ public class HomeFragmentTest {
     public final static String mockSpaceSeed = "test testouille aille deux trois";
     public final static String[] mockArraySeed = new String[]{"test", "testouille", "aille", "deux", "trois"};
 
+    @Inject User u;
+
     public Context context;
     public final static int mockCounter = 10;
+
+    @Rule public HiltAndroidRule hiltRule = new HiltAndroidRule(this);
 
     public void setValidSeedAndCounter(Context context){
         SharedPreferences prefs = context.getSharedPreferences(SeedGenerator.WALLETS_SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);

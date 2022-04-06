@@ -12,6 +12,11 @@ import dagger.hilt.android.HiltAndroidApp;
 public class SwiftWalletApp extends Application {
     private TransactionHistoryProducer transactionHistoryProducer = null;
 
+    @Override
+    public void onCreate(){
+        super.onCreate();
+    }
+
     /**
      * Getter for the TransactionHistoryProducer
      *
