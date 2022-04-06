@@ -1,15 +1,15 @@
 package com.sdp.swiftwallet.presentation.wallet.fragments;
 
-import com.sdp.swiftwallet.domain.model.wallet.WalletKeyPair;
+import com.sdp.swiftwallet.domain.model.wallet.IWalletKeyPair;
 
 import java.math.BigInteger;
 
-// Simple wallet model
+// Simple wallet view model
 public class WalletItem {
     private final String address;
     private final BigInteger balance;
 
-    public WalletItem(WalletKeyPair walletKeyPair) {
+    public WalletItem(IWalletKeyPair walletKeyPair) {
         this.address = walletKeyPair.getHexPublicKey();
         this.balance = walletKeyPair.getNativeBalance();
     }

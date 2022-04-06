@@ -44,13 +44,13 @@ public class Wallets implements IWallets {
     }
 
     @Override
-    public WalletKeyPair[] getWallets() {
-        WalletKeyPair[] walletKeyPairs = new WalletKeyPair[counter];
+    public IWalletKeyPair[] getWallets() {
+        IWalletKeyPair[] walletKeyPairs = new IWalletKeyPair[counter];
         return keyPairs.toArray(walletKeyPairs).clone();
     }
 
     @Override
-    public WalletKeyPair getWalletFromId(int id) {
-        return keyPairs.get(id);
+    public IWalletKeyPair getWalletFromId(int id) {
+        return (IWalletKeyPair) keyPairs.get(id);
     }
 }

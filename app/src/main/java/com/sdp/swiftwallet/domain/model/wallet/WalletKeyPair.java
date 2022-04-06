@@ -8,7 +8,10 @@ import org.web3j.utils.Numeric;
 
 import java.math.BigInteger;
 
-public class WalletKeyPair {
+/**
+ * A wallet key pair object
+ */
+public class WalletKeyPair implements IWalletKeyPair{
     private final ECKeyPair keyPair;
     private final String hexPublicKey;
     private final int ID;
@@ -22,20 +25,29 @@ public class WalletKeyPair {
         this.web3Requests = web3Requests;
         updateBalance();
     }
+
+    /**
+     * Creates a wallet key pair from a cryptographic ECDSA key pair
+     * @param keyPair the keypair
+     * @param ID the id of this wallet
+     * @param web3Requests the object from which to requests blockchain data
+     * @return the WalletKeyPair object
+     */
     public static WalletKeyPair fromKeyPair(ECKeyPair keyPair, int ID, IWeb3Requests web3Requests){
         byte[] encodedPK = Hash.sha3(keyPair.getPublicKey().toString(16).getBytes());
         byte[] finalPK = new byte[20];
         System.arraycopy(encodedPK, 12, finalPK, 0, 20);
         return new WalletKeyPair(keyPair, Numeric.toHexString(finalPK), ID, web3Requests);
     }
+
+    /**
+     * Updates this wallet's native balance
+     */
     public void updateBalance() {
         web3Requests.getBalanceOf(this.hexPublicKey).thenAccept((nativeBalance) -> { this.nativeBalance = nativeBalance; });
     }
+
     public BigInteger getNativeBalance(){ return nativeBalance; }
-    public int getID() {
-        return ID;
-    }
-    public String getHexPublicKey() {
-        return hexPublicKey;
-    }
+    public int getID() { return ID; }
+    public String getHexPublicKey() { return hexPublicKey; }
 }

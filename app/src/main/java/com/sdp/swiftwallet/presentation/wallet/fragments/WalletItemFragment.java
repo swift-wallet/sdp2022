@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.sdp.cryptowalletapp.R;
+import com.sdp.swiftwallet.domain.model.wallet.IWalletKeyPair;
 import com.sdp.swiftwallet.domain.model.wallet.WalletKeyPair;
 
 import java.util.ArrayList;
@@ -48,7 +49,7 @@ public class WalletItemFragment extends Fragment {
     }
 
     //Adds a Wallet Item from a keypair object
-    public void addWalletItem(WalletKeyPair keyPair){
+    public void addWalletItem(IWalletKeyPair keyPair){
         int count = walletItemRecyclerViewAdapter.getItemCount();
         WalletItem newItem = new WalletItem(keyPair);
         walletItems.add(newItem);

@@ -1,6 +1,10 @@
 package com.sdp.swiftwallet.domain.model.wallet;
 
+import java.math.BigInteger;
+
 public interface IWalletKeyPair {
-    String getHexPublicKey();
-    String getID();
+    public String getHexPublicKey();
+    public int getID();
+    public BigInteger getNativeBalance();
+    public void updateBalance();
 }
