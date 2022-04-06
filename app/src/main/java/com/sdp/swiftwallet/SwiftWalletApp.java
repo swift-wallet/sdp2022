@@ -1,6 +1,7 @@
 package com.sdp.swiftwallet;
 
 import android.app.Application;
+import android.content.Context;
 
 import androidx.annotation.Nullable;
 
@@ -12,6 +13,23 @@ import dagger.hilt.android.HiltAndroidApp;
 public class SwiftWalletApp extends Application {
 
     private TransactionHistoryProducer transactionHistoryProducer = null;
+
+    private static Context context;
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        context = getApplicationContext();
+    }
+
+    /**
+     * Getter for the ApplicationContext
+     *
+     * @return the Context of this Application
+     */
+    public static Context getAppContext() {
+        return SwiftWalletApp.context;
+    }
 
     /**
      * Getter for the TransactionHistoryProducer
