@@ -17,14 +17,24 @@ import androidx.test.core.app.ActivityScenario;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.intent.Intents;
 
+import com.google.ar.core.Config;
+import com.google.firebase.auth.FirebaseAuth;
 import com.sdp.cryptowalletapp.R;
+import com.sdp.swiftwallet.SwiftWalletApp;
+import com.sdp.swiftwallet.common.FirebaseAuthModule;
 import com.sdp.swiftwallet.domain.model.User;
 import com.sdp.swiftwallet.domain.model.wallet.cryptography.SeedGenerator;
+import com.sdp.swiftwallet.hilt.CustomTestRunner;
 import com.sdp.swiftwallet.presentation.main.MainActivity;
 import com.sdp.swiftwallet.presentation.wallet.CreateSeedActivity;
 
+import dagger.Binds;
+import dagger.hilt.EntryPoint;
+import dagger.hilt.InstallIn;
+import dagger.hilt.android.testing.CustomTestApplication;
 import dagger.hilt.android.testing.HiltAndroidRule;
 import dagger.hilt.android.testing.HiltAndroidTest;
+import dagger.hilt.android.testing.HiltTestApplication;
 import javax.inject.Inject;
 import org.junit.After;
 import org.junit.Before;
@@ -41,10 +51,10 @@ public class HomeFragmentTest {
     public final static String mockSpaceSeed = "test testouille aille deux trois";
     public final static String[] mockArraySeed = new String[]{"test", "testouille", "aille", "deux", "trois"};
 
-    @Inject User u;
-
     public Context context;
     public final static int mockCounter = 10;
+
+    @Inject FirebaseAuth firebaseAuth;
 
     @Rule public HiltAndroidRule hiltRule = new HiltAndroidRule(this);
 
@@ -59,8 +69,10 @@ public class HomeFragmentTest {
         SharedPreferences prefs = context.getSharedPreferences(SeedGenerator.WALLETS_SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
         prefs.edit().clear().apply();
     }
+
     @Before
     public void setup() {
+        hiltRule.inject();
         context = ApplicationProvider.getApplicationContext();
         resetPrefs(context);
     }
@@ -71,9 +83,9 @@ public class HomeFragmentTest {
 
     public Intent setupValid(){
         setValidSeedAndCounter(context);
+
         return new Intent(context, MainActivity.class);
     }
-
 
     @Before
     public void initIntents() {
@@ -87,6 +99,7 @@ public class HomeFragmentTest {
 
     @Test
     public void shouldBeAbleToSeeConfigureButtonsWhenNoSeed(){
+       firebaseAuth.getCurrentUser();
         try (ActivityScenario<MainActivity> scenario = ActivityScenario.launch(setupReset())) {
             onView(withId(R.id.seed_setup)).check(matches(isDisplayed()));
             onView(withId(R.id.seed_not_setup)).check(matches(isDisplayed()));

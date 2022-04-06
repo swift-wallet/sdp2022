@@ -16,14 +16,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.common.FirebaseUtil;
-import com.sdp.swiftwallet.domain.repository.ClientAuth;
-import java.util.regex.Pattern;
 import org.jetbrains.annotations.NotNull;
 
 public class ForgotPasswordActivity extends AppCompatActivity {
 
 
-  private ClientAuth dbClient;
+
   private FirebaseAuth mAuth;
   private final String COUNTRY = "en";
   private final String COUNTRY_CODE = "en_gb";

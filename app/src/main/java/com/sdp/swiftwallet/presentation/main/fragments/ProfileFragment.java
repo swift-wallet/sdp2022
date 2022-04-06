@@ -24,17 +24,18 @@ import com.sdp.swiftwallet.common.FirebaseUtil;
 import com.sdp.swiftwallet.presentation.signIn.LoginActivity;
 
 import dagger.hilt.android.AndroidEntryPoint;
+import javax.inject.Inject;
 
 @AndroidEntryPoint
 public class ProfileFragment extends Fragment {
 
     private String PROFILE_TAG = "Profile update";
 
-    private FirebaseAuth mAuth;
     private FirebaseUser mUser;
 
     private EditText email;
 
+    @Inject FirebaseAuth mAuth;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

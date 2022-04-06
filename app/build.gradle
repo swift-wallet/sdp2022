@@ -15,7 +15,7 @@ android {
         versionCode 1
         versionName "1.0"
         vectorDrawables.useSupportLibrary = true
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "com.sdp.swiftwallet.hilt.CustomTestRunner"
     }
 
     buildTypes {
@@ -40,6 +40,7 @@ android {
 
 dependencies {
     implementation 'androidx.test.espresso:espresso-idling-resource:3.4.0'
+    implementation 'com.google.ar:core:1.25.0'
     def fragment_version = "1.4.1"
 
     implementation 'androidx.recyclerview:recyclerview:1.2.1'

@@ -10,12 +10,8 @@ import dagger.hilt.android.HiltAndroidApp;
 
 @HiltAndroidApp
 public class SwiftWalletApp extends Application {
-    private TransactionHistoryProducer transactionHistoryProducer = null;
 
-    @Override
-    public void onCreate(){
-        super.onCreate();
-    }
+    private TransactionHistoryProducer transactionHistoryProducer = null;
 
     /**
      * Getter for the TransactionHistoryProducer
