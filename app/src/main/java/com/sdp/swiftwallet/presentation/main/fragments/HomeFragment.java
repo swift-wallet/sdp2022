@@ -41,6 +41,7 @@ public class HomeFragment extends Fragment {
                 .commit();
 
         application = ((SwiftWalletApp)requireActivity().getApplication());
+        application.updateWallets();
         hasSeed = application.hasSeed();
     }
 

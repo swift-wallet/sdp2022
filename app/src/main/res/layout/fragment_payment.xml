@@ -40,7 +40,8 @@
                     <Spinner
                         android:id="@+id/send_token_spinner"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:spinnerMode="dropdown"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -79,7 +80,8 @@
                     <Spinner
                         android:id="@+id/send_from_spinner"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:spinnerMode="dropdown"/>
                 </LinearLayout>
                 <TextView
                     android:layout_width="match_parent"
@@ -89,6 +91,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:id="@+id/send_from_address"
                     android:text="@string/random_example_address"
                     android:textColor="@color/black"
                     android:textAlignment="center"/>
@@ -101,6 +104,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/random_example_balance"
+                    android:id="@+id/send_from_balance"
                     android:textColor="@color/black"
                     android:textAlignment="center"/>
 
@@ -135,7 +139,8 @@
                     <EditText
                         android:id="@+id/wallet_send_amount"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:inputType="numberDecimal"/>
                 </LinearLayout>
 
                 <SeekBar
@@ -178,7 +183,8 @@
                     <Spinner
                         android:id="@+id/send_to_spinner"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:spinnerMode="dropdown"/>
                     <ImageButton
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -193,6 +199,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:id="@+id/send_to_address"
                     android:text="@string/random_example_address"
                     android:textColor="@color/black"
                     android:textAlignment="center"/>
@@ -204,6 +211,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:id="@+id/send_to_balance"
                     android:text="@string/random_example_balance"
                     android:textColor="@color/black"
                     android:textAlignment="center"/>

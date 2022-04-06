@@ -44,7 +44,7 @@ public class QRActivity extends AppCompatActivity {
         );
         //Scanner initialization
         scanner = new QRCodeScanner(
-                (String result) -> {
+                (result) -> {
                     resultEditText.setText(result);
                 },
                 this

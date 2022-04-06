@@ -18,7 +18,6 @@ public class SwiftWalletApp extends Application {
 
     public SwiftWalletApp(){
         super();
-        updateWallets();
     }
 
     /**
@@ -40,7 +39,7 @@ public class SwiftWalletApp extends Application {
      *  Otherwise just set the wallets object to null
      */
     public void updateWallets(){
-        if(SeedGenerator.hasSeed(super.getBaseContext())){
+        if(SeedGenerator.hasSeed(this.getApplicationContext())){
             wallets = SeedGenerator.recoverWallets(super.getBaseContext());
         }else{
             wallets = null;

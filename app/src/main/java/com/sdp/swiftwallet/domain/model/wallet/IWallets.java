@@ -8,4 +8,5 @@ public interface IWallets {
     public int getCounter();
     public void saveCounter(Context context);
     public int generateWallet();
+    public String[] getAddresses();
 }
