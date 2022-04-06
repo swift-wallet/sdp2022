@@ -4,14 +4,19 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertThrows;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.sdp.swiftwallet.SwiftWalletApp;
 import com.sdp.swiftwallet.domain.model.Currency;
 import com.sdp.swiftwallet.domain.model.Transaction;
 import com.sdp.swiftwallet.domain.repository.TransactionHistoryProducer;
 import com.sdp.swiftwallet.domain.repository.TransactionHistorySubscriber;
 
+import dagger.hilt.android.testing.HiltAndroidRule;
+import dagger.hilt.android.testing.HiltAndroidTest;
+import javax.inject.Inject;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
