@@ -36,6 +36,8 @@ public class MainActivity extends AppCompatActivity {
                 new FirebaseTransactionHistoryProducer(FirebaseFirestore.getInstance())
         );
     }
+
+
     private TransactionHistoryProducer transactionHistoryProducer = null;
 
     /**

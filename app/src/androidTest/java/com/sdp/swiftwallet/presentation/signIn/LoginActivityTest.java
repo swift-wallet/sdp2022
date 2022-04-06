@@ -33,6 +33,7 @@ import androidx.test.platform.app.InstrumentationRegistry;
 
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.sdp.cryptowalletapp.R;
@@ -42,20 +43,33 @@ import com.sdp.swiftwallet.presentation.signIn.ForgotPasswordActivity;
 import com.sdp.swiftwallet.presentation.signIn.LoginActivity;
 import com.sdp.swiftwallet.presentation.signIn.RegisterActivity;
 
+import dagger.hilt.android.testing.HiltAndroidRule;
+import dagger.hilt.android.testing.HiltAndroidTest;
+import javax.inject.Inject;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.RuleChain;
 import org.junit.runner.RunWith;
 
+@HiltAndroidTest
 @RunWith(AndroidJUnit4.class)
 public class LoginActivityTest {
 
-    @Rule
-    public ActivityScenarioRule<LoginActivity> testRule = new ActivityScenarioRule<>(LoginActivity.class);
+    @Inject FirebaseAuth fb;
 
     CountingIdlingResource mIdlingResource;
     FirebaseUser currUser;
+
+    // Rules Set Up
+    public ActivityScenarioRule<LoginActivity> testRule = new ActivityScenarioRule<>(LoginActivity.class);
+
+    public HiltAndroidRule hiltRule = new HiltAndroidRule(this);
+
+    @Rule
+    public final RuleChain rule =
+        RuleChain.outerRule(hiltRule).around(testRule);
 
     @Before
     public void initIntents() {
@@ -64,17 +78,14 @@ public class LoginActivityTest {
 
     @Before
     public void registerIdlingResource() {
+        hiltRule.inject();
         testRule.getScenario().onActivity(activity ->
                 mIdlingResource = activity.getIdlingResource()
         );
         IdlingRegistry.getInstance().register(mIdlingResource);
-    }
-
-    @Before
-    public void signOutCurrentUser() {
-        currUser = FirebaseUtil.getAuth().getCurrentUser();
+        currUser = fb.getCurrentUser();
         if (currUser != null) {
-            FirebaseUtil.getAuth().signOut();
+            fb.signOut();
         }
     }
 

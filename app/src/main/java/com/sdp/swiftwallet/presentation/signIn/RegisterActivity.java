@@ -28,11 +28,15 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.common.FirebaseUtil;
 import com.sdp.swiftwallet.domain.model.User;
+import dagger.hilt.android.AndroidEntryPoint;
+import javax.inject.Inject;
 
+@AndroidEntryPoint
 public class RegisterActivity extends AppCompatActivity {
     private static final String EMAIL_REGISTER_TAG = "EMAIL_REGISTER_TAG";
 
-    private FirebaseAuth mAuth;
+    @Inject FirebaseAuth mAuth;
+
     private FirebaseFirestore db;
     private EditText registerUsernameEt, registerEmailEt, registerPasswordEt;
 
@@ -45,7 +49,7 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         // Init auth client and db client
-        mAuth = FirebaseUtil.getAuth();
+        // mAuth = FirebaseUtil.getAuth();
         db = FirebaseUtil.getFirestore();
 
         // Find EditText view and registerBtn

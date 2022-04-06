@@ -29,13 +29,12 @@ import javax.inject.Inject;
 @AndroidEntryPoint
 public class ProfileFragment extends Fragment {
 
+    @Inject FirebaseAuth mAuth;
+
     private String PROFILE_TAG = "Profile update";
-
     private FirebaseUser mUser;
-
     private EditText email;
 
-    @Inject FirebaseAuth mAuth;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -87,7 +86,6 @@ public class ProfileFragment extends Fragment {
             String email = mUser.getEmail();
             TextView emailTv = view.findViewById(R.id.email);
             emailTv.setText(email);
-            //startActivity(new Intent(getActivity(), LoginActivity.class));
         }
     }
 
