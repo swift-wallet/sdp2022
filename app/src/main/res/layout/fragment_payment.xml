@@ -188,6 +188,7 @@
                     <ImageButton
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:id="@+id/send_qr_scan"
                         android:src="@drawable/ic_baseline_qr_code_scanner_24"
                         app:tint="#000000" />
                 </LinearLayout>

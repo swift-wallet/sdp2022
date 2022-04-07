@@ -1,10 +1,7 @@
 package com.sdp.swiftwallet.presentation.main.fragments;
 
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -14,18 +11,12 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.SwiftWalletApp;
 import com.sdp.swiftwallet.data.repository.Web3Requests;
 import com.sdp.swiftwallet.domain.model.QRCodeScanner;
-import com.sdp.swiftwallet.domain.model.wallet.IWalletKeyPair;
-
-import java.lang.reflect.Array;
-import java.math.BigInteger;
-import java.util.Arrays;
 
 /**
  * Payment fragment to send some cryptocurrency assets
@@ -39,6 +30,8 @@ public class PaymentFragment extends Fragment {
     private TextView fromBalance;
     private TextView toAddress;
 
+    private OnFromAddressSelected onFromAddressSelected = new OnFromAddressSelected();
+    QRCodeScanner qrCodeScanner = new QRCodeScanner(this::setToSelectedAddress, this);
     private Web3Requests web3Requests;
 
     @Override
@@ -63,9 +56,13 @@ public class PaymentFragment extends Fragment {
         fromAddress = view.findViewById(R.id.send_from_address);
         fromBalance = view.findViewById(R.id.send_from_balance);
         toAddress = view.findViewById(R.id.send_to_address);
+
+        // Initialize the address spinner
         walletsSpinner = view.findViewById(R.id.send_from_spinner);
         walletsSpinner.setAdapter(arrayAdapter);
-        walletsSpinner.setOnItemSelectedListener(new OnFromAddressSelected());
+        walletsSpinner.setOnItemSelectedListener(onFromAddressSelected);
+
+        view.findViewById(R.id.send_qr_scan).setOnClickListener(v -> qrCodeScanner.launch());
     }
 
     private void setToSelectedAddress(String to){
@@ -75,7 +72,7 @@ public class PaymentFragment extends Fragment {
     private class OnFromAddressSelected implements AdapterView.OnItemSelectedListener{
         @Override
         public void onItemSelected(AdapterView<?> adapterView, View selectedView, int i, long l) {
-            String address = ((TextView)selectedView).getText().toString();
+            String address = arrayAdapter.getItem(i);
             fromAddress.setText(address);
             web3Requests.getBalanceOf(address).thenAccept(balance->{
                 fromBalance.setText(balance.toString(10));
