@@ -1,5 +1,6 @@
 package com.sdp.swiftwallet.UiTest;
 
+import static androidx.test.espresso.Espresso.closeSoftKeyboard;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.intent.Intents.intended;
@@ -68,6 +69,7 @@ public class PaymentFragmentTest {
     }
     @Test
     public void shouldUpdateTheBalance(){
+        closeSoftKeyboard();
         clickOn(R.id.mainNavPaymentItem);
         onView(withId(R.id.send_from_balance)).check(matches(withText("12.214")));
     }
