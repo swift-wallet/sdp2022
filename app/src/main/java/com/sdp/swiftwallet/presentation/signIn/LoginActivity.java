@@ -11,7 +11,6 @@ import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.test.espresso.idling.CountingIdlingResource;
@@ -22,19 +21,22 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.sdp.cryptowalletapp.R;
-import com.sdp.swiftwallet.common.FirebaseUtil;
+import com.sdp.swiftwallet.di.FirebaseAuthenticator;
+import com.sdp.swiftwallet.di.GoogleAuthenticator;
+import com.sdp.swiftwallet.domain.repository.SwiftAuthenticator;
 import com.sdp.swiftwallet.presentation.main.MainActivity;
 
 import dagger.hilt.android.AndroidEntryPoint;
+
 import java.util.Locale;
+import java.util.Optional;
+
 import javax.inject.Inject;
 
 @AndroidEntryPoint
@@ -46,12 +48,23 @@ public class LoginActivity extends AppCompatActivity {
     private static final String GOOGLE_SIGNIN_TAG = "GOOGLE_SIGNIN_TAG";
 
     private TextView attemptsTextView;
+    private EditText emailET;
+    private EditText passwordET;
+
     private static final int MAX_LOGIN_ATTEMPTS = 3;
     private int loginAttempts = 0;
 
     private ActivityResultLauncher<Intent> googleSignInActivityResultLauncher;
 
     private CountingIdlingResource mIdlingResource;
+
+    @FirebaseAuthenticator
+    @Inject
+    SwiftAuthenticator firebaseAuth;
+
+    @GoogleAuthenticator
+    @Inject
+    SwiftAuthenticator googleAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +73,9 @@ public class LoginActivity extends AppCompatActivity {
 
         attemptsTextView = (TextView) findViewById(R.id.attemptsMessage);
         attemptsTextView.setText("");
+
+        emailET = (EditText) findViewById(R.id.loginEmailEt);
+        passwordET = (EditText) findViewById(R.id.loginPasswordEt);
 
         // Init client authentication and launcher for google signIn
         // mAuth = FirebaseUtil.getAuth();
@@ -97,24 +113,47 @@ public class LoginActivity extends AppCompatActivity {
      */
     public void login() {
         // Retrieve username and password from login screen
-        EditText editText = (EditText) findViewById(R.id.loginEmailEt);
-        String email = editText.getText().toString().trim();
-        // Display error if not valid
-        if (email.isEmpty()) {
-            editText.setError("email required");
-            editText.requestFocus();
-            return;
-        }
-        editText = (EditText) findViewById(R.id.loginPasswordEt);
-        String password = editText.getText().toString().trim();
-        if (password.isEmpty()) {
-            editText.setError("password required");
-            editText.requestFocus();
-            return;
-        }
+        String email = emailET.getText().toString().trim();
+        String password = passwordET.getText().toString().trim();
 
-        // Finally Launch signIn
-        signInWithEmailAndPassword(email, password);
+        SwiftAuthenticator.Credentials credentials = new SwiftAuthenticator.Credentials(
+                email, password
+        );
+
+        SwiftAuthenticator.Result authRes = firebaseAuth.signIn(
+                Optional.of(credentials), () -> nextActivity(), () -> checkAttempts()
+        );
+
+        if (authRes != SwiftAuthenticator.Result.SUCCESS) {
+            handleError(authRes);
+        }
+    }
+
+    public void googleLogin() {
+
+    }
+
+    private void nextActivity() {
+        Toast.makeText(this, "User successfully signed in", Toast.LENGTH_LONG).show();
+
+        startActivity(
+                new Intent(this, MainActivity.class)
+        );
+    }
+
+    private void handleError(SwiftAuthenticator.Result result) {
+        switch (result) {
+            case NULL_EMAIL:
+                Toast.makeText(this, "Email required", Toast.LENGTH_LONG).show();
+                break;
+            case NULL_PASSWORD:
+                Toast.makeText(this, "Password required", Toast.LENGTH_LONG).show();
+                break;
+            case ERROR:
+                break;
+            default:
+                break;
+        }
     }
 
     /**
@@ -172,33 +211,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     /**
-     * Perform email signIn with the authentication client
-     * @param email user email to connect with
-     * @param password corresponding password
-     */
-    private void signInWithEmailAndPassword(String email, String password) {
-        Log.d(EMAIL_SIGNIN_TAG, "signInWithEmailAndPassword: begin firebase auth with email account");
-        mIdlingResource.increment();
-        mAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        mIdlingResource.decrement();
-                        if (task.isSuccessful()) {
-                            Log.d(EMAIL_SIGNIN_TAG, "Login successful for email: " + email);
-                            Toast.makeText(LoginActivity.this, "User successfully signedIn", Toast.LENGTH_LONG).show();
-
-                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                        }
-                        else {
-                            Log.w(EMAIL_SIGNIN_TAG, "Error from task", task.getException());
-                            checkAttempts();
-                        }
-                    }
-                });
-    }
-
-    /**
      * Perform google signin with the authentication client
      * @param credential credentials for authentication
      */
@@ -239,10 +251,6 @@ public class LoginActivity extends AppCompatActivity {
                     if (result.getResultCode() == RESULT_OK) {
                         Log.d(GOOGLE_SIGNIN_TAG, "GoogleSignIn got intent result");
                         Task<GoogleSignInAccount> accountTask = GoogleSignIn.getSignedInAccountFromIntent(result.getData());
-//                        Bundle bundle = result.getData().getExtras();
-//                        for (String key : bundle.keySet()){
-//                            Log.d(GOOGLE_SIGNIN_TAG, "Extra " + key + " -> " + bundle.get(key));
-//                        }
                         try {
                             GoogleSignInAccount account = accountTask.getResult(ApiException.class);
                             Log.d(GOOGLE_SIGNIN_TAG, "Begin Auth with google account");
