@@ -150,6 +150,9 @@ public class LoginActivity extends AppCompatActivity {
             case NULL_PASSWORD:
                 Toast.makeText(this, "Password required", Toast.LENGTH_LONG).show();
                 break;
+            case ERROR:
+                Toast.makeText(this, "An unexpected error occured", Toast.LENGTH_LONG).show();
+                break;
             default:
                 break;
         }
