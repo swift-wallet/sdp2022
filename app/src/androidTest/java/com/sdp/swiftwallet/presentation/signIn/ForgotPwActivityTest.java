@@ -11,6 +11,8 @@ import static androidx.test.espresso.matcher.ViewMatchers.hasFocus;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 
+import androidx.test.espresso.IdlingRegistry;
+import androidx.test.espresso.idling.CountingIdlingResource;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -28,14 +30,29 @@ public class ForgotPwActivityTest {
   @Rule
   public ActivityScenarioRule<ForgotPasswordActivity> testRule = new ActivityScenarioRule<>(ForgotPasswordActivity.class);
 
+  CountingIdlingResource mIdlingResource;
+
   @Before
-  public void setUp() throws Exception {
+  public void setUp() {
     Intents.init();
   }
 
+  @Before
+  public void registerIdlingResource() {
+    testRule.getScenario().onActivity(activity ->
+            mIdlingResource = activity.getIdlingResource()
+    );
+    IdlingRegistry.getInstance().register(mIdlingResource);
+  }
+
   @After
-  public void tearDown() throws Exception {
+  public void tearDown() {
     Intents.release();
+  }
+
+  @After
+  public void unregisterIdlingResource() {
+    IdlingRegistry.getInstance().unregister(mIdlingResource);
   }
 
   /**

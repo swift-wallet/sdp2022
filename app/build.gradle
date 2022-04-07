@@ -93,6 +93,14 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'crea
     }
 
     def fileFilter = [
+        // data binding
+        '**/databinding/*',
+        'android/databinding/**/*.class',
+        '**/android/databinding/*Binding.class',
+        '**/android/databinding/*',
+        '**/androidx/databinding/*',
+        '**/BR.*',
+        // android
         '**/R.class',
         '**/R$*.class',
         '**/BuildConfig.*',
