@@ -21,6 +21,7 @@ import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.SwiftWalletApp;
 import com.sdp.swiftwallet.domain.model.Currency;
 import com.sdp.swiftwallet.domain.model.Transaction;
+import com.sdp.swiftwallet.domain.repository.TransactionHistoryProducer;
 import com.sdp.swiftwallet.domain.repository.TransactionHistorySubscriber;
 import com.sdp.swiftwallet.presentation.transactions.TransactionActivity;
 
@@ -29,16 +30,24 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.inject.Inject;
+
+import dagger.hilt.android.AndroidEntryPoint;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link TransactionStatsFragment} factory method to
  * create an instance of this fragment.
  */
+@AndroidEntryPoint
 public class TransactionStatsFragment extends Fragment implements TransactionHistorySubscriber {
     private TransactionActivity rootAct;
     private PieChart pieChart;
 
     private final static List<Integer> COLORS = new ArrayList<>();
+
+    @Inject
+    TransactionHistoryProducer producer;
 
     static {
         for (int color : ColorTemplate.MATERIAL_COLORS) {
@@ -63,14 +72,13 @@ public class TransactionStatsFragment extends Fragment implements TransactionHis
         pieChart = rootAct.findViewById(R.id.transaction_pieChart);
         setupPieChart();
 
-        while (!((SwiftWalletApp) rootAct.getApplication()).getTransactionHistoryProducer().subscribe(this))
-            ;
+        while (!producer.subscribe(this));
     }
 
     @Override
     public void onStop() {
-        while (!((SwiftWalletApp) rootAct.getApplication()).getTransactionHistoryProducer().unsubscribe(this))
-            ;
+        while(!producer.unsubscribe(this));
+
         super.onStop();
     }
 

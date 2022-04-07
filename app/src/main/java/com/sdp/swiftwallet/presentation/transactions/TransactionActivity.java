@@ -11,9 +11,12 @@ import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.presentation.transactions.fragments.TransactionHistoryFragment;
 import com.sdp.swiftwallet.presentation.transactions.fragments.TransactionStatsFragment;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
 /**
  * Transaction Activity screen
  */
+@AndroidEntryPoint
 public class TransactionActivity extends AppCompatActivity {
     private FragmentManager fragmentManager;
     private Fragment historyFragment, statsFragment;
