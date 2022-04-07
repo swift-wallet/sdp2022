@@ -13,6 +13,9 @@ import dagger.hilt.InstallIn;
 import dagger.hilt.android.EntryPointAccessors;
 import dagger.hilt.components.SingletonComponent;
 
+/**
+ * SwiftAuthenticator implementation using FirebaseAuth
+ */
 public class AuthenticatorFirebaseImpl implements SwiftAuthenticator {
 
     private final static String LOG_TAG = "FIREBASE_AUTH_TAG";
@@ -43,11 +46,11 @@ public class AuthenticatorFirebaseImpl implements SwiftAuthenticator {
         }
 
         if (email.isEmpty()) {
-            return Result.NULL_EMAIL;
+            return Result.EMPTY_EMAIL;
         }
 
         if (password.isEmpty()) {
-            return Result.NULL_PASSWORD;
+            return Result.EMPTY_PASSWORD;
         }
 
         Log.d(LOG_TAG, "Begin firebase authentication");

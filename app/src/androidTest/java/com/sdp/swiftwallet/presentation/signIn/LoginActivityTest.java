@@ -186,7 +186,7 @@ public class LoginActivityTest {
 
     @Test
     public void emptyPasswordDisplaysToastMessage() {
-        authenticator.setResult(SwiftAuthenticator.Result.NULL_PASSWORD);
+        authenticator.setResult(SwiftAuthenticator.Result.EMPTY_PASSWORD);
 
         onView(withId(R.id.loginButton)).perform(click());
 
@@ -195,7 +195,7 @@ public class LoginActivityTest {
 
     @Test
     public void emptyEmailDisplaysToastMessage() {
-        authenticator.setResult(SwiftAuthenticator.Result.NULL_EMAIL);
+        authenticator.setResult(SwiftAuthenticator.Result.EMPTY_EMAIL);
 
         onView(withId(R.id.loginButton)).perform(click());
 

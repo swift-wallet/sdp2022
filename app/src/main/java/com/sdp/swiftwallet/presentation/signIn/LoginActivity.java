@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,6 +21,9 @@ import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
+/**
+ * Login Activity
+ */
 @AndroidEntryPoint
 public class LoginActivity extends AppCompatActivity {
 
@@ -47,24 +49,41 @@ public class LoginActivity extends AppCompatActivity {
         passwordEditText = findViewById(R.id.loginPasswordEt);
     }
 
+    /**
+     * Method associated to the Forgot Password button
+     *
+     * @param view the View of the button
+     */
     public void forgotPassword(View view) {
         Intent it = new Intent(this, ForgotPasswordActivity.class);
         startActivity(it);
     }
 
+    /**
+     * Method associated to the Register button
+     *
+     * @param view the View of the button
+     */
     public void register(View view) {
         Intent it = new Intent(this, RegisterActivity.class);
         startActivity(it);
     }
 
+    /**
+     * Method associated to the Use Offline button
+     *
+     * @param view the View of the button
+     */
     public void useOffline(View view) {
         Intent it = new Intent(this, MainActivity.class);
         startActivity(it);
     }
 
     /**
-     * Login method which is launched by the LOGIN button on the login screen
-     * check email and password validity before signIn
+     * Method associated to the Login button
+     * Uses the injected SwiftAuthenticator
+     *
+     * @param view the View of the button
      */
     public void login(View view) {
         // Retrieve username and password from login screen
@@ -80,12 +99,18 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Error handler for the result of the SwiftAuthenticator's
+     * signIn method
+     *
+     * @param result the result of the authentication
+     */
     private void handleError(SwiftAuthenticator.Result result) {
         switch (result) {
-            case NULL_EMAIL:
+            case EMPTY_EMAIL:
                 Toast.makeText(this, "Email required", Toast.LENGTH_SHORT).show();
                 break;
-            case NULL_PASSWORD:
+            case EMPTY_PASSWORD:
                 Toast.makeText(this, "Password required", Toast.LENGTH_SHORT).show();
                 break;
             case ERROR:
@@ -96,6 +121,10 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Method used to get the next Activity
+     * This is passed as a callback to the SwiftAuthenticator
+     */
     private void nextActivity() {
         Toast.makeText(this, "User successfully signed in", Toast.LENGTH_LONG).show();
 
@@ -128,6 +157,12 @@ public class LoginActivity extends AppCompatActivity {
         incorrectCredentialsError(LoginActivity.this).show();
     }
 
+    /**
+     * Creates an AlertDialog to inform the user of an unexpected authentication error
+     *
+     * @param context the context of the alert
+     * @return an AlertDialog informing the user an error occurred while authenticating
+     */
     private AlertDialog authError(Context context) {
         return new AlertDialog.Builder(context)
                 .setTitle("Authentication error")

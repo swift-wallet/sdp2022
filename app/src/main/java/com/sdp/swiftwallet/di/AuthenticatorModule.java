@@ -8,7 +8,9 @@ import dagger.Provides;
 import dagger.hilt.InstallIn;
 import dagger.hilt.components.SingletonComponent;
 
-
+/**
+ * Hilt Module to inject SwiftAuthenticator
+ */
 @Module
 @InstallIn(SingletonComponent.class)
 public class AuthenticatorModule {
