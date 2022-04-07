@@ -31,35 +31,6 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = navHostFragment.getNavController();
         BottomNavigationView bottomNavigationView = findViewById(R.id.mainBottomNavView);
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
-
-        setTransactionHistoryProducer(
-                new FirebaseTransactionHistoryProducer(FirebaseFirestore.getInstance())
-        );
-    }
-
-
-    private TransactionHistoryProducer transactionHistoryProducer = null;
-
-    /**
-     * Getter for the TransactionHistoryProducer
-     *
-     * @return the TransactionHistoryProducer
-     */
-    @Nullable
-    public TransactionHistoryProducer getTransactionHistoryProducer() {
-        return transactionHistoryProducer;
-    }
-
-    /**
-     * Setter for the TransactionHistoryProducer
-     *
-     * @param transactionHistoryProducer the new TransactionHistoryProducer
-     */
-    public void setTransactionHistoryProducer(TransactionHistoryProducer transactionHistoryProducer) {
-        if (transactionHistoryProducer == null) {
-            throw new IllegalArgumentException("Null HistoryProducer");
-        }
-        this.transactionHistoryProducer = transactionHistoryProducer;
     }
 
 }
