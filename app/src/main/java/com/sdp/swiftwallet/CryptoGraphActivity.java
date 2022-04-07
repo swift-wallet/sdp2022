@@ -98,7 +98,7 @@ public class CryptoGraphActivity extends AppCompatActivity {
     }
 
     private void setIntervalsSpinner(){
-        this.intervalSpinner = (Spinner) findViewById(R.id.idInterval);
+        this.intervalSpinner = findViewById(R.id.idInterval);
         this.intervalsText = Interval.getTextToShowUser();
         this.intervalsForRequest = Interval.getIntervalForRequest();
 

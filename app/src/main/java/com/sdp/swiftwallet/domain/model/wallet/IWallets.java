@@ -5,8 +5,8 @@ import android.content.Context;
 public interface IWallets {
     IWalletKeyPair[] getWallets();
     IWalletKeyPair getWalletFromId(int id);
-    public int getCounter();
-    public void saveCounter(Context context);
-    public int generateWallet();
-    public String[] getAddresses();
+    int getCounter();
+    void saveCounter(Context context);
+    int generateWallet();
+    String[] getAddresses();
 }

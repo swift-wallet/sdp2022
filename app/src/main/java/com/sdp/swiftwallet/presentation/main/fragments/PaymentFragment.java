@@ -22,23 +22,20 @@ import com.sdp.swiftwallet.domain.model.QRCodeScanner;
  * Payment fragment to send some cryptocurrency assets
  */
 public class PaymentFragment extends Fragment {
-    private SwiftWalletApp application;
-    private Spinner walletsSpinner;
     private ArrayAdapter<String> arrayAdapter;
-    private String[] walletsList;
     private TextView fromAddress;
     private TextView fromBalance;
     private TextView toAddress;
 
-    private OnFromAddressSelected onFromAddressSelected = new OnFromAddressSelected();
+    private final OnFromAddressSelected onFromAddressSelected = new OnFromAddressSelected();
     QRCodeScanner qrCodeScanner = new QRCodeScanner(this::setToSelectedAddress, this);
     private Web3Requests web3Requests;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        application = (SwiftWalletApp) requireActivity().getApplication();
-        walletsList = application.getWallets().getAddresses();
+        SwiftWalletApp application = (SwiftWalletApp) requireActivity().getApplication();
+        String[] walletsList = application.getWallets().getAddresses();
         arrayAdapter = new ArrayAdapter<String>(requireActivity(), androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, walletsList);
         web3Requests = new Web3Requests();
     }
@@ -58,7 +55,7 @@ public class PaymentFragment extends Fragment {
         toAddress = view.findViewById(R.id.send_to_address);
 
         // Initialize the address spinner
-        walletsSpinner = view.findViewById(R.id.send_from_spinner);
+        Spinner walletsSpinner = view.findViewById(R.id.send_from_spinner);
         walletsSpinner.setAdapter(arrayAdapter);
         walletsSpinner.setOnItemSelectedListener(onFromAddressSelected);
 

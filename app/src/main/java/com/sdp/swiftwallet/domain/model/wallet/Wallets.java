@@ -56,6 +56,6 @@ public class Wallets implements IWallets {
     }
     @Override
     public IWalletKeyPair getWalletFromId(int id) {
-        return (IWalletKeyPair) keyPairs.get(id);
+        return keyPairs.get(id);
     }
 }
