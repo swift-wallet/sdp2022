@@ -1,4 +1,4 @@
-package com.sdp.swiftwallet.UiTest;
+package com.sdp.swiftwallet.presentation.signIn;
 
 import static android.app.Activity.RESULT_OK;
 import static androidx.test.espresso.Espresso.onView;
@@ -37,6 +37,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.common.FirebaseUtil;
+import com.sdp.swiftwallet.presentation.main.MainActivity;
 import com.sdp.swiftwallet.presentation.signIn.ForgotPasswordActivity;
 import com.sdp.swiftwallet.presentation.signIn.LoginActivity;
 import com.sdp.swiftwallet.presentation.signIn.RegisterActivity;
@@ -105,6 +106,7 @@ public class LoginActivityTest {
         onView(withId(R.id.forgotPasswordTv)).check(matches(isDisplayed()));
         onView(withId(R.id.registerTv)).check(matches(isDisplayed()));
         onView(withId(R.id.googleSignInBtn)).check(matches(isDisplayed()));
+        onView(withId(R.id.useOfflineTv)).check(matches(isDisplayed()));
     }
 
     @Test
@@ -115,6 +117,16 @@ public class LoginActivityTest {
                 toPackage("com.sdp.swiftwallet"),
                 hasComponent(hasClassName(ForgotPasswordActivity.class.getName()))
         ));
+    }
+
+    @Test
+    public void emptyPasswordRequestFocus() {
+        onView(withId(R.id.loginEmailEt))
+            .perform(typeText("email.test@gmail.com"),
+                closeSoftKeyboard());
+        onView(withId(R.id.loginButton)).perform(click());
+
+        onView(withId(R.id.loginPasswordEt)).check(matches(hasFocus()));
     }
 
     @Test
@@ -137,17 +149,6 @@ public class LoginActivityTest {
         onView(withId(R.id.loginEmailEt)).check(matches(hasFocus()));
     }
 
-    @Test
-    public void emptyPasswordRequestFocus() {
-        onView(withId(R.id.loginEmailEt))
-                .perform(typeText("email.test@gmail.com"),
-                        closeSoftKeyboard());
-        onView(withId(R.id.loginButton)).perform(click());
-
-        onView(withId(R.id.loginPasswordEt)).check(matches(hasFocus()));
-    }
-
-    @Test
     public void incorrectEmailDisplaysAlert() {
         onView(withId(R.id.loginEmailEt)).perform(typeText("wrong"), closeSoftKeyboard());
         onView(withId(R.id.loginPasswordEt)).perform(typeText("admin"), closeSoftKeyboard());
@@ -228,12 +229,23 @@ public class LoginActivityTest {
     public void pressGoogleSignInStartAuth() {
         onView(withId(R.id.googleSignInBtn)).perform(click());
 
-        Bundle googleBundle = new Bundle();
-        googleBundle.putParcelable("googleSignInAccount", GoogleSignInAccount.createDefault());
-        Intent googleIntent = new Intent();
-        googleIntent.putExtra("account bundle", googleBundle);
-        Instrumentation.ActivityResult result = new Instrumentation.ActivityResult(RESULT_OK, googleIntent);
-        intending(toPackage("com.google.android.gms")).respondWith(result);
+//        Bundle googleBundle = new Bundle();
+//        googleBundle.putParcelable("googleSignInAccount", GoogleSignInAccount.createDefault());
+//        Intent googleIntent = new Intent();
+//        googleIntent.putExtra("account bundle", googleBundle);
+//        Instrumentation.ActivityResult result = new Instrumentation.ActivityResult(RESULT_OK, googleIntent);
+//        intending(toPackage("com.google.android.gms")).respondWith(result);
+
+    }
+
+    @Test
+    public void pressOfflineTvFiresIntentCorrectly() {
+        onView(withId(R.id.useOfflineTv)).perform(click());
+
+        intended(allOf(
+                toPackage("com.sdp.swiftwallet"),
+                hasComponent(hasClassName(MainActivity.class.getName()))
+        ));
     }
 
 }

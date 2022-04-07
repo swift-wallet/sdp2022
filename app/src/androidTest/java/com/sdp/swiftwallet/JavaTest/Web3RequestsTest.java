@@ -18,21 +18,10 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class Web3RequestsTest {
     public static final String DEAD_WALLET = "0x000000000000000000000000000000000000dEaD"; // can I have the private key pls ?
     @Test
-    public void shouldBeAbleToGetFutureBalanceOf(){
+    public void shouldBeAbleToGetFutureBalanceOf() {
         Web3Requests web3Requests = new Web3Requests();
-        CompletableFuture<BigInteger> balancePromise = web3Requests.getFutureBalanceOf(DEAD_WALLET);
+        CompletableFuture<BigInteger> balancePromise = web3Requests.getBalanceOf(DEAD_WALLET);
         BigInteger balance = balancePromise.join();
-        assert( !balance.equals(BigInteger.ZERO) );
-    }
-    @Test
-    public void shouldBeAbleToGetBalanceOf(){
-        Web3Requests web3Requests = new Web3Requests();
-        try{
-            BigInteger balance = web3Requests.getBalanceOf(DEAD_WALLET);
-            assert( !balance.equals(BigInteger.ZERO) );
-        }
-        catch (Exception e){
-            fail();
-        }
+        assert (!balance.equals(BigInteger.ZERO));
     }
 }
