@@ -121,10 +121,10 @@ public class LoginActivity extends AppCompatActivity {
     private void handleError(SwiftAuthenticator.Result result) {
         switch (result) {
             case NULL_EMAIL:
-                Toast.makeText(this, "Email required", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Email required", Toast.LENGTH_SHORT).show();
                 break;
             case NULL_PASSWORD:
-                Toast.makeText(this, "Password required", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Password required", Toast.LENGTH_SHORT).show();
                 break;
             case ERROR:
                 Toast.makeText(this, "An unexpected error occured", Toast.LENGTH_LONG).show();
