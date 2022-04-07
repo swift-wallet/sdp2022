@@ -14,6 +14,8 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import android.content.Context;
 import android.content.Intent;
 
+import androidx.test.espresso.IdlingRegistry;
+import androidx.test.espresso.idling.CountingIdlingResource;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -77,7 +79,7 @@ public class LoginActivityTest {
     public void setup() {
         hiltRule.inject();
 
-//        Intents.init();
+        Intents.init();
 
         mAuth.signOut();
 
@@ -89,7 +91,7 @@ public class LoginActivityTest {
 
     @After
     public void teardown() {
-//        Intents.release();
+        Intents.release();
     }
 
     public void closeSystemDialogs() {
@@ -150,38 +152,26 @@ public class LoginActivityTest {
 
     @Test
     public void forgotPWButtonFiresIntentCorrectly() {
-        Intents.init();
-
         onView(withId(R.id.forgotPasswordTv)).perform(click());
 
         intended(toPackage("com.sdp.swiftwallet"));
         intended(hasComponent(ForgotPasswordActivity.class.getName()));
-
-        Intents.release();
     }
 
     @Test
     public void registerButtonFiresIntentCorrectly() {
-        Intents.init();
-
         onView(withId(R.id.registerTv)).perform(click());
 
         intended(toPackage("com.sdp.swiftwallet"));
         intended(hasComponent(RegisterActivity.class.getName()));
-
-        Intents.release();
     }
 
     @Test
     public void offlineButtonFiresIntentCorrectly() {
-        Intents.init();
-
         onView(withId(R.id.useOfflineTv)).perform(click());
 
         intended(toPackage("com.sdp.swiftwallet"));
         intended(hasComponent(MainActivity.class.getName()));
-
-        Intents.release();
     }
 
     @Test
@@ -225,8 +215,6 @@ public class LoginActivityTest {
 
     @Test
     public void successCallbackFiresIntent() {
-        Intents.init();
-
         authenticator.setResult(SwiftAuthenticator.Result.SUCCESS);
         authenticator.setExecSuccess(true);
 
@@ -234,8 +222,6 @@ public class LoginActivityTest {
 
         intended(toPackage("com.sdp.swiftwallet"));
         intended(hasComponent(MainActivity.class.getName()));
-
-        Intents.release();
     }
 
     @Test

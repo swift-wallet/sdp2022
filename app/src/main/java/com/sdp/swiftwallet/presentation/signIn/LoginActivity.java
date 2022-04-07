@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.test.espresso.idling.CountingIdlingResource;
 
 import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.domain.repository.SwiftAuthenticator;
