@@ -150,8 +150,6 @@ public class LoginActivity extends AppCompatActivity {
             case NULL_PASSWORD:
                 Toast.makeText(this, "Password required", Toast.LENGTH_LONG).show();
                 break;
-            case ERROR:
-                break;
             default:
                 break;
         }
