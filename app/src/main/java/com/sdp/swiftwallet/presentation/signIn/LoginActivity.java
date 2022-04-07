@@ -28,7 +28,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.di.FirebaseAuthenticator;
-import com.sdp.swiftwallet.di.GoogleAuthenticator;
 import com.sdp.swiftwallet.domain.repository.SwiftAuthenticator;
 import com.sdp.swiftwallet.presentation.main.MainActivity;
 
@@ -60,11 +59,11 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        attemptsTextView = (TextView) findViewById(R.id.attemptsMessage);
+        attemptsTextView = findViewById(R.id.attemptsMessage);
         attemptsTextView.setText("");
 
-        emailET = (EditText) findViewById(R.id.loginEmailEt);
-        passwordET = (EditText) findViewById(R.id.loginPasswordEt);
+        emailET = findViewById(R.id.loginEmailEt);
+        passwordET = findViewById(R.id.loginPasswordEt);
 
         // Init idling resource for testing purpose
         mIdlingResource = new CountingIdlingResource("Login Calls");
