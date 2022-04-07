@@ -37,26 +37,24 @@ public class AuthenticatorFirebaseImpl implements SwiftAuthenticator {
     }
 
     @Override
-    public Result signIn(Optional<Credentials> credentials, Runnable success, Runnable failure) {
-        if (!credentials.isPresent()) {
+    public Result signIn(String email, String password, Runnable success, Runnable failure) {
+        if (email == null || password == null) {
             return Result.ERROR;
         }
 
-        Credentials cred = credentials.get();
-
-        if (cred.getEmail().isEmpty()) {
+        if (email.isEmpty()) {
             return Result.NULL_EMAIL;
         }
 
-        if (cred.getPassword().isEmpty()) {
+        if (password.isEmpty()) {
             return Result.NULL_PASSWORD;
         }
 
         Log.d(LOG_TAG, "Begin firebase authentication");
-        auth.signInWithEmailAndPassword(cred.getEmail(), cred.getPassword())
+        auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        Log.d(LOG_TAG, "Login successful for email: " + cred.getEmail());
+                        Log.d(LOG_TAG, "Login successful for email: " + email);
                         // TODO init user object here
                         success.run();
                     } else {

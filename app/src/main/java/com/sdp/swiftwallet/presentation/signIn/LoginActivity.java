@@ -3,36 +3,20 @@ package com.sdp.swiftwallet.presentation.signIn;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.test.espresso.idling.CountingIdlingResource;
 
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.SignInButton;
-import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.GoogleAuthProvider;
 import com.sdp.cryptowalletapp.R;
-import com.sdp.swiftwallet.di.FirebaseAuthenticator;
 import com.sdp.swiftwallet.domain.repository.SwiftAuthenticator;
 import com.sdp.swiftwallet.presentation.main.MainActivity;
 
 import java.util.Locale;
-import java.util.Optional;
 
 import javax.inject.Inject;
 
@@ -42,17 +26,14 @@ import dagger.hilt.android.AndroidEntryPoint;
 public class LoginActivity extends AppCompatActivity {
 
     private TextView attemptsTextView;
-    private EditText emailET;
-    private EditText passwordET;
+    private EditText emailEditText;
+    private EditText passwordEditText;
 
     private static final int MAX_LOGIN_ATTEMPTS = 3;
     private int loginAttempts = 0;
 
-    private CountingIdlingResource mIdlingResource;
-
-    @FirebaseAuthenticator
     @Inject
-    SwiftAuthenticator firebaseAuth;
+    SwiftAuthenticator authenticator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,60 +43,41 @@ public class LoginActivity extends AppCompatActivity {
         attemptsTextView = findViewById(R.id.attemptsMessage);
         attemptsTextView.setText("");
 
-        emailET = findViewById(R.id.loginEmailEt);
-        passwordET = findViewById(R.id.loginPasswordEt);
+        emailEditText = findViewById(R.id.loginEmailEt);
+        passwordEditText = findViewById(R.id.loginPasswordEt);
+    }
 
-        // Init idling resource for testing purpose
-        mIdlingResource = new CountingIdlingResource("Login Calls");
+    public void forgotPassword(View view) {
+        Intent it = new Intent(this, ForgotPasswordActivity.class);
+        startActivity(it);
+    }
 
-        // Set Listeners
-        Button loginBtn = findViewById(R.id.loginButton);
-        loginBtn.setOnClickListener(v -> login());
+    public void register(View view) {
+        Intent it = new Intent(this, RegisterActivity.class);
+        startActivity(it);
+    }
 
-        TextView forgotPasswordTv = findViewById(R.id.forgotPasswordTv);
-        forgotPasswordTv.setOnClickListener(v ->
-                startActivity(new Intent(LoginActivity.this, ForgotPasswordActivity.class))
-        );
-
-        TextView registerTv = findViewById(R.id.registerTv);
-        registerTv.setOnClickListener(v ->
-                startActivity(new Intent(LoginActivity.this, RegisterActivity.class))
-        );
-
-        TextView useOfflineTv = findViewById(R.id.useOfflineTv);
-        useOfflineTv.setOnClickListener(v ->
-                startActivity(new Intent(LoginActivity.this, MainActivity.class))
-        );
+    public void useOffline(View view) {
+        Intent it = new Intent(this, MainActivity.class);
+        startActivity(it);
     }
 
     /**
      * Login method which is launched by the LOGIN button on the login screen
      * check email and password validity before signIn
      */
-    public void login() {
+    public void login(View view) {
         // Retrieve username and password from login screen
-        String email = emailET.getText().toString().trim();
-        String password = passwordET.getText().toString().trim();
+        String email = emailEditText.getText().toString().trim();
+        String password = passwordEditText.getText().toString().trim();
 
-        SwiftAuthenticator.Credentials credentials = new SwiftAuthenticator.Credentials(
-                email, password
-        );
-
-        SwiftAuthenticator.Result authRes = firebaseAuth.signIn(
-                Optional.of(credentials), () -> nextActivity(), () -> checkAttempts()
+        SwiftAuthenticator.Result authRes = authenticator.signIn(
+                email, password, () -> nextActivity(), () -> checkAttempts()
         );
 
         if (authRes != SwiftAuthenticator.Result.SUCCESS) {
             handleError(authRes);
         }
-    }
-
-    private void nextActivity() {
-        Toast.makeText(this, "User successfully signed in", Toast.LENGTH_LONG).show();
-
-        startActivity(
-                new Intent(this, MainActivity.class)
-        );
     }
 
     private void handleError(SwiftAuthenticator.Result result) {
@@ -127,11 +89,19 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(this, "Password required", Toast.LENGTH_SHORT).show();
                 break;
             case ERROR:
-                Toast.makeText(this, "An unexpected error occured", Toast.LENGTH_LONG).show();
+                authError(LoginActivity.this).show();
                 break;
             default:
                 break;
         }
+    }
+
+    private void nextActivity() {
+        Toast.makeText(this, "User successfully signed in", Toast.LENGTH_LONG).show();
+
+        startActivity(
+                new Intent(this, MainActivity.class)
+        );
     }
 
     /**
@@ -156,6 +126,15 @@ public class LoginActivity extends AppCompatActivity {
 
         // Display error message
         incorrectCredentialsError(LoginActivity.this).show();
+    }
+
+    private AlertDialog authError(Context context) {
+        return new AlertDialog.Builder(context)
+                .setTitle("Authentication error")
+                .setMessage("Unexpected error when authenticating")
+                .setPositiveButton("OK", null)
+                .setCancelable(false)
+                .create();
     }
 
     /**
@@ -186,15 +165,6 @@ public class LoginActivity extends AppCompatActivity {
                 .setPositiveButton("OK", null)
                 .setCancelable(false)
                 .create();
-    }
-
-    /**
-     * Getter for idling resource, used for testing
-     *
-     * @return idling resource used in this activity
-     */
-    public CountingIdlingResource getIdlingResource() {
-        return mIdlingResource;
     }
 
 }

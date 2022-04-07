@@ -10,25 +10,7 @@ public interface SwiftAuthenticator {
         SUCCESS, NULL_EMAIL, NULL_PASSWORD, ERROR
     }
 
-    class Credentials {
-        private final String email;
-        private final String password;
-
-        public Credentials(String email, String password) {
-            this.email = email;
-            this.password = password;
-        }
-
-        public String getEmail() {
-            return email;
-        }
-
-        public String getPassword() {
-            return password;
-        }
-    }
-
-    Result signIn(Optional<Credentials> credentials, Runnable success, Runnable failure);
+    Result signIn(String email, String password, Runnable success, Runnable failure);
 
     Optional<User> getUser();
 }

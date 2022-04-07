@@ -2,39 +2,30 @@ package com.sdp.swiftwallet.presentation.signIn;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
-import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.intent.Intents.intended;
-import static androidx.test.espresso.intent.matcher.ComponentNameMatchers.hasClassName;
-import static androidx.test.espresso.intent.matcher.IntentMatchers.anyIntent;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.toPackage;
 import static androidx.test.espresso.matcher.RootMatchers.isDialog;
-import static androidx.test.espresso.matcher.ViewMatchers.hasFocus;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
-import static org.hamcrest.Matchers.allOf;
 
 import android.content.Context;
 import android.content.Intent;
-import androidx.test.espresso.IdlingRegistry;
-import androidx.test.espresso.idling.CountingIdlingResource;
+
 import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
-import com.google.firebase.auth.AuthCredential;
+
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.GoogleAuthProvider;
 import com.sdp.cryptowalletapp.R;
-import com.sdp.swiftwallet.common.FirebaseUtil;
+import com.sdp.swiftwallet.di.AuthenticatorModule;
+import com.sdp.swiftwallet.domain.model.User;
+import com.sdp.swiftwallet.domain.repository.SwiftAuthenticator;
 import com.sdp.swiftwallet.presentation.main.MainActivity;
-import dagger.hilt.android.testing.HiltAndroidRule;
-import dagger.hilt.android.testing.HiltAndroidTest;
-import javax.inject.Inject;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -42,116 +33,216 @@ import org.junit.Test;
 import org.junit.rules.RuleChain;
 import org.junit.runner.RunWith;
 
+import java.util.Optional;
+
+import javax.inject.Inject;
+
+import dagger.Module;
+import dagger.Provides;
+import dagger.hilt.InstallIn;
+import dagger.hilt.android.testing.HiltAndroidRule;
+import dagger.hilt.android.testing.HiltAndroidTest;
+import dagger.hilt.android.testing.UninstallModules;
+import dagger.hilt.components.SingletonComponent;
+
+@UninstallModules(AuthenticatorModule.class)
 @HiltAndroidTest
 @RunWith(AndroidJUnit4.class)
 public class LoginActivityTest {
 
-    @Inject FirebaseAuth fb;
+    @Module
+    @InstallIn(SingletonComponent.class)
+    public static class TestModule {
 
-    CountingIdlingResource mIdlingResource;
-    FirebaseUser currUser;
+        @Provides
+        public static SwiftAuthenticator provideAuthenticator() {
+            return authenticator;
+        }
+
+    }
 
     // Rules Set Up
     public ActivityScenarioRule<LoginActivity> testRule = new ActivityScenarioRule<>(LoginActivity.class);
-
     public HiltAndroidRule hiltRule = new HiltAndroidRule(this);
+
+    @Inject
+    FirebaseAuth mAuth;
+    private static DummyAuthenticator authenticator = new DummyAuthenticator();
 
     @Rule
     public final RuleChain rule =
-        RuleChain.outerRule(hiltRule).around(testRule);
+            RuleChain.outerRule(hiltRule).around(testRule);
 
     @Before
-    public void initIntents() {
-        Intents.init();
-    }
-
-    @Before
-    public void registerIdlingResource() {
+    public void setup() {
         hiltRule.inject();
-        testRule.getScenario().onActivity(activity ->
-                mIdlingResource = activity.getIdlingResource()
-        );
-        IdlingRegistry.getInstance().register(mIdlingResource);
-        currUser = fb.getCurrentUser();
-        if (currUser != null) {
-            fb.signOut();
-        }
+
+//        Intents.init();
+
+        mAuth.signOut();
+
+        closeSystemDialogs();
+
+        authenticator.setExecFailure(false);
+        authenticator.setExecSuccess(false);
     }
 
-    @Before
+    @After
+    public void teardown() {
+//        Intents.release();
+    }
+
     public void closeSystemDialogs() {
         Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
         context.sendBroadcast(new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS));
     }
 
-    @After
-    public void releaseIntents() {
-        Intents.release();
-    }
-
-    @After
-    public void unregisterIdlingResource() {
-        IdlingRegistry.getInstance().unregister(mIdlingResource);
+    @Test
+    public void loginTitleIsDisplayed() {
+        onView(withId(R.id.loginTitle)).check(matches(isDisplayed()));
     }
 
     @Test
-    public void loginLayoutCorrectlyDisplayed() {
-        onView(withId(R.id.loginTitle)).check(matches(isDisplayed()));
+    public void appLogoIsDisplayed() {
         onView(withId(R.id.appLogo)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void emailTVIsDisplayed() {
         onView(withId(R.id.loginEmailTv)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void emailETIsDisplayed() {
         onView(withId(R.id.loginEmailEt)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void passwordTVIsDisplayed() {
         onView(withId(R.id.loginPasswordTv)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void passwordETIsDisplayed() {
         onView(withId(R.id.loginPasswordEt)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void loginButtonIsDisplayed() {
         onView(withId(R.id.loginButton)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void forgotPasswordTVIsDisplayed() {
         onView(withId(R.id.forgotPasswordTv)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void registerTVIsDisplayed() {
         onView(withId(R.id.registerTv)).check(matches(isDisplayed()));
-        onView(withId(R.id.googleSignInBtn)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void offlineTVIsDisplayed() {
         onView(withId(R.id.useOfflineTv)).check(matches(isDisplayed()));
     }
 
+
     @Test
-    public void pressForgotPWFiresIntentCorrectly() {
+    public void forgotPWButtonFiresIntentCorrectly() {
+        Intents.init();
+
         onView(withId(R.id.forgotPasswordTv)).perform(click());
 
-        intended(allOf(
-                toPackage("com.sdp.swiftwallet"),
-                hasComponent(hasClassName(ForgotPasswordActivity.class.getName()))
-        ));
+        intended(toPackage("com.sdp.swiftwallet"));
+        intended(hasComponent(ForgotPasswordActivity.class.getName()));
+
+        Intents.release();
     }
 
     @Test
-    public void emptyPasswordRequestFocus() {
-        onView(withId(R.id.loginEmailEt))
-            .perform(typeText("email.test@gmail.com"),
-                closeSoftKeyboard());
-        onView(withId(R.id.loginButton)).perform(click());
+    public void registerButtonFiresIntentCorrectly() {
+        Intents.init();
 
-        onView(withId(R.id.loginPasswordEt)).check(matches(hasFocus()));
-    }
-
-    @Test
-    public void pressRegisterFiresIntentCorrectly() {
         onView(withId(R.id.registerTv)).perform(click());
 
-        intended(allOf(
-                toPackage("com.sdp.swiftwallet"),
-                hasComponent(hasClassName(RegisterActivity.class.getName()))
-        ));
+        intended(toPackage("com.sdp.swiftwallet"));
+        intended(hasComponent(RegisterActivity.class.getName()));
+
+        Intents.release();
     }
 
     @Test
-    public void emptyEmailRequestFocus() {
-        onView(withId(R.id.loginPasswordEt))
-                .perform(typeText("wrong"),
-                        closeSoftKeyboard());
-        onView(withId(R.id.loginButton)).perform(click());
+    public void offlineButtonFiresIntentCorrectly() {
+        Intents.init();
 
-        onView(withId(R.id.loginEmailEt)).check(matches(hasFocus()));
+        onView(withId(R.id.useOfflineTv)).perform(click());
+
+        intended(toPackage("com.sdp.swiftwallet"));
+        intended(hasComponent(MainActivity.class.getName()));
+
+        Intents.release();
     }
 
-    public void incorrectEmailDisplaysAlert() {
-        onView(withId(R.id.loginEmailEt)).perform(typeText("wrong"), closeSoftKeyboard());
-        onView(withId(R.id.loginPasswordEt)).perform(typeText("admin"), closeSoftKeyboard());
+    @Test
+    public void emptyPasswordDisplaysToastMessage() {
+        authenticator.setResult(SwiftAuthenticator.Result.NULL_PASSWORD);
+
+        onView(withId(R.id.loginButton)).perform(click());
+
+        //How do you check that toast messages are displayed???
+    }
+
+    @Test
+    public void emptyEmailDisplaysToastMessage() {
+        authenticator.setResult(SwiftAuthenticator.Result.NULL_EMAIL);
+
+        onView(withId(R.id.loginButton)).perform(click());
+
+        //How do you check that toast messages are displayed???
+    }
+
+    @Test
+    public void authErrorDisplaysErrorMessage() {
+        authenticator.setResult(SwiftAuthenticator.Result.ERROR);
+
+        onView(withId(R.id.loginButton)).perform(click());
+
+        onView(withText("Authentication error"))
+                .inRoot(isDialog())
+                .check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void successCallbackDisplaysToastMessage() {
+        authenticator.setResult(SwiftAuthenticator.Result.SUCCESS);
+        authenticator.setExecSuccess(true);
+
+        onView(withId(R.id.loginButton)).perform(click());
+
+        //How do you check that toast messages are displayed???
+    }
+
+    @Test
+    public void successCallbackFiresIntent() {
+        Intents.init();
+
+        authenticator.setResult(SwiftAuthenticator.Result.SUCCESS);
+        authenticator.setExecSuccess(true);
+
+        onView(withId(R.id.loginButton)).perform(click());
+
+        intended(toPackage("com.sdp.swiftwallet"));
+        intended(hasComponent(MainActivity.class.getName()));
+
+        Intents.release();
+    }
+
+    @Test
+    public void failureCallbackDisplaysErrorMessage() {
+        authenticator.setResult(SwiftAuthenticator.Result.SUCCESS);
+        authenticator.setExecFailure(true);
+
         onView(withId(R.id.loginButton)).perform(click());
 
         onView(withText("Incorrect username or password"))
@@ -160,20 +251,10 @@ public class LoginActivityTest {
     }
 
     @Test
-    public void incorrectPasswordDisplaysAlert() {
-        onView(withId(R.id.loginEmailEt)).perform(typeText("email.test@gmail.com"), closeSoftKeyboard());
-        onView(withId(R.id.loginPasswordEt)).perform(typeText("wrong"), closeSoftKeyboard());
-        onView(withId(R.id.loginButton)).perform(click());
+    public void failureCallbackDisplaysRemainingAttempts() {
+        authenticator.setResult(SwiftAuthenticator.Result.SUCCESS);
+        authenticator.setExecFailure(true);
 
-        onView(withText("Incorrect username or password"))
-                .inRoot(isDialog())
-                .check(matches(isDisplayed()));
-    }
-
-    @Test
-    public void incorrectCredentialsShowsRemainingAttempts() {
-        onView(withId(R.id.loginEmailEt)).perform(typeText("admin"), closeSoftKeyboard());
-        onView(withId(R.id.loginPasswordEt)).perform(typeText("wrong"), closeSoftKeyboard());
         onView(withId(R.id.loginButton)).perform(click());
         onView(withText("OK"))
                 .inRoot(isDialog())
@@ -184,9 +265,10 @@ public class LoginActivityTest {
     }
 
     @Test
-    public void tooManyFailedAttemptsDisplaysAlert() {
-        onView(withId(R.id.loginEmailEt)).perform(typeText("a"), closeSoftKeyboard());
-        onView(withId(R.id.loginPasswordEt)).perform(typeText("b"), closeSoftKeyboard());
+    public void manyFailuresDisplaysErrorMessage() {
+        authenticator.setResult(SwiftAuthenticator.Result.SUCCESS);
+        authenticator.setExecFailure(true);
+
         onView(withId(R.id.loginButton)).perform(click());
         onView(withText("OK"))
                 .inRoot(isDialog())
@@ -204,40 +286,42 @@ public class LoginActivityTest {
                 .check(matches(isDisplayed()));
     }
 
-    @Test
-    public void successfulLoginLaunchesMain() {
-        onView(withId(R.id.loginEmailEt)).perform(typeText("jerome.ceccaldi@epfl.ch"), closeSoftKeyboard());
-        onView(withId(R.id.loginPasswordEt)).perform(typeText("abcdef"), closeSoftKeyboard());
-        onView(withId(R.id.loginButton)).perform(click());
+    public static class DummyAuthenticator implements SwiftAuthenticator {
 
-        intended(anyIntent());
+        SwiftAuthenticator.Result result;
+
+        boolean execSuccess;
+        boolean execFailure;
+
+        @Override
+        public Result signIn(String email, String password, Runnable success, Runnable failure) {
+            if (execSuccess) {
+                success.run();
+            }
+
+            if (execFailure) {
+                failure.run();
+            }
+
+            return result;
+        }
+
+        @Override
+        public Optional<User> getUser() {
+            return Optional.empty();
+        }
+
+        public void setResult(SwiftAuthenticator.Result result) {
+            this.result = result;
+        }
+
+        public void setExecSuccess(boolean execSuccess) {
+            this.execSuccess = execSuccess;
+        }
+
+        public void setExecFailure(boolean execFailure) {
+            this.execFailure = execFailure;
+        }
+
     }
-
-    @Test
-    public void signInWithGoogleCredentialFailsCorrectly() {
-        String testToken = "malformedToken";
-        AuthCredential testCredential = GoogleAuthProvider.getCredential(testToken, null);
-        testRule.getScenario().onActivity(activity -> {
-           activity.signInWithCredential(testCredential);
-        });
-
-        currUser = FirebaseUtil.getAuth().getCurrentUser();
-        assert(currUser == null);
-    }
-
-    @Test
-    public void pressGoogleSignInStartAuth() {
-        onView(withId(R.id.googleSignInBtn)).perform(click());
-    }
-
-    @Test
-    public void pressOfflineTvFiresIntentCorrectly() {
-        onView(withId(R.id.useOfflineTv)).perform(click());
-
-        intended(allOf(
-                toPackage("com.sdp.swiftwallet"),
-                hasComponent(hasClassName(MainActivity.class.getName()))
-        ));
-    }
-
 }
