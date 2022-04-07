@@ -68,7 +68,7 @@ public class MainActivityTest {
     @Test
     public void press_message_display_fragments() {
         onView(withId(R.id.mainNavMessageItem)).perform(click());
-        onView(withId(R.id.message_fragment)).check(matches(isDisplayed()));
+        onView(withId(R.id.friend_fragment)).check(matches(isDisplayed()));
     }
 
     @Test
