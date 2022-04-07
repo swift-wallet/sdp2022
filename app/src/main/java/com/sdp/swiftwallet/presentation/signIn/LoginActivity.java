@@ -32,17 +32,18 @@ import com.sdp.swiftwallet.di.GoogleAuthenticator;
 import com.sdp.swiftwallet.domain.repository.SwiftAuthenticator;
 import com.sdp.swiftwallet.presentation.main.MainActivity;
 
-import dagger.hilt.android.AndroidEntryPoint;
-
 import java.util.Locale;
 import java.util.Optional;
 
 import javax.inject.Inject;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
 @AndroidEntryPoint
 public class LoginActivity extends AppCompatActivity {
 
-    @Inject FirebaseAuth mAuth;
+    @Inject
+    FirebaseAuth mAuth;
 
     private static final String EMAIL_SIGNIN_TAG = "EMAIL_SIGNIN_TAG";
     private static final String GOOGLE_SIGNIN_TAG = "GOOGLE_SIGNIN_TAG";
@@ -93,17 +94,17 @@ public class LoginActivity extends AppCompatActivity {
 
         TextView forgotPasswordTv = findViewById(R.id.forgotPasswordTv);
         forgotPasswordTv.setOnClickListener(v ->
-            startActivity(new Intent(LoginActivity.this, ForgotPasswordActivity.class))
+                startActivity(new Intent(LoginActivity.this, ForgotPasswordActivity.class))
         );
 
         TextView registerTv = findViewById(R.id.registerTv);
         registerTv.setOnClickListener(v ->
-            startActivity(new Intent(LoginActivity.this, RegisterActivity.class))
+                startActivity(new Intent(LoginActivity.this, RegisterActivity.class))
         );
 
         TextView useOfflineTv = findViewById(R.id.useOfflineTv);
         useOfflineTv.setOnClickListener(v ->
-            startActivity(new Intent(LoginActivity.this, MainActivity.class))
+                startActivity(new Intent(LoginActivity.this, MainActivity.class))
         );
     }
 
@@ -198,7 +199,7 @@ public class LoginActivity extends AppCompatActivity {
     /**
      * Creates an AlertDialog to inform the user they have used up their login attempts
      *
-     * @param context    the context of the alert
+     * @param context the context of the alert
      * @return an AlertDialog informing the user they used up their login attempts
      */
     private AlertDialog tooManyAttemptsError(Context context) {
@@ -212,6 +213,7 @@ public class LoginActivity extends AppCompatActivity {
 
     /**
      * Perform google signin with the authentication client
+     *
      * @param credential credentials for authentication
      */
     public void signInWithCredential(AuthCredential credential) {
@@ -227,12 +229,11 @@ public class LoginActivity extends AppCompatActivity {
             Log.d(GOOGLE_SIGNIN_TAG, "With UID: " + uid);
 
             if (authResult.getAdditionalUserInfo().isNewUser()) {
-                Log.d(GOOGLE_SIGNIN_TAG, "Account Created...\n"+email);
-                Toast.makeText(LoginActivity.this, "Account Created...\n"+email, Toast.LENGTH_SHORT).show();
-            }
-            else {
-                Log.d(GOOGLE_SIGNIN_TAG, "Existing user...\n"+email);
-                Toast.makeText(LoginActivity.this, "Existing user...\n"+email, Toast.LENGTH_SHORT).show();
+                Log.d(GOOGLE_SIGNIN_TAG, "Account Created...\n" + email);
+                Toast.makeText(LoginActivity.this, "Account Created...\n" + email, Toast.LENGTH_SHORT).show();
+            } else {
+                Log.d(GOOGLE_SIGNIN_TAG, "Existing user...\n" + email);
+                Toast.makeText(LoginActivity.this, "Existing user...\n" + email, Toast.LENGTH_SHORT).show();
             }
 
             startActivity(new Intent(LoginActivity.this, MainActivity.class));
@@ -281,6 +282,7 @@ public class LoginActivity extends AppCompatActivity {
 
     /**
      * Getter for idling resource, used for testing
+     *
      * @return idling resource used in this activity
      */
     public CountingIdlingResource getIdlingResource() {

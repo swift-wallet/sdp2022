@@ -4,18 +4,13 @@ import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.sdp.swiftwallet.SwiftWalletApp;
-import com.sdp.swiftwallet.common.FirebaseUtil;
 import com.sdp.swiftwallet.domain.model.User;
 
 import java.util.Optional;
 
-import javax.inject.Inject;
-
 import dagger.hilt.EntryPoint;
 import dagger.hilt.InstallIn;
-import dagger.hilt.android.AndroidEntryPoint;
 import dagger.hilt.android.EntryPointAccessors;
-import dagger.hilt.android.qualifiers.ApplicationContext;
 import dagger.hilt.components.SingletonComponent;
 
 public class AuthenticatorFirebaseImpl implements SwiftAuthenticator {
@@ -34,8 +29,8 @@ public class AuthenticatorFirebaseImpl implements SwiftAuthenticator {
     public AuthenticatorFirebaseImpl() {
         AuthenticatorFirebaseImplEntryPoint hiltEntryPoint =
                 EntryPointAccessors.fromApplication(
-                    SwiftWalletApp.getAppContext(),
-                    AuthenticatorFirebaseImplEntryPoint.class
+                        SwiftWalletApp.getAppContext(),
+                        AuthenticatorFirebaseImplEntryPoint.class
                 );
 
         auth = hiltEntryPoint.getFirebaseAuth();
