@@ -1,4 +1,4 @@
-package com.sdp.swiftwallet.JavaTest;
+package com.sdp.swiftwallet.javaTest;
 
 import static org.junit.Assert.assertEquals;
 

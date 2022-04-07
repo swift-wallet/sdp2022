@@ -1,17 +1,14 @@
-package com.sdp.swiftwallet.JavaTest.wallet.cryptography;
+package com.sdp.swiftwallet.javaTest.wallet.cryptography;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.fail;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.sdp.swiftwallet.domain.model.wallet.cryptography.SeedGenerator;
 import com.sdp.swiftwallet.presentation.main.MainActivity;
-
 import dagger.hilt.android.testing.HiltAndroidRule;
 import dagger.hilt.android.testing.HiltAndroidTest;
 import javax.inject.Inject;
@@ -22,10 +19,9 @@ import org.junit.rules.RuleChain;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
+@HiltAndroidTest
 @RunWith(JUnit4.class)
 public class SeedGenerationTest {
-
-    @Inject FirebaseAuth fb;
 
     public final static String mockSeed = "test-testouille-bad-good-lol";
     public final static String mockSpaceSeed = "test testouille bad good lol";
@@ -33,9 +29,10 @@ public class SeedGenerationTest {
 
     public final static int mockCounter = 10;
 
+    @Inject FirebaseAuth fb;
+
     // Init Rules
     public HiltAndroidRule hiltRule = new HiltAndroidRule(this);
-
     public ActivityScenarioRule<MainActivity> testRule = new ActivityScenarioRule<>(MainActivity.class);
 
     @Rule

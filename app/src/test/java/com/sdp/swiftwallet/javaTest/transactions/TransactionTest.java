@@ -1,4 +1,4 @@
-package com.sdp.swiftwallet.JavaTest.transactions;
+package com.sdp.swiftwallet.javaTest.transactions;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -6,12 +6,10 @@ import static org.junit.Assert.assertThrows;
 
 import com.sdp.swiftwallet.domain.model.Currency;
 import com.sdp.swiftwallet.domain.model.Transaction;
-
+import java.util.Random;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-
-import java.util.Random;
 
 @RunWith(JUnit4.class)
 public class TransactionTest {
