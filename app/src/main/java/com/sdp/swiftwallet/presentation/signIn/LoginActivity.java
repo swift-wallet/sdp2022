@@ -42,12 +42,6 @@ import dagger.hilt.android.AndroidEntryPoint;
 @AndroidEntryPoint
 public class LoginActivity extends AppCompatActivity {
 
-    @Inject
-    FirebaseAuth mAuth;
-
-    private static final String EMAIL_SIGNIN_TAG = "EMAIL_SIGNIN_TAG";
-    private static final String GOOGLE_SIGNIN_TAG = "GOOGLE_SIGNIN_TAG";
-
     private TextView attemptsTextView;
     private EditText emailET;
     private EditText passwordET;
@@ -55,17 +49,11 @@ public class LoginActivity extends AppCompatActivity {
     private static final int MAX_LOGIN_ATTEMPTS = 3;
     private int loginAttempts = 0;
 
-    private ActivityResultLauncher<Intent> googleSignInActivityResultLauncher;
-
     private CountingIdlingResource mIdlingResource;
 
     @FirebaseAuthenticator
     @Inject
     SwiftAuthenticator firebaseAuth;
-
-    @GoogleAuthenticator
-    @Inject
-    SwiftAuthenticator googleAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,17 +66,10 @@ public class LoginActivity extends AppCompatActivity {
         emailET = (EditText) findViewById(R.id.loginEmailEt);
         passwordET = (EditText) findViewById(R.id.loginPasswordEt);
 
-        // Init client authentication and launcher for google signIn
-        // mAuth = FirebaseUtil.getAuth();
-        initGoogleSignInResultLauncher();
-
         // Init idling resource for testing purpose
         mIdlingResource = new CountingIdlingResource("Login Calls");
 
         // Set Listeners
-        SignInButton googleSignInBtn = findViewById(R.id.googleSignInBtn);
-        googleSignInBtn.setOnClickListener(v -> startGoogleSignIn());
-
         Button loginBtn = findViewById(R.id.loginButton);
         loginBtn.setOnClickListener(v -> login());
 
@@ -128,10 +109,6 @@ public class LoginActivity extends AppCompatActivity {
         if (authRes != SwiftAuthenticator.Result.SUCCESS) {
             handleError(authRes);
         }
-    }
-
-    public void googleLogin() {
-
     }
 
     private void nextActivity() {
@@ -210,75 +187,6 @@ public class LoginActivity extends AppCompatActivity {
                 .setPositiveButton("OK", null)
                 .setCancelable(false)
                 .create();
-    }
-
-    /**
-     * Perform google signin with the authentication client
-     *
-     * @param credential credentials for authentication
-     */
-    public void signInWithCredential(AuthCredential credential) {
-        // Try to sign in the current user
-        mAuth.signInWithCredential(credential).addOnSuccessListener(authResult -> {
-            Log.d(GOOGLE_SIGNIN_TAG, "Logged In");
-            FirebaseUser firebaseUser = mAuth.getCurrentUser();
-
-            String uid = firebaseUser.getUid();
-            String email = firebaseUser.getEmail();
-
-            Log.d(GOOGLE_SIGNIN_TAG, "With email: " + email);
-            Log.d(GOOGLE_SIGNIN_TAG, "With UID: " + uid);
-
-            if (authResult.getAdditionalUserInfo().isNewUser()) {
-                Log.d(GOOGLE_SIGNIN_TAG, "Account Created...\n" + email);
-                Toast.makeText(LoginActivity.this, "Account Created...\n" + email, Toast.LENGTH_SHORT).show();
-            } else {
-                Log.d(GOOGLE_SIGNIN_TAG, "Existing user...\n" + email);
-                Toast.makeText(LoginActivity.this, "Existing user...\n" + email, Toast.LENGTH_SHORT).show();
-            }
-
-            startActivity(new Intent(LoginActivity.this, MainActivity.class));
-        }).addOnFailureListener(e -> Log.d(GOOGLE_SIGNIN_TAG, "googleSignIn failed: " + e.getMessage()));
-    }
-
-    /**
-     * Init google SignInResult launcher,
-     * Takes an ActivityResultContracts and a Callback on result.
-     * Perform google signIn when an Intent is launched, see StartGoogleSignIn()
-     */
-    private void initGoogleSignInResultLauncher() {
-        googleSignInActivityResultLauncher = registerForActivityResult(
-                new ActivityResultContracts.StartActivityForResult(),
-                result -> {
-                    if (result.getResultCode() == RESULT_OK) {
-                        Log.d(GOOGLE_SIGNIN_TAG, "GoogleSignIn got intent result");
-                        Task<GoogleSignInAccount> accountTask = GoogleSignIn.getSignedInAccountFromIntent(result.getData());
-                        try {
-                            GoogleSignInAccount account = accountTask.getResult(ApiException.class);
-                            Log.d(GOOGLE_SIGNIN_TAG, "Begin Auth with google account");
-                            AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
-                            signInWithCredential(credential);
-                        } catch (Exception e) {
-                            Log.d(GOOGLE_SIGNIN_TAG, "GoogleSignIn failed on intent result: " + e.getMessage());
-                        }
-                    }
-                });
-    }
-
-    /**
-     * Setup GoogleSignInClient and launch google signIn with intent
-     */
-    private void startGoogleSignIn() {
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.webclient_id))
-                .requestEmail()
-                .build();
-
-        GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(LoginActivity.this, gso);
-
-        Log.d(GOOGLE_SIGNIN_TAG, "Launch Google signIn");
-        Intent it = googleSignInClient.getSignInIntent();
-        googleSignInActivityResultLauncher.launch(it);
     }
 
     /**
