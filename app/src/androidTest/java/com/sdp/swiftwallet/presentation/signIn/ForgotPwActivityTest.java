@@ -14,22 +14,35 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+import com.google.firebase.auth.FirebaseAuth;
 import com.sdp.cryptowalletapp.R;
-import com.sdp.swiftwallet.presentation.signIn.ForgotPasswordActivity;
+import dagger.hilt.android.testing.HiltAndroidRule;
+import dagger.hilt.android.testing.HiltAndroidTest;
+import javax.inject.Inject;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.RuleChain;
 import org.junit.runner.RunWith;
 
+@HiltAndroidTest
 @RunWith(AndroidJUnit4.class)
 public class ForgotPwActivityTest {
 
-  @Rule
+
+  @Inject FirebaseAuth db;
+
+  public HiltAndroidRule hiltRule = new HiltAndroidRule(this);
   public ActivityScenarioRule<ForgotPasswordActivity> testRule = new ActivityScenarioRule<>(ForgotPasswordActivity.class);
+
+  @Rule
+  public final RuleChain rule =
+      RuleChain.outerRule(hiltRule).around(testRule);
 
   @Before
   public void setUp() throws Exception {
+    hiltRule.inject();
     Intents.init();
   }
 

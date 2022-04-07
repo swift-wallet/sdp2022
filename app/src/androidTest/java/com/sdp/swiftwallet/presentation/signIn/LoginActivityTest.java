@@ -1,13 +1,11 @@
 package com.sdp.swiftwallet.presentation.signIn;
 
-import static android.app.Activity.RESULT_OK;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.intent.Intents.intended;
-import static androidx.test.espresso.intent.Intents.intending;
 import static androidx.test.espresso.intent.matcher.ComponentNameMatchers.hasClassName;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.anyIntent;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
@@ -19,19 +17,14 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 
-import android.app.Instrumentation;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
-
 import androidx.test.espresso.IdlingRegistry;
 import androidx.test.espresso.idling.CountingIdlingResource;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
-
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -39,10 +32,6 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.common.FirebaseUtil;
 import com.sdp.swiftwallet.presentation.main.MainActivity;
-import com.sdp.swiftwallet.presentation.signIn.ForgotPasswordActivity;
-import com.sdp.swiftwallet.presentation.signIn.LoginActivity;
-import com.sdp.swiftwallet.presentation.signIn.RegisterActivity;
-
 import dagger.hilt.android.testing.HiltAndroidRule;
 import dagger.hilt.android.testing.HiltAndroidTest;
 import javax.inject.Inject;
@@ -239,14 +228,6 @@ public class LoginActivityTest {
     @Test
     public void pressGoogleSignInStartAuth() {
         onView(withId(R.id.googleSignInBtn)).perform(click());
-
-//        Bundle googleBundle = new Bundle();
-//        googleBundle.putParcelable("googleSignInAccount", GoogleSignInAccount.createDefault());
-//        Intent googleIntent = new Intent();
-//        googleIntent.putExtra("account bundle", googleBundle);
-//        Instrumentation.ActivityResult result = new Instrumentation.ActivityResult(RESULT_OK, googleIntent);
-//        intending(toPackage("com.google.android.gms")).respondWith(result);
-
     }
 
     @Test

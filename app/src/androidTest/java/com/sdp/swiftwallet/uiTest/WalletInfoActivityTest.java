@@ -1,26 +1,20 @@
-package com.sdp.swiftwallet.UiTest;
+package com.sdp.swiftwallet.uiTest;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
-
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.widget.ImageView;
-
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.core.app.ApplicationProvider;
-
 import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.domain.model.QRCodeGenerator;
 import com.sdp.swiftwallet.presentation.wallet.WalletInfoActivity;
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

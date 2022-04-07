@@ -1,26 +1,21 @@
-package com.sdp.swiftwallet.UiTest;
+package com.sdp.swiftwallet.uiTest;
 
 import static androidx.test.espresso.intent.Intents.intended;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasAction;
-
 import static com.adevinta.android.barista.interaction.BaristaClickInteractions.clickOn;
 import static com.adevinta.android.barista.interaction.BaristaEditTextInteractions.clearText;
 import static com.adevinta.android.barista.interaction.BaristaEditTextInteractions.typeTo;
 import static com.adevinta.android.barista.interaction.BaristaKeyboardInteractions.closeKeyboard;
-
 import static org.junit.Assert.assertTrue;
 
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.widget.ImageView;
-
 import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
-
 import com.sdp.cryptowalletapp.R;
-import com.sdp.swiftwallet.presentation.qrcode.QRActivity;
 import com.sdp.swiftwallet.domain.model.QRCodeGenerator;
-
+import com.sdp.swiftwallet.presentation.qrcode.QRActivity;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;

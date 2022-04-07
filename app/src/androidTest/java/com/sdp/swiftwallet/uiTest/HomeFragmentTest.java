@@ -1,4 +1,4 @@
-package com.sdp.swiftwallet.UiTest;
+package com.sdp.swiftwallet.uiTest;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
@@ -12,29 +12,16 @@ import static com.adevinta.android.barista.interaction.BaristaClickInteractions.
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.intent.Intents;
-
-import com.google.ar.core.Config;
 import com.google.firebase.auth.FirebaseAuth;
 import com.sdp.cryptowalletapp.R;
-import com.sdp.swiftwallet.SwiftWalletApp;
-import com.sdp.swiftwallet.common.FirebaseAuthModule;
-import com.sdp.swiftwallet.domain.model.User;
 import com.sdp.swiftwallet.domain.model.wallet.cryptography.SeedGenerator;
-import com.sdp.swiftwallet.hilt.CustomTestRunner;
 import com.sdp.swiftwallet.presentation.main.MainActivity;
 import com.sdp.swiftwallet.presentation.wallet.CreateSeedActivity;
-
-import dagger.Binds;
-import dagger.hilt.EntryPoint;
-import dagger.hilt.InstallIn;
-import dagger.hilt.android.testing.CustomTestApplication;
 import dagger.hilt.android.testing.HiltAndroidRule;
 import dagger.hilt.android.testing.HiltAndroidTest;
-import dagger.hilt.android.testing.HiltTestApplication;
 import javax.inject.Inject;
 import org.junit.After;
 import org.junit.Before;

@@ -1,9 +1,9 @@
-package com.sdp.swiftwallet.UiTest;
+package com.sdp.swiftwallet.javaTest;
 
 import static org.junit.Assert.assertTrue;
+
 import com.google.zxing.WriterException;
 import com.sdp.swiftwallet.domain.model.QRCodeGenerator;
-
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,6 +11,7 @@ import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
 public class QRCodeGeneratorTest {
+
     public final String correctString = "encoding";
     public final int correctWidth = 400;
     public final String emptyString = "";
