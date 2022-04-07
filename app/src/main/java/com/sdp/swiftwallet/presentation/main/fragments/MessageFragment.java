@@ -95,10 +95,7 @@ public class MessageFragment extends Fragment{
                     ((TextView)view.findViewById(R.id.addFriendStatus)).setText("Friend Request Sent");
                     break;
                 case "2": //friend request from the person pending -> show friend added
-                    db.collection("friend_list").document(userId)
-                            .set(Collections.singletonMap(friendId, "3"), SetOptions.merge());
-                    db.collection("friend_list").document(friendId)
-                            .set(Collections.singletonMap(userId, "3"), SetOptions.merge());
+                    updateStatus(userId, friendId, "3", "3");
                     ((TextView)view.findViewById(R.id.addFriendStatus)).setText("Friend Added");
                     break;
                 case "3": //show is already friend
@@ -106,14 +103,17 @@ public class MessageFragment extends Fragment{
                     break;
                 default:
                 case "0"://friend request has not sent -> show friend request sent
-                    db.collection("friend_list").document(userId)
-                            .set(Collections.singletonMap(friendId, "1"), SetOptions.merge());
-                    db.collection("friend_list").document(friendId)
-                            .set(Collections.singletonMap(userId, "2"), SetOptions.merge());
+                    updateStatus(userId, friendId, "1", "2");
                     ((TextView)view.findViewById(R.id.addFriendStatus)).setText("Friend Request Sent");
                     break;
             }
         }
+    }
+    private void updateStatus(String userId, String friendId, String user, String friend) {
+        db.collection("friend_list").document(userId)
+                .set(Collections.singletonMap(friendId, user), SetOptions.merge());
+        db.collection("friend_list").document(friendId)
+                .set(Collections.singletonMap(userId, friend), SetOptions.merge());
     }
     public void loadFriendItems() {
         if (mAuth.getCurrentUser() != null) {
