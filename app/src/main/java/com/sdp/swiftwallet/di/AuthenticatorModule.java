@@ -16,14 +16,6 @@ public class AuthenticatorModule {
     @FirebaseAuthenticator
     @Provides
     public static SwiftAuthenticator provideFirebaseAuthenticator() {
-        //TODO
-        return new AuthenticatorFirebaseImpl();
-    }
-
-    @GoogleAuthenticator
-    @Provides
-    public static SwiftAuthenticator provideGoogleAuthenticator() {
-        //TODO
         return new AuthenticatorFirebaseImpl();
     }
 
