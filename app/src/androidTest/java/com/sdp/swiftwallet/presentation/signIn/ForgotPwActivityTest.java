@@ -6,10 +6,15 @@ import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.intent.Intents.intended;
+import static androidx.test.espresso.intent.matcher.ComponentNameMatchers.hasClassName;
+import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.toPackage;
 import static androidx.test.espresso.matcher.ViewMatchers.hasFocus;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+
+import static org.hamcrest.Matchers.allOf;
 
 import androidx.test.espresso.IdlingRegistry;
 import androidx.test.espresso.idling.CountingIdlingResource;
@@ -79,11 +84,28 @@ public class ForgotPwActivityTest {
   public void firesCorrectIntentAfterLinkSent(){
     onView(withId(R.id.emailField)).perform(typeText("anders.hominal@gmail.com"), closeSoftKeyboard());
     onView(withId(R.id.sendReset)).perform(click());
+
+    intended(allOf(
+            toPackage("com.sdp.swiftwallet"),
+            hasComponent(hasClassName(LoginActivity.class.getName()))
+    ));
+  }
+
+  @Test
+  public void sendLinkFailsCorrectly() {
+    onView(withId(R.id.emailField)).perform(typeText("wrong"), closeSoftKeyboard());
+    onView(withId(R.id.sendReset)).perform(click());
+
+    onView(withId(R.id.sendReset)).check(matches(isDisplayed()));
   }
 
   @Test
   public void backButtonFiresIntent(){
     onView(withId(R.id.goBackForgotPW)).perform(click());
-    intended(toPackage("com.sdp.swiftwallet"));
+
+    intended(allOf(
+            toPackage("com.sdp.swiftwallet"),
+            hasComponent(hasClassName(LoginActivity.class.getName()))
+    ));
   }
 }
