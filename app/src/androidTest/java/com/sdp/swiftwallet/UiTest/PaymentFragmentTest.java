@@ -68,12 +68,6 @@ public class PaymentFragmentTest {
         onView(withId(R.id.send_from_spinner)).check(matches(isDisplayed()));
     }
     @Test
-    public void shouldUpdateTheBalance(){
-        closeSoftKeyboard();
-        clickOn(R.id.mainNavPaymentItem);
-        onView(withId(R.id.send_from_balance)).check(matches(withText("12.214")));
-    }
-    @Test
     public void shouldStartTheQR(){
         clickOn(R.id.mainNavPaymentItem);
         clickOn(R.id.send_qr_scan);

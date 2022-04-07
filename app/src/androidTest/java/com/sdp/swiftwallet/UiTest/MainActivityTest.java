@@ -63,6 +63,13 @@ public class MainActivityTest {
     }
 
     @Test
+    public void press_payment_display_fragments() {
+        closeSoftKeyboard();
+        onView(withId(R.id.mainNavPaymentItem)).perform(click());
+        onView(withId(R.id.payment_fragment)).check(matches(isDisplayed()));
+    }
+
+    @Test
     public void press_message_display_fragments() {
         closeSoftKeyboard();
         onView(withId(R.id.mainNavMessageItem)).perform(click());
