@@ -18,7 +18,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
-public class FriendFragmentTest {
+public class MessageFragmentTest {
     public final static String mockSeed = "test-testouille";
     public final static String mockSpaceSeed = "test testouille";
     public final static String[] mockArraySeed = new String[]{"test", "testouille"};
