@@ -18,7 +18,7 @@
         <activity
             android:name="com.sdp.swiftwallet.presentation.wallet.WalletInfoActivity"
             android:exported="false"
-            android:parentActivityName="com.sdp.swiftwallet.presentation.main.MainActivity"/>
+            android:parentActivityName="com.sdp.swiftwallet.presentation.main.MainActivity" />
         <activity
             android:name="com.sdp.swiftwallet.CryptoGraphActivity"
             android:exported="false"
@@ -37,21 +37,18 @@
             android:parentActivityName="com.sdp.swiftwallet.presentation.main.MainActivity" />
         <activity
             android:name="com.journeyapps.barcodescanner.CaptureActivity"
-            android:parentActivityName="com.sdp.swiftwallet.presentation.qrcode.QRActivity"
+            android:parentActivityName="com.sdp.swiftwallet.presentation.main.MainActivity"
             android:screenOrientation="fullSensor"
             tools:replace="screenOrientation" />
         <activity
             android:name="com.sdp.swiftwallet.presentation.main.MainActivity"
             android:exported="false" />
         <activity
-            android:name="com.sdp.swiftwallet.presentation.qrcode.QRActivity"
-            android:exported="false"
-            android:parentActivityName="com.sdp.swiftwallet.presentation.main.MainActivity" />
-        <activity
             android:name="com.sdp.swiftwallet.presentation.signIn.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -59,7 +56,6 @@
             android:name="com.sdp.swiftwallet.CryptoValuesActivity"
             android:exported="false"
             android:parentActivityName="com.sdp.swiftwallet.presentation.main.MainActivity" />
-
         <activity
             android:name="com.sdp.swiftwallet.presentation.signIn.ForgotPasswordActivity"
             android:exported="false"

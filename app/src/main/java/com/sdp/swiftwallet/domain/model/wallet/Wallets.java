@@ -7,6 +7,7 @@ import com.sdp.swiftwallet.domain.model.wallet.cryptography.KeyPairGenerator;
 import com.sdp.swiftwallet.domain.model.wallet.cryptography.SeedGenerator;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Wallets implements IWallets {
 
@@ -43,14 +44,18 @@ public class Wallets implements IWallets {
         SeedGenerator.saveCounter(context, counter);
     }
 
-    @Override
-    public WalletKeyPair[] getWallets() {
-        WalletKeyPair[] walletKeyPairs = new WalletKeyPair[counter];
-        return keyPairs.toArray(walletKeyPairs).clone();
+    public String[] getAddresses(){
+        Object[] result = keyPairs.stream().map(WalletKeyPair::getHexPublicKey).toArray();
+        return Arrays.copyOf(result, result.length, String[].class);
     }
 
     @Override
-    public WalletKeyPair getWalletFromId(int id) {
+    public IWalletKeyPair[] getWallets() {
+        IWalletKeyPair[] walletKeyPairs = new IWalletKeyPair[counter];
+        return keyPairs.toArray(walletKeyPairs).clone();
+    }
+    @Override
+    public IWalletKeyPair getWalletFromId(int id) {
         return keyPairs.get(id);
     }
 }

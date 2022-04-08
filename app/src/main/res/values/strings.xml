@@ -44,7 +44,6 @@
     <string name="logout">LOGOUT</string>
 
 
-
     <!-- QR -->
     <string name="qr_generate_button">Generate a QR-CODE</string>
     <string name="qr_scan_button">Tap to Scan Stuffff</string>
@@ -66,6 +65,12 @@
     <string name="save_seed">Save this seed</string>
     <string name="createAdressBtnDescription">A plus in a circle</string>
 
+    <!-- SEND -->
+    <string name="send_from">From</string>
+    <string name="send_to">To</string>
+    <string name="send_amount">Amount</string>
+    <string name="send_action">Send</string>
+
     <!-- NAVIGATION -->
     <string name="nav_message">Conversations</string>
     <string name="nav_profile">Profile</string>
@@ -74,5 +79,6 @@
     <string name="nav_send">Send</string>
 
     <string name="title_activity_crypto_graph">CryptoGraphActivity</string>
+    <string name="contacts">Contacts</string>
 
 </resources>

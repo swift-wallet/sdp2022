@@ -11,6 +11,8 @@ public class FirebaseUtil {
     private static final int FIREBASE_FIRESTORE_EMULATOR_HOST = 8080;
     private static final String ANDROID_HOST =  "10.0.2.2";
 
+
+
     private static FirebaseFirestore FIRESTORE;
     private static FirebaseAuth AUTH;
 

@@ -24,8 +24,8 @@ public class CurrencyAdapter extends RecyclerView.Adapter<CurrencyAdapter.ViewHo
     private static final DecimalFormat currencyValueFormat = new DecimalFormat("#.##");
 
     public CurrencyAdapter(ArrayList<Currency> currencyArrayList, Context context) {
-        this.currencyArrayList = currencyArrayList;
-        this.context = context;
+        CurrencyAdapter.currencyArrayList = currencyArrayList;
+        CurrencyAdapter.context = context;
     }
 
     public void filterList(ArrayList<Currency> filteredList) {
