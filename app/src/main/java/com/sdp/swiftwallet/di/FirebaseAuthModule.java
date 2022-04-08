@@ -1,5 +1,6 @@
-package com.sdp.swiftwallet.common;
+package com.sdp.swiftwallet.di;
 import com.google.firebase.auth.FirebaseAuth;
+import com.sdp.swiftwallet.common.FirebaseUtil;
 
 import dagger.Binds;
 import dagger.Module;
