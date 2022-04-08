@@ -80,7 +80,7 @@ public class TransactionActivityTest {
             RuleChain.outerRule(hiltRule).around(testRule);
 
     @Before
-    public void setupIntent() {
+    public void setup() {
         hiltRule.inject();
         producer = new DummyHistoryProducer();
     }
