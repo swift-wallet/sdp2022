@@ -31,12 +31,14 @@ public class PaymentFragment extends Fragment {
     QRCodeScanner qrCodeScanner = new QRCodeScanner(this::setToSelectedAddress, this);
     private Web3Requests web3Requests;
 
+    private String[] testWallets = new String[]{"0x3f17f1962B36e491b30A40b2405849e597Ba5FB5",
+    "0x4CCeBa2d7D2B4fdcE4304d3e09a1fea9fbEb1528",
+    "0xDbc23AE43a150ff8884B02Cea117b22D1c3b9796"};
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SwiftWalletApp application = (SwiftWalletApp) requireActivity().getApplication();
-        String[] walletsList = application.getWallets().getAddresses();
-        arrayAdapter = new ArrayAdapter<String>(requireActivity(), androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, walletsList);
+        arrayAdapter = new ArrayAdapter<String>(requireActivity(), androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, testWallets);
         web3Requests = new Web3Requests();
     }
 
