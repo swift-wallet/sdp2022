@@ -18,8 +18,7 @@ import androidx.test.espresso.idling.CountingIdlingResource;
 import com.google.firebase.auth.FirebaseAuth;
 import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.common.FirebaseUtil;
-import com.sdp.swiftwallet.domain.repository.ClientAuth;
-import java.util.regex.Pattern;
+
 import org.jetbrains.annotations.NotNull;
 
 public class ForgotPasswordActivity extends AppCompatActivity {

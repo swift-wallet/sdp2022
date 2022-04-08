@@ -13,7 +13,10 @@ import java.util.Optional;
 
 public class SeedGenerator {
     public static final int SEED_SIZE = 5;
-    public static final String[] words = {"Avion", "Papier", "Feuille", "Caillou", "Ciseau", "Oui", "Non", "Mot", "Inspiration"};
+    public static final String[] words =
+            {"Plane", "Paper", "Bird", "Tree", "Knife", "Expensive", "Cheap", "Cheaper", "Inspiration",
+            "Bad", "Mad", "Flat", "Squared", "Rectangle", "Guitar", "Secret", "Often", "This", "Large",
+            "List", "Array", "Words", "Long", "Many", "Batman", "Spiderman", "Hulk", "Epfl", "Sciper"};
 
     public static final String WALLETS_SHARED_PREFERENCES_NAME = "WALLETS";
     public static final String PREF_SEED_ID = "SEED";
@@ -37,14 +40,14 @@ public class SeedGenerator {
         seed = generateSeed();
     }
 
-    public void saveSeed(Activity context, String[] seed){
+    public void saveSeed(Context context, String[] seed){
         if(seed.length != SEED_SIZE){
             throw new IllegalArgumentException("Bad seed length");
         }
         this.seed = seed;
         saveSeed(context);
     }
-    private void saveSeed(Activity context) {
+    private void saveSeed(Context context) {
         SharedPreferences prefs = context.getSharedPreferences(WALLETS_SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
         prefs.edit().putString(PREF_SEED_ID, toSavedSeedFormat()).apply();
     }
@@ -58,17 +61,17 @@ public class SeedGenerator {
         });
     }
 
-    public static void saveCounter( Context context , int counter ){
+    public static void saveCounter(Context context , int counter ){
         SharedPreferences prefs = context.getSharedPreferences(WALLETS_SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
         prefs.edit().putInt(PREF_COUNTER_ID, counter).apply();
     }
 
-    public static boolean hasSeed(Activity context){
+    public static boolean hasSeed(Context context){
         SharedPreferences prefs = context.getSharedPreferences(WALLETS_SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
         return prefs.contains(PREF_SEED_ID);
     }
 
-    public static Wallets recoverWallets(Activity context){
+    public static Wallets recoverWallets(Context context){
         SharedPreferences prefs = context.getSharedPreferences(WALLETS_SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
         String[] seed;
         String seedJoined = prefs.getString(PREF_SEED_ID, null);
