@@ -20,4 +20,7 @@
     <dimen name="nav_title">20sp</dimen>
     <dimen name="nav_title_margin">10dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+    
+    <!-- CONTACTS -->
+    <dimen name="_35sdp">35dp</dimen>
 </resources>
