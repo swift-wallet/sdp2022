@@ -53,7 +53,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        attemptsTextView = (TextView) findViewById(R.id.attemptsMessage);
+        attemptsTextView = findViewById(R.id.attemptsMessage);
         attemptsTextView.setText("");
 
         // Init client authentication and launcher for google signIn
@@ -92,7 +92,7 @@ public class LoginActivity extends AppCompatActivity {
      */
     public void login() {
         // Retrieve username and password from login screen
-        EditText editText = (EditText) findViewById(R.id.loginEmailEt);
+        EditText editText = findViewById(R.id.loginEmailEt);
         String email = editText.getText().toString().trim();
         // Display error if not valid
         if (email.isEmpty()) {
@@ -100,7 +100,7 @@ public class LoginActivity extends AppCompatActivity {
             editText.requestFocus();
             return;
         }
-        editText = (EditText) findViewById(R.id.loginPasswordEt);
+        editText = findViewById(R.id.loginPasswordEt);
         String password = editText.getText().toString().trim();
         if (password.isEmpty()) {
             editText.setError("password required");

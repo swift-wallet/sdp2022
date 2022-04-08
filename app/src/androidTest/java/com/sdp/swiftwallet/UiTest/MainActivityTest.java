@@ -1,5 +1,6 @@
 package com.sdp.swiftwallet.UiTest;
 
+import static androidx.test.espresso.Espresso.closeSoftKeyboard;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
@@ -49,31 +50,33 @@ public class MainActivityTest {
 
     @Test
     public void press_home_display_fragments() {
+        closeSoftKeyboard();
         onView(withId(R.id.mainNavHomeItem)).perform(click());
         onView(withId(R.id.home_fragment)).check(matches(isDisplayed()));
-    }
-
-    @Test
-    public void press_stats_display_fragments() {
-        onView(withId(R.id.mainNavStatsItem)).perform(click());
-        onView(withId(R.id.stats_fragment)).check(matches(isDisplayed()));
+        closeSoftKeyboard();
     }
 
     @Test
     public void press_payment_display_fragments() {
+        closeSoftKeyboard();
         onView(withId(R.id.mainNavPaymentItem)).perform(click());
         onView(withId(R.id.payment_fragment)).check(matches(isDisplayed()));
+        closeSoftKeyboard();
     }
 
     @Test
     public void press_message_display_fragments() {
+        closeSoftKeyboard();
         onView(withId(R.id.mainNavMessageItem)).perform(click());
         onView(withId(R.id.message_fragment)).check(matches(isDisplayed()));
+        closeSoftKeyboard();
     }
 
     @Test
     public void press_profile_display_fragments() {
+        closeSoftKeyboard();
         onView(withId(R.id.mainNavProfileItem)).perform(click());
         onView(withId(R.id.profile_fragment)).check(matches(isDisplayed()));
+        closeSoftKeyboard();
     }
 }
