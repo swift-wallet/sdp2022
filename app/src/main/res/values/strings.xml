@@ -44,7 +44,6 @@
     <string name="logout">LOGOUT</string>
 
 
-
     <!-- QR -->
     <string name="qr_generate_button">Generate a QR-CODE</string>
     <string name="qr_scan_button">Tap to Scan Stuffff</string>
@@ -74,5 +73,6 @@
     <string name="nav_send">Send</string>
 
     <string name="title_activity_crypto_graph">CryptoGraphActivity</string>
+    <string name="contacts">Contacts</string>
 
 </resources>
