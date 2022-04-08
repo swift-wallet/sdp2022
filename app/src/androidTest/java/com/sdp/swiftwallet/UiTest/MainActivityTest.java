@@ -53,13 +53,7 @@ public class MainActivityTest {
         closeSoftKeyboard();
         onView(withId(R.id.mainNavHomeItem)).perform(click());
         onView(withId(R.id.home_fragment)).check(matches(isDisplayed()));
-    }
-
-    @Test
-    public void press_stats_display_fragments() {
         closeSoftKeyboard();
-        onView(withId(R.id.mainNavStatsItem)).perform(click());
-        onView(withId(R.id.stats_fragment)).check(matches(isDisplayed()));
     }
 
     @Test
@@ -67,6 +61,7 @@ public class MainActivityTest {
         closeSoftKeyboard();
         onView(withId(R.id.mainNavPaymentItem)).perform(click());
         onView(withId(R.id.payment_fragment)).check(matches(isDisplayed()));
+        closeSoftKeyboard();
     }
 
     @Test
@@ -74,6 +69,7 @@ public class MainActivityTest {
         closeSoftKeyboard();
         onView(withId(R.id.mainNavMessageItem)).perform(click());
         onView(withId(R.id.message_fragment)).check(matches(isDisplayed()));
+        closeSoftKeyboard();
     }
 
     @Test
@@ -81,5 +77,6 @@ public class MainActivityTest {
         closeSoftKeyboard();
         onView(withId(R.id.mainNavProfileItem)).perform(click());
         onView(withId(R.id.profile_fragment)).check(matches(isDisplayed()));
+        closeSoftKeyboard();
     }
 }
