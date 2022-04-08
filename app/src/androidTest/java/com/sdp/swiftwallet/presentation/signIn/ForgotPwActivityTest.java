@@ -6,11 +6,18 @@ import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.intent.Intents.intended;
+import static androidx.test.espresso.intent.matcher.ComponentNameMatchers.hasClassName;
+import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.toPackage;
 import static androidx.test.espresso.matcher.ViewMatchers.hasFocus;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 
+import static org.hamcrest.Matchers.allOf;
+
+import androidx.test.espresso.IdlingRegistry;
+import androidx.test.espresso.idling.CountingIdlingResource;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -28,14 +35,29 @@ public class ForgotPwActivityTest {
   @Rule
   public ActivityScenarioRule<ForgotPasswordActivity> testRule = new ActivityScenarioRule<>(ForgotPasswordActivity.class);
 
+  CountingIdlingResource mIdlingResource;
+
   @Before
-  public void setUp() throws Exception {
+  public void setUp() {
     Intents.init();
   }
 
+  @Before
+  public void registerIdlingResource() {
+    testRule.getScenario().onActivity(activity ->
+            mIdlingResource = activity.getIdlingResource()
+    );
+    IdlingRegistry.getInstance().register(mIdlingResource);
+  }
+
   @After
-  public void tearDown() throws Exception {
+  public void tearDown() {
     Intents.release();
+  }
+
+  @After
+  public void unregisterIdlingResource() {
+    IdlingRegistry.getInstance().unregister(mIdlingResource);
   }
 
   /**
@@ -62,11 +84,28 @@ public class ForgotPwActivityTest {
   public void firesCorrectIntentAfterLinkSent(){
     onView(withId(R.id.emailField)).perform(typeText("anders.hominal@gmail.com"), closeSoftKeyboard());
     onView(withId(R.id.sendReset)).perform(click());
+
+    intended(allOf(
+            toPackage("com.sdp.swiftwallet"),
+            hasComponent(hasClassName(LoginActivity.class.getName()))
+    ));
+  }
+
+  @Test
+  public void sendLinkFailsCorrectly() {
+    onView(withId(R.id.emailField)).perform(typeText("wrong"), closeSoftKeyboard());
+    onView(withId(R.id.sendReset)).perform(click());
+
+    onView(withId(R.id.sendReset)).check(matches(isDisplayed()));
   }
 
   @Test
   public void backButtonFiresIntent(){
     onView(withId(R.id.goBackForgotPW)).perform(click());
-    intended(toPackage("com.sdp.swiftwallet"));
+
+    intended(allOf(
+            toPackage("com.sdp.swiftwallet"),
+            hasComponent(hasClassName(LoginActivity.class.getName()))
+    ));
   }
 }
