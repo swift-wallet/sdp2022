@@ -2,13 +2,9 @@ package com.sdp.swiftwallet.presentation.signIn;
 
 import static com.sdp.swiftwallet.common.HelperFunctions.*;
 
-
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -19,13 +15,18 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.common.FirebaseUtil;
 
+import dagger.hilt.android.AndroidEntryPoint;
+import javax.inject.Inject;
 import org.jetbrains.annotations.NotNull;
 
+@AndroidEntryPoint
 public class ForgotPasswordActivity extends AppCompatActivity {
 
-  private FirebaseAuth mAuth;
-  private static final String COUNTRY = "en";
-  private static final String COUNTRY_CODE = "en_gb";
+  @Inject FirebaseAuth mAuth;
+
+  private final String COUNTRY = "en";
+  private final String COUNTRY_CODE = "en_gb";
+
 
   private EditText emailView;
   private static final String RESET_PASSWORD_TAG = "RESET_PASSWORD_TAG";

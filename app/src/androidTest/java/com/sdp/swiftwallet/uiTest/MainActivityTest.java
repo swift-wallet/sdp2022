@@ -1,4 +1,4 @@
-package com.sdp.swiftwallet.UiTest;
+package com.sdp.swiftwallet.uiTest;
 
 import static androidx.test.espresso.Espresso.closeSoftKeyboard;
 import static androidx.test.espresso.Espresso.onView;
@@ -9,27 +9,33 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 
 import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
-
 import com.sdp.cryptowalletapp.R;
-
 import com.sdp.swiftwallet.presentation.main.MainActivity;
-
+import dagger.hilt.android.testing.HiltAndroidRule;
+import dagger.hilt.android.testing.HiltAndroidTest;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.RuleChain;
 import org.junit.runner.RunWith;
-
 import org.junit.runners.JUnit4;
 
+@HiltAndroidTest
 @RunWith(JUnit4.class)
 public class MainActivityTest {
 
-    @Rule
+    // Set up rules
     public ActivityScenarioRule<MainActivity> scenarioRule = new ActivityScenarioRule<>(MainActivity.class);
+    public HiltAndroidRule hiltRule = new HiltAndroidRule(this);
+
+    @Rule
+    public final RuleChain rule =
+        RuleChain.outerRule(hiltRule).around(scenarioRule);
 
     @Before
     public void setUp() throws Exception {
+        hiltRule.inject();
         Intents.init();
     }
 

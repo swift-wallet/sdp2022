@@ -24,15 +24,15 @@ import com.sdp.swiftwallet.common.FirebaseUtil;
 import com.sdp.swiftwallet.presentation.signIn.LoginActivity;
 
 import dagger.hilt.android.AndroidEntryPoint;
+import javax.inject.Inject;
 
 @AndroidEntryPoint
 public class ProfileFragment extends Fragment {
 
+    @Inject FirebaseAuth mAuth;
+
     private String PROFILE_TAG = "Profile update";
-
-    private FirebaseAuth mAuth;
     private FirebaseUser mUser;
-
     private EditText email;
 
 
@@ -86,7 +86,6 @@ public class ProfileFragment extends Fragment {
             String email = mUser.getEmail();
             TextView emailTv = view.findViewById(R.id.email);
             emailTv.setText(email);
-            //startActivity(new Intent(getActivity(), LoginActivity.class));
         }
     }
 

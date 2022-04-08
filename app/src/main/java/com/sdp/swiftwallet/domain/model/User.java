@@ -1,12 +1,16 @@
 package com.sdp.swiftwallet.domain.model;
 
-import android.app.Application;
-import android.net.Uri;
+
+import dagger.hilt.android.scopes.FragmentScoped;
 import java.util.Objects;
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 
 /**
  * Class representing a generic user
  */
+
 public class User {
 
   //Some basic attributes representing a user
@@ -15,10 +19,12 @@ public class User {
   //Hardcoded login methods names
   private final String loginMethods;
 
+
   /**
    * Creates a user
-   * @param username username
-   * @param email email
+   * @param username
+   * @param email
+   * @param loginMethod
    */
   public User(String username, String email, String loginMethod){
     Objects.requireNonNull(username);

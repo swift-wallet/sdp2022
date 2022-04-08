@@ -1,22 +1,25 @@
-package com.sdp.swiftwallet.JavaTest.wallet.cryptography;
+package com.sdp.swiftwallet.javaTest.wallet.cryptography;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.fail;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
-
+import com.google.firebase.auth.FirebaseAuth;
 import com.sdp.swiftwallet.domain.model.wallet.cryptography.SeedGenerator;
 import com.sdp.swiftwallet.presentation.main.MainActivity;
-
+import dagger.hilt.android.testing.HiltAndroidRule;
+import dagger.hilt.android.testing.HiltAndroidTest;
+import javax.inject.Inject;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.RuleChain;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
+@HiltAndroidTest
 @RunWith(JUnit4.class)
 public class SeedGenerationTest {
 
@@ -26,8 +29,15 @@ public class SeedGenerationTest {
 
     public final static int mockCounter = 10;
 
-    @Rule
+    @Inject FirebaseAuth fb;
+
+    // Init Rules
+    public HiltAndroidRule hiltRule = new HiltAndroidRule(this);
     public ActivityScenarioRule<MainActivity> testRule = new ActivityScenarioRule<>(MainActivity.class);
+
+    @Rule
+    public final RuleChain rule =
+        RuleChain.outerRule(hiltRule).around(testRule);
 
     public void setValidSeedAndCounter(Context context){
         SharedPreferences prefs = context.getSharedPreferences(SeedGenerator.WALLETS_SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
@@ -48,6 +58,7 @@ public class SeedGenerationTest {
 
     @Before
     public void init(){
+        hiltRule.inject();
         testRule.getScenario().onActivity(activity -> {
             resetPrefs(activity);
         });
