@@ -164,8 +164,8 @@ public class TransactionActivityTest {
     }
 
     public static class DummyHistoryProducer implements TransactionHistoryProducer {
-        private List<TransactionHistorySubscriber> subscribers = new ArrayList<>();
-        private List<Transaction> transactions = new ArrayList<>();
+        private final List<TransactionHistorySubscriber> subscribers = new ArrayList<>();
+        private final List<Transaction> transactions = new ArrayList<>();
 
         @Override
         public boolean subscribe(TransactionHistorySubscriber subscriber) {

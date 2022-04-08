@@ -33,7 +33,7 @@
             android:id="@+id/item_balance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="10.2997"
+            android:text="@string/random_example_balance"
             android:layout_margin="@dimen/wallet_item_text_margin"
             android:textAppearance="?attr/textAppearanceListItem" />
 

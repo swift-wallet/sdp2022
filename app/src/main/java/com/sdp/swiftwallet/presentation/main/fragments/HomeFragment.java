@@ -5,12 +5,14 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.sdp.cryptowalletapp.R;
+import com.sdp.swiftwallet.SwiftWalletApp;
 import com.sdp.swiftwallet.domain.model.wallet.Wallets;
 import com.sdp.swiftwallet.domain.model.wallet.cryptography.SeedGenerator;
 import com.sdp.swiftwallet.presentation.wallet.CreateSeedActivity;
@@ -25,7 +27,7 @@ public class HomeFragment extends Fragment {
 
     private View fragmentView;
     private WalletItemFragment walletItemFragment;
-    private Wallets wallets;
+    private SwiftWalletApp application;
     private boolean hasSeed;
 
     @Override
@@ -38,10 +40,9 @@ public class HomeFragment extends Fragment {
                 .setReorderingAllowed(true)
                 .commit();
 
-        hasSeed = SeedGenerator.hasSeed(requireActivity());
-        if( hasSeed ){
-            wallets = SeedGenerator.recoverWallets( requireActivity() );
-        }
+        application = ((SwiftWalletApp)requireActivity().getApplication());
+        application.updateWallets();
+        hasSeed = application.hasSeed();
     }
 
     @Override
@@ -60,16 +61,23 @@ public class HomeFragment extends Fragment {
             fragmentView.findViewById(R.id.create_address_button).setVisibility(View.GONE);
         } else {
             recoverWalletsView();
-            recoverWalletsList();
+            if(walletItemFragment.itemCount() != application.getWallets().getCounter()){
+                recoverWalletsList();
+            }
         }
     }
 
+    /**
+     * When resuming, it might be the case that the seed has been updated, so check it
+     * If previously we did not have a seed configured, recover the wallets and update hasSeed
+     */
     @Override
     public void onResume() {
         super.onResume();
+
         if( hasSeed != SeedGenerator.hasSeed(requireActivity()) ){
             if( !hasSeed ){
-                wallets = SeedGenerator.recoverWallets(requireActivity());
+                application.updateWallets();
                 recoverWalletsView();
                 recoverWalletsList();
                 hasSeed = true;
@@ -77,11 +85,14 @@ public class HomeFragment extends Fragment {
         }
     }
 
+    /**
+     * We want the number of created wallets to be saved so that we can regenerate them later
+     */
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if ( !Objects.isNull(wallets) ){
-            wallets.saveCounter(requireActivity());
+        if ( hasSeed ){
+            application.getWallets().saveCounter(requireActivity());
         }
     }
 
@@ -97,16 +108,17 @@ public class HomeFragment extends Fragment {
     }
 
     private void recoverWalletsList(){
-        int counter = wallets.getCounter();
+        int counter = application.getWallets().getCounter();
         for(int i=0 ; i< counter; i++){
-            walletItemFragment.addWalletItem(wallets.getWalletFromId(i));
+            walletItemFragment.addWalletItem(application.getWallets().getWalletFromId(i));
         }
     }
 
     private void createAddress(){
-        int walletID = wallets.generateWallet();
-        walletItemFragment.addWalletItem(wallets.getWalletFromId(walletID));
+        int walletID = application.getWallets().generateWallet();
+        walletItemFragment.addWalletItem(application.getWallets().getWalletFromId(walletID));
     }
+
     private void goToSeedSetup(){
         Intent intent = new Intent(requireActivity(), CreateSeedActivity.class);
         startActivity(intent);

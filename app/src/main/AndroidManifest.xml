@@ -37,16 +37,12 @@
             android:parentActivityName="com.sdp.swiftwallet.presentation.main.MainActivity" />
         <activity
             android:name="com.journeyapps.barcodescanner.CaptureActivity"
-            android:parentActivityName="com.sdp.swiftwallet.presentation.qrcode.QRActivity"
+            android:parentActivityName="com.sdp.swiftwallet.presentation.main.MainActivity"
             android:screenOrientation="fullSensor"
             tools:replace="screenOrientation" />
         <activity
             android:name="com.sdp.swiftwallet.presentation.main.MainActivity"
             android:exported="false" />
-        <activity
-            android:name="com.sdp.swiftwallet.presentation.qrcode.QRActivity"
-            android:exported="false"
-            android:parentActivityName="com.sdp.swiftwallet.presentation.main.MainActivity" />
         <activity
             android:name="com.sdp.swiftwallet.presentation.signIn.LoginActivity"
             android:exported="true">

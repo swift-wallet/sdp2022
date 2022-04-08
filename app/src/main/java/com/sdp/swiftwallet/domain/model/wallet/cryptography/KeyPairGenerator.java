@@ -9,8 +9,8 @@ public class KeyPairGenerator {
 
     public static final int PRIVATE_KEY_SIZE = 32;
 
-    private Random random;
-    private long seed;
+    private final Random random;
+    private final long seed;
 
     public KeyPairGenerator(long seed){
         this.seed = seed;
