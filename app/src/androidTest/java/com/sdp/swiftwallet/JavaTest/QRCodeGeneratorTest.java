@@ -1,4 +1,4 @@
-package com.sdp.swiftwallet.UiTest;
+package com.sdp.swiftwallet.JavaTest;
 
 import static org.junit.Assert.assertTrue;
 import com.google.zxing.WriterException;

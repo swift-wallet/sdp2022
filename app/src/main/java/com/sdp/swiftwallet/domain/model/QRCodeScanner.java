@@ -9,6 +9,7 @@ import androidx.activity.result.contract.ActivityResultContract;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
@@ -33,6 +34,21 @@ public class QRCodeScanner {
      * @param context current activity
      */
     public QRCodeScanner(ScannedCallback callback, AppCompatActivity context){
+        mGetContent = context.registerForActivityResult(new QRCodeScannerContract(), new ActivityResultCallback<String>() {
+            @Override
+            public void onActivityResult(String result) {
+                callback.callBack(result);
+            }
+        });
+    }
+
+    /**
+     * QRCode scanner constructor takes a callback that will be called with the result scanned string,
+     * and the activity context.
+     * @param callback
+     * @param context current fragment
+     */
+    public QRCodeScanner(ScannedCallback callback, Fragment context){
         mGetContent = context.registerForActivityResult(new QRCodeScannerContract(), new ActivityResultCallback<String>() {
             @Override
             public void onActivityResult(String result) {
