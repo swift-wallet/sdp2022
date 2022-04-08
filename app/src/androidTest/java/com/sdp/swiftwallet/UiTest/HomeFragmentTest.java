@@ -24,10 +24,15 @@ import com.sdp.swiftwallet.presentation.wallet.CreateSeedActivity;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
+import dagger.hilt.android.testing.HiltAndroidRule;
+import dagger.hilt.android.testing.HiltAndroidTest;
+
+@HiltAndroidTest
 @RunWith(JUnit4.class)
 public class HomeFragmentTest {
 
@@ -35,6 +40,9 @@ public class HomeFragmentTest {
 
     public Context context;
     public final static int mockCounter = 10;
+
+    @Rule
+    public HiltAndroidRule hiltRule = new HiltAndroidRule(this);
 
     public void setValidSeedAndCounter(Context context){
         SharedPreferences prefs = context.getSharedPreferences(SeedGenerator.WALLETS_SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
@@ -49,6 +57,7 @@ public class HomeFragmentTest {
     }
     @Before
     public void setup() {
+        hiltRule.inject();
         context = ApplicationProvider.getApplicationContext();
         resetPrefs(context);
     }

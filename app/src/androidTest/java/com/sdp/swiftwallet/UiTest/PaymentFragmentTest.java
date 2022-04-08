@@ -28,16 +28,25 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.RuleChain;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
+import dagger.hilt.android.testing.HiltAndroidRule;
+import dagger.hilt.android.testing.HiltAndroidTest;
+
+@HiltAndroidTest
 @RunWith(JUnit4.class)
 public class PaymentFragmentTest {
     public final static String mockSeed = "test-testouille-aille-deux-trois";
     public final static int mockCounter = 10;
 
+    public ActivityScenarioRule<MainActivity> testRule = new ActivityScenarioRule<>(MainActivity.class);
+    public HiltAndroidRule hiltRule = new HiltAndroidRule(this);
+
     @Rule
-    public ActivityScenarioRule<MainActivity> scenarioRule = new ActivityScenarioRule<>(MainActivity.class);
+    public RuleChain rule =
+            RuleChain.outerRule(hiltRule).around(testRule);
 
     public void setValidSeedAndCounter(Context context){
         SharedPreferences prefs = context.getSharedPreferences(SeedGenerator.WALLETS_SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
@@ -49,6 +58,7 @@ public class PaymentFragmentTest {
 
     @Before
     public void setup() {
+        hiltRule.inject();
         setValidSeedAndCounter(ApplicationProvider.getApplicationContext());
     }
 
