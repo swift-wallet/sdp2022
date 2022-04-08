@@ -21,41 +21,43 @@ import androidx.test.espresso.idling.CountingIdlingResource;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
-import com.google.firebase.auth.FirebaseAuth;
 import com.sdp.cryptowalletapp.R;
-import dagger.hilt.android.testing.HiltAndroidRule;
-import dagger.hilt.android.testing.HiltAndroidTest;
-import javax.inject.Inject;
+import com.sdp.swiftwallet.presentation.signIn.ForgotPasswordActivity;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.RuleChain;
 import org.junit.runner.RunWith;
 
-@HiltAndroidTest
 @RunWith(AndroidJUnit4.class)
 public class ForgotPwActivityTest {
 
-
-  @Inject FirebaseAuth db;
-
-  public HiltAndroidRule hiltRule = new HiltAndroidRule(this);
+  @Rule
   public ActivityScenarioRule<ForgotPasswordActivity> testRule = new ActivityScenarioRule<>(ForgotPasswordActivity.class);
 
-  @Rule
-  public final RuleChain rule =
-      RuleChain.outerRule(hiltRule).around(testRule);
+  CountingIdlingResource mIdlingResource;
 
   @Before
   public void setUp() {
-    hiltRule.inject();
     Intents.init();
+  }
+
+  @Before
+  public void registerIdlingResource() {
+    testRule.getScenario().onActivity(activity ->
+            mIdlingResource = activity.getIdlingResource()
+    );
+    IdlingRegistry.getInstance().register(mIdlingResource);
   }
 
   @After
   public void tearDown() {
     Intents.release();
+  }
+
+  @After
+  public void unregisterIdlingResource() {
+    IdlingRegistry.getInstance().unregister(mIdlingResource);
   }
 
   /**

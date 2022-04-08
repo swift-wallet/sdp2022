@@ -1,6 +1,6 @@
-package com.sdp.swiftwallet.javaTest.wallet;
-
+package com.sdp.swiftwallet.JavaTest.wallet;
 import com.sdp.swiftwallet.domain.model.wallet.cryptography.KeyPairGenerator;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;

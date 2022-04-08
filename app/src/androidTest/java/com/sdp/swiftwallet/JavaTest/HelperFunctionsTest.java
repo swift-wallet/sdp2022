@@ -1,6 +1,7 @@
-package com.sdp.swiftwallet.javaTest;
+package com.sdp.swiftwallet.JavaTest;
 
 import com.sdp.swiftwallet.common.HelperFunctions;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;

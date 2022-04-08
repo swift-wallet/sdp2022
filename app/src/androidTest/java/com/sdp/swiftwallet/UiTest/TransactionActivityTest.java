@@ -1,11 +1,35 @@
-package com.sdp.swiftwallet.uiTest;
+package com.sdp.swiftwallet.UiTest;
 
-/**
-@HiltAndroidTest
+import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.withId;
+
+import android.content.Intent;
+
+import androidx.test.core.app.ActivityScenario;
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+
+import com.sdp.cryptowalletapp.R;
+import com.sdp.swiftwallet.SwiftWalletApp;
+import com.sdp.swiftwallet.domain.model.Currency;
+import com.sdp.swiftwallet.domain.model.Transaction;
+import com.sdp.swiftwallet.domain.repository.TransactionHistoryProducer;
+import com.sdp.swiftwallet.domain.repository.TransactionHistorySubscriber;
+import com.sdp.swiftwallet.presentation.transactions.TransactionActivity;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import java.util.ArrayList;
+import java.util.List;
+
+
 @RunWith(AndroidJUnit4.class)
 public class TransactionActivityTest {
-
-
     private final static Currency CURR_1 = new Currency("DumbCoin", "DUM", 5);
     private final static Currency CURR_2 = new Currency("BitCoin", "BTC", 3);
     private final static Currency CURR_3 = new Currency("Ethereum", "ETH", 4);
@@ -24,12 +48,8 @@ public class TransactionActivityTest {
     private Intent i;
     private DummyHistoryProducer producer;
 
-    @Rule
-    public HiltAndroidRule hiltRule = new HiltAndroidRule(this);
-
     @Before
     public void setupIntent() {
-        hiltRule.inject();
         i = new Intent(ApplicationProvider.getApplicationContext(), TransactionActivity.class);
         producer = new DummyHistoryProducer();
         ((SwiftWalletApp) ApplicationProvider
@@ -171,4 +191,4 @@ public class TransactionActivityTest {
             transactions.add(t);
         }
     }
-}**/
+}

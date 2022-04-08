@@ -33,15 +33,9 @@ import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.common.FirebaseUtil;
 import com.sdp.swiftwallet.presentation.main.MainActivity;
 
-import dagger.hilt.android.AndroidEntryPoint;
 import java.util.Locale;
-import javax.inject.Inject;
 
-@AndroidEntryPoint
 public class LoginActivity extends AppCompatActivity {
-
-    @Inject FirebaseAuth mAuth;
-
     private static final String EMAIL_SIGNIN_TAG = "EMAIL_SIGNIN_TAG";
     private static final String GOOGLE_SIGNIN_TAG = "GOOGLE_SIGNIN_TAG";
 
@@ -49,6 +43,7 @@ public class LoginActivity extends AppCompatActivity {
     private static final int MAX_LOGIN_ATTEMPTS = 3;
     private int loginAttempts = 0;
 
+    private FirebaseAuth mAuth;
     private ActivityResultLauncher<Intent> googleSignInActivityResultLauncher;
 
     private CountingIdlingResource mIdlingResource;
@@ -62,7 +57,7 @@ public class LoginActivity extends AppCompatActivity {
         attemptsTextView.setText("");
 
         // Init client authentication and launcher for google signIn
-        // mAuth = FirebaseUtil.getAuth();
+        mAuth = FirebaseUtil.getAuth();
         initGoogleSignInResultLauncher();
 
         // Init idling resource for testing purpose

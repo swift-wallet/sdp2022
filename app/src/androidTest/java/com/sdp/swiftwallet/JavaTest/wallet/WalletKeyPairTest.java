@@ -1,17 +1,20 @@
-package com.sdp.swiftwallet.javaTest.wallet;
+package com.sdp.swiftwallet.JavaTest.wallet;
+import android.util.Log;
 
+import com.sdp.swiftwallet.JavaTest.mocks.MockWeb3Requests;
 import com.sdp.swiftwallet.data.repository.Web3Requests;
 import com.sdp.swiftwallet.domain.model.wallet.WalletKeyPair;
 import com.sdp.swiftwallet.domain.model.wallet.cryptography.KeyPairGenerator;
 import com.sdp.swiftwallet.domain.model.wallet.cryptography.SeedGenerator;
 import com.sdp.swiftwallet.domain.repository.IWeb3Requests;
-import com.sdp.swiftwallet.javaTest.mocks.MockWeb3Requests;
-import java.math.BigInteger;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import org.web3j.crypto.ECKeyPair;
+
+import java.math.BigInteger;
 
 @RunWith(JUnit4.class)
 public class WalletKeyPairTest {

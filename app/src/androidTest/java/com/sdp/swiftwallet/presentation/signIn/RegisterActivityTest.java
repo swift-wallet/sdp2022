@@ -27,39 +27,29 @@ import com.google.firebase.auth.FirebaseUser;
 import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.common.FirebaseUtil;
 
-import dagger.hilt.android.testing.HiltAndroidRule;
-import dagger.hilt.android.testing.HiltAndroidTest;
-import javax.inject.Inject;
 import org.bouncycastle.pqc.crypto.newhope.NHOtherInfoGenerator.PartyU;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.RuleChain;
 
-@HiltAndroidTest
 public class RegisterActivityTest {
 
-    @Inject FirebaseAuth db;
-
-    // Add testing rules
-    public ActivityScenarioRule<RegisterActivity> registerScenario = new ActivityScenarioRule<>(RegisterActivity.class);
-
-    public HiltAndroidRule hiltRule = new HiltAndroidRule(this);
-
     @Rule
-    public final RuleChain rule =
-        RuleChain.outerRule(hiltRule).around(registerScenario);
+    public ActivityScenarioRule<RegisterActivity> registerScenario = new ActivityScenarioRule<>(RegisterActivity.class);
 
     // Counting idling resource in registerActivity
     CountingIdlingResource mIdlingResource;
 
     @Before
     public void setUp() {
-        hiltRule.inject();
         Intents.init();
+    }
+
+    @Before
+    public void registerIdlingResource() {
         registerScenario.getScenario().onActivity(activity ->
-            mIdlingResource = activity.getIdlingResource()
+                mIdlingResource = activity.getIdlingResource()
         );
         IdlingRegistry.getInstance().register(mIdlingResource);
     }
@@ -181,7 +171,8 @@ public class RegisterActivityTest {
     // Used by registerUserFailsCorrectly test
     private void createUser(String userTestEmail, String userTestPassword) {
         mIdlingResource.increment();
-        db.createUserWithEmailAndPassword(userTestEmail, userTestPassword)
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        mAuth.createUserWithEmailAndPassword(userTestEmail, userTestPassword)
                 .addOnCompleteListener(task -> mIdlingResource.decrement());
     }
 
