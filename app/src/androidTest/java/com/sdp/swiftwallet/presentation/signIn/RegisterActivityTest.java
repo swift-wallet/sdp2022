@@ -10,45 +10,52 @@ import static androidx.test.espresso.intent.matcher.IntentMatchers.toPackage;
 import static androidx.test.espresso.matcher.ViewMatchers.hasFocus;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static org.junit.Assert.*;
 
-import androidx.annotation.NonNull;
 import androidx.test.espresso.IdlingRegistry;
-import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.idling.CountingIdlingResource;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.sdp.cryptowalletapp.R;
-import com.sdp.swiftwallet.common.FirebaseUtil;
 
-import org.bouncycastle.pqc.crypto.newhope.NHOtherInfoGenerator.PartyU;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.RuleChain;
+import org.junit.runner.RunWith;
 
+import javax.inject.Inject;
+
+import dagger.hilt.android.testing.HiltAndroidRule;
+import dagger.hilt.android.testing.HiltAndroidTest;
+
+@HiltAndroidTest
+@RunWith(AndroidJUnit4.class)
 public class RegisterActivityTest {
 
+    @Inject
+    FirebaseAuth db;
+
+    // Add testing rules
+    public ActivityScenarioRule<RegisterActivity> testRule = new ActivityScenarioRule<>(RegisterActivity.class);
+    public HiltAndroidRule hiltRule = new HiltAndroidRule(this);
+
     @Rule
-    public ActivityScenarioRule<RegisterActivity> registerScenario = new ActivityScenarioRule<>(RegisterActivity.class);
+    public final RuleChain rule =
+            RuleChain.outerRule(hiltRule).around(testRule);
 
     // Counting idling resource in registerActivity
     CountingIdlingResource mIdlingResource;
 
     @Before
     public void setUp() {
+        hiltRule.inject();
         Intents.init();
-    }
-
-    @Before
-    public void registerIdlingResource() {
-        registerScenario.getScenario().onActivity(activity ->
+        testRule.getScenario().onActivity(activity ->
                 mIdlingResource = activity.getIdlingResource()
         );
         IdlingRegistry.getInstance().register(mIdlingResource);
@@ -141,9 +148,11 @@ public class RegisterActivityTest {
                             FirebaseUser user = mAuth.getCurrentUser();
                             user.delete().addOnCompleteListener(task1 ->
                                     mIdlingResource.decrement()
-                    );
-                } else { mIdlingResource.decrement(); }
-            });
+                            );
+                        } else {
+                            mIdlingResource.decrement();
+                        }
+                    });
         } else {
             FirebaseUser user = mAuth.getCurrentUser();
             user.delete().addOnCompleteListener(task -> mIdlingResource.decrement());
@@ -171,8 +180,7 @@ public class RegisterActivityTest {
     // Used by registerUserFailsCorrectly test
     private void createUser(String userTestEmail, String userTestPassword) {
         mIdlingResource.increment();
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
-        mAuth.createUserWithEmailAndPassword(userTestEmail, userTestPassword)
+        db.createUserWithEmailAndPassword(userTestEmail, userTestPassword)
                 .addOnCompleteListener(task -> mIdlingResource.decrement());
     }
 
@@ -208,13 +216,11 @@ public class RegisterActivityTest {
     }
 
     @Test
-    public void registerBackButtonFiresIntentCorrectly(){
+    public void registerBackButtonFiresIntentCorrectly() {
         onView(withId(R.id.goBackRegister)).perform(click());
 
         intended(toPackage("com.sdp.swiftwallet"));
     }
-
-
 
 
 }

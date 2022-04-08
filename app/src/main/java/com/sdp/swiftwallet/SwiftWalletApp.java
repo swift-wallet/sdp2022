@@ -1,20 +1,21 @@
 package com.sdp.swiftwallet;
 
 import android.app.Application;
+import android.content.Context;
 
-import androidx.annotation.Nullable;
-
-import com.sdp.swiftwallet.domain.model.wallet.IWallets;
-import com.sdp.swiftwallet.domain.model.wallet.Wallets;
 import com.sdp.swiftwallet.domain.model.wallet.cryptography.SeedGenerator;
 import com.sdp.swiftwallet.domain.repository.TransactionHistoryProducer;
+
+import com.sdp.swiftwallet.domain.model.wallet.IWallets;
 
 import dagger.hilt.android.HiltAndroidApp;
 
 @HiltAndroidApp
 public class SwiftWalletApp extends Application {
     private TransactionHistoryProducer transactionHistoryProducer = null;
-    private Wallets wallets = null;
+    private IWallets wallets = null;
+
+    private static Context context;
 
     public SwiftWalletApp(){
         super();
@@ -46,25 +47,18 @@ public class SwiftWalletApp extends Application {
         }
     }
 
-    /**
-     * Getter for the TransactionHistoryProducer
-     *
-     * @return the TransactionHistoryProducer
-     */
-    @Nullable
-    public TransactionHistoryProducer getTransactionHistoryProducer() {
-        return transactionHistoryProducer;
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        context = getApplicationContext();
     }
 
     /**
-     * Setter for the TransactionHistoryProducer
+     * Getter for the ApplicationContext
      *
-     * @param transactionHistoryProducer the new TransactionHistoryProducer
+     * @return the Context of this Application
      */
-    public void setTransactionHistoryProducer(TransactionHistoryProducer transactionHistoryProducer) {
-        if (transactionHistoryProducer == null) {
-            throw new IllegalArgumentException("Null HistoryProducer");
-        }
-        this.transactionHistoryProducer = transactionHistoryProducer;
+    public static Context getAppContext() {
+        return SwiftWalletApp.context;
     }
 }

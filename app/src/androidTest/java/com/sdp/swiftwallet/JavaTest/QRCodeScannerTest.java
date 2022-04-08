@@ -14,16 +14,27 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.RuleChain;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
+import dagger.hilt.android.testing.HiltAndroidRule;
+import dagger.hilt.android.testing.HiltAndroidTest;
+
+@HiltAndroidTest
 @RunWith(JUnit4.class)
 public class QRCodeScannerTest {
+
+    public ActivityScenarioRule<MainActivity> testRule = new ActivityScenarioRule<MainActivity>(MainActivity.class);
+    public HiltAndroidRule hiltRule = new HiltAndroidRule(this);
+
     @Rule
-    public ActivityScenarioRule<MainActivity> scenarioRule = new ActivityScenarioRule<MainActivity>(MainActivity.class);
+    public final RuleChain rule =
+            RuleChain.outerRule(hiltRule).around(testRule);
 
     @Before
     public void initIntents() {
+        hiltRule.inject();
         Intents.init();
     }
 
@@ -34,13 +45,13 @@ public class QRCodeScannerTest {
 
     @Test
     public void shouldBeAbleToRegisterForAnActivity(){
-        scenarioRule.getScenario().moveToState(Lifecycle.State.CREATED).onActivity(activity -> {
+        testRule.getScenario().moveToState(Lifecycle.State.CREATED).onActivity(activity -> {
             QRCodeScanner qrCodeScanner = new QRCodeScanner(result -> {}, activity);
         });
     }
     @Test
     public void shouldBeAbleToLaunchScanner(){
-        scenarioRule.getScenario().moveToState(Lifecycle.State.CREATED).onActivity(activity -> {
+        testRule.getScenario().moveToState(Lifecycle.State.CREATED).onActivity(activity -> {
             QRCodeScanner qrCodeScanner = new QRCodeScanner(result -> {}, activity);
             qrCodeScanner.launch();
         });

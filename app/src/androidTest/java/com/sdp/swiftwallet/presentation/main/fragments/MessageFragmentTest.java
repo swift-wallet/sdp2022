@@ -20,16 +20,25 @@ import com.sdp.swiftwallet.presentation.main.MainActivity;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
+import dagger.hilt.android.testing.HiltAndroidRule;
+import dagger.hilt.android.testing.HiltAndroidTest;
+
+@HiltAndroidTest
 @RunWith(JUnit4.class)
 public class MessageFragmentTest {
     public Context context;
 
+    @Rule
+    public HiltAndroidRule hiltRule = new HiltAndroidRule(this);
+
     @Before
     public void setup() {
+        hiltRule.inject();
         context = ApplicationProvider.getApplicationContext();
     }
 
