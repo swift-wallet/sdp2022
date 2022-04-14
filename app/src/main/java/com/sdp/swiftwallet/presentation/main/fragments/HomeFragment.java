@@ -57,9 +57,11 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         fragmentView = view;
         if( !hasSeed ){
+            // If context does not have a seed defined, show the buttons to be able to set it up
             fragmentView.findViewById(R.id.seed_setup).setOnClickListener((v) -> goToSeedSetup());
             fragmentView.findViewById(R.id.create_address_button).setVisibility(View.GONE);
         } else {
+            // Else recover the wallets and update the UI
             recoverWalletsView();
             if(walletItemFragment.itemCount() != walletProvider.getWallets().getCounter()){
                 recoverWalletsList();
@@ -71,6 +73,7 @@ public class HomeFragment extends Fragment {
     public void onResume() {
         super.onResume();
         if( walletProvider.hasWallets() != hasSeed ){
+            // State might have changed when resumed, so seed might have been set or unset
             if( !hasSeed ){
                 recoverWalletsView();
                 recoverWalletsList();

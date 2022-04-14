@@ -45,6 +45,7 @@ public class PaymentFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // Checking if a wallets object exist, if yes import the addresses
         if(walletProvider.hasWallets()){
             addresses = walletProvider.getWallets().getAddresses();
         }
@@ -81,6 +82,7 @@ public class PaymentFragment extends Fragment {
     private class OnFromAddressSelected implements AdapterView.OnItemSelectedListener{
         @Override
         public void onItemSelected(AdapterView<?> adapterView, View selectedView, int i, long l) {
+            // On item selected we want the from field view to adapt
             String address = arrayAdapter.getItem(i);
             fromAddress.setText(address);
             web3Requests.getBalanceOf(address).thenAccept(balance->{
