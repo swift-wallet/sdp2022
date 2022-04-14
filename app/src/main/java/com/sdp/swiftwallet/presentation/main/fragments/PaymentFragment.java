@@ -16,11 +16,17 @@ import androidx.fragment.app.Fragment;
 import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.SwiftWalletApp;
 import com.sdp.swiftwallet.data.repository.Web3Requests;
+import com.sdp.swiftwallet.di.WalletProvider;
 import com.sdp.swiftwallet.domain.model.QRCodeScanner;
+
+import javax.inject.Inject;
+
+import dagger.hilt.android.AndroidEntryPoint;
 
 /**
  * Payment fragment to send some cryptocurrency assets
  */
+@AndroidEntryPoint
 public class PaymentFragment extends Fragment {
     private ArrayAdapter<String> arrayAdapter;
     private TextView fromAddress;
@@ -31,14 +37,18 @@ public class PaymentFragment extends Fragment {
     QRCodeScanner qrCodeScanner = new QRCodeScanner(this::setToSelectedAddress, this);
     private Web3Requests web3Requests;
 
-    private String[] testWallets = new String[]{"0x3f17f1962B36e491b30A40b2405849e597Ba5FB5",
-    "0x4CCeBa2d7D2B4fdcE4304d3e09a1fea9fbEb1528",
-    "0xDbc23AE43a150ff8884B02Cea117b22D1c3b9796"};
+    @Inject
+    public WalletProvider walletProvider;
+
+    private String[] addresses;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        arrayAdapter = new ArrayAdapter<String>(requireActivity(), androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, testWallets);
+        if(walletProvider.hasWallets()){
+            addresses = walletProvider.getWallets().getAddresses();
+        }
+        arrayAdapter = new ArrayAdapter<String>(requireActivity(), androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, addresses);
         web3Requests = new Web3Requests();
     }
 
