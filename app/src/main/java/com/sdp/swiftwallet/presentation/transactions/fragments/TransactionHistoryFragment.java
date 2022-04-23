@@ -14,22 +14,31 @@ import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.SwiftWalletApp;
 import com.sdp.swiftwallet.domain.model.Transaction;
 import com.sdp.swiftwallet.domain.model.TransactionAdapter;
+import com.sdp.swiftwallet.domain.repository.TransactionHistoryProducer;
 import com.sdp.swiftwallet.domain.repository.TransactionHistorySubscriber;
 import com.sdp.swiftwallet.presentation.transactions.TransactionActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
+import dagger.hilt.android.AndroidEntryPoint;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link TransactionHistoryFragment} factory method to
  * create an instance of this fragment.
  */
+@AndroidEntryPoint
 public class TransactionHistoryFragment extends Fragment implements TransactionHistorySubscriber {
     private TransactionActivity rootAct;
     private RecyclerView recyclerView;
     private TransactionAdapter adapter;
     private List<Transaction> transactions;
+
+    @Inject
+    TransactionHistoryProducer producer;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -50,14 +59,12 @@ public class TransactionHistoryFragment extends Fragment implements TransactionH
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
 
-        while (!((SwiftWalletApp) rootAct.getApplication()).getTransactionHistoryProducer().subscribe(this))
-            ;
+        while (!producer.subscribe(this));
     }
 
     @Override
     public void onStop() {
-        while (!((SwiftWalletApp) rootAct.getApplication()).getTransactionHistoryProducer().unsubscribe(this))
-            ;
+        while (!producer.unsubscribe(this));
         super.onStop();
     }
 

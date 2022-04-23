@@ -3,50 +3,40 @@ package com.sdp.swiftwallet.presentation.signIn;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.Button;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.test.espresso.idling.CountingIdlingResource;
 
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.SignInButton;
-import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.GoogleAuthProvider;
 import com.sdp.cryptowalletapp.R;
-import com.sdp.swiftwallet.common.FirebaseUtil;
+import com.sdp.swiftwallet.domain.repository.SwiftAuthenticator;
 import com.sdp.swiftwallet.presentation.main.MainActivity;
 
 import java.util.Locale;
 
+import javax.inject.Inject;
+
+import dagger.hilt.android.AndroidEntryPoint;
+
+/**
+ * Login Activity
+ */
+@AndroidEntryPoint
 public class LoginActivity extends AppCompatActivity {
-    private static final String EMAIL_SIGNIN_TAG = "EMAIL_SIGNIN_TAG";
-    private static final String GOOGLE_SIGNIN_TAG = "GOOGLE_SIGNIN_TAG";
 
     private TextView attemptsTextView;
+    private EditText emailEditText;
+    private EditText passwordEditText;
+
     private static final int MAX_LOGIN_ATTEMPTS = 3;
     private int loginAttempts = 0;
 
-    private FirebaseAuth mAuth;
-    private ActivityResultLauncher<Intent> googleSignInActivityResultLauncher;
-
-    private CountingIdlingResource mIdlingResource;
+    @Inject
+    SwiftAuthenticator authenticator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,60 +46,92 @@ public class LoginActivity extends AppCompatActivity {
         attemptsTextView = findViewById(R.id.attemptsMessage);
         attemptsTextView.setText("");
 
-        // Init client authentication and launcher for google signIn
-        mAuth = FirebaseUtil.getAuth();
-        initGoogleSignInResultLauncher();
-
-        // Init idling resource for testing purpose
-        mIdlingResource = new CountingIdlingResource("Login Calls");
-
-        // Set Listeners
-        SignInButton googleSignInBtn = findViewById(R.id.googleSignInBtn);
-        googleSignInBtn.setOnClickListener(v -> startGoogleSignIn());
-
-        Button loginBtn = findViewById(R.id.loginButton);
-        loginBtn.setOnClickListener(v -> login());
-
-        TextView forgotPasswordTv = findViewById(R.id.forgotPasswordTv);
-        forgotPasswordTv.setOnClickListener(v ->
-            startActivity(new Intent(LoginActivity.this, ForgotPasswordActivity.class))
-        );
-
-        TextView registerTv = findViewById(R.id.registerTv);
-        registerTv.setOnClickListener(v ->
-            startActivity(new Intent(LoginActivity.this, RegisterActivity.class))
-        );
-
-        TextView useOfflineTv = findViewById(R.id.useOfflineTv);
-        useOfflineTv.setOnClickListener(v ->
-            startActivity(new Intent(LoginActivity.this, MainActivity.class))
-        );
+        emailEditText = findViewById(R.id.loginEmailEt);
+        passwordEditText = findViewById(R.id.loginPasswordEt);
     }
 
     /**
-     * Login method which is launched by the LOGIN button on the login screen
-     * check email and password validity before signIn
+     * Method associated to the Forgot Password button
+     *
+     * @param view the View of the button
      */
-    public void login() {
-        // Retrieve username and password from login screen
-        EditText editText = findViewById(R.id.loginEmailEt);
-        String email = editText.getText().toString().trim();
-        // Display error if not valid
-        if (email.isEmpty()) {
-            editText.setError("email required");
-            editText.requestFocus();
-            return;
-        }
-        editText = findViewById(R.id.loginPasswordEt);
-        String password = editText.getText().toString().trim();
-        if (password.isEmpty()) {
-            editText.setError("password required");
-            editText.requestFocus();
-            return;
-        }
+    public void forgotPassword(View view) {
+        Intent it = new Intent(this, ForgotPasswordActivity.class);
+        startActivity(it);
+    }
 
-        // Finally Launch signIn
-        signInWithEmailAndPassword(email, password);
+    /**
+     * Method associated to the Register button
+     *
+     * @param view the View of the button
+     */
+    public void register(View view) {
+        Intent it = new Intent(this, RegisterActivity.class);
+        startActivity(it);
+    }
+
+    /**
+     * Method associated to the Use Offline button
+     *
+     * @param view the View of the button
+     */
+    public void useOffline(View view) {
+        Intent it = new Intent(this, MainActivity.class);
+        startActivity(it);
+    }
+
+    /**
+     * Method associated to the Login button
+     * Uses the injected SwiftAuthenticator
+     *
+     * @param view the View of the button
+     */
+    public void login(View view) {
+        // Retrieve username and password from login screen
+        String email = emailEditText.getText().toString().trim();
+        String password = passwordEditText.getText().toString().trim();
+
+        SwiftAuthenticator.Result authRes = authenticator.signIn(
+                email, password, () -> nextActivity(), () -> checkAttempts()
+        );
+
+        if (authRes != SwiftAuthenticator.Result.SUCCESS) {
+            handleError(authRes);
+        }
+    }
+
+    /**
+     * Error handler for the result of the SwiftAuthenticator's
+     * signIn method
+     *
+     * @param result the result of the authentication
+     */
+    private void handleError(SwiftAuthenticator.Result result) {
+        switch (result) {
+            case EMPTY_EMAIL:
+                Toast.makeText(this, "Email required", Toast.LENGTH_SHORT).show();
+                break;
+            case EMPTY_PASSWORD:
+                Toast.makeText(this, "Password required", Toast.LENGTH_SHORT).show();
+                break;
+            case ERROR:
+                authError(LoginActivity.this).show();
+                break;
+            default:
+                break;
+        }
+    }
+
+    /**
+     * Method used to get the next Activity
+     * This is passed as a callback to the SwiftAuthenticator
+     */
+    private void nextActivity() {
+        Toast.makeText(this, "User successfully signed in", Toast.LENGTH_LONG).show();
+
+        startActivity(
+                new Intent(this, MainActivity.class)
+        );
     }
 
     /**
@@ -137,6 +159,21 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     /**
+     * Creates an AlertDialog to inform the user of an unexpected authentication error
+     *
+     * @param context the context of the alert
+     * @return an AlertDialog informing the user an error occurred while authenticating
+     */
+    private AlertDialog authError(Context context) {
+        return new AlertDialog.Builder(context)
+                .setTitle("Authentication error")
+                .setMessage("Unexpected error when authenticating")
+                .setPositiveButton("OK", null)
+                .setCancelable(false)
+                .create();
+    }
+
+    /**
      * Creates an AlertDialog to inform the user they used incorrect credentials
      *
      * @param context the context of the alert
@@ -154,7 +191,7 @@ public class LoginActivity extends AppCompatActivity {
     /**
      * Creates an AlertDialog to inform the user they have used up their login attempts
      *
-     * @param context    the context of the alert
+     * @param context the context of the alert
      * @return an AlertDialog informing the user they used up their login attempts
      */
     private AlertDialog tooManyAttemptsError(Context context) {
@@ -164,114 +201,6 @@ public class LoginActivity extends AppCompatActivity {
                 .setPositiveButton("OK", null)
                 .setCancelable(false)
                 .create();
-    }
-
-    /**
-     * Perform email signIn with the authentication client
-     * @param email user email to connect with
-     * @param password corresponding password
-     */
-    private void signInWithEmailAndPassword(String email, String password) {
-        Log.d(EMAIL_SIGNIN_TAG, "signInWithEmailAndPassword: begin firebase auth with email account");
-        mIdlingResource.increment();
-        mAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        mIdlingResource.decrement();
-                        if (task.isSuccessful()) {
-                            Log.d(EMAIL_SIGNIN_TAG, "Login successful for email: " + email);
-                            Toast.makeText(LoginActivity.this, "User successfully signedIn", Toast.LENGTH_LONG).show();
-
-                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                        }
-                        else {
-                            Log.w(EMAIL_SIGNIN_TAG, "Error from task", task.getException());
-                            checkAttempts();
-                        }
-                    }
-                });
-    }
-
-    /**
-     * Perform google signin with the authentication client
-     * @param credential credentials for authentication
-     */
-    public void signInWithCredential(AuthCredential credential) {
-        // Try to sign in the current user
-        mAuth.signInWithCredential(credential).addOnSuccessListener(authResult -> {
-            Log.d(GOOGLE_SIGNIN_TAG, "Logged In");
-            FirebaseUser firebaseUser = mAuth.getCurrentUser();
-
-            String uid = firebaseUser.getUid();
-            String email = firebaseUser.getEmail();
-
-            Log.d(GOOGLE_SIGNIN_TAG, "With email: " + email);
-            Log.d(GOOGLE_SIGNIN_TAG, "With UID: " + uid);
-
-            if (authResult.getAdditionalUserInfo().isNewUser()) {
-                Log.d(GOOGLE_SIGNIN_TAG, "Account Created...\n"+email);
-                Toast.makeText(LoginActivity.this, "Account Created...\n"+email, Toast.LENGTH_SHORT).show();
-            }
-            else {
-                Log.d(GOOGLE_SIGNIN_TAG, "Existing user...\n"+email);
-                Toast.makeText(LoginActivity.this, "Existing user...\n"+email, Toast.LENGTH_SHORT).show();
-            }
-
-            startActivity(new Intent(LoginActivity.this, MainActivity.class));
-        }).addOnFailureListener(e -> Log.d(GOOGLE_SIGNIN_TAG, "googleSignIn failed: " + e.getMessage()));
-    }
-
-    /**
-     * Init google SignInResult launcher,
-     * Takes an ActivityResultContracts and a Callback on result.
-     * Perform google signIn when an Intent is launched, see StartGoogleSignIn()
-     */
-    private void initGoogleSignInResultLauncher() {
-        googleSignInActivityResultLauncher = registerForActivityResult(
-                new ActivityResultContracts.StartActivityForResult(),
-                result -> {
-                    if (result.getResultCode() == RESULT_OK) {
-                        Log.d(GOOGLE_SIGNIN_TAG, "GoogleSignIn got intent result");
-                        Task<GoogleSignInAccount> accountTask = GoogleSignIn.getSignedInAccountFromIntent(result.getData());
-//                        Bundle bundle = result.getData().getExtras();
-//                        for (String key : bundle.keySet()){
-//                            Log.d(GOOGLE_SIGNIN_TAG, "Extra " + key + " -> " + bundle.get(key));
-//                        }
-                        try {
-                            GoogleSignInAccount account = accountTask.getResult(ApiException.class);
-                            Log.d(GOOGLE_SIGNIN_TAG, "Begin Auth with google account");
-                            AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
-                            signInWithCredential(credential);
-                        } catch (Exception e) {
-                            Log.d(GOOGLE_SIGNIN_TAG, "GoogleSignIn failed on intent result: " + e.getMessage());
-                        }
-                    }
-                });
-    }
-
-    /**
-     * Setup GoogleSignInClient and launch google signIn with intent
-     */
-    private void startGoogleSignIn() {
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.webclient_id))
-                .requestEmail()
-                .build();
-
-        GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(LoginActivity.this, gso);
-
-        Log.d(GOOGLE_SIGNIN_TAG, "Launch Google signIn");
-        Intent it = googleSignInClient.getSignInIntent();
-        googleSignInActivityResultLauncher.launch(it);
-    }
-
-    /**
-     * Getter for idling resource, used for testing
-     * @return idling resource used in this activity
-     */
-    public CountingIdlingResource getIdlingResource() {
-        return mIdlingResource;
     }
 
 }
