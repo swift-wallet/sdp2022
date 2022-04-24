@@ -36,7 +36,7 @@ public class RegisterActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     private EditText registerUsernameEt, registerEmailEt, registerPasswordEt;
 
-    // Used for debugging purpose
+    // Used for debugging purpose and testing
     private CountingIdlingResource mIdlingResource;
 
     @Override
@@ -69,7 +69,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     /**
-     * Check for registration infos validity and create user on client auth
+     * Check for registration info validity and create user on client auth
      */
     private void registerUser() {
         String username = registerUsernameEt.getText().toString().trim();

@@ -81,6 +81,9 @@ dependencies {
     // For local unit tests
     testImplementation 'com.google.dagger:hilt-android-testing:2.41'
     testAnnotationProcessor 'com.google.dagger:hilt-compiler:2.41'
+
+    // For RoboElectrics test
+    testImplementation 'org.robolectric:robolectric:4.6'
 }
 
 tasks.withType(Test) {
