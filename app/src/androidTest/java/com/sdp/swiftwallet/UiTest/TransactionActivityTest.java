@@ -54,7 +54,6 @@ public class TransactionActivityTest {
         }
     }
 
-
     private final static Currency CURR_1 = new Currency("DumbCoin", "DUM", 5);
     private final static Currency CURR_2 = new Currency("BitCoin", "BTC", 3);
     private final static Currency CURR_3 = new Currency("Ethereum", "ETH", 4);
