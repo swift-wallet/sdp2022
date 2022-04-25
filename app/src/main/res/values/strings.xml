@@ -30,6 +30,25 @@
     <string name="value">Value</string>
     <string name="go_to_crypto_values">Go to Crypto Values</string>
 
+    <!-- CRYPTOINTERVALS -->
+    <string-array name="intervals_array">
+        <item>1m</item>
+        <item>3m</item>
+        <item>5m</item>
+        <item>15m</item>
+        <item>30m</item>
+        <item>1h</item>
+        <item>2h</item>
+        <item>4h</item>
+        <item>6h</item>
+        <item>8h</item>
+        <item>12h</item>
+        <item>1d</item>
+        <item>3d</item>
+        <item>1w</item>
+        <item>1M</item>
+    </string-array>
+
     <!-- TRANSACTION HISTORY -->
     <string name="go_to_transaction_history">Go to transaction history</string>
     <string name="transactionHistoryProducerExtraKey">TRANSAC_HIST_GEN_KEY</string>
