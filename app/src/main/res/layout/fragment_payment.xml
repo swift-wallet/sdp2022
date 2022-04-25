@@ -129,9 +129,10 @@
                         android:layout_height="wrap_content"
                         android:text="@string/send_amount"/>
                     <EditText
-                        android:id="@+id/wallet_send_amount"
+                        android:id="@+id/send_amount"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:text="@string/send_balance0"
                         android:inputType="numberDecimal"/>
                 </LinearLayout>
 
