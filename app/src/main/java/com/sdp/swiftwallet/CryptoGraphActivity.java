@@ -74,27 +74,11 @@ public class CryptoGraphActivity extends AppCompatActivity {
         candleStickChart = getData();
         mIdlingResource.decrement();
 
-        /*
-        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-        System.out.println(openTimes.get(3));
-
-
-        //Create CandleStickChart
-        CandleStickChart candleStickChart = createCandleStickChart();
-        //get data as CandleData
-        CandleData candleData = createDataSetForCandleGraph(openTimes, openValues, highValues, lowValues, closeValues, volumeValues, closeTimes);
-        //setData
-        candleStickChart.setData(candleData);
-        candleStickChart.invalidate();
-        */
-
 
         // Capture the layout's TextView and set the string as its text
         TextView textView = findViewById(R.id.idCurrencyToShowName);
-        //textView.setText(closeTimes.size());
         textView.setText(currency.getName());
 
-        //textView.setText("LAST CLOSING TIME : "+closeTimes.get(closeTimes.size()-1) + " LAST CLOSING VALUE : "+closeValues.get(closeValues.size()-1));
     }
 
     private CandleStickChart createCandleStickChart(){
@@ -175,7 +159,6 @@ public class CryptoGraphActivity extends AppCompatActivity {
                 //setData
                 candleStickChart.setData(candleData);
                 candleStickChart.invalidate();
-                //mIdlingResource.decrement();
             } catch(Exception e){
                 e.printStackTrace();
                 Toast.makeText(CryptoGraphActivity.this, "Couldn't extract JSON data... Please try again later.", Toast.LENGTH_SHORT).show();
@@ -200,7 +183,7 @@ public class CryptoGraphActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 onItemSelectedHandler(adapterView, view, i, l);
                 interval = (String)adapterView.getItemAtPosition(i);
-                mIdlingResource.increment();
+
                 candleStickChart = getData();
             }
 
