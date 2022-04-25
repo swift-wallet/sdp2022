@@ -6,6 +6,7 @@ import static com.sdp.swiftwallet.common.HelperFunctions.checkUsername;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -26,15 +27,26 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.sdp.cryptowalletapp.R;
+import com.sdp.cryptowalletapp.databinding.ActivityRegisterBinding;
 import com.sdp.swiftwallet.common.FirebaseUtil;
 import com.sdp.swiftwallet.domain.model.User;
 
-public class RegisterActivity extends AppCompatActivity {
-    private static final String EMAIL_REGISTER_TAG = "EMAIL_REGISTER_TAG";
+import javax.inject.Inject;
 
-    private FirebaseAuth mAuth;
-    private FirebaseFirestore db;
-    private EditText registerUsernameEt, registerEmailEt, registerPasswordEt;
+public class RegisterActivity extends AppCompatActivity {
+    // Register TAG for logs
+    private static final String EMAIL_REGISTER_TAG = "EMAIL_REGISTER_TAG";
+    private static final int IMAGE_PREVIEW_WIDTH = 150;
+    private static final int IMAGE_PREVIEW_QUALITY = 50;
+
+    private ActivityRegisterBinding binding;
+    private String encodedImage;
+
+    // Authentication and database
+    @Inject
+    FirebaseAuth mAuth;
+    @Inject
+    FirebaseFirestore db;
 
     // Used for debugging purpose
     private CountingIdlingResource mIdlingResource;
@@ -42,50 +54,117 @@ public class RegisterActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
+        binding = ActivityRegisterBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
-        // Init auth client and db client
-        mAuth = FirebaseUtil.getAuth();
-        db = FirebaseUtil.getFirestore();
-
-        // Find EditText view and registerBtn
-        registerUsernameEt = findViewById(R.id.registerUsernameEt);
-        registerEmailEt = findViewById(R.id.registerEmailEt);
-        registerPasswordEt = findViewById(R.id.registerPasswordEt);
-        Button registerBtn = findViewById(R.id.registerBtn);
+        // Image is null if no image is selected
+        encodedImage = null;
 
         // Init counting resource for async call in test
         mIdlingResource = new CountingIdlingResource("Register Calls");
 
-        // Init listeners
-        Button goBack = findViewById(R.id.goBackRegister);
-        goBack.setOnClickListener(new OnClickListener() {
-            public void onClick(View v) {
-                RegisterActivity.this.startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
-            }
-        });
+        setListeners();
+    }
 
-        registerBtn.setOnClickListener(v -> registerUser());
+    /**
+     * Set all listeners from registerActivity
+     */
+    private void setListeners() {
+        binding.goBackRegister.setOnClickListener(v -> {
+            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+        });
+        binding.registerBtn.setOnClickListener(v -> registerUser());
+        binding.registerImageProfileLayout.setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            selectImage.launch(intent);
+        });
+    }
+
+    /**
+     * Enable loading icon for register button
+     * @param isLoading flag to enable or disable loading
+     */
+    private void loading(Boolean isLoading) {
+        if (isLoading) {
+            binding.registerBtn.setVisibility(View.INVISIBLE);
+            binding.registerBtnProgressBar.setVisibility(View.VISIBLE);
+        } else {
+            binding.registerBtnProgressBar.setVisibility(View.INVISIBLE);
+            binding.registerBtn.setVisibility(View.VISIBLE);
+        }
     }
 
     /**
      * Check for registration infos validity and create user on client auth
      */
     private void registerUser() {
-        String username = registerUsernameEt.getText().toString().trim();
-        String email = registerEmailEt.getText().toString().trim();
-        String password = registerPasswordEt.getText().toString().trim();
+        String username = binding.registerInputUsername.getText().toString().trim();
+        String email = binding.registerInputEmail.getText().toString().trim();
+        String password = binding.registerInputPassword.getText().toString().trim();
+        String confirmPassword = binding.registerInputConfirmPassword.getText().toString().trim();
 
         // Check validity of inputs
-        if (!checkUsername(username, registerUsernameEt)) return;
-        if (!checkEmail(email, registerEmailEt)) return;
-        if (!checkPassword(password, registerPasswordEt)) return;
+        if (encodedImage == null) encodedImage = Constants.DEFAULT_USER_IMAGE;
+        if (!checkUsername(username, binding.registerInputUsername)) return;
+        if (!checkEmail(email, binding.registerInputEmail)) return;
+        if (!checkPassword(password, confirmPassword, binding.registerInputPassword)) return;
 
         // Increment counter before creating user
         mIdlingResource.increment();
+        loading(true);
         createUserWithEmailAndPassword(username, email, password);
     }
 
+    /**
+     * Base64 image encoder from Bitmap to String
+     * @param bitmap the image bitmap
+     * @return String of encoded image in Base64
+     */
+    private String encodeImage(Bitmap bitmap) {
+        int previewWidth = IMAGE_PREVIEW_WIDTH;
+        int previewHeight = bitmap.getHeight() * previewWidth / bitmap.getWidth();
+
+        Bitmap previewBitmap = Bitmap.createScaledBitmap(bitmap, previewWidth, previewHeight, false);
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        previewBitmap.compress(Bitmap.CompressFormat.JPEG, IMAGE_PREVIEW_QUALITY, byteArrayOutputStream);
+        byte[] bytes = byteArrayOutputStream.toByteArray();
+
+        return Base64.encodeToString(bytes, Base64.DEFAULT);
+    }
+
+    /**
+     * Launcher to get encoded image from returned image
+     */
+    private final ActivityResultLauncher<Intent> selectImage = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == RESULT_OK) {
+                    if (result.getData() != null) {
+                        Uri imageUri = result.getData().getData();
+                        try {
+                            InputStream inputStream = getContentResolver().openInputStream(imageUri);
+                            Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                            binding.registerImageProfileBackground.setImageBitmap(bitmap);
+                            binding.registerImageProfileText.setVisibility(View.GONE);
+                            encodedImage = encodeImage(bitmap);
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+    );
+
+    private Map<String, Object> setUser(String uid, String username, String email, String image) {
+        Map<String, Object> userMap = new HashMap<>();
+        userMap.put(Constants.KEY_UID, uid);
+        userMap.put(Constants.KEY_USERNAME, username);
+        userMap.put(Constants.KEY_EMAIL, email);
+        userMap.put(Constants.KEY_IMAGE, image);
+
+        return userMap;
+    }
 
     /**
      * create user with username, email and password with client auth
@@ -95,54 +174,48 @@ public class RegisterActivity extends AppCompatActivity {
      */
     private void createUserWithEmailAndPassword(String username, String email, String password) {
         mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            User user = new User(username, email, "BASIC");
-                            Log.d(EMAIL_REGISTER_TAG, "onComplete: User created for Auth");
-                            // If user successfuly created the account,
-                            // Increment before adding to db and decrement because user is created
-                            mIdlingResource.increment();
-                            registerUserToDatabase(user);
-                            mIdlingResource.decrement();
-                        }
-                        else {
-                            // If user failed to create an account, decrement counter
-                            mIdlingResource.decrement();
-                            Toast.makeText(RegisterActivity.this, "User failed to register", Toast.LENGTH_LONG).show();
-                            Log.w(EMAIL_REGISTER_TAG, "Error from task", task.getException());
-                        }
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Log.d(EMAIL_REGISTER_TAG, "User created for Auth");
+                        Map<String, Object> userMap = setUser(mAuth.getUid(), username, email, encodedImage);
+                        // Increment before adding to db and decrement because user is created
+                        mIdlingResource.increment();
+                        registerUserToDatabase(userMap);
+                        mIdlingResource.decrement();
+                    }
+                    else {
+                        loading(false);
+                        // If user failed to create an account, decrement counter
+                        mIdlingResource.decrement();
+                        displayToast(getApplicationContext(), "User failed to register");
+                        Log.w(EMAIL_REGISTER_TAG, "Error from task", task.getException());
                     }
                 });
     }
 
     /**
      * Add a user to the database and go back to login activity
-     * @param user the user to add to the database
+     * @param userMap the user HashMap to add to the database
      */
-    private void registerUserToDatabase(User user) {
-        db.collection("users")
-                .add(user)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Toast.makeText(RegisterActivity.this, "User successfully registered", Toast.LENGTH_LONG).show();
-                        Log.d(EMAIL_REGISTER_TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+    private void registerUserToDatabase(Map<String, Object> userMap) {
+        db.collection(Constants.KEY_COLLECTION_USERS)
+                .document(mAuth.getUid())
+                .set(userMap)
+                .addOnSuccessListener(aVoid -> {
+                    loading(false);
+                    displayToast(getApplicationContext(), "User successfully registered");
+                    Log.d(EMAIL_REGISTER_TAG, "DocumentSnapshot added with ID: " + mAuth.getUid());
 
-                        // Decrement counter if user successfully added to db
-                        mIdlingResource.decrement();
-                        startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
-                    }
+                    // Decrement counter if user successfully added to db
+                    mIdlingResource.decrement();
+                    startActivity(new Intent(getApplicationContext(), LoginActivity.class));
                 })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        // Decrement counter if user failed to add to db
-                        mIdlingResource.decrement();
-                        Toast.makeText(RegisterActivity.this, "User failed to register", Toast.LENGTH_LONG).show();
-                        Log.w(EMAIL_REGISTER_TAG, "Error adding document", e);
-                    }
+                .addOnFailureListener(e -> {
+                    loading(false);
+                    // Decrement counter if user failed to add to db
+                    mIdlingResource.decrement();
+                    displayToast(getApplicationContext(), "User failed to register");
+                    Log.w(EMAIL_REGISTER_TAG, "Error adding document", e);
                 });
     }
 
@@ -153,5 +226,4 @@ public class RegisterActivity extends AppCompatActivity {
     public CountingIdlingResource getIdlingResource() {
         return mIdlingResource;
     }
-
 }

@@ -19,6 +19,9 @@
     <string name="registerTv">Register</string>
     <string name="usernameTv">Username</string>
     <string name="useOfflineTv">Use Offline</string>
+    <string name="registerTitle">Create New Account</string>
+    <string name="add_image">Add Image</string>
+    <string name="confirmPasswordTv">Confirm Password</string>
 
     <!-- CRYPTOVALUES -->
     <string name="search_crypto_name">Search Crypto Name</string>
