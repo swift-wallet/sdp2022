@@ -16,6 +16,9 @@ public class SwiftWalletCurrencyBank implements CurrencyBank {
 
     @Override
     public Currency getCurrency(String symbol) {
+        if (symbol == null) {
+            throw new NullPointerException("Null symbol");
+        }
         return currencyMap.get(symbol);
     }
 }
