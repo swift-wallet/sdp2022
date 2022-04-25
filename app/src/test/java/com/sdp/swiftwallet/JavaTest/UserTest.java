@@ -12,23 +12,14 @@ public class UserTest {
 
   @Test
   public void isCorrectlyDefined() {
-    assertEquals(u.getEmail(), "admin");
-  }
-
-  @Test(expected = NullPointerException.class)
-  public void errorOnCreation() {
-    User u = new User(null, BASIC);
-  }
-
-  @Test
-  public void getEmailTest() {
     assertEquals("admin@epfl.ch", u.getEmail());
   }
 
   @Test
   public void modifyUserNameOnSucces() {
-    u.setEmail("anton");
-    assertEquals("anton", u.getEmail());
+    User u2 = new User("admin@epfl.ch", BASIC);
+    u2.setEmail("anton");
+    assertEquals("anton", u2.getEmail());
   }
 
 }

@@ -23,22 +23,15 @@ public class User {
    * @param loginMethod login method
    */
   public User(@NonNull String email, @NonNull LoginMethod loginMethod) {
-
-    if (loginMethod != GOOGLE && loginMethod != BASIC) {
-      throw new IllegalArgumentException();
-    }
     this.email = email;
-
   }
 
   //Random code to update/get info about the user
-  @NonNull
   public String getEmail() {
     return email;
   }
 
-  public void setEmail(String email) {
-    Objects.requireNonNull(email);
+  public void setEmail(@NonNull String email) {
     this.email = email;
   }
 
