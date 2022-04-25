@@ -3,6 +3,9 @@ package com.sdp.swiftwallet.domain.model;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * CurrencyBank implementation for SwiftWallet
+ */
 public class SwiftWalletCurrencyBank implements CurrencyBank {
     private final Map<String, Currency> currencyMap;
 

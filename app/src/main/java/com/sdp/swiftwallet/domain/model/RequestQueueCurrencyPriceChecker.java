@@ -18,10 +18,16 @@ import java.util.Map;
 
 import dagger.hilt.android.qualifiers.ApplicationContext;
 
+/**
+ * CurrencyBank.PriceChecker implementation using RequestQueue
+ */
 public class RequestQueueCurrencyPriceChecker implements CurrencyBank.PriceChecker {
     private final static String MARKET_URL = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest";
     private final static List<String> supportedCurrencies = new ArrayList<>();
 
+    /**
+     * Add symbols of app's supported currencies here
+     */
     static {
         supportedCurrencies.add("BTC");
         supportedCurrencies.add("ETH");
