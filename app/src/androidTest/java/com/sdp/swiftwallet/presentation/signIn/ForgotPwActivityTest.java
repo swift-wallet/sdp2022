@@ -91,7 +91,7 @@ public class ForgotPwActivityTest {
 
   @Test
   public void firesCorrectIntentAfterLinkSent(){
-    onView(withId(R.id.emailField)).perform(typeText("anders.hominal@gmail.com"), closeSoftKeyboard());
+    onView(withId(R.id.emailField)).perform(typeText("email.test@epfl.ch"), closeSoftKeyboard());
     onView(withId(R.id.sendReset)).perform(click());
 
     intended(allOf(
