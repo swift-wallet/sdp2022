@@ -200,6 +200,7 @@ public class CryptoGraphActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 onItemSelectedHandler(adapterView, view, i, l);
                 interval = (String)adapterView.getItemAtPosition(i);
+                mIdlingResource.increment();
                 candleStickChart = getData();
             }
 

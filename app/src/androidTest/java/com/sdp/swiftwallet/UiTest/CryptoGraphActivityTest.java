@@ -87,11 +87,25 @@ public class CryptoGraphActivityTest {
         onView(withId(R.id.idInterval)).check(matches(withSpinnerText(containsString("5m"))));
     }
 
+    @Test
+    public void changeIntervalShows3m(){
+        onView(withId(R.id.idInterval)).perform(click());
+        onData(anything()).atPosition(1).perform(click());
+        onView(withId(R.id.idInterval)).check(matches(withSpinnerText(containsString("3m"))));
+    }
+
+    @Test
+    public void changeIntervalShows1m(){
+        onView(withId(R.id.idInterval)).perform(click());
+        onData(anything()).atPosition(0).perform(click());
+        onView(withId(R.id.idInterval)).check(matches(withSpinnerText(containsString("1m"))));
+    }
+
     /*@Test
     public void changeIntervalShowsToastMessage(){
         onView(withId(R.id.idInterval)).perform(click());
         onData(anything()).atPosition(4).perform(click());
-        onView(withText("Selected Interval: 30m")).inRoot(new ToastMatcher()).check(matches(isDisplayed()));
+        onView(withText("Selected Interval: 1m")).inRoot(new ToastMatcher()).check(matches(isDisplayed()));
     }*/
 
     @Test
@@ -113,6 +127,7 @@ public class CryptoGraphActivityTest {
                 IBinder appToken = root.getDecorView().getApplicationWindowToken();
                 if (windowToken == appToken) {
                     //means this window isn't contained by any other windows.
+                    return true;
                 }
             }
             return false;
