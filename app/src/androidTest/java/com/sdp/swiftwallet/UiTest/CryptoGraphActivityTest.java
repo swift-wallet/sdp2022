@@ -101,7 +101,7 @@ public class CryptoGraphActivityTest {
         onView(withId(R.id.candle_stick_chart)).check(matches(isDisplayed()));
     }
 
-    public class ToastMatcher extends TypeSafeMatcher<Root> {
+    /*public class ToastMatcher extends TypeSafeMatcher<Root> {
         @Override public void describeTo(Description description) {
             description.appendText("is toast");
         }
@@ -117,6 +117,6 @@ public class CryptoGraphActivityTest {
             }
             return false;
         }
-    }
+    }*/
 
 }
