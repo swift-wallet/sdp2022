@@ -8,112 +8,155 @@
     tools:context="com.sdp.swiftwallet.presentation.signIn.RegisterActivity">
 
     <TextView
-        android:id="@+id/loginTitle"
+        android:id="@+id/registerTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/appTitle"
+        android:text="@string/registerTitle"
+        android:textColor="@color/primary_text"
+        android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         />
 
-    <ImageView
-        android:id="@+id/appLogo"
+    <FrameLayout
+        android:id="@+id/registerImageProfileLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@android:drawable/sym_def_app_icon"
-        app:layout_constraintTop_toBottomOf="@+id/loginTitle"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@+id/registerTitle"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:contentDescription="@string/appLogoDescription" />
+        app:layout_constraintLeft_toLeftOf="parent">
 
-    <TextView
-        android:id="@+id/registerUsernameTv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/usernameTv"
-        app:layout_constraintTop_toBottomOf="@id/appLogo"
-        android:layout_marginTop="50dp"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:labelFor="@+id/registerUsernameEt"
-        />
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/registerImageProfileBackground"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:background="@drawable/background_image"
+            android:scaleType="centerCrop"
+            app:riv_oval="true"/>
 
-    <EditText
-        android:id="@+id/registerUsernameEt"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/registerUsernameTv"
-        android:layout_marginTop="10dp"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:importantForAutofill="no" />
+        <TextView
+            android:id="@+id/registerImageProfileText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/add_image"
+            android:textColor="@color/secondary_text"
+            android:textSize="11sp"/>
 
-    <TextView
-        android:id="@+id/registerEmailTv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/emailTv"
-        app:layout_constraintTop_toBottomOf="@+id/registerUsernameEt"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:labelFor="@+id/registerEmailEt"
-        />
+    </FrameLayout>
 
     <EditText
-        android:id="@+id/registerEmailEt"
+        android:id="@+id/registerInputUsername"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/background_input"
+        app:layout_constraintTop_toBottomOf="@+id/registerImageProfileLayout"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:hint="@string/usernameTv"
+        android:imeOptions="actionNext"
+        android:importantForAutofill="no"
+        android:inputType="text"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:textColor="@color/primary_text"
+        android:textSize="16sp"/>
+
+    <EditText
+        android:id="@+id/registerInputEmail"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/background_input"
+        app:layout_constraintTop_toBottomOf="@+id/registerInputUsername"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:hint="@string/emailTv"
+        android:imeOptions="actionNext"
+        android:importantForAutofill="no"
         android:inputType="textEmailAddress"
-        app:layout_constraintTop_toBottomOf="@+id/registerEmailTv"
-        android:layout_marginTop="10dp"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:importantForAutofill="no" />
-
-    <TextView
-        android:id="@+id/registerPasswordTv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/passwordTv"
-        app:layout_constraintTop_toBottomOf="@+id/registerEmailEt"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:labelFor="@+id/registerPasswordEt"
-        />
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:textColor="@color/primary_text"
+        android:textSize="16sp"/>
 
     <EditText
-        android:id="@+id/registerPasswordEt"
+        android:id="@+id/registerInputPassword"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textPassword"
-        app:layout_constraintTop_toBottomOf="@+id/registerPasswordTv"
-        android:layout_marginTop="10dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/background_input"
+        app:layout_constraintTop_toBottomOf="@+id/registerInputEmail"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:importantForAutofill="no" />
+        android:hint="@string/passwordTv"
+        android:imeOptions="actionNext"
+        android:importantForAutofill="no"
+        android:inputType="textPassword"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:textColor="@color/primary_text"
+        android:textSize="16sp"/>
 
-    <Button
-        android:id="@+id/registerBtn"
+    <EditText
+        android:id="@+id/registerInputConfirmPassword"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/background_input"
+        app:layout_constraintTop_toBottomOf="@+id/registerInputPassword"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:hint="@string/confirmPasswordTv"
+        android:imeOptions="actionNext"
+        android:importantForAutofill="no"
+        android:inputType="textPassword"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:textColor="@color/primary_text"
+        android:textSize="16sp"/>
+
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="@string/registerTv"
-        app:layout_constraintTop_toBottomOf="@+id/registerPasswordEt"
+        android:animateLayoutChanges="true"
+        app:layout_constraintTop_toBottomOf="@+id/registerInputConfirmPassword"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        />
+        app:layout_constraintLeft_toLeftOf="parent">
+
+        <Button
+            android:id="@+id/registerBtn"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:text="@string/registerTv"
+            android:textColor="@color/white"
+            android:textSize="13sp"
+            android:textStyle="bold"/>
+
+        <ProgressBar
+            android:id="@+id/registerBtnProgressBar"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+            android:visibility="invisible"/>
+
+    </FrameLayout>
+
     <Button
-      android:id="@+id/goBackRegister"
-      android:layout_width="126dp"
-      android:layout_height="43dp"
-      android:text="@string/back"
-      app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintHorizontal_bias="0.0"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toTopOf="parent"
-      app:layout_constraintVertical_bias="0.997" />
+        android:id="@+id/goBackRegister"
+        android:layout_width="126dp"
+        android:layout_height="43dp"
+        android:text="@string/back"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.997" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
