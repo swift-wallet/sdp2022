@@ -70,6 +70,7 @@
     <string name="send_to">To</string>
     <string name="send_amount">Amount</string>
     <string name="send_action">Send</string>
+    <string name="send_balance0">0.00</string>
 
     <!-- NAVIGATION -->
     <string name="nav_message">Conversations</string>
