@@ -5,12 +5,12 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.intent.Intents.intended;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasAction;
-import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 import static com.adevinta.android.barista.interaction.BaristaClickInteractions.clickOn;
+import static com.adevinta.android.barista.interaction.BaristaEditTextInteractions.typeTo;
+import static com.adevinta.android.barista.interaction.BaristaEditTextInteractions.writeTo;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -22,7 +22,6 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.domain.model.wallet.cryptography.SeedGenerator;
 import com.sdp.swiftwallet.presentation.main.MainActivity;
-import com.sdp.swiftwallet.presentation.wallet.CreateSeedActivity;
 
 import org.junit.After;
 import org.junit.Before;
@@ -82,5 +81,12 @@ public class PaymentFragmentTest {
         clickOn(R.id.mainNavPaymentItem);
         clickOn(R.id.send_qr_scan);
         intended(hasAction("com.google.zxing.client.android.SCAN"));
+    }
+
+    @Test
+    public void shouldBeAbleToModifyTheAmount(){
+        clickOn(R.id.mainNavPaymentItem);
+        typeTo(R.id.send_amount, "10");
+        closeSoftKeyboard();
     }
 }
