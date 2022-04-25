@@ -87,12 +87,12 @@ public class CryptoGraphActivityTest {
         onView(withId(R.id.idInterval)).check(matches(withSpinnerText(containsString("5m"))));
     }
 
-    @Test
+    /*@Test
     public void changeIntervalShowsToastMessage(){
         onView(withId(R.id.idInterval)).perform(click());
         onData(anything()).atPosition(4).perform(click());
         onView(withText("Selected Interval: 30m")).inRoot(new ToastMatcher()).check(matches(isDisplayed()));
-    }
+    }*/
 
     @Test
     public void chartNameAndSpinnerCorrectlyDisplayed(){
