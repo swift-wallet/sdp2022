@@ -1,12 +1,15 @@
 package com.sdp.swiftwallet.common;
 
+import android.content.Context;
 import android.widget.EditText;
+import android.widget.Toast;
+
 import java.util.regex.Pattern;
 
 public class HelperFunctions {
 
-    public static final int SHORTENED_ADDRESS_LENGTH = 4;
-    public static final String SHORTENED_ADDRESS_JOINER = "...";
+  public static final int SHORTENED_ADDRESS_LENGTH = 4;
+  public static final String SHORTENED_ADDRESS_JOINER = "...";
 
   //EMAIL_PATTERN matches any string, that doesnt contains special characters nor the arobase special
   //chars
@@ -27,8 +30,7 @@ public class HelperFunctions {
    */
   public static Boolean checkEmail(String email, EditText textView) {
 
-    boolean matchPattern = Pattern.compile(EMAIL_PATTERN)
-        .matcher(email).matches();
+    boolean matchPattern = Pattern.compile(EMAIL_PATTERN).matcher(email).matches();
     if (email.isEmpty()) {
       textView.setError("Email required");
       textView.requestFocus();
@@ -45,24 +47,27 @@ public class HelperFunctions {
   /**
    * Check if an email is valid
    * @param pw password
+   * @param confirmPW confirmed password
    * @param textView Edit Text on which to take actions for regex
    * @return true if valid, false otherwise
    */
-  public static Boolean checkPassword(String pw, EditText textView) {
+  public static Boolean checkPassword(String pw, String confirmPW, EditText textView) {
 
-    boolean matchPattern = Pattern.compile(PASSWORD_PATTERN)
-        .matcher(pw).matches();
+    boolean matchPattern = Pattern.compile(PASSWORD_PATTERN).matcher(pw).matches();
     if (pw.isEmpty()) {
       textView.setError("Password required");
       textView.requestFocus();
       return false;
     } else if (!matchPattern){
       textView.setError(
-          "Check that your password contains at least one upper case, "
-          + "one lower case letter and one digit, "
-          + "and is 6 - 10 character long");
+              "Check that your password contains at least one upper case, "
+                      + "one lower case letter and one digit, "
+                      + "and is 6 - 10 character long");
       textView.requestFocus();
       return false;
+    } else if (!pw.equals(confirmPW)) {
+      textView.setError("Passwords doesn't match");
+      textView.requestFocus();
     }
     return true;
   }
@@ -77,8 +82,7 @@ public class HelperFunctions {
   public static Boolean checkUsername(String username, EditText textView) {
 
     //Pattern match username
-    boolean matchPattern = Pattern.compile(USERNAME_PATTERN)
-        .matcher(username).matches();
+    boolean matchPattern = Pattern.compile(USERNAME_PATTERN).matcher(username).matches();
     boolean isCorrect = true;
 
     if (username.isEmpty()) {
@@ -105,5 +109,9 @@ public class HelperFunctions {
     int len = fullHexAddress.length();
     return fullHexAddress.substring(0, 2 + SHORTENED_ADDRESS_LENGTH) + SHORTENED_ADDRESS_JOINER +
             fullHexAddress.substring(len - SHORTENED_ADDRESS_LENGTH, len);
+  }
+
+  public static void displayToast(Context context, String message) {
+    Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
   }
 }

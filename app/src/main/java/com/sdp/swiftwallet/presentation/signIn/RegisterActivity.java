@@ -3,35 +3,38 @@ package com.sdp.swiftwallet.presentation.signIn;
 import static com.sdp.swiftwallet.common.HelperFunctions.checkEmail;
 import static com.sdp.swiftwallet.common.HelperFunctions.checkPassword;
 import static com.sdp.swiftwallet.common.HelperFunctions.checkUsername;
+import static com.sdp.swiftwallet.common.HelperFunctions.displayToast;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.test.espresso.idling.CountingIdlingResource;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.sdp.cryptowalletapp.R;
 import com.sdp.cryptowalletapp.databinding.ActivityRegisterBinding;
+import com.sdp.swiftwallet.common.Constants;
 import com.sdp.swiftwallet.common.FirebaseUtil;
-import com.sdp.swiftwallet.domain.model.User;
+
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.inject.Inject;
+
+import dagger.hilt.android.AndroidEntryPoint;
 
 public class RegisterActivity extends AppCompatActivity {
     // Register TAG for logs
@@ -43,10 +46,8 @@ public class RegisterActivity extends AppCompatActivity {
     private String encodedImage;
 
     // Authentication and database
-    @Inject
-    FirebaseAuth mAuth;
-    @Inject
-    FirebaseFirestore db;
+    private FirebaseAuth mAuth;
+    private FirebaseFirestore db;
 
     // Used for debugging purpose
     private CountingIdlingResource mIdlingResource;
@@ -59,6 +60,9 @@ public class RegisterActivity extends AppCompatActivity {
 
         // Image is null if no image is selected
         encodedImage = null;
+
+        mAuth = FirebaseUtil.getAuth();
+        db = FirebaseUtil.getFirestore();
 
         // Init counting resource for async call in test
         mIdlingResource = new CountingIdlingResource("Register Calls");

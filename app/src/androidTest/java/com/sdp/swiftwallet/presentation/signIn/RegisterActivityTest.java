@@ -19,6 +19,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.sdp.cryptowalletapp.R;
 
 import org.junit.After;
@@ -38,7 +39,9 @@ import dagger.hilt.android.testing.HiltAndroidTest;
 public class RegisterActivityTest {
 
     @Inject
-    FirebaseAuth db;
+    FirebaseAuth mAuth;
+    @Inject
+    FirebaseFirestore db;
 
     // Add testing rules
     public ActivityScenarioRule<RegisterActivity> testRule = new ActivityScenarioRule<>(RegisterActivity.class);
@@ -73,50 +76,54 @@ public class RegisterActivityTest {
 
     @Test
     public void registerWithEmptyUsernameGetFocus() {
-        onView(withId(R.id.registerEmailEt)).perform(typeText("email.test@epfl.ch"), closeSoftKeyboard());
-        onView(withId(R.id.registerPasswordEt)).perform(typeText("Password1"), closeSoftKeyboard());
+        onView(withId(R.id.registerInputEmail)).perform(typeText("email.test@epfl.ch"), closeSoftKeyboard());
+        onView(withId(R.id.registerInputPassword)).perform(typeText("Password1"), closeSoftKeyboard());
+        onView(withId(R.id.registerInputConfirmPassword)).perform(typeText("Password1"), closeSoftKeyboard());
 
         onView(withId(R.id.registerBtn)).perform(click());
-        onView(withId(R.id.registerUsernameEt)).check(matches(hasFocus()));
+        onView(withId(R.id.registerInputUsername)).check(matches(hasFocus()));
     }
 
     @Test
     public void registerWithTooShortUsernameGetFocus() {
-        onView(withId(R.id.registerUsernameEt)).perform(typeText("a"), closeSoftKeyboard());
-        onView(withId(R.id.registerEmailEt)).perform(typeText("email.test@epfl.ch"), closeSoftKeyboard());
-        onView(withId(R.id.registerPasswordEt)).perform(typeText("Password1"), closeSoftKeyboard());
+        onView(withId(R.id.registerInputUsername)).perform(typeText("a"), closeSoftKeyboard());
+        onView(withId(R.id.registerInputEmail)).perform(typeText("email.test@epfl.ch"), closeSoftKeyboard());
+        onView(withId(R.id.registerInputPassword)).perform(typeText("Password1"), closeSoftKeyboard());
+        onView(withId(R.id.registerInputConfirmPassword)).perform(typeText("Password1"), closeSoftKeyboard());
 
         onView(withId(R.id.registerBtn)).perform(click());
-        onView(withId(R.id.registerUsernameEt)).check(matches(hasFocus()));
+        onView(withId(R.id.registerInputUsername)).check(matches(hasFocus()));
     }
 
     @Test
     public void registerWithTooLongUsernameGetFocus() {
-        onView(withId(R.id.registerUsernameEt)).perform(typeText("toolongusernametobeprocessed"), closeSoftKeyboard());
-        onView(withId(R.id.registerEmailEt)).perform(typeText("email.test@epfl.ch"), closeSoftKeyboard());
-        onView(withId(R.id.registerPasswordEt)).perform(typeText("Password1"), closeSoftKeyboard());
+        onView(withId(R.id.registerInputUsername)).perform(typeText("toolongusernametobeprocessed"), closeSoftKeyboard());
+        onView(withId(R.id.registerInputEmail)).perform(typeText("email.test@epfl.ch"), closeSoftKeyboard());
+        onView(withId(R.id.registerInputPassword)).perform(typeText("Password1"), closeSoftKeyboard());
+        onView(withId(R.id.registerInputConfirmPassword)).perform(typeText("Password1"), closeSoftKeyboard());
 
         onView(withId(R.id.registerBtn)).perform(click());
-        onView(withId(R.id.registerUsernameEt)).check(matches(hasFocus()));
+        onView(withId(R.id.registerInputUsername)).check(matches(hasFocus()));
     }
 
     @Test
     public void registerWithEmptyEmailGetFocus() {
-        onView(withId(R.id.registerUsernameEt)).perform(typeText("usernameTest"), closeSoftKeyboard());
-        onView(withId(R.id.registerPasswordEt)).perform(typeText("Password1"), closeSoftKeyboard());
+        onView(withId(R.id.registerInputUsername)).perform(typeText("usernameTest"), closeSoftKeyboard());
+        onView(withId(R.id.registerInputPassword)).perform(typeText("Password1"), closeSoftKeyboard());
+        onView(withId(R.id.registerInputPassword)).perform(typeText("Password1"), closeSoftKeyboard());
 
         onView(withId(R.id.registerBtn)).perform(click());
-        onView(withId(R.id.registerEmailEt)).check(matches(hasFocus()));
+        onView(withId(R.id.registerInputEmail)).check(matches(hasFocus()));
 
     }
 
     @Test
     public void registerWithEmptyPasswordGetFocus() {
-        onView(withId(R.id.registerUsernameEt)).perform(typeText("usernameTest"), closeSoftKeyboard());
-        onView(withId(R.id.registerEmailEt)).perform(typeText("email.test@epfl.ch"), closeSoftKeyboard());
+        onView(withId(R.id.registerInputUsername)).perform(typeText("usernameTest"), closeSoftKeyboard());
+        onView(withId(R.id.registerInputEmail)).perform(typeText("email.test@epfl.ch"), closeSoftKeyboard());
 
         onView(withId(R.id.registerBtn)).perform(click());
-        onView(withId(R.id.registerPasswordEt)).check(matches(hasFocus()));
+        onView(withId(R.id.registerInputPassword)).check(matches(hasFocus()));
     }
 
     @Test
@@ -128,9 +135,9 @@ public class RegisterActivityTest {
         deleteUser(userTestEmail, userTestPassword);
 
         // Test to create the user
-        onView(withId(R.id.registerUsernameEt)).perform(typeText(userTestUsername), closeSoftKeyboard());
-        onView(withId(R.id.registerEmailEt)).perform(typeText(userTestEmail), closeSoftKeyboard());
-        onView(withId(R.id.registerPasswordEt)).perform(typeText(userTestPassword), closeSoftKeyboard());
+        onView(withId(R.id.registerInputUsername)).perform(typeText(userTestUsername), closeSoftKeyboard());
+        onView(withId(R.id.registerInputEmail)).perform(typeText(userTestEmail), closeSoftKeyboard());
+        onView(withId(R.id.registerInputPassword)).perform(typeText(userTestPassword), closeSoftKeyboard());
 
         onView(withId(R.id.registerBtn)).perform(click());
         intended(toPackage("com.sdp.swiftwallet"));
@@ -169,9 +176,9 @@ public class RegisterActivityTest {
         createUser(userTestEmail, userTestPassword);
 
         // Test to create the user
-        onView(withId(R.id.registerUsernameEt)).perform(typeText(userTestUsername), closeSoftKeyboard());
-        onView(withId(R.id.registerEmailEt)).perform(typeText(userTestEmail), closeSoftKeyboard());
-        onView(withId(R.id.registerPasswordEt)).perform(typeText(userTestPassword), closeSoftKeyboard());
+        onView(withId(R.id.registerInputUsername)).perform(typeText(userTestUsername), closeSoftKeyboard());
+        onView(withId(R.id.registerInputEmail)).perform(typeText(userTestEmail), closeSoftKeyboard());
+        onView(withId(R.id.registerInputPassword)).perform(typeText(userTestPassword), closeSoftKeyboard());
 
         onView(withId(R.id.registerBtn)).perform(click());
         onView(withId(R.id.registerBtn)).check(matches(isDisplayed()));
@@ -180,39 +187,39 @@ public class RegisterActivityTest {
     // Used by registerUserFailsCorrectly test
     private void createUser(String userTestEmail, String userTestPassword) {
         mIdlingResource.increment();
-        db.createUserWithEmailAndPassword(userTestEmail, userTestPassword)
+        mAuth.createUserWithEmailAndPassword(userTestEmail, userTestPassword)
                 .addOnCompleteListener(task -> mIdlingResource.decrement());
     }
 
     @Test
     public void registerWithWrongEmailGetFocus() {
-        onView(withId(R.id.registerUsernameEt)).perform(typeText("usernameTest"), closeSoftKeyboard());
-        onView(withId(R.id.registerPasswordEt)).perform(typeText("password.t"), closeSoftKeyboard());
-        onView(withId(R.id.registerEmailEt)).perform(typeText("michel"), closeSoftKeyboard());
+        onView(withId(R.id.registerInputUsername)).perform(typeText("usernameTest"), closeSoftKeyboard());
+        onView(withId(R.id.registerInputPassword)).perform(typeText("password.t"), closeSoftKeyboard());
+        onView(withId(R.id.registerInputEmail)).perform(typeText("michel"), closeSoftKeyboard());
 
         onView(withId(R.id.registerBtn)).perform(click());
-        onView(withId(R.id.registerEmailEt)).check(matches(hasFocus()));
+        onView(withId(R.id.registerInputEmail)).check(matches(hasFocus()));
     }
 
     @Test
     public void registerWithWrongPasswordGetFocus() {
-        onView(withId(R.id.registerUsernameEt)).perform(typeText("usernameTest"), closeSoftKeyboard());
-        onView(withId(R.id.registerPasswordEt)).perform(typeText("url"), closeSoftKeyboard());
-        onView(withId(R.id.registerEmailEt)).perform(typeText("michel@gmail.com"), closeSoftKeyboard());
+        onView(withId(R.id.registerInputUsername)).perform(typeText("usernameTest"), closeSoftKeyboard());
+        onView(withId(R.id.registerInputPassword)).perform(typeText("url"), closeSoftKeyboard());
+        onView(withId(R.id.registerInputEmail)).perform(typeText("michel@gmail.com"), closeSoftKeyboard());
 
         onView(withId(R.id.registerBtn)).perform(click());
-        onView(withId(R.id.registerPasswordEt)).check(matches(hasFocus()));
+        onView(withId(R.id.registerInputPassword)).check(matches(hasFocus()));
 
     }
 
     @Test
     public void registerWithWrongUsernameGetFocus() {
-        onView(withId(R.id.registerUsernameEt)).perform(typeText("*"), closeSoftKeyboard());
-        onView(withId(R.id.registerPasswordEt)).perform(typeText("Aliska74!"), closeSoftKeyboard());
-        onView(withId(R.id.registerEmailEt)).perform(typeText("michel@gmail.com"), closeSoftKeyboard());
+        onView(withId(R.id.registerInputUsername)).perform(typeText("*"), closeSoftKeyboard());
+        onView(withId(R.id.registerInputPassword)).perform(typeText("Aliska74!"), closeSoftKeyboard());
+        onView(withId(R.id.registerInputEmail)).perform(typeText("michel@gmail.com"), closeSoftKeyboard());
 
         onView(withId(R.id.registerBtn)).perform(click());
-        onView(withId(R.id.registerUsernameEt)).check(matches(hasFocus()));
+        onView(withId(R.id.registerInputUsername)).check(matches(hasFocus()));
     }
 
     @Test
