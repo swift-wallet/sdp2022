@@ -82,18 +82,15 @@ public class ForgotPasswordActivity extends AppCompatActivity {
           Log.d(RESET_PASSWORD_TAG, "Password successfully sent on \n" + email);
           Toast.makeText(this, "Password successfully sent on \n" + email, Toast.LENGTH_SHORT)
               .show();
-
           // Start again login activity if successful
           Intent nextIntent = new Intent(this, LoginActivity.class);
           mIdlingResource.decrement();
           startActivity(nextIntent);
         }).addOnFailureListener( a -> {
-
-      Log.d(RESET_PASSWORD_TAG, "Something went wrong, please enter a valid email \n"+email);
-      Toast.makeText(this, "Reset error, please correct your email! \n"+email, Toast.LENGTH_SHORT).show();
-
-      mIdlingResource.decrement();
-    });
+        Log.d(RESET_PASSWORD_TAG, "Something went wrong, please enter a valid email \n"+email);
+        Toast.makeText(this, "Reset error, please correct your email! \n"+email, Toast.LENGTH_SHORT).show();
+        mIdlingResource.decrement();
+      });
   }
 
   /**
