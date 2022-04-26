@@ -105,6 +105,7 @@ public class CryptoGraphActivityTest {
     public void changeIntervalShowsToastMessage(){
         onView(withId(R.id.idInterval)).perform(click());
         THIS TEST ISNT WORKING AND NEEDS CLASS BELOW
+        DO NOT DELETE THEM
         onData(anything()).atPosition(4).perform(click());
         onView(withText("Selected Interval: 1m")).inRoot(new ToastMatcher()).check(matches(isDisplayed()));
     }*/

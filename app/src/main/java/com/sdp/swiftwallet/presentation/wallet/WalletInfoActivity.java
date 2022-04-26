@@ -11,6 +11,9 @@ import com.google.zxing.WriterException;
 import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.domain.model.QRCodeGenerator;
 
+/**
+ * The activity to show information about a specific wallet
+ */
 public class WalletInfoActivity extends AppCompatActivity {
     public static final String ADDRESS_EXTRA = "ADDRESS";
     public static final String BALANCE_EXTRA = "BALANCE";
