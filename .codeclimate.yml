@@ -16,3 +16,6 @@ exclude_patterns:
 - "**/test/"
 - "**/androidTest/"
 - "**test"
+- "**/main/java/com/sdp/swiftwallet/di/"
+- "**/main/java/com/sdp/swiftwallet/domain/model/CurrencyBank.java"
+- "**/main/java/com/sdp/swiftwallet/domain/model/RequestQueueCurrencyPriceChecker.java"
