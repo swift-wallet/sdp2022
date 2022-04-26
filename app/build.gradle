@@ -39,6 +39,8 @@ android {
 }
 
 dependencies {
+    implementation 'com.github.PhilJay:MPAndroidChart-Realm:v3.0.3@aar'
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
     implementation 'androidx.test.espresso:espresso-idling-resource:3.4.0'
     def fragment_version = "1.4.1"
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
@@ -96,6 +98,8 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'crea
         html.enabled = true
     }
 
+    def mainSrc = "$project.projectDir/src/main/java"
+
     def fileFilter = [
         // data binding
         '**/databinding/*',
@@ -115,10 +119,20 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'crea
         '**/*Hilt*.*',
         'hilt_aggregated_deps/**',
         '**/*_Factory.class',
-        '**/*_MembersInjector.class'
+        '**/*_MembersInjector.class',
+        // di modules
+       'com/sdp/swiftwallet/di/*',
+        // di interfaces
+        'com/sdp/swiftwallet/domain/model/CurrencyBank*',
+        'com/sdp/swiftwallet/domain/repository/SwiftAuthenticator*',
+        'com/sdp/swiftwallet/domain/repository/TransactionHistoryProducer*',
+        'com/sdp/swiftwallet/domain/repository/TransactionHistorySubscriber*',
+        //di implementations
+        'com/sdp/swiftwallet/domain/model/RequestQueueCurrencyPriceChecker*',
+        'com/sdp/swiftwallet/domain/repository/AuthenticatorFirebaseImpl*',
+        'com/sdp/swiftwallet/domain/repository/FirebaseTransactionHistoryProducer*'
     ]
     def debugTree = fileTree(dir: "$project.buildDir/intermediates/javac/debug/classes", excludes: fileFilter)
-    def mainSrc = "$project.projectDir/src/main/java"
 
     sourceDirectories.setFrom(files([mainSrc]))
     classDirectories.setFrom(files([debugTree]))

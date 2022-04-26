@@ -1,9 +1,12 @@
 package com.sdp.swiftwallet;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.test.espresso.idling.CountingIdlingResource;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Adapter;
@@ -17,6 +20,14 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
+import com.github.mikephil.charting.charts.CandleStickChart;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.CandleData;
+import com.github.mikephil.charting.data.CandleDataSet;
+import com.github.mikephil.charting.data.CandleEntry;
+import com.github.mikephil.charting.utils.ColorTemplate;
 import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.domain.model.Currency;
 
@@ -25,6 +36,7 @@ import org.json.JSONArray;
 import java.util.ArrayList;
 
 public class CryptoGraphActivity extends AppCompatActivity {
+    private final int NB_CANDLES_TO_SHOW = 10;
     private Spinner intervalSpinner;
     private ArrayList<String> intervalsText;
     private ArrayList<String> intervalsForRequest;
@@ -38,6 +50,7 @@ public class CryptoGraphActivity extends AppCompatActivity {
     private final ArrayList<Double> closeValues = new ArrayList<>();
     private final ArrayList<Double> volumeValues = new ArrayList<>();
     private final ArrayList<Long> closeTimes = new ArrayList<>();
+    private CandleStickChart candleStickChart;
 
     private CountingIdlingResource mIdlingResource;
 
@@ -50,27 +63,82 @@ public class CryptoGraphActivity extends AppCompatActivity {
         // Get the Intent that started this activity and extract the currency
         Intent intent = getIntent();
         currency = (Currency) intent.getSerializableExtra("currency");
-        //rateSymbol = currency.getSymbol()+"USDT";
-        rateSymbol = "ETH"+"USDT";
+        if(currency == null) currency = new Currency("Ethereum", "ETH", 2000);
+        else rateSymbol = currency.getSymbol()+"USDT";
         interval = "1h";
 
         // Get the data from Binance API
         mIdlingResource = new CountingIdlingResource("CryptoValue Calls");
+        setIntervalsSpinner();
         mIdlingResource.increment();
-        getData();
+        candleStickChart = getData();
+        mIdlingResource.decrement();
 
 
         // Capture the layout's TextView and set the string as its text
         TextView textView = findViewById(R.id.idCurrencyToShowName);
-        //textView.setText(closeTimes.size());
-        textView.setText("Ethereum");
+        textView.setText(currency.getName());
 
-        //textView.setText("LAST CLOSING TIME : "+closeTimes.get(closeTimes.size()-1) + " LAST CLOSING VALUE : "+closeValues.get(closeValues.size()-1));
     }
 
-    private void getData(){
-        String url = "https://api.binance.com/api/v1/klines?symbol=ETHUSDT&interval=1h";
+    private CandleStickChart createCandleStickChart(){
+        CandleStickChart candleStickChart = findViewById(R.id.candle_stick_chart);
+        candleStickChart.setHighlightPerDragEnabled(true);
 
+        //CHECK FALSE
+        candleStickChart.setDrawBorders(true);
+
+        candleStickChart.setBorderColor(Color.LTGRAY);
+
+        YAxis yAxis = candleStickChart.getAxisLeft();
+        YAxis rightAxis = candleStickChart.getAxisRight();
+        yAxis.setDrawGridLines(false);
+        rightAxis.setDrawGridLines(false);
+        candleStickChart.requestDisallowInterceptTouchEvent(true);
+
+        XAxis xAxis = candleStickChart.getXAxis();
+        xAxis.setDrawGridLines(false);
+        xAxis.setDrawLabels(true);
+        rightAxis.setTextColor(Color.BLACK);
+        yAxis.setDrawLabels(false);
+        xAxis.setGranularity(1f);
+        xAxis.setGranularityEnabled(true);
+        xAxis.setAvoidFirstLastClipping(true);
+
+        Legend legend = candleStickChart.getLegend();
+        legend.setEnabled(false);
+
+        return candleStickChart;
+    }
+
+    private CandleData createDataSetForCandleGraph(ArrayList<Long> openTimes, ArrayList<Double> openValues, ArrayList<Double> highValues, ArrayList<Double> lowValues,
+                                                      ArrayList<Double> closeValues, ArrayList<Double> volumeValues, ArrayList<Long> closeTimes){
+
+        ArrayList<CandleEntry> candleSticks = new ArrayList<CandleEntry>();
+
+        for(int i = openTimes.size()-2-NB_CANDLES_TO_SHOW; i<openTimes.size();i++){
+            candleSticks.add(new CandleEntry(openTimes.get(i).floatValue(), highValues.get(i).floatValue(), lowValues.get(i).floatValue(), openValues.get(i).floatValue(), closeValues.get(i).floatValue()));
+        }
+
+        CandleDataSet candleDataSet = new CandleDataSet(candleSticks, "Data");
+        candleDataSet.setColor(Color.rgb(200, 0, 80));
+        candleDataSet.setShadowColor(Color.LTGRAY);
+        candleDataSet.setDecreasingColor(Color.RED);
+        candleDataSet.setDecreasingPaintStyle(Paint.Style.FILL);
+        candleDataSet.setIncreasingColor(Color.GREEN);
+        candleDataSet.setIncreasingPaintStyle(Paint.Style.FILL);
+        candleDataSet.setNeutralColor(Color.LTGRAY);
+        candleDataSet.setDrawValues(false);
+
+        CandleData candleData = new CandleData(candleDataSet);
+
+        return candleData;
+    }
+
+    private CandleStickChart getData(){
+        String url = "https://api.binance.com/api/v1/klines?symbol="+rateSymbol+"&interval="+interval;
+        //Create CandleStickChart
+        CandleStickChart candleStickChart = createCandleStickChart();
         RequestQueue requestQueue = Volley.newRequestQueue(this);
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null,response -> {
@@ -85,7 +153,12 @@ public class CryptoGraphActivity extends AppCompatActivity {
                     volumeValues.add(Double.parseDouble((String)array.get(5)));
                     closeTimes.add((Long)array.get(6));
                 }
-                mIdlingResource.decrement();
+
+                //get data as CandleData
+                CandleData candleData = createDataSetForCandleGraph(openTimes, openValues, highValues, lowValues, closeValues, volumeValues, closeTimes);
+                //setData
+                candleStickChart.setData(candleData);
+                candleStickChart.invalidate();
             } catch(Exception e){
                 e.printStackTrace();
                 Toast.makeText(CryptoGraphActivity.this, "Couldn't extract JSON data... Please try again later.", Toast.LENGTH_SHORT).show();
@@ -95,14 +168,13 @@ public class CryptoGraphActivity extends AppCompatActivity {
         });
 
         requestQueue.add(jsonArrayRequest);
+
+        return candleStickChart;
     }
 
     private void setIntervalsSpinner(){
         this.intervalSpinner = findViewById(R.id.idInterval);
-        this.intervalsText = Interval.getTextToShowUser();
-        this.intervalsForRequest = Interval.getIntervalForRequest();
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, intervalsText);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.intervals_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         this.intervalSpinner.setAdapter(adapter);
 
@@ -110,6 +182,9 @@ public class CryptoGraphActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 onItemSelectedHandler(adapterView, view, i, l);
+                interval = (String)adapterView.getItemAtPosition(i);
+
+                candleStickChart = getData();
             }
 
             @Override
