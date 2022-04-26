@@ -1,20 +1,15 @@
 package com.sdp.swiftwallet.presentation.signIn;
 
-import static com.sdp.swiftwallet.common.HelperFunctions.*;
+import static com.sdp.swiftwallet.common.HelperFunctions.checkEmail;
 
-
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.test.espresso.idling.CountingIdlingResource;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.common.FirebaseUtil;
@@ -54,10 +49,11 @@ public class ForgotPasswordActivity extends AppCompatActivity {
     Button sendLink = findViewById(R.id.sendReset);
     sendLink.setOnClickListener(v -> checkAndSend(emailView.getText().toString().trim()));
 
-    Button goBack = findViewById(R.id.goBackForgotPW);
-    goBack.setOnClickListener(v -> startActivity(new Intent(ForgotPasswordActivity.this, LoginActivity.class)));
+    Button goBack = findViewById(R.id.goBackForgotPw);
+    goBack.setOnClickListener(v -> startActivity(new Intent(ForgotPasswordActivity.this,
+        LoginActivity.class)));
 
-    //Hardcoded, to be changed
+    // Hardcoded, to be changed
     mAuth.setLanguageCode(COUNTRY);
     mAuth.setLanguageCode(COUNTRY_CODE);
   }
@@ -80,19 +76,21 @@ public class ForgotPasswordActivity extends AppCompatActivity {
    */
   public void sendPasswordResetEmail(String email){
     Log.d(RESET_PASSWORD_TAG, "Trying to send a confirmation email");
+
     mAuth.sendPasswordResetEmail(email)
         .addOnSuccessListener( a -> {
-          Log.d(RESET_PASSWORD_TAG, "Password successfully sent on \n"+email);
-          Toast.makeText(this, "Password successfully sent on \n"+email, Toast.LENGTH_SHORT).show();
-          //Start again login activity if successful
+          Log.d(RESET_PASSWORD_TAG, "Password successfully sent on \n" + email);
+          Toast.makeText(this, "Password successfully sent on \n" + email, Toast.LENGTH_SHORT)
+              .show();
+          // Start again login activity if successful
           Intent nextIntent = new Intent(this, LoginActivity.class);
           mIdlingResource.decrement();
           startActivity(nextIntent);
         }).addOnFailureListener( a -> {
-      Log.d(RESET_PASSWORD_TAG, "Something went wrong, please enter a valid email \n"+email);
-      Toast.makeText(this, "Reset error, please correct your email! \n"+email, Toast.LENGTH_SHORT).show();
-      mIdlingResource.decrement();
-    });
+        Log.d(RESET_PASSWORD_TAG, "Something went wrong, please enter a valid email \n"+email);
+        Toast.makeText(this, "Reset error, please correct your email! \n"+email, Toast.LENGTH_SHORT).show();
+        mIdlingResource.decrement();
+      });
   }
 
   /**

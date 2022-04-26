@@ -19,18 +19,15 @@ import androidx.test.espresso.idling.CountingIdlingResource;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
-
 import com.sdp.cryptowalletapp.R;
-
+import dagger.hilt.android.testing.HiltAndroidRule;
+import dagger.hilt.android.testing.HiltAndroidTest;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.RuleChain;
 import org.junit.runner.RunWith;
-
-import dagger.hilt.android.testing.HiltAndroidRule;
-import dagger.hilt.android.testing.HiltAndroidTest;
 
 @HiltAndroidTest
 @RunWith(AndroidJUnit4.class)
@@ -77,7 +74,7 @@ public class ForgotPwActivityTest {
     onView(withId(R.id.emailField)).check(matches(isDisplayed()));
     onView(withId(R.id.enterYourEmail)).check(matches(isDisplayed()));
     onView(withId(R.id.sendReset)).check(matches(isDisplayed()));
-    onView(withId((R.id.goBackForgotPW))).check(matches(isDisplayed()));
+    onView(withId((R.id.goBackForgotPw))).check(matches(isDisplayed()));
     onView(withId((R.id.appLogo))).check(matches(isDisplayed()));
   }
 
@@ -110,7 +107,7 @@ public class ForgotPwActivityTest {
 
   @Test
   public void backButtonFiresIntent(){
-    onView(withId(R.id.goBackForgotPW)).perform(click());
+    onView(withId(R.id.goBackForgotPw)).perform(click());
 
     intended(allOf(
             toPackage("com.sdp.swiftwallet"),

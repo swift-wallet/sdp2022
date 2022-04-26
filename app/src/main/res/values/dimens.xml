@@ -23,4 +23,10 @@
     
     <!-- CONTACTS -->
     <dimen name="_35sdp">35dp</dimen>
+
+    <!-- UI_DIMENSION -->
+    <dimen name="dim_title">35sp</dimen>
+    <dimen name="big_size_text">20sp</dimen>
+
+
 </resources>

@@ -5,8 +5,8 @@ import java.util.regex.Pattern;
 
 public class HelperFunctions {
 
-    public static final int SHORTENED_ADDRESS_LENGTH = 4;
-    public static final String SHORTENED_ADDRESS_JOINER = "...";
+  public static final int SHORTENED_ADDRESS_LENGTH = 4;
+  public static final String SHORTENED_ADDRESS_JOINER = "...";
 
   //EMAIL_PATTERN matches any string, that doesnt contains special characters nor the arobase special
   //chars
@@ -21,7 +21,8 @@ public class HelperFunctions {
 
   /**
    * Check if an email is valid
-   * @param email some email
+   *
+   * @param email    some email
    * @param textView Edit Text on which to take actions for regex
    * @return true if valid, false otherwise
    */
@@ -33,7 +34,7 @@ public class HelperFunctions {
       textView.setError("Email required");
       textView.requestFocus();
       return false;
-    } else if (!matchPattern){
+    } else if (!matchPattern) {
       textView.setError("Your email should not use special characters and use '@' in it");
       textView.requestFocus();
       return false;
@@ -44,6 +45,7 @@ public class HelperFunctions {
 
   /**
    * Check if an email is valid
+   *
    * @param pw password
    * @param textView Edit Text on which to take actions for regex
    * @return true if valid, false otherwise
@@ -56,11 +58,11 @@ public class HelperFunctions {
       textView.setError("Password required");
       textView.requestFocus();
       return false;
-    } else if (!matchPattern){
+    } else if (!matchPattern) {
       textView.setError(
           "Check that your password contains at least one upper case, "
-          + "one lower case letter and one digit, "
-          + "and is 6 - 10 character long");
+              + "one lower case letter and one digit, "
+              + "and is 6 - 10 character long");
       textView.requestFocus();
       return false;
     }
@@ -70,6 +72,7 @@ public class HelperFunctions {
 
   /**
    * Check if an email is valid
+   *
    * @param username some email
    * @param textView Edit Text on which to take actions for regex
    * @return true if valid, false otherwise
@@ -96,14 +99,14 @@ public class HelperFunctions {
     } else if (!matchPattern) {
       textView.setError("Username should use conventional naming and have more than 3 characters");
       textView.requestFocus();
-      isCorrect =false;
+      isCorrect = false;
     }
     return isCorrect;
   }
 
-  public static String toShortenedFormatAddress(String fullHexAddress){
+  public static String toShortenedFormatAddress(String fullHexAddress) {
     int len = fullHexAddress.length();
     return fullHexAddress.substring(0, 2 + SHORTENED_ADDRESS_LENGTH) + SHORTENED_ADDRESS_JOINER +
-            fullHexAddress.substring(len - SHORTENED_ADDRESS_LENGTH, len);
+        fullHexAddress.substring(len - SHORTENED_ADDRESS_LENGTH, len);
   }
 }

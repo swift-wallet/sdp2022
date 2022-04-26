@@ -2,7 +2,7 @@
     <string name="app_name">Swift Wallet</string>
     <string name="webclient_id">300434541324-4enk0efv10ktjhglqniasj135qjoht2p.apps.googleusercontent.com</string>
     <string name="name">Name</string>
-    <string name="logged_in_as">You\'re Logged In as</string>
+    <string name="logged_in_as">Welcome :</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
     <string name="welcome">"Welcome !"</string>
@@ -92,11 +92,11 @@
     <string name="send_balance0">0.00</string>
 
     <!-- NAVIGATION -->
-    <string name="nav_message">Conversations</string>
-    <string name="nav_profile">Profile</string>
-    <string name="nav_wallets">Wallets</string>
-    <string name="nav_stats">Stats</string>
-    <string name="nav_send">Send</string>
+    <string name="nav_message">CONVERSATIONS</string>
+    <string name="nav_profile">PROFILE</string>
+    <string name="nav_wallets">WALLETS</string>
+    <string name="nav_stats">STATS</string>
+    <string name="nav_send">SEND</string>
 
     <string name="title_activity_crypto_graph">CryptoGraphActivity</string>
     <string name="contacts">Contacts</string>

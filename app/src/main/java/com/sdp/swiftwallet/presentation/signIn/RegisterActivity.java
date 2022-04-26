@@ -3,6 +3,7 @@ package com.sdp.swiftwallet.presentation.signIn;
 import static com.sdp.swiftwallet.common.HelperFunctions.checkEmail;
 import static com.sdp.swiftwallet.common.HelperFunctions.checkPassword;
 import static com.sdp.swiftwallet.common.HelperFunctions.checkUsername;
+import static com.sdp.swiftwallet.domain.repository.SwiftAuthenticator.LoginMethod.BASIC;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -36,7 +37,7 @@ public class RegisterActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     private EditText registerUsernameEt, registerEmailEt, registerPasswordEt;
 
-    // Used for debugging purpose
+    // Used for debugging purpose and testing
     private CountingIdlingResource mIdlingResource;
 
     @Override
@@ -69,7 +70,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     /**
-     * Check for registration infos validity and create user on client auth
+     * Check for registration info validity and create user on client auth
      */
     private void registerUser() {
         String username = registerUsernameEt.getText().toString().trim();
@@ -99,7 +100,7 @@ public class RegisterActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            User user = new User(username, email, "BASIC");
+                            User user = new User(username, BASIC);
                             Log.d(EMAIL_REGISTER_TAG, "onComplete: User created for Auth");
                             // If user successfuly created the account,
                             // Increment before adding to db and decrement because user is created
