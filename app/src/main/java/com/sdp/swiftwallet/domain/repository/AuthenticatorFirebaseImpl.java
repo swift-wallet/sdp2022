@@ -1,23 +1,21 @@
 package com.sdp.swiftwallet.domain.repository;
 
-import android.content.ContentProvider;
+import static com.sdp.swiftwallet.domain.repository.SwiftAuthenticator.LoginMethod.BASIC;
+
 import android.content.Context;
 import android.util.Log;
-
 import com.google.firebase.auth.FirebaseAuth;
-import com.sdp.swiftwallet.SwiftWalletApp;
+import com.google.firebase.auth.FirebaseUser;
 import com.sdp.swiftwallet.domain.model.User;
-
-import java.util.Optional;
-
 import dagger.hilt.EntryPoint;
 import dagger.hilt.InstallIn;
 import dagger.hilt.android.EntryPointAccessors;
 import dagger.hilt.android.qualifiers.ApplicationContext;
 import dagger.hilt.components.SingletonComponent;
+import java.util.Optional;
 
 /**
- * SwiftAuthenticator implementation using FirebaseAuth
+ * SwiftAuthenticator implementation using FirebaseAuth, needed for Hilt
  */
 public class AuthenticatorFirebaseImpl implements SwiftAuthenticator {
 
@@ -61,7 +59,12 @@ public class AuthenticatorFirebaseImpl implements SwiftAuthenticator {
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         Log.d(LOG_TAG, "Login successful for email: " + email);
-                        // TODO init user object here
+
+                        // Initialize user upon successful login
+                        FirebaseUser u = auth.getCurrentUser();
+                        this.currUser = new User(u.getEmail(), BASIC);
+                        ;
+
                         success.run();
                     } else {
                         Log.w(LOG_TAG, "Error from task", task.getException());
@@ -80,4 +83,6 @@ public class AuthenticatorFirebaseImpl implements SwiftAuthenticator {
             return Optional.of(currUser);
         }
     }
+
+
 }

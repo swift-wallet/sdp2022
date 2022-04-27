@@ -1,4 +1,4 @@
-package com.sdp.swiftwallet.uiTest;
+package com.sdp.swiftwallet.UiTest;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -53,7 +53,6 @@ public class TransactionActivityTest {
             return producer;
         }
     }
-
 
     private final static Currency CURR_1 = new Currency("DumbCoin", "DUM", 5);
     private final static Currency CURR_2 = new Currency("BitCoin", "BTC", 3);

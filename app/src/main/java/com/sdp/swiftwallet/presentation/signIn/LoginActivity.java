@@ -7,20 +7,14 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.test.espresso.idling.CountingIdlingResource;
-
 import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.domain.repository.SwiftAuthenticator;
 import com.sdp.swiftwallet.presentation.main.MainActivity;
-
-import java.util.Locale;
-
-import javax.inject.Inject;
-
 import dagger.hilt.android.AndroidEntryPoint;
+import java.util.Locale;
+import javax.inject.Inject;
 
 /**
  * Login Activity
@@ -92,8 +86,7 @@ public class LoginActivity extends AppCompatActivity {
         String password = passwordEditText.getText().toString().trim();
 
         SwiftAuthenticator.Result authRes = authenticator.signIn(
-                email, password, () -> nextActivity(), () -> checkAttempts()
-        );
+            email, password, () -> nextActivity(), () -> checkAttempts());
 
         if (authRes != SwiftAuthenticator.Result.SUCCESS) {
             handleError(authRes);

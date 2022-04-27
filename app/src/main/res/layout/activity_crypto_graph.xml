@@ -6,17 +6,25 @@
     android:layout_height="match_parent"
     tools:context="com.sdp.swiftwallet.CryptoGraphActivity">
 
+    <com.github.mikephil.charting.charts.CandleStickChart
+        android:id="@+id/candle_stick_chart"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginEnd="4dp"
+        />
+
     <TextView
         android:id="@+id/idCurrencyToShowName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="17dp"
-        android:layout_marginTop="160dp"
+        android:layout_marginTop="400dp"
         android:layout_marginEnd="17dp"
         android:layout_marginBottom="16dp"
         android:minHeight="20dp"
-        android:textColor="@color/black"
         android:text="TextView222"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
