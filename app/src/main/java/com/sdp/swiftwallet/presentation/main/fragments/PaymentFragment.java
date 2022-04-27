@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.Spinner;
@@ -21,6 +22,11 @@ import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.data.repository.Web3Requests;
 import com.sdp.swiftwallet.di.WalletProvider;
 import com.sdp.swiftwallet.domain.model.QRCodeScanner;
+import com.sdp.swiftwallet.domain.model.wallet.IWalletKeyPair;
+import com.sdp.swiftwallet.domain.model.wallet.WalletKeyPair;
+import com.sdp.swiftwallet.domain.model.wallet.Wallets;
+
+import java.util.HashMap;
 
 import javax.inject.Inject;
 
@@ -38,26 +44,45 @@ public class PaymentFragment extends Fragment {
     private EditText sendAmount;
     private SeekBar seekBar;
 
+    private Button sendButton;
+
     private boolean isSeeking = false;
 
     private final OnFromAddressSelected onFromAddressSelected = new OnFromAddressSelected();
     QRCodeScanner qrCodeScanner = new QRCodeScanner(this::setToSelectedAddress, this);
+
     private Web3Requests web3Requests;
 
     @Inject
     public WalletProvider walletProvider;
 
     private String[] addresses;
+    private HashMap<String, IWalletKeyPair> addressToKeyPair;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // Checking if a wallets object exist, if yes import the addresses
         if(walletProvider.hasWallets()){
-            addresses = walletProvider.getWallets().getAddresses();
+            recoverAddresses();
+        }else{
+            addresses = new String[]{};
         }
         arrayAdapter = new ArrayAdapter<String>(requireActivity(), androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, addresses);
         web3Requests = new Web3Requests();
+    }
+
+    /**
+     * Initializing the string array for the UI and a mapping between each addresses
+     * and their WalletKeyPair object
+     */
+    private void recoverAddresses(){
+        Wallets wallets = walletProvider.getWallets();
+        addresses = wallets.getAddresses();
+        int len = addresses.length;
+        for (int i=0; i<len ; i++) {
+            addressToKeyPair.put(addresses[i], wallets.getWalletFromId(i));
+        }
     }
 
     @Override
@@ -73,6 +98,9 @@ public class PaymentFragment extends Fragment {
         fromAddress = view.findViewById(R.id.send_from_address);
         fromBalance = view.findViewById(R.id.send_from_balance);
         toAddress = view.findViewById(R.id.send_to_address);
+        // Send button listener
+        sendButton = view.findViewById(R.id.send_button);
+        sendButton.setOnClickListener(this::send);
 
         // Seek bar and send amount
         sendAmount = view.findViewById(R.id.send_amount);
@@ -90,9 +118,24 @@ public class PaymentFragment extends Fragment {
         view.findViewById(R.id.send_qr_scan).setOnClickListener(v -> qrCodeScanner.launch());
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(walletProvider.hasWallets()){
+            recoverAddresses();
+        }
+    }
+
     private void setToSelectedAddress(String to){
         toAddress.setText(to);
     }
+
+    private void send(View v) {
+        IWalletKeyPair from = addressToKeyPair.get(fromAddress.getText().toString());
+        String to = toAddress.getText().toString();
+        float amount = Float.parseFloat(sendAmount.getText().toString());
+    }
+
 
     /**
      * Those private classes are implementation needed for some view listeners of this fragment

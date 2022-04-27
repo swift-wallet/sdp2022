@@ -216,6 +216,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="@string/send_action"
+            android:id="@+id/send_button"
             android:layout_margin="@dimen/info_box_margin">
         </Button>
     </LinearLayout>

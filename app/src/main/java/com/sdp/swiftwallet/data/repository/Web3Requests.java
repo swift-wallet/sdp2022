@@ -1,13 +1,15 @@
 package com.sdp.swiftwallet.data.repository;
 
+import com.sdp.swiftwallet.domain.model.wallet.WalletKeyPair;
 import com.sdp.swiftwallet.domain.repository.IWeb3Requests;
+import com.sdp.swiftwallet.domain.repository.Web3ResponseType;
 
+import org.web3j.crypto.ECKeyPair;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.DefaultBlockParameterName;
 import org.web3j.protocol.core.methods.response.EthGetBalance;
 import org.web3j.protocol.http.HttpService;
 
-import java.io.IOException;
 import java.math.BigInteger;
 import java.util.concurrent.CompletableFuture;
 
@@ -25,4 +27,10 @@ public class Web3Requests implements IWeb3Requests {
                 .sendAsync()
                 .thenApply(EthGetBalance::getBalance);
     }
+
+    @Override
+    public CompletableFuture<Web3ResponseType> sendTransaction(ECKeyPair fromKeyPair, BigInteger addressTo, BigInteger value) {
+        return null;
+    }
+
 }
