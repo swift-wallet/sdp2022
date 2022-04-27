@@ -9,17 +9,21 @@ import com.sdp.swiftwallet.domain.model.wallet.cryptography.SeedGenerator;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import javax.inject.Inject;
+
 public class Wallets implements IWallets {
 
     private final ArrayList<WalletKeyPair> keyPairs;
     private final KeyPairGenerator keyPairGenerator;
-    private final Web3Requests web3Requests;
+
+    @Inject
+    public Web3Requests web3Requests;
+
     private int counter = 0;
 
     public Wallets(String[] seed){
         long longSeed = SeedGenerator.stringSeedToLong(seed);
         keyPairGenerator = new KeyPairGenerator(longSeed);
-        web3Requests = new Web3Requests();
         keyPairs = new ArrayList<>();
     }
 

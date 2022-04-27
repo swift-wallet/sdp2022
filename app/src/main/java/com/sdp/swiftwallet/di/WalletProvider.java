@@ -1,6 +1,5 @@
 package com.sdp.swiftwallet.di;
 
-import android.app.Application;
 import android.content.Context;
 
 import com.sdp.swiftwallet.domain.model.wallet.Wallets;

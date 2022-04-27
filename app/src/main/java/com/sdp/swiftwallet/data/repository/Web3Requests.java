@@ -1,10 +1,8 @@
 package com.sdp.swiftwallet.data.repository;
 
-import com.sdp.swiftwallet.domain.model.wallet.WalletKeyPair;
 import com.sdp.swiftwallet.domain.repository.IWeb3Requests;
 import com.sdp.swiftwallet.domain.repository.Web3ResponseType;
 
-import org.web3j.crypto.ECKeyPair;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.DefaultBlockParameterName;
 import org.web3j.protocol.core.methods.response.EthGetBalance;
@@ -29,8 +27,22 @@ public class Web3Requests implements IWeb3Requests {
     }
 
     @Override
-    public CompletableFuture<Web3ResponseType> sendTransaction(ECKeyPair fromKeyPair, BigInteger addressTo, BigInteger value) {
+    public CompletableFuture<Web3ResponseType> sendTransaction(String hexValue) {
         return null;
     }
 
+    @Override
+    public CompletableFuture<BigInteger> getChainGasPrice() {
+        return null;
+    }
+
+    @Override
+    public CompletableFuture<BigInteger> getChainGasLimit() {
+        return null;
+    }
+
+    @Override
+    public CompletableFuture<BigInteger> getAccountNonce(String hexAddress) {
+        return null;
+    }
 }

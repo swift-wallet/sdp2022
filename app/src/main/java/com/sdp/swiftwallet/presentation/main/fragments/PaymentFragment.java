@@ -23,10 +23,15 @@ import com.sdp.swiftwallet.data.repository.Web3Requests;
 import com.sdp.swiftwallet.di.WalletProvider;
 import com.sdp.swiftwallet.domain.model.QRCodeScanner;
 import com.sdp.swiftwallet.domain.model.wallet.IWalletKeyPair;
+import com.sdp.swiftwallet.domain.model.wallet.TransactionCreator;
 import com.sdp.swiftwallet.domain.model.wallet.WalletKeyPair;
 import com.sdp.swiftwallet.domain.model.wallet.Wallets;
 
+import org.web3j.crypto.RawTransaction;
+
+import java.math.BigInteger;
 import java.util.HashMap;
+import java.util.concurrent.CompletableFuture;
 
 import javax.inject.Inject;
 
@@ -51,6 +56,7 @@ public class PaymentFragment extends Fragment {
     private final OnFromAddressSelected onFromAddressSelected = new OnFromAddressSelected();
     QRCodeScanner qrCodeScanner = new QRCodeScanner(this::setToSelectedAddress, this);
 
+    @Inject
     private Web3Requests web3Requests;
 
     @Inject
@@ -69,7 +75,6 @@ public class PaymentFragment extends Fragment {
             addresses = new String[]{};
         }
         arrayAdapter = new ArrayAdapter<String>(requireActivity(), androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, addresses);
-        web3Requests = new Web3Requests();
     }
 
     /**
@@ -130,12 +135,21 @@ public class PaymentFragment extends Fragment {
         toAddress.setText(to);
     }
 
+    /**
+     * Initiates the transaction
+     * @param v the button view
+     */
     private void send(View v) {
         IWalletKeyPair from = addressToKeyPair.get(fromAddress.getText().toString());
         String to = toAddress.getText().toString();
-        float amount = Float.parseFloat(sendAmount.getText().toString());
+        BigInteger amount = new BigInteger(sendAmount.getText().toString());
+        CompletableFuture<RawTransaction> rawTransaction = TransactionCreator
+                .createTransaction(web3Requests, from.getHexPublicKey(), to, amount);
+        rawTransaction.thenAccept(rT -> {
+            String hexTransaction = from.signTransaction(rT);
+            web3Requests.sendTransaction(hexTransaction);
+        });
     }
-
 
     /**
      * Those private classes are implementation needed for some view listeners of this fragment

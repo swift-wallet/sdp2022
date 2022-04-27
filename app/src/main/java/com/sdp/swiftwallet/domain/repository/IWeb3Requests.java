@@ -7,5 +7,8 @@ import java.util.concurrent.CompletableFuture;
 
 public interface IWeb3Requests {
     CompletableFuture<BigInteger> getBalanceOf(String hexAddress);
-    CompletableFuture<Web3ResponseType> sendTransaction(ECKeyPair fromKeyPair, BigInteger addressTo, BigInteger value);
+    CompletableFuture<Web3ResponseType> sendTransaction(String hexValue);
+    CompletableFuture<BigInteger> getChainGasPrice();
+    CompletableFuture<BigInteger> getChainGasLimit();
+    CompletableFuture<BigInteger> getAccountNonce(String hexAddress);
 }

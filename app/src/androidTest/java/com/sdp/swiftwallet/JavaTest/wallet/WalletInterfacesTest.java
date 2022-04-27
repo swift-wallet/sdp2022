@@ -5,10 +5,12 @@ import android.content.Context;
 import com.sdp.swiftwallet.domain.model.wallet.IWalletKeyPair;
 import com.sdp.swiftwallet.domain.model.wallet.IWallets;
 import com.sdp.swiftwallet.domain.repository.IWeb3Requests;
+import com.sdp.swiftwallet.domain.repository.Web3ResponseType;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+import org.web3j.crypto.RawTransaction;
 
 import java.math.BigInteger;
 import java.util.concurrent.CompletableFuture;
@@ -71,6 +73,11 @@ public class WalletInterfacesTest {
             public void updateBalance() {
 
             }
+
+            @Override
+            public String signTransaction(RawTransaction rawTransaction) {
+                return null;
+            }
         };
     }
 
@@ -79,6 +86,26 @@ public class WalletInterfacesTest {
         IWeb3Requests web3Requests = new IWeb3Requests() {
             @Override
             public CompletableFuture<BigInteger> getBalanceOf(String hexAddress) {
+                return null;
+            }
+
+            @Override
+            public CompletableFuture<Web3ResponseType> sendTransaction(String hexValue) {
+                return null;
+            }
+
+            @Override
+            public CompletableFuture<BigInteger> getChainGasPrice() {
+                return null;
+            }
+
+            @Override
+            public CompletableFuture<BigInteger> getChainGasLimit() {
+                return null;
+            }
+
+            @Override
+            public CompletableFuture<BigInteger> getAccountNonce(String hexAddress) {
                 return null;
             }
         };
