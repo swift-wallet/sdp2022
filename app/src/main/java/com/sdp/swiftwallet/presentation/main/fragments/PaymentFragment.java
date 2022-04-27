@@ -143,8 +143,10 @@ public class PaymentFragment extends Fragment {
         IWalletKeyPair from = addressToKeyPair.get(fromAddress.getText().toString());
         String to = toAddress.getText().toString();
         BigInteger amount = new BigInteger(sendAmount.getText().toString());
+        // We create a raw transaction
         CompletableFuture<RawTransaction> rawTransaction = TransactionCreator
                 .createTransaction(web3Requests, from.getHexPublicKey(), to, amount);
+        // We send the raw transaction to the blockchain
         rawTransaction.thenAccept(rT -> {
             String hexTransaction = from.signTransaction(rT);
             web3Requests.sendTransaction(hexTransaction);
