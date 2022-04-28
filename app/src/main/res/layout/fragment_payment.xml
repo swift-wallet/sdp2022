@@ -197,18 +197,6 @@
                     android:text="@string/random_example_address"
                     android:textColor="@color/black"
                     android:textAlignment="center"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/balance_label_text"
-                    android:textAlignment="center"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/send_to_balance"
-                    android:text="@string/random_example_balance"
-                    android:textColor="@color/black"
-                    android:textAlignment="center"/>
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>
