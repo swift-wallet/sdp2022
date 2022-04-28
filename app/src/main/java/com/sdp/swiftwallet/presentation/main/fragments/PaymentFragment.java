@@ -14,6 +14,7 @@ import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -144,14 +145,20 @@ public class PaymentFragment extends Fragment {
     private void send(View v) {
         IWalletKeyPair from = addressToKeyPair.get(fromAddress.getText().toString());
         String to = toAddress.getText().toString();
-        BigInteger amount = new BigInteger(sendAmount.getText().toString());
+        double amount = Double.parseDouble(sendAmount.getText().toString()) * 1000;
+        BigInteger bigAmount = new BigInteger(String.valueOf(Math.round(amount)));
+        // Ethereum values are factored by 1e18
+        bigAmount = bigAmount.multiply(new BigInteger("1000000000000000"));
         // We create a raw transaction
         CompletableFuture<RawTransaction> rawTransaction = TransactionHelper
-                .createTransaction(web3Requests, from.getHexPublicKey(), to, amount);
+                .createTransaction(web3Requests, from.getHexPublicKey(), to, bigAmount);
         // We send the raw transaction to the blockchain
         rawTransaction.thenAccept(rT -> {
             String hexTransaction = from.signTransaction(rT);
             web3Requests.sendTransaction(hexTransaction);
+            Toast toast = new Toast(requireContext());
+            toast.setText("Hexadecimal transaction: " + hexTransaction);
+            toast.show();
         });
     }
 

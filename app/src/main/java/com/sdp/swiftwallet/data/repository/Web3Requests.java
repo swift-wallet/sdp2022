@@ -33,16 +33,16 @@ public class Web3Requests implements IWeb3Requests {
 
     @Override
     public CompletableFuture<BigInteger> getChainGasPrice() {
-        return null;
+        return CompletableFuture.completedFuture(BigInteger.ONE);
     }
 
     @Override
     public CompletableFuture<BigInteger> getChainGasLimit() {
-        return null;
+        return CompletableFuture.completedFuture(BigInteger.ONE);
     }
 
     @Override
     public CompletableFuture<BigInteger> getAccountNonce(String hexAddress) {
-        return null;
+            return CompletableFuture.completedFuture(BigInteger.ONE);
     }
 }
