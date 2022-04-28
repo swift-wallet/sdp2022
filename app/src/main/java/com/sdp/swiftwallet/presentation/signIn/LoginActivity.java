@@ -1,12 +1,13 @@
 package com.sdp.swiftwallet.presentation.signIn;
 
+import static com.sdp.swiftwallet.common.HelperFunctions.displayToast;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import com.sdp.cryptowalletapp.R;
@@ -102,10 +103,10 @@ public class LoginActivity extends AppCompatActivity {
     private void handleError(SwiftAuthenticator.Result result) {
         switch (result) {
             case EMPTY_EMAIL:
-                Toast.makeText(this, "Email required", Toast.LENGTH_SHORT).show();
+                displayToast(this, "Email required");
                 break;
             case EMPTY_PASSWORD:
-                Toast.makeText(this, "Password required", Toast.LENGTH_SHORT).show();
+                displayToast(this, "Password required");
                 break;
             case ERROR:
                 authError(LoginActivity.this).show();
@@ -120,7 +121,7 @@ public class LoginActivity extends AppCompatActivity {
      * This is passed as a callback to the SwiftAuthenticator
      */
     private void nextActivity() {
-        Toast.makeText(this, "User successfully signed in", Toast.LENGTH_LONG).show();
+        displayToast(this, "User successfully signed in");
 
         startActivity(
                 new Intent(this, MainActivity.class)

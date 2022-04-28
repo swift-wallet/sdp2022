@@ -1,4 +1,4 @@
-package com.sdp.swiftwallet.UiTest;
+package com.sdp.swiftwallet.presentation.main.fragments;
 
 import static androidx.test.espresso.Espresso.closeSoftKeyboard;
 import static androidx.test.espresso.Espresso.onView;
@@ -7,22 +7,19 @@ import static androidx.test.espresso.intent.Intents.intended;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasAction;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
-
 import static com.adevinta.android.barista.interaction.BaristaClickInteractions.clickOn;
 import static com.adevinta.android.barista.interaction.BaristaEditTextInteractions.typeTo;
-import static com.adevinta.android.barista.interaction.BaristaEditTextInteractions.writeTo;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
-
 import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.domain.model.wallet.cryptography.SeedGenerator;
 import com.sdp.swiftwallet.presentation.main.MainActivity;
-
+import dagger.hilt.android.testing.HiltAndroidRule;
+import dagger.hilt.android.testing.HiltAndroidTest;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -30,9 +27,6 @@ import org.junit.Test;
 import org.junit.rules.RuleChain;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-
-import dagger.hilt.android.testing.HiltAndroidRule;
-import dagger.hilt.android.testing.HiltAndroidTest;
 
 @HiltAndroidTest
 @RunWith(JUnit4.class)
