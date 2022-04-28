@@ -3,6 +3,7 @@ package com.sdp.swiftwallet.common;
 import android.content.Context;
 import android.widget.EditText;
 import android.widget.Toast;
+
 import java.util.regex.Pattern;
 
 public class HelperFunctions {
@@ -52,7 +53,7 @@ public class HelperFunctions {
    * @param textView Edit Text on which to take actions for regex
    * @return true if valid, false otherwise
    */
-  public static Boolean checkPassword(String pw, EditText textView) {
+  public static Boolean checkPassword(String pw, String confirmPW, EditText textView) {
 
     boolean matchPattern = Pattern.compile(PASSWORD_PATTERN)
         .matcher(pw).matches();
@@ -67,7 +68,12 @@ public class HelperFunctions {
               + "and is 6 - 10 character long");
       textView.requestFocus();
       return false;
+    } else if (!pw.equals(confirmPW)) {
+      textView.setError("Passwords doesn't match");
+      textView.requestFocus();
+      return false;
     }
+
     return true;
   }
 
