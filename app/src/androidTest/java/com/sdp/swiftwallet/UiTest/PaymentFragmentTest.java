@@ -93,7 +93,6 @@ public class PaymentFragmentTest {
 
     @Test
     public void shouldBeAbleToSend(){
-        clickOn(R.id.create_address_button);
         clickOn(R.id.mainNavPaymentItem);
         clickOn(R.id.send_button);
         closeSoftKeyboard();
