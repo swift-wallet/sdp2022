@@ -5,12 +5,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
@@ -20,7 +17,6 @@ import com.sdp.swiftwallet.CryptoValuesActivity;
 import com.sdp.swiftwallet.domain.model.Currency;
 import com.sdp.swiftwallet.domain.model.Transaction;
 import com.sdp.swiftwallet.presentation.transactions.TransactionActivity;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -62,20 +58,29 @@ public class StatsFragment extends Fragment {
     public void onStart() {
         super.onStart();
         //This is temporary
-        getActivity().findViewById(R.id.cryptovalues_button).setOnClickListener((v) -> startCryptovalues());
-        getActivity().findViewById(R.id.transaction_history_button).setOnClickListener((v) -> startTransactionHistory());
-        getActivity().findViewById(R.id.create_transaction_button).setOnClickListener((v) -> createDummyTransaction());
+        getActivity().findViewById(R.id.cryptovalues_button)
+            .setOnClickListener((v) -> startCryptovalues());
+        getActivity().findViewById(R.id.transaction_history_button)
+            .setOnClickListener((v) -> startTransactionHistory());
+        getActivity().findViewById(R.id.create_transaction_button)
+            .setOnClickListener((v) -> createDummyTransaction());
     }
 
-    private void startCryptovalues(){
+    // Buttons for starting appropriate activities
+
+    private void startCryptovalues() {
         Intent intent = new Intent(getContext(), CryptoValuesActivity.class);
         startActivity(intent);
     }
-    private void startTransactionHistory(){
+
+    private void startTransactionHistory() {
         Intent intent = new Intent(getContext(), TransactionActivity.class);
         startActivity(intent);
     }
 
+    /**
+     * Create a dummy transaction, sets it on the firestore
+     */
     private void createDummyTransaction() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -85,7 +90,7 @@ public class StatsFragment extends Fragment {
         int id = rand.nextInt(1000);
 
         Transaction t = new Transaction.Builder()
-                .setAmount(amount)
+            .setAmount(amount)
                 .setCurr(c)
                 .setMyWallet(MY_WALL)
                 .setTheirWallet(THEIR_WALL)
