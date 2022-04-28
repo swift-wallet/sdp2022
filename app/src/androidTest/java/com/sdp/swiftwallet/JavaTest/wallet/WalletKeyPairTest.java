@@ -13,6 +13,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import org.web3j.crypto.ECKeyPair;
+import org.web3j.crypto.RawTransaction;
 
 import java.math.BigInteger;
 
@@ -32,28 +33,40 @@ public class WalletKeyPairTest {
 
     @Test
     public void creatingAnObjectShouldWork(){
-        WalletKeyPair.fromKeyPair(ecKeyPair,mockID, web3Requests);
+        WalletKeyPair.fromKeyPair(ecKeyPair,mockID);
     }
 
     @Test
     public void idGetterShouldWork(){
-        WalletKeyPair walletKeyPair = WalletKeyPair.fromKeyPair(ecKeyPair, mockID, web3Requests);
+        WalletKeyPair walletKeyPair = WalletKeyPair.fromKeyPair(ecKeyPair, mockID);
         assert( walletKeyPair.getID() == mockID );
     }
 
     @Test
     public void nativeBalanceGetterShouldWork(){
-        WalletKeyPair walletKeyPair = WalletKeyPair.fromKeyPair(ecKeyPair, mockID, web3Requests);
+        WalletKeyPair walletKeyPair = WalletKeyPair.fromKeyPair(ecKeyPair, mockID);
         assert( walletKeyPair.getNativeBalance().equals(BigInteger.ZERO) );
     }
 
     @Test
     public void updatingBalanceShouldWork(){
         IWeb3Requests mockWeb3 = new MockWeb3Requests();
-        WalletKeyPair walletKeyPair = WalletKeyPair.fromKeyPair(ecKeyPair, mockID, mockWeb3);
-        walletKeyPair.updateBalance();
+        WalletKeyPair walletKeyPair = WalletKeyPair.fromKeyPair(ecKeyPair, mockID);
+        walletKeyPair.updateBalance(mockWeb3);
         mockWeb3.getBalanceOf(walletKeyPair.getHexPublicKey()).join();
         BigInteger balance = walletKeyPair.getNativeBalance();
         assert(!balance.equals(BigInteger.ZERO));
+    }
+    @Test
+    public void shouldBeAbleToSign(){
+        WalletKeyPair walletKeyPair = WalletKeyPair.fromKeyPair(ecKeyPair, mockID);
+        RawTransaction rawTransaction = RawTransaction.createTransaction(
+                BigInteger.ZERO,
+                BigInteger.ZERO,
+                BigInteger.ZERO,
+                "to",
+                "data"
+        );
+        walletKeyPair.signTransaction(rawTransaction);
     }
 }

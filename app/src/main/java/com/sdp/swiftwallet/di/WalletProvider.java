@@ -1,6 +1,5 @@
 package com.sdp.swiftwallet.di;
 
-import android.app.Application;
 import android.content.Context;
 
 import com.sdp.swiftwallet.domain.model.wallet.Wallets;
@@ -8,7 +7,7 @@ import com.sdp.swiftwallet.domain.model.wallet.cryptography.SeedGenerator;
 
 public class WalletProvider {
     private Wallets wallets = null;
-    private Context context;
+    private final Context context;
     public WalletProvider(Context context){
         this.context = context;
         hasWallets();

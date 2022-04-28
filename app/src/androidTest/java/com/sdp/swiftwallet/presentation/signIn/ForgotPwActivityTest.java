@@ -85,18 +85,7 @@ public class ForgotPwActivityTest {
 
     onView(withId(R.id.emailField)).check(matches(hasFocus()));
   }
-
-  @Test
-  public void firesCorrectIntentAfterLinkSent(){
-    onView(withId(R.id.emailField)).perform(typeText("anders.hominal@gmail.com"), closeSoftKeyboard());
-    onView(withId(R.id.sendReset)).perform(click());
-
-    intended(allOf(
-            toPackage("com.sdp.swiftwallet"),
-            hasComponent(hasClassName(LoginActivity.class.getName()))
-    ));
-  }
-
+  
   @Test
   public void sendLinkFailsCorrectly() {
     onView(withId(R.id.emailField)).perform(typeText("wrong"), closeSoftKeyboard());
