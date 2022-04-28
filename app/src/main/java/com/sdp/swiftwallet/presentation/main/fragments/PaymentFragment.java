@@ -156,9 +156,7 @@ public class PaymentFragment extends Fragment {
         rawTransaction.thenAccept(rT -> {
             String hexTransaction = from.signTransaction(rT);
             web3Requests.sendTransaction(hexTransaction);
-            Toast toast = new Toast(requireContext());
-            toast.setText("Hexadecimal transaction: " + hexTransaction);
-            toast.show();
+            Toast.makeText(requireContext(), "Transaction: " + hexTransaction, Toast.LENGTH_SHORT).show();
         });
     }
 

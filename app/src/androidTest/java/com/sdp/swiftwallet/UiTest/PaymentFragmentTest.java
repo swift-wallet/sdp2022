@@ -75,7 +75,6 @@ public class PaymentFragmentTest {
     public void shouldBeAbleToSeeTheFragment(){
         clickOn(R.id.mainNavPaymentItem);
         onView(withId(R.id.send_from_spinner)).check(matches(isDisplayed()));
-        onView(withId(R.id.send_button)).check(matches(isDisplayed()));
     }
     @Test
     public void shouldStartTheQR(){
