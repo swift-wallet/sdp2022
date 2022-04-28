@@ -117,6 +117,7 @@ public class RegisterActivity extends AppCompatActivity {
                             mIdlingResource.decrement();
                         }
                         else {
+                            loading(false);
                             // If user failed to create an account, decrement counter
                             mIdlingResource.decrement();
 
