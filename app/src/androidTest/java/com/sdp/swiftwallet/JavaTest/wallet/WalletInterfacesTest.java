@@ -2,10 +2,15 @@ package com.sdp.swiftwallet.JavaTest.wallet;
 
 import android.content.Context;
 
+import androidx.test.core.app.ApplicationProvider;
+
+import com.sdp.swiftwallet.data.repository.Web3Requests;
 import com.sdp.swiftwallet.domain.model.wallet.IWalletKeyPair;
 import com.sdp.swiftwallet.domain.model.wallet.IWallets;
 import com.sdp.swiftwallet.domain.repository.IWeb3Requests;
 import com.sdp.swiftwallet.domain.repository.Web3ResponseType;
+
+import net.bytebuddy.pool.TypePool;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -49,6 +54,12 @@ public class WalletInterfacesTest {
                 return new String[0];
             }
         };
+        wallets.getWallets();
+        wallets.getCounter();
+        wallets.getWalletFromId(0);
+        wallets.saveCounter(ApplicationProvider.getApplicationContext());
+        wallets.generateWallet();
+        wallets.getAddresses();
     }
 
     @Test
@@ -78,6 +89,11 @@ public class WalletInterfacesTest {
                 return null;
             }
         };
+        walletKeyPair.getHexPublicKey();
+        walletKeyPair.getID();
+        walletKeyPair.getNativeBalance();
+        walletKeyPair.updateBalance(new Web3Requests());
+        walletKeyPair.signTransaction(RawTransaction.createTransaction(BigInteger.ZERO, BigInteger.ZERO, BigInteger.ZERO, "ll", "ll"));
     }
 
     @Test
@@ -108,5 +124,10 @@ public class WalletInterfacesTest {
                 return null;
             }
         };
+        web3Requests.getBalanceOf("account");
+        web3Requests.sendTransaction("hex");
+        web3Requests.getChainGasPrice();
+        web3Requests.getChainGasLimit();
+        web3Requests.getAccountNonce("add");
     }
 }
