@@ -27,7 +27,7 @@ public class AuthenticatorFirebaseImpl implements SwiftAuthenticator {
         FirebaseAuth getFirebaseAuth();
     }
 
-    private FirebaseAuth auth;
+    private final FirebaseAuth auth;
     private User currUser = null;
 
     public AuthenticatorFirebaseImpl(@ApplicationContext Context context) {

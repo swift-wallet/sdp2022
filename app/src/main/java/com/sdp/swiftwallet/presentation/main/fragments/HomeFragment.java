@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -12,6 +13,7 @@ import androidx.fragment.app.Fragment;
 
 import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.di.WalletProvider;
+import com.sdp.swiftwallet.domain.repository.IWeb3Requests;
 import com.sdp.swiftwallet.presentation.wallet.CreateSeedActivity;
 import com.sdp.swiftwallet.presentation.wallet.fragments.WalletItemFragment;
 
@@ -30,6 +32,10 @@ public class HomeFragment extends Fragment {
 
     @Inject
     public WalletProvider walletProvider;
+
+    @Inject
+    public IWeb3Requests web3Requests;
+
     private boolean hasSeed;
 
     @Override
@@ -37,6 +43,7 @@ public class HomeFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         walletItemFragment = new WalletItemFragment();
+        walletItemFragment.initWeb3(web3Requests);
         getChildFragmentManager().beginTransaction()
                 .add(R.id.home_nested_frag_container, walletItemFragment, WalletItemFragment.class.getName())
                 .setReorderingAllowed(true)
@@ -83,8 +90,8 @@ public class HomeFragment extends Fragment {
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onStop() {
+        super.onStop();
         if ( walletProvider.hasWallets() ){
             walletProvider.getWallets().saveCounter(requireActivity());
         }
