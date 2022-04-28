@@ -9,7 +9,6 @@ import static androidx.test.espresso.intent.matcher.IntentMatchers.toPackage;
 import static androidx.test.espresso.matcher.ViewMatchers.hasFocus;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static com.adevinta.android.barista.interaction.BaristaClickInteractions.clickOn;
 import static com.adevinta.android.barista.interaction.BaristaEditTextInteractions.typeTo;
 import static org.hamcrest.Matchers.allOf;
@@ -21,7 +20,6 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.presentation.main.MainActivity;
 import com.sdp.swiftwallet.presentation.signIn.LoginActivity;
-import com.sdp.swiftwallet.util.MobileViewMatcher;
 import dagger.hilt.android.testing.HiltAndroidRule;
 import dagger.hilt.android.testing.HiltAndroidTest;
 import org.junit.After;
@@ -96,16 +94,6 @@ public class ProfileFragmentTest {
     clickOn(R.id.reset_email_Btn);
     // To refine
     //isToastMessageDisplayed(R.string.loginBtnText);
-  }
-
-
-  /**
-   * Toast checking
-   *
-   * @param textId text the message on the toast
-   */
-  public void isToastMessageDisplayed(int textId) {
-    onView(withText(textId)).inRoot(MobileViewMatcher.isToast()).check(matches(isDisplayed()));
   }
 
 }

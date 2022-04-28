@@ -1,6 +1,8 @@
 package com.sdp.swiftwallet.common;
 
+import android.content.Context;
 import android.widget.EditText;
+import android.widget.Toast;
 import java.util.regex.Pattern;
 
 public class HelperFunctions {
@@ -104,9 +106,23 @@ public class HelperFunctions {
     return isCorrect;
   }
 
+  /**
+   * Shorten and reformat the given address
+   */
   public static String toShortenedFormatAddress(String fullHexAddress) {
     int len = fullHexAddress.length();
     return fullHexAddress.substring(0, 2 + SHORTENED_ADDRESS_LENGTH) + SHORTENED_ADDRESS_JOINER +
         fullHexAddress.substring(len - SHORTENED_ADDRESS_LENGTH, len);
+  }
+
+
+  /**
+   * Displays a basic Toast with
+   *
+   * @param context the target context
+   * @param message message to display
+   */
+  public static void displayToast(Context context, String message) {
+    Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
   }
 }

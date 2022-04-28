@@ -1,6 +1,7 @@
 package com.sdp.swiftwallet.presentation.main.fragments;
 
 import static com.sdp.swiftwallet.common.HelperFunctions.checkEmail;
+import static com.sdp.swiftwallet.common.HelperFunctions.displayToast;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,7 +13,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import com.google.firebase.auth.FirebaseAuth;
@@ -93,16 +93,14 @@ public class ProfileFragment extends Fragment {
         if (check && mUser != null) {
             mUser.updateEmail(email).addOnSuccessListener(a -> {
                 Log.d(PROFILE_TAG, "Email successfully updated \n" + email);
-                Toast.makeText(getActivity(), "Email successfully updated !", Toast.LENGTH_SHORT)
-                    .show();
+                displayToast(getActivity(), "Email successfully updated ! \n");
             }).addOnFailureListener(a -> {
                 Log.d(PROFILE_TAG, "Something went wrong while updating the email \n" + email);
-                Toast.makeText(getActivity(), "Something went wrong while updating your email ",
-                    Toast.LENGTH_SHORT).show();
+                displayToast(getActivity(), "Something went wrong while updating your email\n");
             });
         } else {
             Log.d(PROFILE_TAG, "Error: reset email without online mode \n");
-            Toast.makeText(getActivity(), R.string.loginBtnText, Toast.LENGTH_SHORT).show();
+            displayToast(getActivity(), "Error: reset email without online mode \n");
         }
     }
 

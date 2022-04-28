@@ -3,6 +3,7 @@ package com.sdp.swiftwallet.presentation.signIn;
 import static com.sdp.swiftwallet.common.HelperFunctions.checkEmail;
 import static com.sdp.swiftwallet.common.HelperFunctions.checkPassword;
 import static com.sdp.swiftwallet.common.HelperFunctions.checkUsername;
+import static com.sdp.swiftwallet.common.HelperFunctions.displayToast;
 import static com.sdp.swiftwallet.domain.repository.SwiftAuthenticator.LoginMethod.BASIC;
 
 import android.content.Intent;
@@ -13,11 +14,9 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.test.espresso.idling.CountingIdlingResource;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -128,8 +127,9 @@ public class RegisterActivity extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
-                        Toast.makeText(RegisterActivity.this, "User successfully registered", Toast.LENGTH_LONG).show();
-                        Log.d(EMAIL_REGISTER_TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                        displayToast(RegisterActivity.this, "User successfully registered");
+                        Log.d(EMAIL_REGISTER_TAG,
+                            "DocumentSnapshot added with ID: " + documentReference.getId());
 
                         // Decrement counter if user successfully added to db
                         mIdlingResource.decrement();
@@ -141,7 +141,7 @@ public class RegisterActivity extends AppCompatActivity {
                     public void onFailure(@NonNull Exception e) {
                         // Decrement counter if user failed to add to db
                         mIdlingResource.decrement();
-                        Toast.makeText(RegisterActivity.this, "User failed to register", Toast.LENGTH_LONG).show();
+                        displayToast(RegisterActivity.this, "User failed to register");
                         Log.w(EMAIL_REGISTER_TAG, "Error adding document", e);
                     }
                 });
