@@ -113,11 +113,6 @@ public class CryptoValuesActivity extends AppCompatActivity {
                         name = name.substring(0, name.length() - 4);
                         double value = dataObject.getDouble("lastPrice");
                         currencyArrayList.add(new Currency(name, symbol, value));
-                    } else if(symbol.startsWith("USDT")) {
-                        String name = dataObject.getString("symbol");
-                        name = name.substring(4, name.length());
-                        double value = dataObject.getDouble("lastPrice");
-                        currencyArrayList.add(new Currency(name, symbol, value));
                     }
                 }
                 currencyAdapter.notifyDataSetChanged();
@@ -136,6 +131,7 @@ public class CryptoValuesActivity extends AppCompatActivity {
     }
 
     /*  CAN BE USED LATER TO SET A SPINNER THAT ALLOWS USER TO DECIDE IF THEY WANT TO
+        ADDED TO EYMERIC'S SPRINT 9 TASK
 
     private void setShowAllSpinner(){
         this.showAllSpinner = findViewById(R.id.idSpinnerShowAll);
