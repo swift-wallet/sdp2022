@@ -89,11 +89,4 @@ public class PaymentFragmentTest {
         typeTo(R.id.send_amount, "10");
         closeSoftKeyboard();
     }
-
-    @Test
-    public void shouldBeAbleToSend(){
-        clickOn(R.id.mainNavPaymentItem);
-        clickOn(R.id.send_button);
-        closeSoftKeyboard();
-    }
 }
