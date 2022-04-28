@@ -29,9 +29,7 @@ public class ProfileFragment extends Fragment {
 
     private FirebaseAuth mAuth;
     private FirebaseUser mUser;
-
     private EditText email;
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -81,7 +79,7 @@ public class ProfileFragment extends Fragment {
             String email = mUser.getEmail();
             TextView emailTv = view.findViewById(R.id.email);
             emailTv.setText(email);
-            //startActivity(new Intent(getActivity(), LoginActivity.class));
+            // TODO: redirect in the future to login if not logged out
         }
     }
 
@@ -92,15 +90,19 @@ public class ProfileFragment extends Fragment {
     private void updateEmail(@NonNull EditText emailField){
         String email = emailField.getText().toString().trim();
         boolean check = checkEmail(email, emailField);
-        if (check && mUser != null){
-            mUser.updateEmail(email).addOnSuccessListener( a -> {
-                Log.d(PROFILE_TAG, "Email successfully updated \n"+email);
-                Toast.makeText(getActivity(), "Email successfully updated !" , Toast.LENGTH_SHORT).show();
-                //Start again login activity if successful
-            }).addOnFailureListener( a -> {
-                Log.d(PROFILE_TAG, "Something went wrong while updating the email \n"+email);
-                Toast.makeText(getActivity(), "Something went wrong while updating your email ", Toast.LENGTH_SHORT).show();
+        if (check && mUser != null) {
+            mUser.updateEmail(email).addOnSuccessListener(a -> {
+                Log.d(PROFILE_TAG, "Email successfully updated \n" + email);
+                Toast.makeText(getActivity(), "Email successfully updated !", Toast.LENGTH_SHORT)
+                    .show();
+            }).addOnFailureListener(a -> {
+                Log.d(PROFILE_TAG, "Something went wrong while updating the email \n" + email);
+                Toast.makeText(getActivity(), "Something went wrong while updating your email ",
+                    Toast.LENGTH_SHORT).show();
             });
+        } else {
+            Log.d(PROFILE_TAG, "Error: reset email without online mode \n");
+            Toast.makeText(getActivity(), R.string.loginBtnText, Toast.LENGTH_SHORT).show();
         }
     }
 
