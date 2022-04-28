@@ -5,6 +5,7 @@ import android.content.Context;
 import com.sdp.swiftwallet.data.repository.Web3Requests;
 import com.sdp.swiftwallet.domain.model.wallet.cryptography.KeyPairGenerator;
 import com.sdp.swiftwallet.domain.model.wallet.cryptography.SeedGenerator;
+import com.sdp.swiftwallet.domain.repository.IWeb3Requests;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,9 +16,6 @@ public class Wallets implements IWallets {
 
     private final ArrayList<WalletKeyPair> keyPairs;
     private final KeyPairGenerator keyPairGenerator;
-
-    @Inject
-    public Web3Requests web3Requests;
 
     private int counter = 0;
 
@@ -35,7 +33,7 @@ public class Wallets implements IWallets {
     }
 
     public int generateWallet() {
-        WalletKeyPair keyPair = WalletKeyPair.fromKeyPair(keyPairGenerator.generateKeyPair(), counter, web3Requests);
+        WalletKeyPair keyPair = WalletKeyPair.fromKeyPair(keyPairGenerator.generateKeyPair(), counter);
         keyPairs.add(keyPair);
         return counter++;
     }

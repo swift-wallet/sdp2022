@@ -69,7 +69,7 @@ public class LoginActivityTest {
 
     @Inject
     FirebaseAuth mAuth;
-    private static DummyAuthenticator authenticator = new DummyAuthenticator();
+    private static final DummyAuthenticator authenticator = new DummyAuthenticator();
 
     @Rule
     public final RuleChain rule =

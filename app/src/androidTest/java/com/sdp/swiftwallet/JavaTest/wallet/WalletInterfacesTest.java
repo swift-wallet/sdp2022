@@ -70,8 +70,7 @@ public class WalletInterfacesTest {
             }
 
             @Override
-            public void updateBalance() {
-
+            public void updateBalance(IWeb3Requests web3Requests) {
             }
 
             @Override

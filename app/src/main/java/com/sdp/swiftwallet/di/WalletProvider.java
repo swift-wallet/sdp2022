@@ -7,7 +7,7 @@ import com.sdp.swiftwallet.domain.model.wallet.cryptography.SeedGenerator;
 
 public class WalletProvider {
     private Wallets wallets = null;
-    private Context context;
+    private final Context context;
     public WalletProvider(Context context){
         this.context = context;
         hasWallets();

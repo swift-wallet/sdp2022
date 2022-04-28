@@ -22,7 +22,7 @@ import java.util.List;
  * create an instance of this fragment.
  */
 public class MessageFragment extends Fragment {
-    private List<Contact> contacts = new ArrayList<>();
+    private final List<Contact> contacts = new ArrayList<>();
     private RecyclerView contactRecyclerView;
 
     @Override

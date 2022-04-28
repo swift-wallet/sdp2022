@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -23,9 +24,9 @@ import com.sdp.swiftwallet.data.repository.Web3Requests;
 import com.sdp.swiftwallet.di.WalletProvider;
 import com.sdp.swiftwallet.domain.model.QRCodeScanner;
 import com.sdp.swiftwallet.domain.model.wallet.IWalletKeyPair;
-import com.sdp.swiftwallet.domain.model.wallet.TransactionCreator;
-import com.sdp.swiftwallet.domain.model.wallet.WalletKeyPair;
+import com.sdp.swiftwallet.domain.model.wallet.TransactionHelper;
 import com.sdp.swiftwallet.domain.model.wallet.Wallets;
+import com.sdp.swiftwallet.domain.repository.IWeb3Requests;
 
 import org.web3j.crypto.RawTransaction;
 
@@ -57,7 +58,7 @@ public class PaymentFragment extends Fragment {
     QRCodeScanner qrCodeScanner = new QRCodeScanner(this::setToSelectedAddress, this);
 
     @Inject
-    private Web3Requests web3Requests;
+    public IWeb3Requests web3Requests;
 
     @Inject
     public WalletProvider walletProvider;
@@ -68,13 +69,14 @@ public class PaymentFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        addressToKeyPair = new HashMap<>();
         // Checking if a wallets object exist, if yes import the addresses
         if(walletProvider.hasWallets()){
             recoverAddresses();
         }else{
             addresses = new String[]{};
         }
-        arrayAdapter = new ArrayAdapter<String>(requireActivity(), androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, addresses);
+        arrayAdapter = new ArrayAdapter<>(requireActivity(), androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, addresses);
     }
 
     /**
@@ -144,7 +146,7 @@ public class PaymentFragment extends Fragment {
         String to = toAddress.getText().toString();
         BigInteger amount = new BigInteger(sendAmount.getText().toString());
         // We create a raw transaction
-        CompletableFuture<RawTransaction> rawTransaction = TransactionCreator
+        CompletableFuture<RawTransaction> rawTransaction = TransactionHelper
                 .createTransaction(web3Requests, from.getHexPublicKey(), to, amount);
         // We send the raw transaction to the blockchain
         rawTransaction.thenAccept(rT -> {

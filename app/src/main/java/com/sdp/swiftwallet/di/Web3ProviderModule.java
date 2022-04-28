@@ -15,7 +15,7 @@ import dagger.hilt.components.SingletonComponent;
 public class Web3ProviderModule {
     @Provides
     @Singleton
-    public IWeb3Requests web3RequestsProvider() {
+    public IWeb3Requests iWeb3RequestsProvider() {
         return new Web3Requests();
     }
 }
