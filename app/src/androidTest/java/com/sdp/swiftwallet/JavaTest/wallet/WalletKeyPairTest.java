@@ -13,6 +13,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import org.web3j.crypto.ECKeyPair;
+import org.web3j.crypto.RawTransaction;
 
 import java.math.BigInteger;
 
@@ -55,5 +56,17 @@ public class WalletKeyPairTest {
         mockWeb3.getBalanceOf(walletKeyPair.getHexPublicKey()).join();
         BigInteger balance = walletKeyPair.getNativeBalance();
         assert(!balance.equals(BigInteger.ZERO));
+    }
+    @Test
+    public void shouldBeAbleToSign(){
+        WalletKeyPair walletKeyPair = WalletKeyPair.fromKeyPair(ecKeyPair, mockID);
+        RawTransaction rawTransaction = RawTransaction.createTransaction(
+                BigInteger.ZERO,
+                BigInteger.ZERO,
+                BigInteger.ZERO,
+                "to",
+                "data"
+        );
+        walletKeyPair.signTransaction(rawTransaction);
     }
 }

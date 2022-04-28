@@ -21,7 +21,8 @@ public class MockWeb3Requests implements IWeb3Requests {
 
     @Override
     public CompletableFuture<Web3ResponseType> sendTransaction(String hexValue) {
-        return null;
+        return
+                CompletableFuture.completedFuture(Web3ResponseType.SUCCESS);
     }
 
     @Override
