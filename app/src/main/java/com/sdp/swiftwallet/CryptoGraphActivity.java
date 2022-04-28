@@ -85,7 +85,6 @@ public class CryptoGraphActivity extends AppCompatActivity {
         CandleStickChart candleStickChart = findViewById(R.id.candle_stick_chart);
         candleStickChart.setHighlightPerDragEnabled(true);
 
-        //CHECK FALSE
         candleStickChart.setDrawBorders(true);
 
         candleStickChart.setBorderColor(Color.LTGRAY);
@@ -98,7 +97,7 @@ public class CryptoGraphActivity extends AppCompatActivity {
 
         XAxis xAxis = candleStickChart.getXAxis();
         xAxis.setDrawGridLines(false);
-        xAxis.setDrawLabels(true);
+        xAxis.setDrawLabels(false);
         rightAxis.setTextColor(Color.BLACK);
         yAxis.setDrawLabels(false);
         xAxis.setGranularity(1f);
@@ -116,8 +115,12 @@ public class CryptoGraphActivity extends AppCompatActivity {
 
         ArrayList<CandleEntry> candleSticks = new ArrayList<CandleEntry>();
 
-        for(int i = openTimes.size()-2-NB_CANDLES_TO_SHOW; i<openTimes.size();i++){
-            candleSticks.add(new CandleEntry(openTimes.get(i).floatValue(), highValues.get(i).floatValue(), lowValues.get(i).floatValue(), openValues.get(i).floatValue(), closeValues.get(i).floatValue()));
+        for(int i = openTimes.size()+2-NB_CANDLES_TO_SHOW; i<openTimes.size();i++){
+            candleSticks.add(new CandleEntry(i,
+                    highValues.get(i).floatValue(),
+                    lowValues.get(i).floatValue(),
+                    openValues.get(i).floatValue(),
+                    closeValues.get(i).floatValue()));
         }
 
         CandleDataSet candleDataSet = new CandleDataSet(candleSticks, "Data");
@@ -129,6 +132,7 @@ public class CryptoGraphActivity extends AppCompatActivity {
         candleDataSet.setIncreasingPaintStyle(Paint.Style.FILL);
         candleDataSet.setNeutralColor(Color.LTGRAY);
         candleDataSet.setDrawValues(false);
+        candleDataSet.setBarSpace(0.1f);
 
         CandleData candleData = new CandleData(candleDataSet);
 
