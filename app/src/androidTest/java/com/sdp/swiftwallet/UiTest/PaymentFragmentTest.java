@@ -75,6 +75,7 @@ public class PaymentFragmentTest {
     public void shouldBeAbleToSeeTheFragment(){
         clickOn(R.id.mainNavPaymentItem);
         onView(withId(R.id.send_from_spinner)).check(matches(isDisplayed()));
+        onView(withId(R.id.send_button)).check(matches(isDisplayed()));
     }
     @Test
     public void shouldStartTheQR(){
@@ -87,6 +88,14 @@ public class PaymentFragmentTest {
     public void shouldBeAbleToModifyTheAmount(){
         clickOn(R.id.mainNavPaymentItem);
         typeTo(R.id.send_amount, "10");
+        closeSoftKeyboard();
+    }
+
+    @Test
+    public void shouldBeAbleToSend(){
+        clickOn(R.id.create_address_button);
+        clickOn(R.id.mainNavPaymentItem);
+        clickOn(R.id.send_button);
         closeSoftKeyboard();
     }
 }
