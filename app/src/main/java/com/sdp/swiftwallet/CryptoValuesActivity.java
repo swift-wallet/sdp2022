@@ -4,8 +4,12 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.Adapter;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,22 +19,20 @@ import androidx.test.espresso.idling.CountingIdlingResource;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.domain.model.Currency;
 import com.sdp.swiftwallet.domain.model.CurrencyAdapter;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class CryptoValuesActivity extends AppCompatActivity {
     private ProgressBar progressBar;
+    private Spinner showAllSpinner;
+    private String showUSDTOnly;
     private ArrayList<Currency> currencyArrayList;
     private CurrencyAdapter currencyAdapter;
 
@@ -43,6 +45,9 @@ public class CryptoValuesActivity extends AppCompatActivity {
         EditText searchCrypto = findViewById(R.id.idCryptoSearch);
         RecyclerView recyclerView = findViewById(R.id.idCryptoCurrencies);
         progressBar = findViewById(R.id.idProgressBar);
+
+        showUSDTOnly = "Show USDT Only";
+
         currencyArrayList = new ArrayList<>();
         currencyAdapter = new CurrencyAdapter(currencyArrayList, this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -90,42 +95,72 @@ public class CryptoValuesActivity extends AppCompatActivity {
 
     private void getCurrencyData() {
         progressBar.setVisibility(View.VISIBLE);
-        String url = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest";
+        String url = "https://api.binance.com/api/v3/ticker/24hr";
         RequestQueue requestQueue = Volley.newRequestQueue(this);
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, response -> {
+
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null, response -> {
             progressBar.setVisibility(View.GONE);
-            try {
-                JSONArray dataArray = response.getJSONArray("data");
-                for (int i = 0; i < dataArray.length(); i++) {
-                    JSONObject dataObject = dataArray.getJSONObject(i);
-                    String name = dataObject.getString("name");
+            try{
+                for(int i = 0; i<response.length(); ++i){
+                    JSONObject dataObject = response.getJSONObject(i);
                     String symbol = dataObject.getString("symbol");
-                    JSONObject quote = dataObject.getJSONObject("quote");
-                    JSONObject valueJSON = quote.getJSONObject("USD");
-                    double value = valueJSON.getDouble("price");
-                    currencyArrayList.add(new Currency(name, symbol, value));
+                    if(showUSDTOnly == "Show All"){
+                        String name = dataObject.getString("symbol");
+                        double value = dataObject.getDouble("lastPrice");
+                        currencyArrayList.add(new Currency(name, symbol, value));
+                    } else if(symbol.endsWith("USDT")) {
+                        String name = dataObject.getString("symbol");
+                        name = name.substring(0, name.length() - 4);
+                        double value = dataObject.getDouble("lastPrice");
+                        currencyArrayList.add(new Currency(name, symbol, value));
+                    }
                 }
                 currencyAdapter.notifyDataSetChanged();
                 mIdlingResource.decrement();
-            } catch (JSONException e) {
+
+            } catch(Exception e){
                 e.printStackTrace();
                 Toast.makeText(CryptoValuesActivity.this, "Couldn't extract JSON data... Please try again later.", Toast.LENGTH_SHORT).show();
             }
-
         }, error -> {
-            progressBar.setVisibility(View.GONE);
             Toast.makeText(CryptoValuesActivity.this, "Couldn't retrieve data... Please try again later.", Toast.LENGTH_SHORT).show();
+        });
 
-        }) {
-            @Override
-            public Map<String, String> getHeaders() {
-                HashMap<String, String> headers = new HashMap<>();
-                headers.put("X-CMC_PRO_API_KEY", "db2a8973-af74-4b0f-bf14-7f6c84b648d0");
-                return headers;
-            }
-        };
-        requestQueue.add(jsonObjectRequest);
+
+        requestQueue.add(jsonArrayRequest);
     }
+
+    /*  CAN BE USED LATER TO SET A SPINNER THAT ALLOWS USER TO DECIDE IF THEY WANT TO
+        ADDED TO EYMERIC'S SPRINT 9 TASK
+
+    private void setShowAllSpinner(){
+        this.showAllSpinner = findViewById(R.id.idSpinnerShowAll);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.show_USDT_only, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        this.showAllSpinner.setAdapter(adapter);
+
+        this.showAllSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                onItemSelectedHandler(adapterView, view, i, l);
+                showUSDTOnly = (String)adapterView.getItemAtPosition(i);
+
+                getCurrencyData();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+    }
+
+    private void onItemSelectedHandler(AdapterView<?> adapterView, View view, int position, long id){
+        Adapter adapter = adapterView.getAdapter();
+        String interval = (String) adapter.getItem(position);
+
+        Toast.makeText(getApplicationContext(), "Selected Interval: " + interval, Toast.LENGTH_SHORT).show();
+    }*/
 
     public CountingIdlingResource getIdlingResource() {
         return mIdlingResource;
