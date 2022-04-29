@@ -1,13 +1,13 @@
 package com.sdp.swiftwallet.presentation.signIn;
 
 import static com.sdp.swiftwallet.common.HelperFunctions.checkEmail;
+import static com.sdp.swiftwallet.common.HelperFunctions.displayToast;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.test.espresso.idling.CountingIdlingResource;
 import com.google.firebase.auth.FirebaseAuth;
@@ -80,16 +80,16 @@ public class ForgotPasswordActivity extends AppCompatActivity {
     mAuth.sendPasswordResetEmail(email)
         .addOnSuccessListener( a -> {
           Log.d(RESET_PASSWORD_TAG, "Password successfully sent on \n" + email);
-          Toast.makeText(this, "Password successfully sent on \n" + email, Toast.LENGTH_SHORT)
-              .show();
+          displayToast(this, "Password successfully sent on \n" + email);
+
           // Start again login activity if successful
           Intent nextIntent = new Intent(this, LoginActivity.class);
           mIdlingResource.decrement();
           startActivity(nextIntent);
         }).addOnFailureListener( a -> {
-        Log.d(RESET_PASSWORD_TAG, "Something went wrong, please enter a valid email \n"+email);
-        Toast.makeText(this, "Reset error, please correct your email! \n"+email, Toast.LENGTH_SHORT).show();
-        mIdlingResource.decrement();
+      Log.d(RESET_PASSWORD_TAG, "Something went wrong, please enter a valid email \n" + email);
+      displayToast(this, "Reset error, please correct your email! \n" + email);
+      mIdlingResource.decrement();
       });
   }
 
