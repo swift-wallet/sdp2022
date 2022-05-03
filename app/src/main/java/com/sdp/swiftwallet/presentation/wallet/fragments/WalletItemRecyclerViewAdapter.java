@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.sdp.cryptowalletapp.databinding.FragmentWalletItemBinding;
+import com.sdp.swiftwallet.common.HelperFunctions;
 import com.sdp.swiftwallet.presentation.wallet.WalletInfoActivity;
 
 import java.util.List;
@@ -30,7 +31,7 @@ public class WalletItemRecyclerViewAdapter extends RecyclerView.Adapter<WalletIt
     public void onBindViewHolder(final ViewHolder holder, int position) {
         WalletItem item = mValues.get(position);
         holder.item = item;
-        holder.addressView.setText(item.getAddress());
+        holder.addressView.setText(HelperFunctions.toShortenedFormatAddress(item.getAddress()));
         holder.balanceView.setText(item.getBalance());
         holder.itemView.setOnClickListener(holder);
     }

@@ -72,8 +72,9 @@
 
         <ImageButton
             android:id="@+id/send_with_button"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="50sp"
+            android:layout_height="50sp"
+            android:backgroundTint="#428dff"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -81,12 +82,14 @@
 
         <ImageButton
             android:id="@+id/show_qr_button"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="50sp"
+            android:layout_height="50sp"
+            android:backgroundTint="#428dff"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_baseline_qr_code_scanner_24" />
+            app:srcCompat="@drawable/ic_baseline_qr_code_scanner_24"
+            app:tint="@color/white" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>
