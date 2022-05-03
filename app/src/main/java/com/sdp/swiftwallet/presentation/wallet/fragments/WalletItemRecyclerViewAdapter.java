@@ -43,12 +43,14 @@ public class WalletItemRecyclerViewAdapter extends RecyclerView.Adapter<WalletIt
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public final TextView addressView;
         public final TextView balanceView;
+        public final TextView worthView;
         public WalletItem item;
 
         public ViewHolder(FragmentWalletItemBinding binding) {
             super(binding.getRoot());
             addressView = binding.itemAddress;
-            balanceView = binding.;
+            balanceView = binding.etherBalance;
+            worthView = binding.worth;
         }
 
         @Override
