@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.sdp.cryptowalletapp.databinding.FragmentWalletItemBinding;
 import com.sdp.swiftwallet.common.HelperFunctions;
+import com.sdp.swiftwallet.domain.model.wallet.IWalletKeyPair;
 import com.sdp.swiftwallet.presentation.wallet.WalletInfoActivity;
 
 import java.util.List;
@@ -32,8 +33,6 @@ public class WalletItemRecyclerViewAdapter extends RecyclerView.Adapter<WalletIt
         WalletItem item = mValues.get(position);
         holder.item = item;
         holder.addressView.setText(HelperFunctions.toShortenedFormatAddress(item.getAddress()));
-        holder.balanceView.setText(item.getBalance());
-        holder.itemView.setOnClickListener(holder);
     }
 
     @Override
@@ -41,25 +40,24 @@ public class WalletItemRecyclerViewAdapter extends RecyclerView.Adapter<WalletIt
         return mValues.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         public final TextView addressView;
-        public final TextView balanceView;
-        public final TextView worthView;
         public WalletItem item;
 
         public ViewHolder(FragmentWalletItemBinding binding) {
             super(binding.getRoot());
             addressView = binding.itemAddress;
-            balanceView = binding.etherBalance;
-            worthView = binding.worth;
         }
+    }
 
-        @Override
-        public void onClick(View view) {
-            Intent walletInfoIntent = new Intent(view.getContext(), WalletInfoActivity.class);
-            walletInfoIntent.putExtra(WalletInfoActivity.ADDRESS_EXTRA, item.getAddress());
-            walletInfoIntent.putExtra(WalletInfoActivity.BALANCE_EXTRA, item.getBalance());
-            view.getContext().startActivity(walletInfoIntent);
+    protected static class WalletItem {
+        private final String address;
+
+        public WalletItem(IWalletKeyPair walletKeyPair) {
+            this.address = walletKeyPair.getHexPublicKey();
+        }
+        public String getAddress(){
+            return address;
         }
     }
 }

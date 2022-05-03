@@ -9,12 +9,20 @@ import com.sdp.swiftwallet.domain.repository.IWeb3Requests;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 
 import javax.inject.Inject;
 
+/**
+ * This is the main wallets manager, it handles:
+ *  -Wallet creation
+ *  -Wallets access
+ *  -Seed counter saving
+ */
 public class Wallets implements IWallets {
 
-    private final ArrayList<WalletKeyPair> keyPairs;
+    private final ArrayList<WalletKeyPair> keyPairsList;
+    private final HashMap<String, WalletKeyPair> keyPairsMap;
     private final KeyPairGenerator keyPairGenerator;
 
     private int counter = 0;
@@ -22,7 +30,8 @@ public class Wallets implements IWallets {
     public Wallets(String[] seed){
         long longSeed = SeedGenerator.stringSeedToLong(seed);
         keyPairGenerator = new KeyPairGenerator(longSeed);
-        keyPairs = new ArrayList<>();
+        keyPairsList = new ArrayList<>();
+        keyPairsMap = new HashMap<>();
     }
 
     public Wallets(String[] seed, int to){
@@ -34,7 +43,7 @@ public class Wallets implements IWallets {
 
     public int generateWallet() {
         WalletKeyPair keyPair = WalletKeyPair.fromKeyPair(keyPairGenerator.generateKeyPair(), counter);
-        keyPairs.add(keyPair);
+        addKeyPair(keyPair);
         return counter++;
     }
 
@@ -47,17 +56,26 @@ public class Wallets implements IWallets {
     }
 
     public String[] getAddresses(){
-        Object[] result = keyPairs.stream().map(WalletKeyPair::getHexPublicKey).toArray();
+        Object[] result = keyPairsList.stream().map(WalletKeyPair::getHexPublicKey).toArray();
         return Arrays.copyOf(result, result.length, String[].class);
     }
 
     @Override
     public IWalletKeyPair[] getWallets() {
         IWalletKeyPair[] walletKeyPairs = new IWalletKeyPair[counter];
-        return keyPairs.toArray(walletKeyPairs).clone();
+        return keyPairsList.toArray(walletKeyPairs).clone();
     }
     @Override
     public IWalletKeyPair getWalletFromId(int id) {
-        return keyPairs.get(id);
+        return keyPairsList.get(id);
+    }
+
+    public IWalletKeyPair getWalletFromAddress(String address) {
+        return keyPairsMap.get(address);
+    }
+
+    private void addKeyPair(WalletKeyPair walletKeyPair) {
+        keyPairsList.add(walletKeyPair);
+        keyPairsMap.put(walletKeyPair.getHexPublicKey(), walletKeyPair);
     }
 }

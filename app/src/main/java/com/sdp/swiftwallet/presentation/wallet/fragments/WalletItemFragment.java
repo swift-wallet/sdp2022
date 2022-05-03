@@ -27,18 +27,13 @@ import dagger.hilt.android.AndroidEntryPoint;
  */
 @AndroidEntryPoint
 public class WalletItemFragment extends Fragment {
-    private final List<WalletItem> walletItems;
+    private final List<WalletItemRecyclerViewAdapter.WalletItem> walletItems;
     private final WalletItemRecyclerViewAdapter walletItemRecyclerViewAdapter;
 
-    private IWeb3Requests web3Requests;
 
     public WalletItemFragment() {
         walletItems = new ArrayList<>();
         walletItemRecyclerViewAdapter = new WalletItemRecyclerViewAdapter(walletItems);
-    }
-
-    public void initWeb3(IWeb3Requests web3Requests){
-        this.web3Requests = web3Requests;
     }
 
     @Override
@@ -49,9 +44,7 @@ public class WalletItemFragment extends Fragment {
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
             RecyclerView recyclerView = (RecyclerView) view;
-            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
-            linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-            recyclerView.setLayoutManager(linearLayoutManager);
+            recyclerView.setLayoutManager(new LinearLayoutManager(context));
             recyclerView.setAdapter(walletItemRecyclerViewAdapter);
         }
         return view;
@@ -64,8 +57,7 @@ public class WalletItemFragment extends Fragment {
     //Adds a Wallet Item from a keypair object
     public void addWalletItem(IWalletKeyPair keyPair){
         int count = walletItemRecyclerViewAdapter.getItemCount();
-        keyPair.updateBalance(web3Requests);
-        WalletItem newItem = new WalletItem(keyPair);
+        WalletItemRecyclerViewAdapter.WalletItem newItem = new WalletItemRecyclerViewAdapter.WalletItem(keyPair);
         walletItems.add(newItem);
         walletItemRecyclerViewAdapter.notifyItemChanged(count);
     }
