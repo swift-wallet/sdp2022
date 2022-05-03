@@ -83,6 +83,7 @@
     <string name="wallet_info_send_with">Send with this wallet</string>
     <string name="ether_logo_description">The ether currency logo</string>
     <string name="random_example_address">0x000000000000000000000000000000000000dead</string>
+    <string name="random_example_address_short">0x0000...dead</string>
     <string name="random_example_balance">12.214</string>
     <string name="no_seed">Your seed is not setup</string>
     <string name="setup_seed">Setup your seed</string>

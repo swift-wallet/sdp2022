@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_width="260dp"
+    android:layout_gravity="center"
+    android:layout_height="320dp"
     android:background="@drawable/fragment_seed"
     android:layout_margin="1dp"
     android:orientation="vertical">
@@ -14,35 +15,77 @@
         android:layout_margin="@dimen/wallet_item_text_margin"
         android:layout_gravity="center_horizontal"
         android:textSize="@dimen/wallet_item_address_size"
-        android:text="@string/random_example_address"
+        android:text="@string/random_example_address_short"
         android:textIsSelectable="true"
+        android:background="@drawable/text_box"
         android:textAppearance="?attr/textAppearanceListItem" />
-    <LinearLayout
+    <TextView
+        android:id="@+id/worth_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        >
+        android:text="Total Worth"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center"
+        android:textColor="@color/grey"
+        android:textAppearance="?attr/textAppearanceListItem" />
+    <TextView
+        android:id="@+id/worth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="19242.92 $"
+        android:textSize="@dimen/wallet_important"
+        android:layout_margin="@dimen/wallet_item_text_margin"
+        android:layout_gravity="center"
+        android:textAppearance="?attr/textAppearanceListItem" />
+    <TextView
+        android:id="@+id/balances_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Balances"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center"
+        android:textColor="@color/grey"
+        android:textAppearance="?attr/textAppearanceListItem" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="110dp"
+        android:orientation="horizontal"
+        android:gravity="center">
         <TextView
-            android:id="@+id/item_balance_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/balance_label_text"
-            android:layout_margin="@dimen/wallet_item_text_margin"
-            android:textAppearance="?attr/textAppearanceListItem" />
-        <TextView
-            android:id="@+id/item_balance"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/random_example_balance"
-            android:layout_margin="@dimen/wallet_item_text_margin"
-            android:textAppearance="?attr/textAppearanceListItem" />
-
+            android:textColor="@color/black"
+            android:textSize="@dimen/wallet_important"
+            android:text="12.145"/>
         <ImageView
-            android:id="@+id/item_balance_currency"
-            android:layout_margin="@dimen/wallet_item_text_margin"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            app:srcCompat="@drawable/ether"
-            android:contentDescription="@string/ether_logo_description" />
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/ether"/>
     </LinearLayout>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/send_with_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@android:drawable/ic_menu_send" />
+
+        <ImageButton
+            android:id="@+id/show_qr_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_baseline_qr_code_scanner_24" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </LinearLayout>

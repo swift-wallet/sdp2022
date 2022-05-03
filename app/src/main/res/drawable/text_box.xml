@@ -6,19 +6,16 @@
     // The width and color of the border
     <stroke
         android:width="2dp"
-        android:color="#cecece" />
+        android:color="#428dff" />
 
     // The corner radius, reduce it to make it more square
-    <corners android:radius="10dp"/>
+    <corners android:radius="13dp"/>
     <solid
-        android:color="#f7f7f7"
+        android:color="@color/white"
         />
-    // Add your desired padding
     <padding
-        android:left="20dp"
-        android:top="10dp"
-        android:right="20dp"
-        android:bottom="10dp" >
-
-    </padding>
+        android:left="10dp"
+        android:top="5dp"
+        android:right="10dp"
+        android:bottom="5dp" />
 </shape>

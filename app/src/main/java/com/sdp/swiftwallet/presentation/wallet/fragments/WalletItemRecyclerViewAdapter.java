@@ -48,7 +48,7 @@ public class WalletItemRecyclerViewAdapter extends RecyclerView.Adapter<WalletIt
         public ViewHolder(FragmentWalletItemBinding binding) {
             super(binding.getRoot());
             addressView = binding.itemAddress;
-            balanceView = binding.itemBalance;
+            balanceView = binding.;
         }
 
         @Override
