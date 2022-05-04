@@ -53,16 +53,17 @@ public class LoginActivityTest {
 
     @Before
     public void setup() {
-        authenticator = DummyAuthenticator.INSTANCE;
-
+        // Not sure but this may be required as the first line in setUp()
         hiltRule.inject();
-
+        // Init the fake authenticator by using a static instance from DummyAuthenticator
+        authenticator = DummyAuthenticator.INSTANCE;
+        // Init Espresso intents
         Intents.init();
-
+        // Make sure no user is signed in before testing
         mAuth.signOut();
-
+        // Make sure no dialogs are displayed before testing
         closeSystemDialogs();
-
+        // Reset fake authenticator flags
         authenticator.setExecFailure(false);
         authenticator.setExecSuccess(false);
     }
@@ -72,6 +73,9 @@ public class LoginActivityTest {
         Intents.release();
     }
 
+    /**
+     * Close all dialogs from the ongoing view
+     */
     public void closeSystemDialogs() {
         Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
         context.sendBroadcast(new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS));

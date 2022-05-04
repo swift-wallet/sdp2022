@@ -11,15 +11,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.test.espresso.idling.CountingIdlingResource;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.sdp.cryptowalletapp.databinding.ActivityRegisterBinding;
 import com.sdp.swiftwallet.common.Constants;
@@ -90,6 +85,14 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Check if inputs are valid (should be directly integrated to authenticator)
+     * @param username a username
+     * @param email an email
+     * @param password a password
+     * @param confirmPassword a confirmed password
+     * @return true if all inputs are valid, false otherwise
+     */
     private boolean inputsValid(String username, String email, String password, String confirmPassword) {
         boolean isValid = true;
         
@@ -112,10 +115,12 @@ public class RegisterActivity extends AppCompatActivity {
         String password = passwordEt.getText().toString().trim();
         String confirmPassword = confirmPasswordEt.getText().toString().trim();
 
+        // this is a comment
         if (inputsValid(username, email, password, confirmPassword)) {
             loading(true);
+            User user = new User(email, BASIC);
             SwiftAuthenticator.Result registerRes = authenticator.signUp(username, email, password,
-                    this::addUserToDatabase,
+                    () -> addUserToDatabase(user),
                     () -> handleError(SwiftAuthenticator.Result.ERROR));
 
             if (registerRes != SwiftAuthenticator.Result.SUCCESS) {
@@ -142,10 +147,12 @@ public class RegisterActivity extends AppCompatActivity {
 
     /**
      * Add a user to the database and go back to login activity
+     * @param user the user to add
      */
-    private void addUserToDatabase() {
+    private void addUserToDatabase(User user) {
+        mIdlingResource.increment();
         db.collection(Constants.KEY_COLLECTION_USERS)
-                .add(authenticator.getUser())
+                .add(user)
                 .addOnSuccessListener(documentReference -> {
                     loading(false);
 
