@@ -53,7 +53,7 @@ public class LoginActivityTest {
 
     @Before
     public void setup() {
-        authenticator = DummyAuthenticatorModule.authenticator;
+        authenticator = DummyAuthenticator.INSTANCE;
 
         hiltRule.inject();
 

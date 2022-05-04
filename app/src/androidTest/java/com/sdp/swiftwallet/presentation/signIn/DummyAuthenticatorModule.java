@@ -18,13 +18,9 @@ import dagger.hilt.testing.TestInstallIn;
 )
 public class DummyAuthenticatorModule {
 
-    public static DummyAuthenticator authenticator;
-
     @Provides
     public static SwiftAuthenticator provideDummyAuthenticator() {
-        DummyAuthenticator res = new DummyAuthenticator();
-        authenticator = res;
-        return res;
+        return DummyAuthenticator.INSTANCE;
     }
 
 }

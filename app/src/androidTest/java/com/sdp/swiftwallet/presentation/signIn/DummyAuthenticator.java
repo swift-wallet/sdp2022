@@ -12,6 +12,8 @@ public class DummyAuthenticator implements SwiftAuthenticator {
     boolean execSuccess;
     boolean execFailure;
 
+    public static DummyAuthenticator INSTANCE = new DummyAuthenticator();
+
     @Override
     public Result signIn(String email, String password, Runnable success, Runnable failure) {
         if (execSuccess) {
