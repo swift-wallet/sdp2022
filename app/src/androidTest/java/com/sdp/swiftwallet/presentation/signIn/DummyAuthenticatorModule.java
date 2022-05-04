@@ -3,12 +3,8 @@ package com.sdp.swiftwallet.presentation.signIn;
 import com.sdp.swiftwallet.di.AuthenticatorModule;
 import com.sdp.swiftwallet.domain.repository.SwiftAuthenticator;
 
-import javax.inject.Singleton;
-
-import dagger.Binds;
 import dagger.Module;
 import dagger.Provides;
-import dagger.hilt.android.components.ActivityComponent;
 import dagger.hilt.components.SingletonComponent;
 import dagger.hilt.testing.TestInstallIn;
 
@@ -22,10 +18,13 @@ import dagger.hilt.testing.TestInstallIn;
 )
 public class DummyAuthenticatorModule {
 
-    @Singleton
+    public static DummyAuthenticator authenticator;
+
     @Provides
     public static SwiftAuthenticator provideDummyAuthenticator() {
-        return new DummyAuthenticator();
+        DummyAuthenticator res = new DummyAuthenticator();
+        authenticator = res;
+        return res;
     }
 
 }
