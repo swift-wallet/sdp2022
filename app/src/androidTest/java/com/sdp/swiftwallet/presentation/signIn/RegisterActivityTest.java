@@ -12,7 +12,6 @@ import static androidx.test.espresso.intent.matcher.IntentMatchers.toPackage;
 import static androidx.test.espresso.matcher.ViewMatchers.hasFocus;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
-
 import static org.hamcrest.Matchers.allOf;
 
 import android.content.Context;
@@ -26,10 +25,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.sdp.cryptowalletapp.R;
-import com.sdp.swiftwallet.di.AuthenticatorModule;
-import com.sdp.swiftwallet.domain.model.User;
 import com.sdp.swiftwallet.domain.repository.SwiftAuthenticator;
 
 import org.junit.After;
@@ -39,41 +35,21 @@ import org.junit.Test;
 import org.junit.rules.RuleChain;
 import org.junit.runner.RunWith;
 
-import java.util.Optional;
-
 import javax.inject.Inject;
 
-import dagger.Module;
-import dagger.Provides;
-import dagger.hilt.InstallIn;
 import dagger.hilt.android.testing.HiltAndroidRule;
 import dagger.hilt.android.testing.HiltAndroidTest;
-import dagger.hilt.android.testing.UninstallModules;
-import dagger.hilt.components.SingletonComponent;
 
-@UninstallModules(AuthenticatorModule.class)
 @HiltAndroidTest
 @RunWith(AndroidJUnit4.class)
 public class RegisterActivityTest {
-
-    @Module
-    @InstallIn(SingletonComponent.class)
-    public static class TestModule {
-
-        @Provides
-        public static SwiftAuthenticator provideAuthenticator() {
-            return authenticator;
-        }
-
-    }
 
     // Rules Set Up
     public ActivityScenarioRule<RegisterActivity> testRule = new ActivityScenarioRule<>(RegisterActivity.class);
     public HiltAndroidRule hiltRule = new HiltAndroidRule(this);
 
-    @Inject
-    FirebaseAuth mAuth;
-    private static final DummyAuthenticator authenticator = new DummyAuthenticator();
+    @Inject FirebaseAuth mAuth;
+    @Inject DummyAuthenticator authenticator;
 
     @Rule
     public final RuleChain rule = RuleChain.outerRule(hiltRule).around(testRule);
@@ -259,57 +235,5 @@ public class RegisterActivityTest {
 
         onView(withId(R.id.registerBtn)).perform(click());
         onView(withId(R.id.registerBtn)).check(matches(isDisplayed()));
-    }
-
-    public static class DummyAuthenticator implements SwiftAuthenticator {
-
-        SwiftAuthenticator.Result result;
-
-        boolean execSuccess;
-        boolean execFailure;
-
-        @Override
-        public Result signIn(String email, String password, Runnable success, Runnable failure) {
-            if (execSuccess) {
-                success.run();
-            }
-
-            if (execFailure) {
-                failure.run();
-            }
-
-            return result;
-        }
-
-        @Override
-        public Result signUp(String username, String email, String password, Runnable success, Runnable failure) {
-            if (execSuccess) {
-                success.run();
-            }
-
-            if (execFailure) {
-                failure.run();
-            }
-
-            return result;
-        }
-
-        @Override
-        public Optional<User> getUser() {
-            return Optional.empty();
-        }
-
-        public void setResult(SwiftAuthenticator.Result result) {
-            this.result = result;
-        }
-
-        public void setExecSuccess(boolean execSuccess) {
-            this.execSuccess = execSuccess;
-        }
-
-        public void setExecFailure(boolean execFailure) {
-            this.execFailure = execFailure;
-        }
-
     }
 }

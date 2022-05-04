@@ -47,33 +47,19 @@ import dagger.hilt.android.testing.HiltAndroidTest;
 import dagger.hilt.android.testing.UninstallModules;
 import dagger.hilt.components.SingletonComponent;
 
-@UninstallModules(AuthenticatorModule.class)
 @HiltAndroidTest
 @RunWith(AndroidJUnit4.class)
 public class LoginActivityTest {
-
-    @Module
-    @InstallIn(SingletonComponent.class)
-    public static class TestModule {
-
-        @Provides
-        public static SwiftAuthenticator provideAuthenticator() {
-            return authenticator;
-        }
-
-    }
 
     // Rules Set Up
     public ActivityScenarioRule<LoginActivity> testRule = new ActivityScenarioRule<>(LoginActivity.class);
     public HiltAndroidRule hiltRule = new HiltAndroidRule(this);
 
-    @Inject
-    FirebaseAuth mAuth;
-    private static DummyAuthenticator authenticator = new DummyAuthenticator();
+    @Inject FirebaseAuth mAuth;
+    @Inject DummyAuthenticator authenticator;
 
     @Rule
-    public final RuleChain rule =
-            RuleChain.outerRule(hiltRule).around(testRule);
+    public final RuleChain rule = RuleChain.outerRule(hiltRule).around(testRule);
 
     @Before
     public void setup() {
@@ -270,57 +256,5 @@ public class LoginActivityTest {
         onView(withText("Too many unsuccessful attempts"))
                 .inRoot(isDialog())
                 .check(matches(isDisplayed()));
-    }
-
-    public static class DummyAuthenticator implements SwiftAuthenticator {
-
-        SwiftAuthenticator.Result result;
-
-        boolean execSuccess;
-        boolean execFailure;
-
-        @Override
-        public Result signIn(String email, String password, Runnable success, Runnable failure) {
-            if (execSuccess) {
-                success.run();
-            }
-
-            if (execFailure) {
-                failure.run();
-            }
-
-            return result;
-        }
-
-        @Override
-        public Result signUp(String username, String email, String password, Runnable success, Runnable failure) {
-            if (execSuccess) {
-                success.run();
-            }
-
-            if (execFailure) {
-                failure.run();
-            }
-
-            return result;
-        }
-
-        @Override
-        public Optional<User> getUser() {
-            return Optional.empty();
-        }
-
-        public void setResult(SwiftAuthenticator.Result result) {
-            this.result = result;
-        }
-
-        public void setExecSuccess(boolean execSuccess) {
-            this.execSuccess = execSuccess;
-        }
-
-        public void setExecFailure(boolean execFailure) {
-            this.execFailure = execFailure;
-        }
-
     }
 }
