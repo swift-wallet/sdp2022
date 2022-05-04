@@ -13,32 +13,16 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 import android.content.Context;
 import android.content.Intent;
-
-import androidx.test.espresso.IdlingRegistry;
-import androidx.test.espresso.idling.CountingIdlingResource;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.di.AuthenticatorModule;
 import com.sdp.swiftwallet.domain.model.User;
 import com.sdp.swiftwallet.domain.repository.SwiftAuthenticator;
 import com.sdp.swiftwallet.presentation.main.MainActivity;
-
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.RuleChain;
-import org.junit.runner.RunWith;
-
-import java.util.Optional;
-
-import javax.inject.Inject;
-
 import dagger.Module;
 import dagger.Provides;
 import dagger.hilt.InstallIn;
@@ -46,6 +30,14 @@ import dagger.hilt.android.testing.HiltAndroidRule;
 import dagger.hilt.android.testing.HiltAndroidTest;
 import dagger.hilt.android.testing.UninstallModules;
 import dagger.hilt.components.SingletonComponent;
+import java.util.Optional;
+import javax.inject.Inject;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.RuleChain;
+import org.junit.runner.RunWith;
 
 @UninstallModules(AuthenticatorModule.class)
 @HiltAndroidTest
@@ -69,7 +61,7 @@ public class LoginActivityTest {
 
     @Inject
     FirebaseAuth mAuth;
-    private static DummyAuthenticator authenticator = new DummyAuthenticator();
+    private static final DummyAuthenticator authenticator = new DummyAuthenticator();
 
     @Rule
     public final RuleChain rule =
@@ -99,53 +91,19 @@ public class LoginActivityTest {
         context.sendBroadcast(new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS));
     }
 
+
+    // Check visibility of all elements on the view
     @Test
-    public void loginTitleIsDisplayed() {
+    public void viewElementsAreDisplayed() {
         onView(withId(R.id.loginTitle)).check(matches(isDisplayed()));
-    }
-
-    @Test
-    public void appLogoIsDisplayed() {
         onView(withId(R.id.appLogo)).check(matches(isDisplayed()));
-    }
-
-    @Test
-    public void emailTVIsDisplayed() {
         onView(withId(R.id.loginEmailTv)).check(matches(isDisplayed()));
-    }
-
-    @Test
-    public void emailETIsDisplayed() {
         onView(withId(R.id.loginEmailEt)).check(matches(isDisplayed()));
-    }
-
-    @Test
-    public void passwordTVIsDisplayed() {
         onView(withId(R.id.loginPasswordTv)).check(matches(isDisplayed()));
-    }
-
-    @Test
-    public void passwordETIsDisplayed() {
         onView(withId(R.id.loginPasswordEt)).check(matches(isDisplayed()));
-    }
-
-    @Test
-    public void loginButtonIsDisplayed() {
         onView(withId(R.id.loginButton)).check(matches(isDisplayed()));
-    }
-
-    @Test
-    public void forgotPasswordTVIsDisplayed() {
         onView(withId(R.id.forgotPasswordTv)).check(matches(isDisplayed()));
-    }
-
-    @Test
-    public void registerTVIsDisplayed() {
         onView(withId(R.id.registerTv)).check(matches(isDisplayed()));
-    }
-
-    @Test
-    public void offlineTVIsDisplayed() {
         onView(withId(R.id.useOfflineTv)).check(matches(isDisplayed()));
     }
 

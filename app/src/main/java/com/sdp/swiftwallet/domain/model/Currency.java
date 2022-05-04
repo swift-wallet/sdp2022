@@ -3,22 +3,22 @@ package com.sdp.swiftwallet.domain.model;
 import java.io.Serializable;
 
 public class Currency implements Serializable {
-    private String name;
-    private String symbol;
+    private String baseAsset; //name needs to be changed to be symbol for base asset
+    private String symbol; //symbol is now symbol for both assets (e.g. "ETHBTC")
     private double value;
 
     public Currency(String name, String symbol, double value) {
-        this.name = name;
+        this.baseAsset = name;
         this.symbol = symbol;
         this.value = value;
     }
 
     public String getName() {
-        return name;
+        return baseAsset;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.baseAsset = name;
     }
 
     public String getSymbol() {

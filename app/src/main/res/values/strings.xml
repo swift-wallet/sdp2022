@@ -19,6 +19,9 @@
     <string name="registerTv">Register</string>
     <string name="usernameTv">Username</string>
     <string name="useOfflineTv">Use Offline</string>
+    <string name="registerTitle">Create New Account</string>
+    <string name="add_image">Add Image</string>
+    <string name="confirmPasswordTv">Confirm Password</string>
 
     <!-- CRYPTOVALUES -->
     <string name="search_crypto_name">Search Crypto Name</string>
@@ -29,6 +32,10 @@
     <string name="coinMarketCapLatestURL">https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest</string>
     <string name="value">Value</string>
     <string name="go_to_crypto_values">Go to Crypto Values</string>
+    <string-array name="show_USDT_only">
+        <item>Show USDT Only</item>
+        <item>Show All</item>
+    </string-array>
 
     <!-- CRYPTOINTERVALS -->
     <string-array name="intervals_array">
