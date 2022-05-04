@@ -9,9 +9,16 @@ import dagger.hilt.InstallIn;
 import dagger.hilt.android.components.ActivityComponent;
 import dagger.hilt.components.SingletonComponent;
 
+/**
+ * Authentication module for hilt
+ */
 @Module
 @InstallIn(SingletonComponent.class)
 public class FirebaseAuthModule {
+
+    /**
+     * @return firebase auth provider for authentication
+     */
     @Provides
     public FirebaseAuth firebaseAuthProvider(){
         return FirebaseUtil.getAuth();

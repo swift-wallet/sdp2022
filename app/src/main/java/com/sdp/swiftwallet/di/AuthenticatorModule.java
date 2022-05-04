@@ -18,6 +18,9 @@ import dagger.hilt.components.SingletonComponent;
 @InstallIn(SingletonComponent.class)
 public class AuthenticatorModule {
 
+    /**
+     * Provides a SwiftAuthenticator useful for logins methods
+     */
     @Provides
     public static SwiftAuthenticator provideFirebaseAuthenticator(@ApplicationContext Context context) {
         return new AuthenticatorFirebaseImpl(context);

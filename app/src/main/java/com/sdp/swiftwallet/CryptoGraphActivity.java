@@ -1,9 +1,5 @@
 package com.sdp.swiftwallet;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-import androidx.test.espresso.idling.CountingIdlingResource;
-
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -16,7 +12,8 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.test.espresso.idling.CountingIdlingResource;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonArrayRequest;
@@ -28,13 +25,10 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.CandleData;
 import com.github.mikephil.charting.data.CandleDataSet;
 import com.github.mikephil.charting.data.CandleEntry;
-import com.github.mikephil.charting.utils.ColorTemplate;
 import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.domain.model.Currency;
-
-import org.json.JSONArray;
-
 import java.util.ArrayList;
+import org.json.JSONArray;
 
 public class CryptoGraphActivity extends AppCompatActivity {
     private final int NB_CANDLES_TO_SHOW = 100;
@@ -77,11 +71,9 @@ public class CryptoGraphActivity extends AppCompatActivity {
         candleStickChart = getData();
         mIdlingResource.decrement();
 
-
         // Capture the layout's TextView and set the string as its text
         TextView textView = findViewById(R.id.idCurrencyToShowName);
         textView.setText(currency.getName());
-
     }
 
     private CandleStickChart createCandleStickChart(){
