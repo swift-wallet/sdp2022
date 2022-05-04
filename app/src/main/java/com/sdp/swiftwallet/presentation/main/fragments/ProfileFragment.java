@@ -1,6 +1,7 @@
 package com.sdp.swiftwallet.presentation.main.fragments;
 
 import static com.sdp.swiftwallet.common.HelperFunctions.checkEmail;
+import static com.sdp.swiftwallet.common.HelperFunctions.displayToast;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,7 +13,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import com.google.firebase.auth.FirebaseAuth;
@@ -29,9 +29,7 @@ public class ProfileFragment extends Fragment {
 
     private FirebaseAuth mAuth;
     private FirebaseUser mUser;
-
     private EditText email;
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -81,7 +79,7 @@ public class ProfileFragment extends Fragment {
             String email = mUser.getEmail();
             TextView emailTv = view.findViewById(R.id.email);
             emailTv.setText(email);
-            //startActivity(new Intent(getActivity(), LoginActivity.class));
+            // TODO: redirect in the future to login if not logged out
         }
     }
 
@@ -92,15 +90,17 @@ public class ProfileFragment extends Fragment {
     private void updateEmail(@NonNull EditText emailField){
         String email = emailField.getText().toString().trim();
         boolean check = checkEmail(email, emailField);
-        if (check && mUser != null){
-            mUser.updateEmail(email).addOnSuccessListener( a -> {
-                Log.d(PROFILE_TAG, "Email successfully updated \n"+email);
-                Toast.makeText(getActivity(), "Email successfully updated !" , Toast.LENGTH_SHORT).show();
-                //Start again login activity if successful
-            }).addOnFailureListener( a -> {
-                Log.d(PROFILE_TAG, "Something went wrong while updating the email \n"+email);
-                Toast.makeText(getActivity(), "Something went wrong while updating your email ", Toast.LENGTH_SHORT).show();
+        if (check && mUser != null) {
+            mUser.updateEmail(email).addOnSuccessListener(a -> {
+                Log.d(PROFILE_TAG, "Email successfully updated \n" + email);
+                displayToast(getActivity(), "Email successfully updated ! \n");
+            }).addOnFailureListener(a -> {
+                Log.d(PROFILE_TAG, "Something went wrong while updating the email \n" + email);
+                displayToast(getActivity(), "Something went wrong while updating your email\n");
             });
+        } else {
+            Log.d(PROFILE_TAG, "Error: reset email without online mode \n");
+            displayToast(getActivity(), "Error: reset email without online mode \n");
         }
     }
 

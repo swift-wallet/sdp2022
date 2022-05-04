@@ -32,6 +32,10 @@
     <string name="coinMarketCapLatestURL">https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest</string>
     <string name="value">Value</string>
     <string name="go_to_crypto_values">Go to Crypto Values</string>
+    <string-array name="show_USDT_only">
+        <item>Show USDT Only</item>
+        <item>Show All</item>
+    </string-array>
 
     <!-- CRYPTOINTERVALS -->
     <string-array name="intervals_array">

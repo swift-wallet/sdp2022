@@ -18,7 +18,6 @@ import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.domain.repository.SwiftAuthenticator;
@@ -81,53 +80,19 @@ public class LoginActivityTest {
         context.sendBroadcast(new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS));
     }
 
+
+    // Check visibility of all elements on the view
     @Test
-    public void loginTitleIsDisplayed() {
+    public void viewElementsAreDisplayed() {
         onView(withId(R.id.loginTitle)).check(matches(isDisplayed()));
-    }
-
-    @Test
-    public void appLogoIsDisplayed() {
         onView(withId(R.id.appLogo)).check(matches(isDisplayed()));
-    }
-
-    @Test
-    public void emailTVIsDisplayed() {
         onView(withId(R.id.loginEmailTv)).check(matches(isDisplayed()));
-    }
-
-    @Test
-    public void emailETIsDisplayed() {
         onView(withId(R.id.loginEmailEt)).check(matches(isDisplayed()));
-    }
-
-    @Test
-    public void passwordTVIsDisplayed() {
         onView(withId(R.id.loginPasswordTv)).check(matches(isDisplayed()));
-    }
-
-    @Test
-    public void passwordETIsDisplayed() {
         onView(withId(R.id.loginPasswordEt)).check(matches(isDisplayed()));
-    }
-
-    @Test
-    public void loginButtonIsDisplayed() {
         onView(withId(R.id.loginButton)).check(matches(isDisplayed()));
-    }
-
-    @Test
-    public void forgotPasswordTVIsDisplayed() {
         onView(withId(R.id.forgotPasswordTv)).check(matches(isDisplayed()));
-    }
-
-    @Test
-    public void registerTVIsDisplayed() {
         onView(withId(R.id.registerTv)).check(matches(isDisplayed()));
-    }
-
-    @Test
-    public void offlineTVIsDisplayed() {
         onView(withId(R.id.useOfflineTv)).check(matches(isDisplayed()));
     }
 

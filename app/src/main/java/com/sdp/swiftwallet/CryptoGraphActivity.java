@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,8 +37,9 @@ import org.json.JSONArray;
 import java.util.ArrayList;
 
 public class CryptoGraphActivity extends AppCompatActivity {
-    private final int NB_CANDLES_TO_SHOW = 10;
+    private final int NB_CANDLES_TO_SHOW = 100;
     private Spinner intervalSpinner;
+    private ProgressBar progressBar;
     private ArrayList<String> intervalsText;
     private ArrayList<String> intervalsForRequest;
     private Currency currency;
@@ -59,13 +61,14 @@ public class CryptoGraphActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_crypto_graph);
+        progressBar = findViewById(R.id.idProgressBar);
 
         // Get the Intent that started this activity and extract the currency
         Intent intent = getIntent();
         currency = (Currency) intent.getSerializableExtra("currency");
         if(currency == null) currency = new Currency("Ethereum", "ETH", 2000);
-        else rateSymbol = currency.getSymbol()+"USDT";
-        interval = "1h";
+        else rateSymbol = currency.getSymbol();
+        interval = "1m";
 
         // Get the data from Binance API
         mIdlingResource = new CountingIdlingResource("CryptoValue Calls");
@@ -85,7 +88,6 @@ public class CryptoGraphActivity extends AppCompatActivity {
         CandleStickChart candleStickChart = findViewById(R.id.candle_stick_chart);
         candleStickChart.setHighlightPerDragEnabled(true);
 
-        //CHECK FALSE
         candleStickChart.setDrawBorders(true);
 
         candleStickChart.setBorderColor(Color.LTGRAY);
@@ -98,8 +100,8 @@ public class CryptoGraphActivity extends AppCompatActivity {
 
         XAxis xAxis = candleStickChart.getXAxis();
         xAxis.setDrawGridLines(false);
-        xAxis.setDrawLabels(true);
-        rightAxis.setTextColor(Color.BLACK);
+        xAxis.setDrawLabels(false);
+        rightAxis.setTextColor(Color.WHITE);
         yAxis.setDrawLabels(false);
         xAxis.setGranularity(1f);
         xAxis.setGranularityEnabled(true);
@@ -116,8 +118,12 @@ public class CryptoGraphActivity extends AppCompatActivity {
 
         ArrayList<CandleEntry> candleSticks = new ArrayList<CandleEntry>();
 
-        for(int i = openTimes.size()-2-NB_CANDLES_TO_SHOW; i<openTimes.size();i++){
-            candleSticks.add(new CandleEntry(openTimes.get(i).floatValue(), highValues.get(i).floatValue(), lowValues.get(i).floatValue(), openValues.get(i).floatValue(), closeValues.get(i).floatValue()));
+        for(int i = openTimes.size()+2-NB_CANDLES_TO_SHOW; i<openTimes.size();i++){
+            candleSticks.add(new CandleEntry(i,
+                    highValues.get(i).floatValue(),
+                    lowValues.get(i).floatValue(),
+                    openValues.get(i).floatValue(),
+                    closeValues.get(i).floatValue()));
         }
 
         CandleDataSet candleDataSet = new CandleDataSet(candleSticks, "Data");
@@ -129,6 +135,7 @@ public class CryptoGraphActivity extends AppCompatActivity {
         candleDataSet.setIncreasingPaintStyle(Paint.Style.FILL);
         candleDataSet.setNeutralColor(Color.LTGRAY);
         candleDataSet.setDrawValues(false);
+        candleDataSet.setBarSpace(0.1f);
 
         CandleData candleData = new CandleData(candleDataSet);
 
@@ -136,12 +143,14 @@ public class CryptoGraphActivity extends AppCompatActivity {
     }
 
     private CandleStickChart getData(){
+        progressBar.setVisibility(View.VISIBLE);
         String url = "https://api.binance.com/api/v1/klines?symbol="+rateSymbol+"&interval="+interval;
         //Create CandleStickChart
         CandleStickChart candleStickChart = createCandleStickChart();
         RequestQueue requestQueue = Volley.newRequestQueue(this);
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null,response -> {
+            progressBar.setVisibility(View.GONE);
             try{
                 for(int i = 0; i<response.length(); ++i){
                     JSONArray array = response.getJSONArray(i);

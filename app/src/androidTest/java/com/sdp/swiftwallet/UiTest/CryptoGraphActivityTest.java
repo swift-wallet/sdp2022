@@ -18,7 +18,6 @@ import androidx.test.espresso.idling.CountingIdlingResource;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.platform.app.InstrumentationRegistry;
-
 import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.CryptoGraphActivity;
 import com.sdp.swiftwallet.domain.model.Currency;
@@ -31,6 +30,7 @@ import org.junit.Test;
 public class CryptoGraphActivityTest {
     CountingIdlingResource mIdlingResource;
     Currency ethereum;
+
     @Rule
     public ActivityScenarioRule<CryptoGraphActivity> testRule = new ActivityScenarioRule<>(CryptoGraphActivity.class);
 

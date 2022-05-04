@@ -35,7 +35,7 @@ public class AuthenticatorFirebaseImpl implements SwiftAuthenticator {
         FirebaseAuth getFirebaseAuth();
     }
 
-    private FirebaseAuth auth;
+    private final FirebaseAuth auth;
     private User currUser = null;
 
     public AuthenticatorFirebaseImpl(@ApplicationContext Context context) {
@@ -69,9 +69,9 @@ public class AuthenticatorFirebaseImpl implements SwiftAuthenticator {
                         Log.d(LOG_TAG, "Login successful for email: " + email);
 
                         // Initialize user upon successful login
+                        // Suppose either can be null because we just registered them
                         FirebaseUser u = auth.getCurrentUser();
                         this.currUser = new User(u.getEmail(), BASIC);
-
                         success.run();
                     } else {
                         Log.w(LOG_TAG, "Error from task", task.getException());
