@@ -8,11 +8,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-<<<<<<< HEAD
-import android.widget.Toast;
-
-=======
->>>>>>> main
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
