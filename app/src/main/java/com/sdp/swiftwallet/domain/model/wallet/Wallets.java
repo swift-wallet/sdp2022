@@ -12,6 +12,9 @@ import java.util.Arrays;
 
 import javax.inject.Inject;
 
+/**
+ * Represents the list of wallets currently owned
+ */
 public class Wallets implements IWallets {
 
     private final ArrayList<WalletKeyPair> keyPairs;
@@ -46,7 +49,7 @@ public class Wallets implements IWallets {
         SeedGenerator.saveCounter(context, counter);
     }
 
-    public String[] getAddresses(){
+    public String[] getAddresses() {
         Object[] result = keyPairs.stream().map(WalletKeyPair::getHexPublicKey).toArray();
         return Arrays.copyOf(result, result.length, String[].class);
     }

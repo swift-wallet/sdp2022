@@ -26,7 +26,7 @@ public class User {
     this.email = email;
   }
 
-  //Random code to update/get info about the user
+  // Random code to update/get info about the user
   public String getEmail() {
     return email;
   }

@@ -21,6 +21,7 @@ import java.util.Map;
  * TransactionHistoryProducer implementation with a Firestore database
  */
 public class FirebaseTransactionHistoryProducer implements TransactionHistoryProducer {
+
     private static final String COLLECTION_NAME = "transactions";
     private static final String AMOUNT_KEY = "amount";
     public static final String CURRENCY_KEY = "currency";

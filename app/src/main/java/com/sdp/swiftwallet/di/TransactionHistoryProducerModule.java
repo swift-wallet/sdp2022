@@ -17,7 +17,7 @@ import dagger.hilt.components.SingletonComponent;
 public class TransactionHistoryProducerModule {
 
     /**
-     * @return
+     * @return producer for Transactions
      */
     @Provides
     public static TransactionHistoryProducer provideProducer(FirebaseFirestore db) {

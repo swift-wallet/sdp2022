@@ -11,9 +11,15 @@ import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.Optional;
 
+/**
+ * Seed generator as a string
+ */
 public class SeedGenerator {
+
+    // By default 5
     public static final int SEED_SIZE = 5;
-    public static final String[] words =
+
+    private static final String[] WORDS =
             {"Plane", "Paper", "Bird", "Tree", "Knife", "Expensive", "Cheap", "Cheaper", "Inspiration",
             "Bad", "Mad", "Flat", "Squared", "Rectangle", "Guitar", "Secret", "Often", "This", "Large",
             "List", "Array", "Words", "Long", "Many", "Batman", "Spiderman", "Hulk", "Epfl", "Sciper"};
@@ -23,6 +29,7 @@ public class SeedGenerator {
     public static final String PREF_COUNTER_ID = "COUNTER";
 
     private String[] seed;
+
     public SeedGenerator(){
         seed = generateSeed();
     }
@@ -36,10 +43,16 @@ public class SeedGenerator {
         });
     }
 
+    /**
+     * Re-generate a seed
+     */
     public void reGenerateSeed(){
         seed = generateSeed();
     }
 
+    /**
+     * Save and replace the current seed by the given and saves it in the provided context
+     */
     public void saveSeed(Context context, String[] seed){
         if(seed.length != SEED_SIZE){
             throw new IllegalArgumentException("Bad seed length");
@@ -47,11 +60,18 @@ public class SeedGenerator {
         this.seed = seed;
         saveSeed(context);
     }
+
+    /**
+     * Saves the current seed in the given context
+     */
     private void saveSeed(Context context) {
         SharedPreferences prefs = context.getSharedPreferences(WALLETS_SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
         prefs.edit().putString(PREF_SEED_ID, toSavedSeedFormat()).apply();
     }
 
+    /**
+     * Return the saved seed format
+     */
     private String toSavedSeedFormat() {
         return Arrays.stream(seed).reduce("", (a, b) -> {
             if( a.equals("") ){
@@ -61,16 +81,25 @@ public class SeedGenerator {
         });
     }
 
-    public static void saveCounter(Context context , int counter ){
+    /**
+     * Saves the given counter in the context
+     */
+    public static void saveCounter(Context context, int counter) {
         SharedPreferences prefs = context.getSharedPreferences(WALLETS_SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
         prefs.edit().putInt(PREF_COUNTER_ID, counter).apply();
     }
 
+    /**
+     * Indicates if there exist a seed
+     */
     public static boolean hasSeed(Context context){
         SharedPreferences prefs = context.getSharedPreferences(WALLETS_SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
         return prefs.contains(PREF_SEED_ID);
     }
 
+    /**
+     * Recover the wallets in the context
+     */
     public static Wallets recoverWallets(Context context){
         SharedPreferences prefs = context.getSharedPreferences(WALLETS_SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
         String[] seed;
@@ -80,30 +109,40 @@ public class SeedGenerator {
         return new Wallets(seed, counter);
     }
 
+    /**
+     * Generate a String[] seed
+     */
     public static String[] generateSeed() {
         SecureRandom secureRandom = new SecureRandom();
         String[] seed = new String[SEED_SIZE];
-        int wordsLength = words.length;
-        for( int i = 0; i < SEED_SIZE; i++ ){
+        int wordsLength = WORDS.length;
+        for(int i = 0; i < SEED_SIZE; i++){
             int index = Math.abs(secureRandom.nextInt());
-            seed[i] = words[index % wordsLength];
+            seed[i] = WORDS[index % wordsLength];
         }
         return seed;
     }
 
+    /**
+     * Convert a byte seed to string type
+     */
     private static byte[] stringSeedToByteSeed(String[] seed){
         Optional<String> string = Arrays.stream(seed).reduce(String::concat);
-        if(string.isPresent()){
+        if (string.isPresent()) {
             return string.get().getBytes(StandardCharsets.UTF_8);
-        }else{
+        } else {
             throw new IllegalArgumentException("SeedGenerator: Error while creating the seed byte array");
         }
     }
+
+    /**
+     * Convert a string seed to long type
+     */
     public static long stringSeedToLong(String[] seed){
         byte[] byteSeed = stringSeedToByteSeed(seed);
         long longSeed = 0;
         int seedLength = seed.length;
-        for(int i=0; i<seed.length; i++){
+        for (int i=0; i<seed.length; i++) {
             longSeed = longSeed + byteSeed[i];
         }
         return longSeed;

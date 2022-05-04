@@ -11,6 +11,7 @@ import java.util.concurrent.CompletableFuture;
  *  This is a helper class for some transaction / crypto related manipulation
  */
 public class TransactionHelper {
+
     /**
      * Creates a raw transaction
      * @param web3Requests the web3 provider

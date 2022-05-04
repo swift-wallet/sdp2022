@@ -22,6 +22,7 @@ import java.util.Locale;
  * Used to display Transactions in a RecyclerView
  */
 public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.ViewHolder> {
+
     private final List<Transaction> transactionHistory;
     private final Context context;
 

@@ -59,6 +59,9 @@ public class HomeFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_home, container, false);
     }
 
+    /**
+     * Sets up the view on creation
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -70,12 +73,15 @@ public class HomeFragment extends Fragment {
         } else {
             // Else recover the wallets and update the UI
             recoverWalletsView();
-            if(walletItemFragment.itemCount() != walletProvider.getWallets().getCounter()){
+            if (walletItemFragment.itemCount() != walletProvider.getWallets().getCounter()){
                 recoverWalletsList();
             }
         }
     }
 
+    /**
+     * Recover wallets on resume
+     */
     @Override
     public void onResume() {
         super.onResume();
@@ -89,6 +95,9 @@ public class HomeFragment extends Fragment {
         }
     }
 
+    /**
+     * Stop and save the counter
+     */
     @Override
     public void onStop() {
         super.onStop();
@@ -97,7 +106,9 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    // Resetting the view to handle wallets list
+    /**
+     * Resetting the view to handle wallets list
+     */
     private void recoverWalletsView() {
         View seedNotSetup = fragmentView.findViewById(R.id.seed_not_setup);
         View seedSetup = fragmentView.findViewById(R.id.seed_setup);
@@ -108,6 +119,9 @@ public class HomeFragment extends Fragment {
         fragmentView.findViewById(R.id.create_address_button).setOnClickListener((v) -> createAddress());
     }
 
+    /**
+     * Recovers list of current wallets
+     */
     private void recoverWalletsList(){
         int counter = walletProvider.getWallets().getCounter();
         for(int i=0 ; i< counter; i++){
@@ -115,10 +129,17 @@ public class HomeFragment extends Fragment {
         }
     }
 
+    /**
+     * Create an address
+     */
     private void createAddress(){
         int walletID = walletProvider.getWallets().generateWallet();
         walletItemFragment.addWalletItem(walletProvider.getWallets().getWalletFromId(walletID));
     }
+
+    /**
+     * Start Create Seed activity
+     */
     private void goToSeedSetup(){
         Intent intent = new Intent(requireActivity(), CreateSeedActivity.class);
         startActivity(intent);

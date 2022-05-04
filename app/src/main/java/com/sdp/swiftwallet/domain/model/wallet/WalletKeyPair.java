@@ -15,6 +15,7 @@ import java.math.BigInteger;
  * A wallet key pair object
  */
 public class WalletKeyPair implements IWalletKeyPair{
+
     private final Credentials credentials;
     private final String hexPublicKey;
     private final int ID;

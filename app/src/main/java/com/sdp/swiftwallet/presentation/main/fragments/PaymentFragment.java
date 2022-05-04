@@ -44,6 +44,7 @@ import dagger.hilt.android.AndroidEntryPoint;
  */
 @AndroidEntryPoint
 public class PaymentFragment extends Fragment {
+
     private ArrayAdapter<String> arrayAdapter;
     private TextView fromAddress;
     private TextView fromBalance;
@@ -163,7 +164,6 @@ public class PaymentFragment extends Fragment {
     /**
      * Those private classes are implementation needed for some view listeners of this fragment
      */
-
     private class OnFromAddressSelected implements AdapterView.OnItemSelectedListener{
         @Override
         public void onItemSelected(AdapterView<?> adapterView, View selectedView, int i, long l) {
@@ -197,6 +197,9 @@ public class PaymentFragment extends Fragment {
         }
     }
 
+    /**
+     * Watcher
+     */
     private class AmountWatcher implements TextWatcher {
         @Override
         public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
@@ -204,17 +207,17 @@ public class PaymentFragment extends Fragment {
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
         @Override
         public void afterTextChanged(Editable editable) {
-            if(sendAmount.getText().toString().equals("")) return;
+            if (sendAmount.getText().toString().equals("")) return;
             float sendValue = Float.parseFloat(sendAmount.getText().toString());
             float maxValue = Float.parseFloat(fromBalance.getText().toString());
             float progressPercentage;
-            if(sendValue > maxValue){
+            if (sendValue > maxValue){
                 progressPercentage = 100;
                 sendAmount.setText(Float.toString(maxValue));
-            }else if(sendValue < 0){
+            } else if(sendValue < 0){
                 progressPercentage = 0;
                 sendAmount.setText(0);
-            }else{
+            } else{
                 progressPercentage = (sendValue / maxValue)*100;
             }
             seekBar.setProgress((int)progressPercentage);

@@ -13,13 +13,20 @@ import com.sdp.cryptowalletapp.databinding.ItemContainerContactBinding;
 
 import java.util.List;
 
+/**
+ * UI adapter for contacts representation
+ */
 public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactViewHolder>{
+
     private final List<Contact> contacts;
 
     public ContactAdapter(List<Contact> contacts) {
         this.contacts = contacts;
     }
 
+    /**
+     * Initiate the contacts list view
+     */
     @NonNull
     @Override
     public ContactViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -36,11 +43,17 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
         holder.setContactData(contacts.get(position));
     }
 
+    /**
+     * @return number of contacts
+     */
     @Override
     public int getItemCount() {
         return contacts.size();
     }
 
+    /**
+     * Represents a single contact inside the list adapter
+     */
     class ContactViewHolder extends RecyclerView.ViewHolder {
         ItemContainerContactBinding binding;
 
@@ -49,6 +62,10 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
             binding = itemContainerContactBinding;
         }
 
+        /**
+         * Sets basic information about the contacts
+         * @param contact
+         */
         void setContactData(Contact contact) {
             binding.contactNameTv.setText(contact.name);
             binding.contactEmailTv.setText(contact.email);
@@ -56,6 +73,9 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
         }
     }
 
+    /**
+     * Returns the encoded image as BitMap
+     */
     private Bitmap getContactImage(String encodedImage) {
         byte[] bytes = Base64.decode(encodedImage, Base64.DEFAULT);
         return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);

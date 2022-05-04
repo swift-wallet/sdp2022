@@ -58,19 +58,12 @@ public class Web3Requests implements IWeb3Requests {
         return CompletableFuture.completedFuture(BigInteger.ONE);
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public CompletableFuture<BigInteger> getChainGasLimit() {
         return CompletableFuture.completedFuture(BigInteger.ONE);
     }
 
-    /**
-     * @param hexAddress
-     * @return nonce of
-     */
+
     @Override
     public CompletableFuture<BigInteger> getAccountNonce(String hexAddress) {
             return CompletableFuture.completedFuture(BigInteger.ONE);
