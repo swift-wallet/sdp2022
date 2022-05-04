@@ -5,19 +5,32 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.intent.Intents.intended;
+import static androidx.test.espresso.intent.matcher.ComponentNameMatchers.hasClassName;
+import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
+import static androidx.test.espresso.intent.matcher.IntentMatchers.toPackage;
 import static androidx.test.espresso.matcher.ViewMatchers.hasFocus;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+
+import static org.hamcrest.Matchers.allOf;
+
+import android.content.Context;
+import android.content.Intent;
 
 import androidx.test.espresso.IdlingRegistry;
 import androidx.test.espresso.idling.CountingIdlingResource;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.platform.app.InstrumentationRegistry;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.sdp.cryptowalletapp.R;
+import com.sdp.swiftwallet.di.AuthenticatorModule;
+import com.sdp.swiftwallet.domain.model.User;
+import com.sdp.swiftwallet.domain.repository.SwiftAuthenticator;
 
 import org.junit.After;
 import org.junit.Before;
@@ -26,25 +39,44 @@ import org.junit.Test;
 import org.junit.rules.RuleChain;
 import org.junit.runner.RunWith;
 
+import java.util.Optional;
+
 import javax.inject.Inject;
 
+import dagger.Module;
+import dagger.Provides;
+import dagger.hilt.InstallIn;
 import dagger.hilt.android.testing.HiltAndroidRule;
 import dagger.hilt.android.testing.HiltAndroidTest;
+import dagger.hilt.android.testing.UninstallModules;
+import dagger.hilt.components.SingletonComponent;
 
+@UninstallModules(AuthenticatorModule.class)
 @HiltAndroidTest
 @RunWith(AndroidJUnit4.class)
 public class RegisterActivityTest {
 
-    @Inject
-    FirebaseAuth db;
+    @Module
+    @InstallIn(SingletonComponent.class)
+    public static class TestModule {
 
-    // Add testing rules
+        @Provides
+        public static SwiftAuthenticator provideAuthenticator() {
+            return authenticator;
+        }
+
+    }
+
+    // Rules Set Up
     public ActivityScenarioRule<RegisterActivity> testRule = new ActivityScenarioRule<>(RegisterActivity.class);
     public HiltAndroidRule hiltRule = new HiltAndroidRule(this);
 
+    @Inject
+    FirebaseAuth mAuth;
+    private static final DummyAuthenticator authenticator = new DummyAuthenticator();
+
     @Rule
-    public final RuleChain rule =
-            RuleChain.outerRule(hiltRule).around(testRule);
+    public final RuleChain rule = RuleChain.outerRule(hiltRule).around(testRule);
 
     // Counting idling resource in registerActivity
     CountingIdlingResource mIdlingResource;
@@ -52,21 +84,44 @@ public class RegisterActivityTest {
     @Before
     public void setUp() {
         hiltRule.inject();
+
         Intents.init();
+
         testRule.getScenario().onActivity(activity ->
                 mIdlingResource = activity.getIdlingResource()
         );
         IdlingRegistry.getInstance().register(mIdlingResource);
+
+        mAuth.signOut();
+
+        closeSystemDialogs();
+
+        authenticator.setExecFailure(false);
+        authenticator.setExecSuccess(false);
+    }
+
+    public void closeSystemDialogs() {
+        Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
+        context.sendBroadcast(new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS));
     }
 
     @After
     public void tearDown() {
         Intents.release();
+        IdlingRegistry.getInstance().unregister(mIdlingResource);
     }
 
-    @After
-    public void unregisterIdlingResource() {
-        IdlingRegistry.getInstance().unregister(mIdlingResource);
+    @Test
+    public void registerLayoutIsCorrectlyDisplayed() {
+        onView(withId(R.id.registerTitle)).check(matches(isDisplayed()));
+
+        onView(withId(R.id.registerImageProfileLayout)).check(matches(isDisplayed()));
+        onView(withId(R.id.registerInputUsername)).check(matches(isDisplayed()));
+        onView(withId(R.id.registerInputEmail)).check(matches(isDisplayed()));
+        onView(withId(R.id.registerInputPassword)).check(matches(isDisplayed()));
+        onView(withId(R.id.registerInputConfirmPassword)).check(matches(isDisplayed()));
+
+        onView(withId(R.id.registerBtnLayout)).check(matches(isDisplayed()));
     }
 
     @Test
@@ -102,6 +157,17 @@ public class RegisterActivityTest {
     }
 
     @Test
+    public void registerWithWrongUsernameGetFocus() {
+        onView(withId(R.id.registerInputUsername)).perform(typeText("*****"), closeSoftKeyboard());
+        onView(withId(R.id.registerInputPassword)).perform(typeText("Aliska74!"), closeSoftKeyboard());
+        onView(withId(R.id.registerInputConfirmPassword)).perform(typeText("Aliska74!"), closeSoftKeyboard());
+        onView(withId(R.id.registerInputEmail)).perform(typeText("michel@gmail.com"), closeSoftKeyboard());
+
+        onView(withId(R.id.registerBtn)).perform(click());
+        onView(withId(R.id.registerInputUsername)).check(matches(hasFocus()));
+    }
+
+    @Test
     public void registerWithEmptyEmailGetFocus() {
         onView(withId(R.id.registerInputUsername)).perform(typeText("usernameTest"), closeSoftKeyboard());
         onView(withId(R.id.registerInputPassword)).perform(typeText("Password1"), closeSoftKeyboard());
@@ -109,7 +175,17 @@ public class RegisterActivityTest {
 
         onView(withId(R.id.registerBtn)).perform(click());
         onView(withId(R.id.registerInputEmail)).check(matches(hasFocus()));
+    }
 
+    @Test
+    public void registerWithWrongEmailGetFocus() {
+        onView(withId(R.id.registerInputUsername)).perform(typeText("usernameTest"), closeSoftKeyboard());
+        onView(withId(R.id.registerInputPassword)).perform(typeText("password.t"), closeSoftKeyboard());
+        onView(withId(R.id.registerInputConfirmPassword)).perform(typeText("password.t"), closeSoftKeyboard());
+        onView(withId(R.id.registerInputEmail)).perform(typeText("michel"), closeSoftKeyboard());
+
+        onView(withId(R.id.registerBtn)).perform(click());
+        onView(withId(R.id.registerInputEmail)).check(matches(hasFocus()));
     }
 
     @Test
@@ -117,6 +193,17 @@ public class RegisterActivityTest {
         onView(withId(R.id.registerInputUsername)).perform(typeText("usernameTest"), closeSoftKeyboard());
         onView(withId(R.id.registerInputEmail)).perform(typeText("email.test@epfl.ch"), closeSoftKeyboard());
         onView(withId(R.id.registerInputConfirmPassword)).perform(typeText("Password1"), closeSoftKeyboard());
+
+        onView(withId(R.id.registerBtn)).perform(click());
+        onView(withId(R.id.registerInputPassword)).check(matches(hasFocus()));
+    }
+
+    @Test
+    public void registerWithWrongPasswordGetFocus() {
+        onView(withId(R.id.registerInputUsername)).perform(typeText("usernameTest"), closeSoftKeyboard());
+        onView(withId(R.id.registerInputPassword)).perform(typeText("url"), closeSoftKeyboard());
+        onView(withId(R.id.registerInputConfirmPassword)).perform(typeText("url"), closeSoftKeyboard());
+        onView(withId(R.id.registerInputEmail)).perform(typeText("michel@gmail.com"), closeSoftKeyboard());
 
         onView(withId(R.id.registerBtn)).perform(click());
         onView(withId(R.id.registerInputPassword)).check(matches(hasFocus()));
@@ -139,39 +226,20 @@ public class RegisterActivityTest {
         String userTestEmail = "register.test@epfl.ch";
         String userTestPassword = "Register1";
 
-        deleteUser(userTestEmail, userTestPassword);
+        authenticator.setResult(SwiftAuthenticator.Result.SUCCESS);
+        authenticator.setExecSuccess(true);
 
-        // Test to create the user
+        // Keep it because inputs checks are done outside of authenticator for now
         onView(withId(R.id.registerInputUsername)).perform(typeText(userTestUsername), closeSoftKeyboard());
         onView(withId(R.id.registerInputEmail)).perform(typeText(userTestEmail), closeSoftKeyboard());
         onView(withId(R.id.registerInputPassword)).perform(typeText(userTestPassword), closeSoftKeyboard());
         onView(withId(R.id.registerInputConfirmPassword)).perform(typeText(userTestPassword), closeSoftKeyboard());
 
         onView(withId(R.id.registerBtn)).perform(click());
-        //intended(toPackage("com.sdp.swiftwallet"));
-    }
-
-    // Used by registerUserFiresLoginIntentCorrectly test
-    private void deleteUser(String userTestEmail, String userTestPassword) {
-        mIdlingResource.increment();
-        if (db.getCurrentUser() == null) {
-            db.signInWithEmailAndPassword(userTestEmail, userTestPassword)
-                    .addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
-                            FirebaseUser user = db.getCurrentUser();
-                            user.delete().addOnCompleteListener(task1 ->
-                                    mIdlingResource.decrement()
-                            );
-                        } else {
-                            mIdlingResource.decrement();
-                        }
-                    });
-        } else {
-            if (db.getCurrentUser().getEmail().equals(userTestEmail)) {
-                FirebaseUser user = db.getCurrentUser();
-                user.delete().addOnCompleteListener(task -> mIdlingResource.decrement());
-            }
-        }
+        intended(allOf(
+                toPackage("com.sdp.swiftwallet"),
+                hasComponent(hasClassName(RegisterActivity.class.getName()))
+        ));
     }
 
     @Test
@@ -180,58 +248,68 @@ public class RegisterActivityTest {
         String userTestEmail = "register.test@epfl.ch";
         String userTestPassword = "Register1";
 
-        // Create user before creating it for test so that it fails
-        createUser(userTestEmail, userTestPassword);
-
-        // Test to create the user
+        // Keep it because inputs checks are done outside of authenticator for now
         onView(withId(R.id.registerInputUsername)).perform(typeText(userTestUsername), closeSoftKeyboard());
         onView(withId(R.id.registerInputEmail)).perform(typeText(userTestEmail), closeSoftKeyboard());
         onView(withId(R.id.registerInputPassword)).perform(typeText(userTestPassword), closeSoftKeyboard());
         onView(withId(R.id.registerInputConfirmPassword)).perform(typeText(userTestPassword), closeSoftKeyboard());
 
+        authenticator.setResult(SwiftAuthenticator.Result.ERROR);
+        authenticator.setExecFailure(true);
+
         onView(withId(R.id.registerBtn)).perform(click());
         onView(withId(R.id.registerBtn)).check(matches(isDisplayed()));
     }
 
-    // Used by registerUserFailsCorrectly test
-    private void createUser(String userTestEmail, String userTestPassword) {
-        mIdlingResource.increment();
-        db.createUserWithEmailAndPassword(userTestEmail, userTestPassword)
-                .addOnCompleteListener(task -> mIdlingResource.decrement());
+    public static class DummyAuthenticator implements SwiftAuthenticator {
+
+        SwiftAuthenticator.Result result;
+
+        boolean execSuccess;
+        boolean execFailure;
+
+        @Override
+        public Result signIn(String email, String password, Runnable success, Runnable failure) {
+            if (execSuccess) {
+                success.run();
+            }
+
+            if (execFailure) {
+                failure.run();
+            }
+
+            return result;
+        }
+
+        @Override
+        public Result signUp(String username, String email, String password, Runnable success, Runnable failure) {
+            if (execSuccess) {
+                success.run();
+            }
+
+            if (execFailure) {
+                failure.run();
+            }
+
+            return result;
+        }
+
+        @Override
+        public Optional<User> getUser() {
+            return Optional.empty();
+        }
+
+        public void setResult(SwiftAuthenticator.Result result) {
+            this.result = result;
+        }
+
+        public void setExecSuccess(boolean execSuccess) {
+            this.execSuccess = execSuccess;
+        }
+
+        public void setExecFailure(boolean execFailure) {
+            this.execFailure = execFailure;
+        }
+
     }
-
-    @Test
-    public void registerWithWrongEmailGetFocus() {
-        onView(withId(R.id.registerInputUsername)).perform(typeText("usernameTest"), closeSoftKeyboard());
-        onView(withId(R.id.registerInputPassword)).perform(typeText("password.t"), closeSoftKeyboard());
-        onView(withId(R.id.registerInputConfirmPassword)).perform(typeText("password.t"), closeSoftKeyboard());
-        onView(withId(R.id.registerInputEmail)).perform(typeText("michel"), closeSoftKeyboard());
-
-        onView(withId(R.id.registerBtn)).perform(click());
-        onView(withId(R.id.registerInputEmail)).check(matches(hasFocus()));
-    }
-
-    @Test
-    public void registerWithWrongPasswordGetFocus() {
-        onView(withId(R.id.registerInputUsername)).perform(typeText("usernameTest"), closeSoftKeyboard());
-        onView(withId(R.id.registerInputPassword)).perform(typeText("url"), closeSoftKeyboard());
-        onView(withId(R.id.registerInputConfirmPassword)).perform(typeText("url"), closeSoftKeyboard());
-        onView(withId(R.id.registerInputEmail)).perform(typeText("michel@gmail.com"), closeSoftKeyboard());
-
-        onView(withId(R.id.registerBtn)).perform(click());
-        onView(withId(R.id.registerInputPassword)).check(matches(hasFocus()));
-
-    }
-
-    @Test
-    public void registerWithWrongUsernameGetFocus() {
-        onView(withId(R.id.registerInputUsername)).perform(typeText("*"), closeSoftKeyboard());
-        onView(withId(R.id.registerInputPassword)).perform(typeText("Aliska74!"), closeSoftKeyboard());
-        onView(withId(R.id.registerInputConfirmPassword)).perform(typeText("Aliska74!"), closeSoftKeyboard());
-        onView(withId(R.id.registerInputEmail)).perform(typeText("michel@gmail.com"), closeSoftKeyboard());
-
-        onView(withId(R.id.registerBtn)).perform(click());
-        onView(withId(R.id.registerInputUsername)).check(matches(hasFocus()));
-    }
-
 }

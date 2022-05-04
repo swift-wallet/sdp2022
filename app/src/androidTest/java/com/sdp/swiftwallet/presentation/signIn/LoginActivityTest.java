@@ -293,6 +293,19 @@ public class LoginActivityTest {
         }
 
         @Override
+        public Result signUp(String username, String email, String password, Runnable success, Runnable failure) {
+            if (execSuccess) {
+                success.run();
+            }
+
+            if (execFailure) {
+                failure.run();
+            }
+
+            return result;
+        }
+
+        @Override
         public Optional<User> getUser() {
             return Optional.empty();
         }
