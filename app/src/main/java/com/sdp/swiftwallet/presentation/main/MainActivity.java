@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
+import androidx.test.espresso.idling.CountingIdlingResource;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -20,17 +21,30 @@ import dagger.hilt.android.AndroidEntryPoint;
 @AndroidEntryPoint
 public class MainActivity extends AppCompatActivity {
 
+    // Used for debugging purpose
+    private CountingIdlingResource mIdlingResource;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_main);
+
+        // Init counting resource for async call in test
+        mIdlingResource = new CountingIdlingResource("Main Calls");
 
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager()
                         .findFragmentById(R.id.main_nav_host_fragment);
         NavController navController = navHostFragment.getNavController();
         BottomNavigationView bottomNavigationView = findViewById(R.id.mainBottomNavView);
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
+    }
+
+    /**
+     * Getter for the idling resource (used only in testCase normally)
+     * @return the idling resource used by MessageFragment
+     */
+    public CountingIdlingResource getIdlingResource() {
+        return mIdlingResource;
     }
 
 }

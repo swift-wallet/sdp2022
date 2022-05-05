@@ -20,6 +20,7 @@ import com.sdp.swiftwallet.domain.model.Contact;
 import com.sdp.swiftwallet.domain.model.ContactAdapter;
 import com.sdp.swiftwallet.domain.model.User;
 import com.sdp.swiftwallet.domain.repository.SwiftAuthenticator;
+import com.sdp.swiftwallet.presentation.main.MainActivity;
 import com.sdp.swiftwallet.presentation.message.AddContactActivity;
 
 import java.util.ArrayList;
@@ -41,9 +42,6 @@ public class MessageFragment extends Fragment {
 
     // Contact list for the recyclerView
     private List<Contact> contacts;
-
-    // Used for debugging purpose
-    private CountingIdlingResource mIdlingResource;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -88,6 +86,7 @@ public class MessageFragment extends Fragment {
             return;
         }
 
+        ((MainActivity) getActivity()).getIdlingResource().increment();
         String userUid = currUser.getUid();
         db.collection(Constants.KEY_COLLECTION_USERS)
                 .document(userUid)
@@ -114,6 +113,7 @@ public class MessageFragment extends Fragment {
                     } else {
                         displayError();
                     }
+                    ((MainActivity) getActivity()).getIdlingResource().decrement();
                 });
     }
 

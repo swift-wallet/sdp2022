@@ -109,16 +109,15 @@ public class AddContactActivity extends AppCompatActivity {
      * Make confirm button visible if successfully found, else show error
      */
     private void searchContact() {
-        mIdlingResource.increment();
         previewLoading(true);
         String contactEmail = binding.addContactInputEmail.getText().toString().trim();
         Log.d(ADD_CONTACT_TAG, "searchContact: " + contactEmail);
 
+        mIdlingResource.increment();
         db.collection(Constants.KEY_COLLECTION_USERS)
                 .whereEqualTo(Constants.KEY_EMAIL, contactEmail)
                 .get()
                 .addOnCompleteListener(task -> {
-                    mIdlingResource.decrement();
                     previewLoading(false);
                     Log.d(ADD_CONTACT_TAG, "searchContact: completed");
                     if (task.isSuccessful() && task.getResult() != null) {
@@ -137,10 +136,10 @@ public class AddContactActivity extends AppCompatActivity {
                             showError();
                         }
                     } else {
-                        mIdlingResource.decrement();
                         previewLoading(false);
                         showError();
                     }
+                    mIdlingResource.decrement();
                 });
     }
 
@@ -179,7 +178,6 @@ public class AddContactActivity extends AppCompatActivity {
      * Add contact with corresponding email from input to user's contacts collection
      */
     private void addContact() {
-        mIdlingResource.increment();
         confirmLoading(true);
 
         // TODO: Change to set the cached file once User is cached
@@ -192,6 +190,7 @@ public class AddContactActivity extends AppCompatActivity {
             return;
         }
 
+        mIdlingResource.increment();
         String userUid = currUser.getUid();
         db.collection(Constants.KEY_COLLECTION_USERS)
                 .document(userUid)
@@ -199,11 +198,11 @@ public class AddContactActivity extends AppCompatActivity {
                 .document(contactUid)
                 .set(contact)
                 .addOnSuccessListener(unused -> {
-                    mIdlingResource.decrement();
                     confirmLoading(false);
                     displayToast(getApplicationContext(), "Contact successfully added");
                     Log.d(ADD_CONTACT_TAG, "DocumentSnapshot added with ID: " + contactUid);
 
+                    mIdlingResource.decrement();
                     // TODO: make it come back to message fragment
                     startActivity(new Intent(getApplicationContext(), MainActivity.class));
                 })
