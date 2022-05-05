@@ -4,7 +4,6 @@ import static com.sdp.swiftwallet.common.HelperFunctions.checkEmail;
 import static com.sdp.swiftwallet.common.HelperFunctions.checkPassword;
 import static com.sdp.swiftwallet.common.HelperFunctions.checkUsername;
 import static com.sdp.swiftwallet.common.HelperFunctions.displayToast;
-import static com.sdp.swiftwallet.domain.repository.SwiftAuthenticator.LoginMethod.BASIC;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,10 +16,9 @@ import androidx.test.espresso.idling.CountingIdlingResource;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.sdp.cryptowalletapp.databinding.ActivityRegisterBinding;
-import com.sdp.swiftwallet.SwiftWalletApp;
+import com.sdp.swiftwallet.BaseApp;
 import com.sdp.swiftwallet.common.Constants;
 import com.sdp.swiftwallet.common.FirebaseUtil;
-import com.sdp.swiftwallet.domain.model.User;
 import com.sdp.swiftwallet.domain.repository.SwiftAuthenticator;
 
 import java.util.HashMap;
@@ -142,7 +140,7 @@ public class RegisterActivity extends AppCompatActivity {
             loading(true);
             SwiftAuthenticator.Result registerRes = authenticator.signUp(username, email, password,
                     () -> {
-                        ((SwiftWalletApp) getApplication()).setCurrUser(authenticator.getUser().get());
+                        ((BaseApp) getApplication()).setCurrUser(authenticator.getUser().get());
                         Map<String, Object> userMap = setUser(authenticator.getUid().get(), username, email, Constants.DEFAULT_USER_IMAGE);
                         addUserToDatabase(userMap);
                     },

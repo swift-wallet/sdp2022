@@ -26,6 +26,7 @@ import androidx.test.platform.app.InstrumentationRegistry;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.sdp.cryptowalletapp.R;
+import com.sdp.swiftwallet.domain.model.User;
 import com.sdp.swiftwallet.domain.repository.SwiftAuthenticator;
 
 import org.junit.After;
@@ -77,6 +78,7 @@ public class RegisterActivityTest {
         // Reset fake authenticator flags
         authenticator.setExecFailure(false);
         authenticator.setExecSuccess(false);
+        authenticator.setCurrUser(null);
     }
 
     /**
@@ -212,6 +214,8 @@ public class RegisterActivityTest {
 
         authenticator.setResult(SwiftAuthenticator.Result.SUCCESS);
         authenticator.setExecSuccess(true);
+        User registerUser = new User("regsterUid123", userTestEmail, SwiftAuthenticator.LoginMethod.BASIC);
+        authenticator.setCurrUser(registerUser);
 
         // Keep it because inputs checks are done outside of authenticator for now
         onView(withId(R.id.registerInputUsername)).perform(typeText(userTestUsername), closeSoftKeyboard());

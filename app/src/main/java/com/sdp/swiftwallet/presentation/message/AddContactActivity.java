@@ -2,19 +2,21 @@ package com.sdp.swiftwallet.presentation.message;
 
 import static com.sdp.swiftwallet.common.HelperFunctions.displayToast;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.test.espresso.idling.CountingIdlingResource;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.test.espresso.idling.CountingIdlingResource;
+
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.zxing.WriterException;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.sdp.cryptowalletapp.databinding.ActivityAddContactBinding;
-import com.sdp.swiftwallet.SwiftWalletApp;
+import com.sdp.swiftwallet.BaseApp;
 import com.sdp.swiftwallet.common.Constants;
 import com.sdp.swiftwallet.common.FirebaseUtil;
 import com.sdp.swiftwallet.domain.model.Contact;
@@ -43,11 +45,15 @@ public class AddContactActivity extends AppCompatActivity {
 
     // For now just log the scanned email
     QRCodeScanner qrCodeScanner = new QRCodeScanner(this::setEmail, this);
+    // Maps for all retrieved contacts
+    private Map<String, Contact> contacts;
+    // The key for the added contact
+    private String contactUid;
+    // The added contact
+    private Contact contact;
 
     // Used for debugging purpose
     private CountingIdlingResource mIdlingResource;
-
-    private Map<String, Contact> contacts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,12 +65,10 @@ public class AddContactActivity extends AppCompatActivity {
         // Init counting resource for async call in test
         mIdlingResource = new CountingIdlingResource("AddContact Calls");
 
-        try {
-            String currentUserEmail = ((SwiftWalletApp)getApplication()).getCurrUser().getEmail();
-            binding.contactsQrView.setImageBitmap(QRCodeGenerator.encodeAsBitmap(currentUserEmail));
-        } catch (WriterException e) {
-            e.printStackTrace();
-        }
+        contactUid = null;
+        contact = null;
+
+        setQRCodeImage();
         setListeners();
     }
 
@@ -77,13 +81,32 @@ public class AddContactActivity extends AppCompatActivity {
         binding.contactsViaQrButton.setOnClickListener(v -> qrCodeScanner.launch());
     }
 
+    /**
+     * Callback method for the QRCode scanner
+     * @param email user email
+     */
     private void setEmail(String email){
         binding.addContactInputEmail.setText(email);
     }
 
     /**
+     * Set QRCode bitmap image from user email
+     */
+    private void setQRCodeImage() {
+        User currUser = ((BaseApp) getApplication()).getCurrUser();
+        if (currUser != null) {
+            try {
+                String currentUserEmail = currUser.getEmail();
+                binding.contactsQrView.setImageBitmap(QRCodeGenerator.encodeAsBitmap(currentUserEmail));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
      * Search in db for user with corresponding email from input
-     * Make confirm addition visible if successfully found, else show error
+     * Make confirm button visible if successfully found, else show error
      */
     private void searchContact() {
         mIdlingResource.increment();
@@ -100,19 +123,19 @@ public class AddContactActivity extends AppCompatActivity {
                     Log.d(ADD_CONTACT_TAG, "searchContact: completed");
                     if (task.isSuccessful() && task.getResult() != null) {
                         Log.d(ADD_CONTACT_TAG, "searchContact: successful");
-                        contacts = new HashMap<>();
-                        for (QueryDocumentSnapshot documentSnapshot: task.getResult()) {
-                            String contactUID = documentSnapshot.getString(Constants.KEY_UID);
-                            Contact contact = new Contact();
-                            contact.username = documentSnapshot.getString(Constants.KEY_USERNAME);
-                            contact.email = documentSnapshot.getString(Constants.KEY_EMAIL);
-                            contact.image = documentSnapshot.getString(Constants.KEY_IMAGE);
-                            Log.d(ADD_CONTACT_TAG, "put contact with uid: " + contactUID);
-                            contacts.put(contactUID, contact);
+
+                        // search all matching contacts for this query
+                        addMatchingContacts(task);
+                        // pick the first matching (for now)
+                        selectContact();
+
+                        if (contactUid != null && contact != null) {
+                            // update the button to add the contact once found
+                            binding.previewBtnLayout.setVisibility(View.INVISIBLE);
+                            binding.confirmBtnLayout.setVisibility(View.VISIBLE);
+                        } else {
+                            showError();
                         }
-                        // TODO: showPreview()
-                        binding.previewBtnLayout.setVisibility(View.INVISIBLE);
-                        binding.confirmBtnLayout.setVisibility(View.VISIBLE);
                     } else {
                         mIdlingResource.decrement();
                         previewLoading(false);
@@ -122,36 +145,64 @@ public class AddContactActivity extends AppCompatActivity {
     }
 
     /**
+     * Add all contacts matching the query
+     * @param task result from search query
+     */
+    private void addMatchingContacts(@NonNull Task<QuerySnapshot> task) {
+        contacts = new HashMap<>();
+        for (QueryDocumentSnapshot documentSnapshot: task.getResult()) {
+            String contactUID = documentSnapshot.getString(Constants.KEY_UID);
+            Contact contact = new Contact();
+            contact.username = documentSnapshot.getString(Constants.KEY_USERNAME);
+            contact.email = documentSnapshot.getString(Constants.KEY_EMAIL);
+            contact.image = documentSnapshot.getString(Constants.KEY_IMAGE);
+            Log.d(ADD_CONTACT_TAG, "put contact with uid: " + contactUID);
+            contacts.put(contactUID, contact);
+        }
+    }
+
+    /**
+     * Take the first valid contact from the queried contacts map
+     */
+    private void selectContact() {
+        for (Map.Entry<String, Contact> entry: contacts.entrySet()) {
+            if (entry.getKey() != null) {
+                contactUid = entry.getKey();
+                Log.d(ADD_CONTACT_TAG, "Add contact with uid: " + contactUid);
+                contact = entry.getValue();
+                break;
+            }
+        }
+    }
+
+    /**
      * Add contact with corresponding email from input to user's contacts collection
      */
     private void addContact() {
         mIdlingResource.increment();
         confirmLoading(true);
 
-        // TODO: change this behaviour later
-        // select the first found
-        String contactUID = null;
-        Contact contact = null;
-        for (Map.Entry<String, Contact> entry: contacts.entrySet()) {
-            if (entry.getKey() != null) {
-                contactUID = entry.getKey();
-                Log.d(ADD_CONTACT_TAG, "Add contact with uid: " + contactUID);
-                contact = entry.getValue();
-                break;
-            }
+        // TODO: Change to set the cached file once User is cached
+        // Prevent adding contact if offline
+        User currUser = ((BaseApp) getApplication()).getCurrUser();
+        if (currUser == null) {
+            confirmLoading(false);
+            displayToast(getApplicationContext(), "Contact registration failed");
+            Log.d(ADD_CONTACT_TAG, "couldn't add contact as currUser is null");
+            return;
         }
-        String userKey = ((SwiftWalletApp) getApplication()).getCurrUser().getUid();
-        String finalContactUID = contactUID;
+
+        String userUid = currUser.getUid();
         db.collection(Constants.KEY_COLLECTION_USERS)
-                .document(userKey)
+                .document(userUid)
                 .collection(Constants.KEY_COLLECTION_CONTACTS)
-                .document(contactUID)
+                .document(contactUid)
                 .set(contact)
                 .addOnSuccessListener(unused -> {
                     mIdlingResource.decrement();
                     confirmLoading(false);
                     displayToast(getApplicationContext(), "Contact successfully added");
-                    Log.d(ADD_CONTACT_TAG, "DocumentSnapshot added with ID: " + finalContactUID);
+                    Log.d(ADD_CONTACT_TAG, "DocumentSnapshot added with ID: " + contactUid);
 
                     // TODO: make it come back to message fragment
                     startActivity(new Intent(getApplicationContext(), MainActivity.class));
@@ -168,7 +219,7 @@ public class AddContactActivity extends AppCompatActivity {
      * Display error message to user
      */
     private void showError() {
-        // TODO: Add an error message like in MessageFragment or make a Toast
+        displayToast(getApplicationContext(), "Couldn't find this user");
         Log.d(ADD_CONTACT_TAG, "Error searching for contacts");
     }
 

@@ -8,15 +8,17 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.test.espresso.idling.CountingIdlingResource;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.sdp.cryptowalletapp.databinding.FragmentMessageBinding;
-import com.sdp.swiftwallet.SwiftWalletApp;
+import com.sdp.swiftwallet.BaseApp;
 import com.sdp.swiftwallet.common.Constants;
 import com.sdp.swiftwallet.common.FirebaseUtil;
 import com.sdp.swiftwallet.domain.model.Contact;
 import com.sdp.swiftwallet.domain.model.ContactAdapter;
+import com.sdp.swiftwallet.domain.model.User;
 import com.sdp.swiftwallet.domain.repository.SwiftAuthenticator;
 import com.sdp.swiftwallet.presentation.message.AddContactActivity;
 
@@ -28,8 +30,7 @@ import javax.inject.Inject;
 import dagger.hilt.android.AndroidEntryPoint;
 
 /**
- * A simple {@link Fragment} subclass.
- * create an instance of this fragment.
+ * Message fragment from main activity, display contacts
  */
 @AndroidEntryPoint
 public class MessageFragment extends Fragment {
@@ -38,7 +39,11 @@ public class MessageFragment extends Fragment {
     @Inject SwiftAuthenticator authenticator;
     private FirebaseFirestore db;
 
+    // Contact list for the recyclerView
     private List<Contact> contacts;
+
+    // Used for debugging purpose
+    private CountingIdlingResource mIdlingResource;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -73,11 +78,19 @@ public class MessageFragment extends Fragment {
      * Get all contacts from user and display recyclerView
      */
     private void getContacts() {
-        String userKey = ((SwiftWalletApp) getActivity().getApplication()).getCurrUser().getUid();
-
         loading(true);
+        // TODO: use cached contacts list once we have it
+        // Prevent contact display offline
+        User currUser = ((BaseApp) getActivity().getApplication()).getCurrUser();
+        if (currUser == null) {
+            loading(false);
+            displayError();
+            return;
+        }
+
+        String userUid = currUser.getUid();
         db.collection(Constants.KEY_COLLECTION_USERS)
-                .document(userKey)
+                .document(userUid)
                 .collection(Constants.KEY_COLLECTION_CONTACTS)
                 .get()
                 .addOnCompleteListener(task -> {
