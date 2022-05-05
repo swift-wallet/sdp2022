@@ -6,6 +6,9 @@ import android.os.Bundle;
 
 import com.sdp.cryptowalletapp.R;
 
+/**
+ * Settings Activity
+ */
 public class SettingsActivity extends AppCompatActivity {
 
     @Override

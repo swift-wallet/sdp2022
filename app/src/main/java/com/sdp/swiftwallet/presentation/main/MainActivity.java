@@ -19,6 +19,7 @@ import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.domain.repository.FirebaseTransactionHistoryProducer;
 
 import com.sdp.swiftwallet.domain.repository.TransactionHistoryProducer;
+
 import dagger.hilt.android.AndroidEntryPoint;
 
 
@@ -35,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager()
-                        .findFragmentById(R.id.main_nav_host_fragment);
+                .findFragmentById(R.id.main_nav_host_fragment);
         NavController navController = navHostFragment.getNavController();
         BottomNavigationView bottomNavigationView = findViewById(R.id.mainBottomNavView);
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
@@ -50,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch(item.getItemId()) {
+        switch (item.getItemId()) {
             case R.id.appbar_settings:
                 // User chose the "Settings" item, show the app settings UI...
                 Intent i = new Intent(MainActivity.this, SettingsActivity.class);
