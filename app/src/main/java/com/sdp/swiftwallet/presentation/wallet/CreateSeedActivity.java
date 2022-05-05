@@ -13,9 +13,11 @@ import com.sdp.swiftwallet.domain.model.wallet.cryptography.SeedGenerator;
  * The activity to be able to setup the seed of the wallet
  */
 public class CreateSeedActivity extends AppCompatActivity {
-    String seed;
-    EditText seedView;
-    SeedGenerator seedGenerator;
+
+    private String seed;
+    private EditText seedView;
+    private SeedGenerator seedGenerator;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,13 +29,19 @@ public class CreateSeedActivity extends AppCompatActivity {
         seedView = findViewById(R.id.seed_view);
         seedView.setText(seed);
     }
-    // We generate a new seed and update the UI
+
+    /**
+     * Generate a new seed and update the UI
+     */
     private void reGenerateSeed() {
         seedGenerator.reGenerateSeed();
         seed = seedGenerator.getSeed();
         seedView.setText(seed);
     }
-    // Saving the seed saves it in the shared preferences and finishes the activity
+
+    /**
+     * Saving the seed saves it in the shared preferences and finishes the activity
+     */
     private void saveSeed() {
         String[] seedArray = seed.split(" ");
         seedGenerator.saveSeed(this, seedArray);

@@ -48,6 +48,9 @@ public class TransactionHistoryFragment extends Fragment implements TransactionH
         return inflater.inflate(R.layout.fragment_transaction_history, container, false);
     }
 
+    /**
+     * On start, fix the view and set up the transactions
+     */
     @Override
     public void onStart() {
         super.onStart();

@@ -17,6 +17,9 @@ import dagger.hilt.android.AndroidEntryPoint;
 import javax.inject.Inject;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Represents the forgot password process and activity
+ */
 @AndroidEntryPoint
 public class ForgotPasswordActivity extends AppCompatActivity {
 

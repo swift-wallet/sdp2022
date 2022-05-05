@@ -12,6 +12,7 @@ import dagger.hilt.android.HiltAndroidApp;
 
 @HiltAndroidApp
 public class SwiftWalletApp extends Application {
+
     private final TransactionHistoryProducer transactionHistoryProducer = null;
     private IWallets wallets = null;
 

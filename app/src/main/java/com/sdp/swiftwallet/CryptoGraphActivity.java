@@ -31,14 +31,23 @@ import java.util.ArrayList;
 import org.json.JSONArray;
 
 public class CryptoGraphActivity extends AppCompatActivity {
+
+    // By default 100
     private final int NB_CANDLES_TO_SHOW = 100;
+    private final String INTERVAL_DIM = "1m";
+
     private Spinner intervalSpinner;
     private ProgressBar progressBar;
+    private CandleStickChart candleStickChart;
+
     private ArrayList<String> intervalsText;
     private ArrayList<String> intervalsForRequest;
+
     private Currency currency;
     private String rateSymbol;
     private String interval;
+
+    // Bounds for the graph
     private final ArrayList<Long> openTimes = new ArrayList<>();
     private final ArrayList<Double> openValues = new ArrayList<>();
     private final ArrayList<Double> highValues = new ArrayList<>();
@@ -46,8 +55,8 @@ public class CryptoGraphActivity extends AppCompatActivity {
     private final ArrayList<Double> closeValues = new ArrayList<>();
     private final ArrayList<Double> volumeValues = new ArrayList<>();
     private final ArrayList<Long> closeTimes = new ArrayList<>();
-    private CandleStickChart candleStickChart;
 
+    // Useful for testing
     private CountingIdlingResource mIdlingResource;
 
     @Override
@@ -62,7 +71,7 @@ public class CryptoGraphActivity extends AppCompatActivity {
         currency = (Currency) intent.getSerializableExtra("currency");
         if(currency == null) currency = new Currency("Ethereum", "ETH", 2000);
         else rateSymbol = currency.getSymbol();
-        interval = "1m";
+        interval = INTERVAL_DIM;
 
         // Get the data from Binance API
         mIdlingResource = new CountingIdlingResource("CryptoValue Calls");
@@ -105,17 +114,31 @@ public class CryptoGraphActivity extends AppCompatActivity {
         return candleStickChart;
     }
 
+    /**
+     * Creates data set for the candle graph
+     * @param openTimes opening times
+     * @param openValues open values for the set
+     * @param highValues
+     * @param lowValues
+     * @param closeValues
+     * @param volumeValues
+     * @param closeTimes closing times
+     * @return CandleDate for the set
+     */
     private CandleData createDataSetForCandleGraph(ArrayList<Long> openTimes, ArrayList<Double> openValues, ArrayList<Double> highValues, ArrayList<Double> lowValues,
                                                       ArrayList<Double> closeValues, ArrayList<Double> volumeValues, ArrayList<Long> closeTimes){
 
         ArrayList<CandleEntry> candleSticks = new ArrayList<CandleEntry>();
 
         for(int i = openTimes.size()+2-NB_CANDLES_TO_SHOW; i<openTimes.size();i++){
-            candleSticks.add(new CandleEntry(i,
+            candleSticks.add(
+                new CandleEntry(i,
                     highValues.get(i).floatValue(),
                     lowValues.get(i).floatValue(),
                     openValues.get(i).floatValue(),
-                    closeValues.get(i).floatValue()));
+                    closeValues.get(i).floatValue()
+                )
+            );
         }
 
         CandleDataSet candleDataSet = new CandleDataSet(candleSticks, "Data");
@@ -137,14 +160,15 @@ public class CryptoGraphActivity extends AppCompatActivity {
     private CandleStickChart getData(){
         progressBar.setVisibility(View.VISIBLE);
         String url = "https://api.binance.com/api/v1/klines?symbol="+rateSymbol+"&interval="+interval;
+
         //Create CandleStickChart
         CandleStickChart candleStickChart = createCandleStickChart();
         RequestQueue requestQueue = Volley.newRequestQueue(this);
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null,response -> {
             progressBar.setVisibility(View.GONE);
-            try{
-                for(int i = 0; i<response.length(); ++i){
+            try {
+                for (int i = 0; i<response.length(); ++i){
                     JSONArray array = response.getJSONArray(i);
                     openTimes.add((Long)array.get(0));
                     openValues.add(Double.parseDouble((String)array.get(1)));
@@ -155,17 +179,21 @@ public class CryptoGraphActivity extends AppCompatActivity {
                     closeTimes.add((Long)array.get(6));
                 }
 
-                //get data as CandleData
-                CandleData candleData = createDataSetForCandleGraph(openTimes, openValues, highValues, lowValues, closeValues, volumeValues, closeTimes);
-                //setData
+                // Get data as CandleData
+                CandleData candleData =
+                    createDataSetForCandleGraph(openTimes, openValues, highValues, lowValues, closeValues, volumeValues, closeTimes);
+
+                // SetData
                 candleStickChart.setData(candleData);
                 candleStickChart.invalidate();
             } catch(Exception e){
                 e.printStackTrace();
-                Toast.makeText(CryptoGraphActivity.this, "Couldn't extract JSON data... Please try again later.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(CryptoGraphActivity.this,
+                    "Couldn't extract JSON data... Please try again later.", Toast.LENGTH_SHORT).show();
             }
         }, error -> {
-            Toast.makeText(CryptoGraphActivity.this, "Couldn't retrieve data... Please try again later.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(CryptoGraphActivity.this,
+                "Couldn't retrieve data... Please try again later.", Toast.LENGTH_SHORT).show();
         });
 
         requestQueue.add(jsonArrayRequest);
@@ -173,12 +201,17 @@ public class CryptoGraphActivity extends AppCompatActivity {
         return candleStickChart;
     }
 
+    /**
+     * Sets the spinner for intervals
+     */
     private void setIntervalsSpinner(){
         this.intervalSpinner = findViewById(R.id.idInterval);
+
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.intervals_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        this.intervalSpinner.setAdapter(adapter);
 
+        this.intervalSpinner.setAdapter(adapter);
+        // Display the interval or does nothing if not selected
         this.intervalSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -187,14 +220,14 @@ public class CryptoGraphActivity extends AppCompatActivity {
 
                 candleStickChart = getData();
             }
-
             @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
+            public void onNothingSelected(AdapterView<?> adapterView) { }
         });
     }
 
+    /**
+     * Handler for the interval adapter, display it when selected
+     */
     private void onItemSelectedHandler(AdapterView<?> adapterView, View view, int position, long id){
         Adapter adapter = adapterView.getAdapter();
         String interval = (String) adapter.getItem(position);

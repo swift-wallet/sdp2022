@@ -4,8 +4,11 @@ import com.sdp.swiftwallet.domain.model.wallet.IWalletKeyPair;
 
 import java.math.BigInteger;
 
-// Simple wallet view model
+/**
+ * Represent a simple view model of a wallet
+ */
 public class WalletItem {
+
     private final String address;
     private final BigInteger balance;
 

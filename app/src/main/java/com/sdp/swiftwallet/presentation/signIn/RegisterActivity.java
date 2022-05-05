@@ -25,7 +25,11 @@ import com.sdp.swiftwallet.common.Constants;
 import com.sdp.swiftwallet.common.FirebaseUtil;
 import com.sdp.swiftwallet.domain.model.User;
 
+/**
+ * Represents the registering process activity
+ */
 public class RegisterActivity extends AppCompatActivity {
+
     private static final String EMAIL_REGISTER_TAG = "EMAIL_REGISTER_TAG";
 
     private ActivityRegisterBinding binding;

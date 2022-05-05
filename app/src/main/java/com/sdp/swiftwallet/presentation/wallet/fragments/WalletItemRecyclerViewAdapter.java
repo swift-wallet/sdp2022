@@ -13,7 +13,9 @@ import com.sdp.swiftwallet.presentation.wallet.WalletInfoActivity;
 
 import java.util.List;
 
-
+/**
+ * Adapter for displaying the list of wallets
+ */
 public class WalletItemRecyclerViewAdapter extends RecyclerView.Adapter<WalletItemRecyclerViewAdapter.ViewHolder> {
 
     private final List<WalletItem> mValues;
@@ -26,6 +28,9 @@ public class WalletItemRecyclerViewAdapter extends RecyclerView.Adapter<WalletIt
         return new ViewHolder(FragmentWalletItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
     }
 
+    /**
+     * Binder for view and wallet items
+     */
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         WalletItem item = mValues.get(position);
@@ -40,6 +45,9 @@ public class WalletItemRecyclerViewAdapter extends RecyclerView.Adapter<WalletIt
         return mValues.size();
     }
 
+    /**
+     * Represent the view of a wallet
+     */
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public final TextView addressView;
         public final TextView balanceView;

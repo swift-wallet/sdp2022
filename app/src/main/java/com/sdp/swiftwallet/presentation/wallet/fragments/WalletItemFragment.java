@@ -27,6 +27,7 @@ import dagger.hilt.android.AndroidEntryPoint;
  */
 @AndroidEntryPoint
 public class WalletItemFragment extends Fragment {
+
     private final List<WalletItem> walletItems;
     private final WalletItemRecyclerViewAdapter walletItemRecyclerViewAdapter;
 
@@ -55,11 +56,17 @@ public class WalletItemFragment extends Fragment {
         return view;
     }
 
+    /**
+     * @return numbers of wallets
+     */
     public int itemCount() {
         return walletItemRecyclerViewAdapter.getItemCount();
     }
 
-    //Adds a Wallet Item from a keypair object
+    /**
+     * Adds a Wallet Item from a keypair object
+     * @param keyPair keyPairWallet
+     */
     public void addWalletItem(IWalletKeyPair keyPair){
         int count = walletItemRecyclerViewAdapter.getItemCount();
         keyPair.updateBalance(web3Requests);

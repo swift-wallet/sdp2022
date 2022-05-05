@@ -29,13 +29,18 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+/**
+ * Activity displaying crypto values
+ */
 public class CryptoValuesActivity extends AppCompatActivity {
+
+    // UI elementss
     private ProgressBar progressBar;
-    private Spinner showAllSpinner;
     private String showUSDTOnly;
     private ArrayList<Currency> currencyArrayList;
     private CurrencyAdapter currencyAdapter;
 
+    // For testing purposes
     private CountingIdlingResource mIdlingResource;
 
     @Override
@@ -75,10 +80,15 @@ public class CryptoValuesActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Add to the currency filtered list the currency
+     * @param currency the currency to add
+     */
     private void filterCurrencies(String currency) {
         ArrayList<Currency> filteredList = new ArrayList<>();
         for (Currency item : currencyArrayList) {
-            if (item.getName().toLowerCase().contains(currency.toLowerCase()) || item.getSymbol().toLowerCase().contains(currency.toLowerCase())) {
+            if (item.getName().toLowerCase().contains(currency.toLowerCase())
+                || item.getSymbol().toLowerCase().contains(currency.toLowerCase())) {
                 filteredList.add(item);
             }
         }
@@ -89,10 +99,9 @@ public class CryptoValuesActivity extends AppCompatActivity {
         }
     }
 
-    private void addToCurrencyList(){
-
-    }
-
+    /**
+     * Returns all data for current currencies
+     */
     private void getCurrencyData() {
         progressBar.setVisibility(View.VISIBLE);
         String url = "https://api.binance.com/api/v3/ticker/24hr";
@@ -100,15 +109,15 @@ public class CryptoValuesActivity extends AppCompatActivity {
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null, response -> {
             progressBar.setVisibility(View.GONE);
-            try{
-                for(int i = 0; i<response.length(); ++i){
+            try {
+                for (int i = 0; i<response.length(); ++i) {
                     JSONObject dataObject = response.getJSONObject(i);
                     String symbol = dataObject.getString("symbol");
-                    if(showUSDTOnly == "Show All"){
+                    if (showUSDTOnly == "Show All"){
                         String name = dataObject.getString("symbol");
                         double value = dataObject.getDouble("lastPrice");
                         currencyArrayList.add(new Currency(name, symbol, value));
-                    } else if(symbol.endsWith("USDT")) {
+                    } else if (symbol.endsWith("USDT")) {
                         String name = dataObject.getString("symbol");
                         name = name.substring(0, name.length() - 4);
                         double value = dataObject.getDouble("lastPrice");
@@ -118,17 +127,20 @@ public class CryptoValuesActivity extends AppCompatActivity {
                 currencyAdapter.notifyDataSetChanged();
                 mIdlingResource.decrement();
 
-            } catch(Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
-                Toast.makeText(CryptoValuesActivity.this, "Couldn't extract JSON data... Please try again later.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(CryptoValuesActivity.this,
+                    "Couldn't extract JSON data... Please try again later.", Toast.LENGTH_SHORT).show();
             }
         }, error -> {
-            Toast.makeText(CryptoValuesActivity.this, "Couldn't retrieve data... Please try again later.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(CryptoValuesActivity.this,
+                "Couldn't retrieve data... Please try again later.", Toast.LENGTH_SHORT).show();
         });
 
-
+        // Add to the queue the request
         requestQueue.add(jsonArrayRequest);
     }
+
 
     /*  CAN BE USED LATER TO SET A SPINNER THAT ALLOWS USER TO DECIDE IF THEY WANT TO
         ADDED TO EYMERIC'S SPRINT 9 TASK

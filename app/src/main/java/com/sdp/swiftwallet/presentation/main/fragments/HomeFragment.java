@@ -22,7 +22,7 @@ import javax.inject.Inject;
 import dagger.hilt.android.AndroidEntryPoint;
 
 /**
- * Home screen
+ * Represents the home screen
  */
 @AndroidEntryPoint
 public class HomeFragment extends Fragment {

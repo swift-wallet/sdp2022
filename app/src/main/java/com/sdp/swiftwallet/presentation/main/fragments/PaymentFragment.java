@@ -179,6 +179,9 @@ public class PaymentFragment extends Fragment {
         }
     }
 
+    /**
+     * Seeking bar to show progress while parsing
+     */
     private class SeekBarWatcher implements SeekBar.OnSeekBarChangeListener {
         @Override
         public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
@@ -198,7 +201,7 @@ public class PaymentFragment extends Fragment {
     }
 
     /**
-     * Watcher
+     * Watcher that keeps track of amounts
      */
     private class AmountWatcher implements TextWatcher {
         @Override
@@ -214,10 +217,12 @@ public class PaymentFragment extends Fragment {
             if (sendValue > maxValue){
                 progressPercentage = 100;
                 sendAmount.setText(Float.toString(maxValue));
-            } else if(sendValue < 0){
+
+            } else if (sendValue < 0) {
                 progressPercentage = 0;
                 sendAmount.setText(0);
-            } else{
+
+            } else {
                 progressPercentage = (sendValue / maxValue)*100;
             }
             seekBar.setProgress((int)progressPercentage);
