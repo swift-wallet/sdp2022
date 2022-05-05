@@ -16,6 +16,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SwiftWallet">
         <activity
+            android:name="com.sdp.swiftwallet.presentation.message.AddContactActivity"
+            android:exported="false" />
+        <activity
             android:name="com.sdp.swiftwallet.presentation.wallet.WalletInfoActivity"
             android:exported="false"
             android:parentActivityName="com.sdp.swiftwallet.presentation.main.MainActivity" />
