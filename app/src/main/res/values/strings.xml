@@ -64,6 +64,7 @@
     <string name="reset_your_email">Reset your email:</string>
     <string name="reset">RESET</string>
     <string name="send_reset">Send reset link</string>
+    <string name="forgot_password">Reset your password</string>
 
 
     <!-- LOGIN FIELDS -->
