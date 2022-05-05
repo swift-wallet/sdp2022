@@ -6,11 +6,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static com.adevinta.android.barista.interaction.BaristaClickInteractions.clickOn;
 import static com.adevinta.android.barista.interaction.BaristaEditTextInteractions.clearText;
-import static com.adevinta.android.barista.interaction.BaristaEditTextInteractions.typeTo;
-import static com.adevinta.android.barista.interaction.BaristaKeyboardInteractions.closeKeyboard;
-
 import static org.hamcrest.Matchers.not;
-import static org.junit.Assert.fail;
 
 import android.widget.EditText;
 

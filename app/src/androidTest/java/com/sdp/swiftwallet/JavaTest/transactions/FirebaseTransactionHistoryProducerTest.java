@@ -4,16 +4,13 @@
 //import static org.hamcrest.MatcherAssert.assertThat;
 //import static org.junit.Assert.assertThrows;
 //
-//import com.google.firebase.firestore.FirebaseFirestore;
 //import com.sdp.swiftwallet.SwiftWalletApp;
 //import com.sdp.swiftwallet.domain.model.Currency;
 //import com.sdp.swiftwallet.domain.model.Transaction;
 //import com.sdp.swiftwallet.domain.repository.FirebaseTransactionHistoryProducer;
 //import com.sdp.swiftwallet.domain.repository.TransactionHistorySubscriber;
-//import com.sdp.swiftwallet.presentation.main.MainActivity;
 //
 //import org.junit.Before;
-//import org.junit.Rule;
 //import org.junit.Test;
 //import org.junit.runner.RunWith;
 //import org.junit.runners.JUnit4;

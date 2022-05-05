@@ -11,7 +11,6 @@ import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 
 import com.sdp.cryptowalletapp.R;
-
 import com.sdp.swiftwallet.presentation.main.MainActivity;
 
 import org.junit.After;
@@ -20,7 +19,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.RuleChain;
 import org.junit.runner.RunWith;
-
 import org.junit.runners.JUnit4;
 
 import dagger.hilt.android.testing.HiltAndroidRule;
@@ -65,7 +63,7 @@ public class MainActivityTest {
         onView(withId(R.id.home_fragment)).check(matches(isDisplayed()));
         closeSoftKeyboard();
     }
-    
+
     @Test
     public void press_message_display_fragments() {
         closeSoftKeyboard();
