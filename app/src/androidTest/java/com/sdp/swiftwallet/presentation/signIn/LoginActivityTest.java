@@ -97,9 +97,7 @@ public class LoginActivityTest {
     public void viewElementsAreDisplayed() {
         onView(withId(R.id.loginTitle)).check(matches(isDisplayed()));
         onView(withId(R.id.appLogo)).check(matches(isDisplayed()));
-        onView(withId(R.id.loginEmailTv)).check(matches(isDisplayed()));
         onView(withId(R.id.loginEmailEt)).check(matches(isDisplayed()));
-        onView(withId(R.id.loginPasswordTv)).check(matches(isDisplayed()));
         onView(withId(R.id.loginPasswordEt)).check(matches(isDisplayed()));
         onView(withId(R.id.loginButton)).check(matches(isDisplayed()));
         onView(withId(R.id.forgotPasswordTv)).check(matches(isDisplayed()));
