@@ -1,9 +1,5 @@
 package com.sdp.swiftwallet.JavaTest;
 
-import static org.junit.Assert.fail;
-
-import android.util.Log;
-
 import com.sdp.swiftwallet.data.repository.Web3Requests;
 
 import org.junit.Test;
@@ -12,7 +8,6 @@ import org.junit.runners.JUnit4;
 
 import java.math.BigInteger;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 @RunWith(JUnit4.class)
 public class Web3RequestsTest {

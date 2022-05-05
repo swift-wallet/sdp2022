@@ -16,7 +16,7 @@ public interface SwiftAuthenticator {
      * ERROR: an unexpected error occurred
      */
     enum Result {
-        SUCCESS, EMPTY_EMAIL, EMPTY_PASSWORD, ERROR
+        SUCCESS, EMPTY_USERNAME, EMPTY_EMAIL, EMPTY_PASSWORD, ERROR
     }
 
     /**
@@ -36,6 +36,15 @@ public interface SwiftAuthenticator {
      * @return the result of the authentication process
      */
     Result signIn(String email, String password, Runnable success, Runnable failure);
+
+    /**
+     * Sign up to the SwiftWallet app
+     * @param username the username of the user
+     * @param email the email of the user
+     * @param password the password of the user
+     * @return the result of the registration process
+     */
+    Result signUp(String username, String email, String password, Runnable success, Runnable failure);
 
     /**
      * Getter for the current user

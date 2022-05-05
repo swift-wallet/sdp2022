@@ -16,6 +16,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SwiftWallet">
         <activity
+            android:name="com.sdp.swiftwallet.presentation.wallet.WalletSelectActivity"
+            android:exported="false"
+            android:parentActivityName="com.sdp.swiftwallet.presentation.main.MainActivity" />
+
+        <activity
             android:name="com.sdp.swiftwallet.presentation.wallet.WalletInfoActivity"
             android:exported="false"
             android:parentActivityName="com.sdp.swiftwallet.presentation.main.MainActivity" />

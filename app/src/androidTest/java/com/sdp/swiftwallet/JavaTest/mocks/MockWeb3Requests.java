@@ -6,8 +6,6 @@ import com.sdp.swiftwallet.domain.repository.Web3ResponseType;
 import java.math.BigInteger;
 import java.util.concurrent.CompletableFuture;
 
-import jnr.posix.CmsgHdr;
-
 public class MockWeb3Requests implements IWeb3Requests {
     public BigInteger mockBalance = BigInteger.ONE;
     public CompletableFuture<BigInteger> mockFuture;

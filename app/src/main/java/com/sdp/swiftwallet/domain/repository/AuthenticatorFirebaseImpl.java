@@ -1,9 +1,16 @@
 package com.sdp.swiftwallet.domain.repository;
 
+import static com.sdp.swiftwallet.common.HelperFunctions.displayToast;
 import static com.sdp.swiftwallet.domain.repository.SwiftAuthenticator.LoginMethod.BASIC;
 
 import android.content.Context;
 import android.util.Log;
+
+import androidx.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.sdp.swiftwallet.domain.model.User;
@@ -20,6 +27,7 @@ import java.util.Optional;
 public class AuthenticatorFirebaseImpl implements SwiftAuthenticator {
 
     private final static String LOG_TAG = "FIREBASE_AUTH_TAG";
+    private final static String REGISTER_TAG = "FIREBASE_REGISTER_TAG";
 
     @InstallIn(SingletonComponent.class)
     @EntryPoint
@@ -73,6 +81,29 @@ public class AuthenticatorFirebaseImpl implements SwiftAuthenticator {
 
         return Result.SUCCESS;
     }
+
+    @Override
+    public Result signUp(String username, String email, String password, Runnable success, Runnable failure) {
+        if (username == null || email == null || password == null) return Result.ERROR;
+
+        auth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        FirebaseUser user = auth.getCurrentUser();
+                        this.currUser = new User(user.getEmail(), BASIC);
+
+                        Log.d(REGISTER_TAG, "Register Success");
+                        success.run();
+                    }
+                    else {
+                        Log.w(REGISTER_TAG, "Register Failure: Error from firebase task", task.getException());
+                        failure.run();
+                    }
+                });
+
+        return Result.SUCCESS;
+    }
+
 
     @Override
     public Optional<User> getUser() {

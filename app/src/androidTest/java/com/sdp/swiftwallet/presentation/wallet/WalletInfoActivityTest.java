@@ -1,14 +1,11 @@
-package com.sdp.swiftwallet.UiTest;
+package com.sdp.swiftwallet.presentation.wallet;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
-
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;

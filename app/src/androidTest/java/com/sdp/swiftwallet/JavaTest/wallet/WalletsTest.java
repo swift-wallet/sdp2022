@@ -49,4 +49,18 @@ public class WalletsTest {
         WalletKeyPair walletKeyPair = WalletKeyPair.fromKeyPair(keyPairGenerator.generateKeyPair(), id);
         assert(wallets.getWallets()[0].getHexPublicKey().equals(walletKeyPair.getHexPublicKey()));
     }
+    @Test
+    public void getCurrentKeyPairShouldWork(){
+        String[] seed = SeedGenerator.generateSeed();
+        KeyPairGenerator keyPairGenerator = new KeyPairGenerator(SeedGenerator.stringSeedToLong(seed));
+        Wallets wallets = new Wallets(seed, 1);
+        WalletKeyPair walletKeyPair = WalletKeyPair.fromKeyPair(keyPairGenerator.generateKeyPair(), 0);
+        assert(wallets.getCurrentKeyPair().getHexPublicKey().equals(walletKeyPair.getHexPublicKey()));
+    }
+    @Test
+    public void creatingAZeroCounterWalletsShouldWork(){
+        String[] seed = SeedGenerator.generateSeed();
+        Wallets wallets = new Wallets(seed, 0);
+        assert(wallets.getCurrentKeyPair() == null);
+    }
 }
