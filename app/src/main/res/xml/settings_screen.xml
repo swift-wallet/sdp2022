@@ -9,7 +9,7 @@
             android:defaultValue="true"
             android:key="history_switch"
             android:summary="Click to switch on or off"
-            android:title="Switch Preference" />
+            android:title="@string/history_switch_preference" />
 
         <ListPreference
             android:dialogTitle="Select duration"
