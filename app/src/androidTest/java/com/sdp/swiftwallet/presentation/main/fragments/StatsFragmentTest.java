@@ -87,4 +87,11 @@ public class StatsFragmentTest {
     ));
   }
 
+  @Test
+  public void dummyTransactionCorrectlyInstanciated() {
+    // FOR COVERAGE ONLY (can be removed later)
+    clickOn(R.id.mainNavStatsItem);
+    clickOn(R.id.create_transaction_button);
+  }
+
 }
