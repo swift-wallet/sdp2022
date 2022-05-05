@@ -109,5 +109,6 @@
 
     <string name="title_activity_crypto_graph">CryptoGraphActivity</string>
     <string name="contacts">Contacts</string>
+    <string name="settings_title">settings</string>
 
 </resources>
