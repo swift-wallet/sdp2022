@@ -37,8 +37,11 @@ public class Wallets implements IWallets {
 
     public Wallets(String[] seed, int to){
         this(seed);
-        while(counter < to){
-            generateWallet();
+        if(to > 0){
+            while(counter < to){
+                generateWallet();
+            }
+            currentKeyPair = keyPairsList.get(to - 1); // Set the last wallet as default current wallet
         }
     }
 

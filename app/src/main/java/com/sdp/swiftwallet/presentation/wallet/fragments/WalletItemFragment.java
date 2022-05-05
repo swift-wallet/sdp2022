@@ -13,12 +13,9 @@ import android.view.ViewGroup;
 
 import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.domain.model.wallet.IWalletKeyPair;
-import com.sdp.swiftwallet.domain.repository.IWeb3Requests;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
