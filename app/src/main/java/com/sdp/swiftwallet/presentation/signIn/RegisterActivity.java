@@ -17,6 +17,7 @@ import androidx.test.espresso.idling.CountingIdlingResource;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.sdp.cryptowalletapp.databinding.ActivityRegisterBinding;
+import com.sdp.swiftwallet.SwiftWalletApp;
 import com.sdp.swiftwallet.common.Constants;
 import com.sdp.swiftwallet.common.FirebaseUtil;
 import com.sdp.swiftwallet.domain.model.User;
@@ -139,9 +140,12 @@ public class RegisterActivity extends AppCompatActivity {
         // this is a comment
         if (inputsValid(username, email, password, confirmPassword)) {
             loading(true);
-            Map<String, Object> userMap = setUser(authenticator.getUid().get(), username, email, Constants.DEFAULT_USER_IMAGE);
             SwiftAuthenticator.Result registerRes = authenticator.signUp(username, email, password,
-                    () -> addUserToDatabase(userMap),
+                    () -> {
+                        ((SwiftWalletApp) getApplication()).setCurrUser(authenticator.getUser().get());
+                        Map<String, Object> userMap = setUser(authenticator.getUid().get(), username, email, Constants.DEFAULT_USER_IMAGE);
+                        addUserToDatabase(userMap);
+                    },
                     () -> handleError(SwiftAuthenticator.Result.ERROR));
 
             if (registerRes != SwiftAuthenticator.Result.SUCCESS) {

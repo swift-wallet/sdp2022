@@ -3,6 +3,7 @@ package com.sdp.swiftwallet;
 import android.app.Application;
 import android.content.Context;
 
+import com.sdp.swiftwallet.domain.model.User;
 import com.sdp.swiftwallet.domain.model.wallet.cryptography.SeedGenerator;
 import com.sdp.swiftwallet.domain.repository.TransactionHistoryProducer;
 
@@ -14,6 +15,7 @@ import dagger.hilt.android.HiltAndroidApp;
 public class SwiftWalletApp extends Application {
     private final TransactionHistoryProducer transactionHistoryProducer = null;
     private IWallets wallets = null;
+    private User currUser = null;
 
     private static Context context;
 
@@ -60,5 +62,21 @@ public class SwiftWalletApp extends Application {
      */
     public static Context getAppContext() {
         return SwiftWalletApp.context;
+    }
+
+    /**
+     * Getter for the currently signed in user
+     * @return
+     */
+    public User getCurrUser() {
+        return currUser;
+    }
+
+    /**
+     * Setter for the current user
+     * @param user the user which is signed in
+     */
+    public void setCurrUser(User user) {
+        this.currUser = user;
     }
 }

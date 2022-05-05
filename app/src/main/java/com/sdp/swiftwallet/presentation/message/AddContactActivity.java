@@ -10,11 +10,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.sdp.cryptowalletapp.R;
 import com.sdp.cryptowalletapp.databinding.ActivityAddContactBinding;
+import com.sdp.swiftwallet.SwiftWalletApp;
 import com.sdp.swiftwallet.common.Constants;
 import com.sdp.swiftwallet.common.FirebaseUtil;
 import com.sdp.swiftwallet.domain.model.Contact;
@@ -87,9 +86,10 @@ public class AddContactActivity extends AppCompatActivity {
                         for (QueryDocumentSnapshot documentSnapshot: task.getResult()) {
                             String contactUID = documentSnapshot.getString(Constants.KEY_UID);
                             Contact contact = new Contact();
-                            contact.name = documentSnapshot.getString(Constants.KEY_USERNAME);
+                            contact.username = documentSnapshot.getString(Constants.KEY_USERNAME);
                             contact.email = documentSnapshot.getString(Constants.KEY_EMAIL);
                             contact.image = documentSnapshot.getString(Constants.KEY_IMAGE);
+                            Log.d(ADD_CONTACT_TAG, "put contact with uid: " + contactUID);
                             contacts.put(contactUID, contact);
                         }
                         // TODO: showPreview()
@@ -111,11 +111,19 @@ public class AddContactActivity extends AppCompatActivity {
         confirmLoading(true);
 
         // TODO: change this behaviour later
-        // select one at random
-        Map.Entry<String,Contact> entry = contacts.entrySet().iterator().next();
-        String contactUID = entry.getKey();
-        Contact contact = entry.getValue();
-        String userKey = authenticator.getUid().get();
+        // select the first found
+        String contactUID = null;
+        Contact contact = null;
+        for (Map.Entry<String, Contact> entry: contacts.entrySet()) {
+            if (entry.getKey() != null) {
+                contactUID = entry.getKey();
+                Log.d(ADD_CONTACT_TAG, "Add contact with uid: " + contactUID);
+                contact = entry.getValue();
+                break;
+            }
+        }
+        String userKey = ((SwiftWalletApp) getApplication()).getCurrUser().getUid();
+        String finalContactUID = contactUID;
         db.collection(Constants.KEY_COLLECTION_USERS)
                 .document(userKey)
                 .collection(Constants.KEY_COLLECTION_CONTACTS)
@@ -125,7 +133,7 @@ public class AddContactActivity extends AppCompatActivity {
                     mIdlingResource.decrement();
                     confirmLoading(false);
                     displayToast(getApplicationContext(), "Contact successfully added");
-                    Log.d(ADD_CONTACT_TAG, "DocumentSnapshot added with ID: " + contactUID);
+                    Log.d(ADD_CONTACT_TAG, "DocumentSnapshot added with ID: " + finalContactUID);
 
                     // TODO: make it come back to message fragment
                     startActivity(new Intent(getApplicationContext(), MainActivity.class));

@@ -8,13 +8,11 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.sdp.cryptowalletapp.R;
 import com.sdp.cryptowalletapp.databinding.FragmentMessageBinding;
+import com.sdp.swiftwallet.SwiftWalletApp;
 import com.sdp.swiftwallet.common.Constants;
 import com.sdp.swiftwallet.common.FirebaseUtil;
 import com.sdp.swiftwallet.domain.model.Contact;
@@ -27,19 +25,20 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
 /**
  * A simple {@link Fragment} subclass.
  * create an instance of this fragment.
  */
+@AndroidEntryPoint
 public class MessageFragment extends Fragment {
     private FragmentMessageBinding binding;
 
-    @Inject
-    SwiftAuthenticator authenticator;
+    @Inject SwiftAuthenticator authenticator;
     private FirebaseFirestore db;
 
     private List<Contact> contacts;
-    private RecyclerView contactRecyclerView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -74,7 +73,7 @@ public class MessageFragment extends Fragment {
      * Get all contacts from user and display recyclerView
      */
     private void getContacts() {
-        String userKey = authenticator.getUid().get();
+        String userKey = ((SwiftWalletApp) getActivity().getApplication()).getCurrUser().getUid();
 
         loading(true);
         db.collection(Constants.KEY_COLLECTION_USERS)
@@ -87,7 +86,7 @@ public class MessageFragment extends Fragment {
                         contacts = new ArrayList<>();
                         for (QueryDocumentSnapshot queryDocumentSnapshot: task.getResult()) {
                             Contact contact = new Contact();
-                            contact.name = queryDocumentSnapshot.getString(Constants.KEY_USERNAME);
+                            contact.username = queryDocumentSnapshot.getString(Constants.KEY_USERNAME);
                             contact.email = queryDocumentSnapshot.getString(Constants.KEY_EMAIL);
                             contact.image = queryDocumentSnapshot.getString(Constants.KEY_IMAGE);
                             contacts.add(contact);
