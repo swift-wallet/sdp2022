@@ -5,30 +5,32 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.sdp.cryptowalletapp.R;
+import com.sdp.swiftwallet.common.HelperFunctions;
 import com.sdp.swiftwallet.di.WalletProvider;
+import com.sdp.swiftwallet.domain.model.wallet.IWalletKeyPair;
 import com.sdp.swiftwallet.domain.repository.IWeb3Requests;
 import com.sdp.swiftwallet.presentation.wallet.CreateSeedActivity;
-import com.sdp.swiftwallet.presentation.wallet.fragments.WalletItemFragment;
+import com.sdp.swiftwallet.presentation.wallet.WalletInfoActivity;
+import com.sdp.swiftwallet.presentation.wallet.WalletSelectActivity;
 
 import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
 /**
- * Represents the home screen
+ * Home screen
  */
 @AndroidEntryPoint
 public class HomeFragment extends Fragment {
 
     private View fragmentView;
-    private WalletItemFragment walletItemFragment;
 
     @Inject
     public WalletProvider walletProvider;
@@ -42,62 +44,44 @@ public class HomeFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        walletItemFragment = new WalletItemFragment();
-        walletItemFragment.initWeb3(web3Requests);
-        getChildFragmentManager().beginTransaction()
-                .add(R.id.home_nested_frag_container, walletItemFragment, WalletItemFragment.class.getName())
-                .setReorderingAllowed(true)
-                .commit();
-
         hasSeed = walletProvider.hasWallets();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        fragmentView = inflater.inflate(R.layout.fragment_home, container, false);
+        fragmentView.findViewById(R.id.seed_setup).setOnClickListener(this::launchSeedSetup);
+        fragmentView.findViewById(R.id.first_wallet_setup_button).setOnClickListener(this::launchWalletSelector);
+        fragmentView.findViewById(R.id.item_address).setOnClickListener(this::launchWalletSelector);
+        fragmentView.findViewById(R.id.show_qr_button).setOnClickListener(this::launchWalletInfo);
+        return fragmentView;
     }
 
-    /**
-     * Sets up the view on creation
-     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        fragmentView = view;
-        if( !hasSeed ){
-            // If context does not have a seed defined, show the buttons to be able to set it up
-            fragmentView.findViewById(R.id.seed_setup).setOnClickListener((v) -> goToSeedSetup());
-            fragmentView.findViewById(R.id.create_address_button).setVisibility(View.GONE);
-        } else {
-            // Else recover the wallets and update the UI
-            recoverWalletsView();
-            if (walletItemFragment.itemCount() != walletProvider.getWallets().getCounter()){
-                recoverWalletsList();
-            }
-        }
+        checkSeedState();
     }
 
-    /**
-     * Recover wallets on resume
-     */
     @Override
     public void onResume() {
         super.onResume();
+        checkSeedState();
+    }
+
+    private void checkSeedState() {
         if( walletProvider.hasWallets() != hasSeed ){
-            // State might have changed when resumed, so seed might have been set or unset
-            if( !hasSeed ){
-                recoverWalletsView();
-                recoverWalletsList();
-                hasSeed = true;
-            }
+            hasSeed = !hasSeed;
+        }
+        if(hasSeed) {
+            recoverWalletView();
+            fragmentView.findViewById(R.id.seed_setup_layout).setVisibility(View.GONE);
+        } else {
+            fragmentView.findViewById(R.id.seed_setup_layout).setVisibility(View.VISIBLE);
         }
     }
 
-    /**
-     * Stop and save the counter
-     */
     @Override
     public void onStop() {
         super.onStop();
@@ -106,42 +90,43 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    /**
-     * Resetting the view to handle wallets list
-     */
-    private void recoverWalletsView() {
-        View seedNotSetup = fragmentView.findViewById(R.id.seed_not_setup);
-        View seedSetup = fragmentView.findViewById(R.id.seed_setup);
-        ViewGroup viewGroup = ((ViewGroup) seedSetup.getParent());
-        viewGroup.removeView(seedNotSetup);
-        viewGroup.removeView(seedSetup);
-        fragmentView.findViewById(R.id.create_address_button).setVisibility(View.VISIBLE);
-        fragmentView.findViewById(R.id.create_address_button).setOnClickListener((v) -> createAddress());
+    private void setSelectedWallet(IWalletKeyPair walletKeyPair) {
+        ((TextView)fragmentView.findViewById(R.id.item_address))
+                .setText(HelperFunctions.toShortenedFormatAddress(walletKeyPair.getHexPublicKey()));
+        // Should calculate total worth later
+        ((TextView)fragmentView.findViewById(R.id.ether_balance))
+                .setText(walletKeyPair.getNativeBalance().toString());
+        walletProvider.getWallets().setCurrentKeyPair(walletKeyPair);
     }
 
-    /**
-     * Recovers list of current wallets
-     */
-    private void recoverWalletsList(){
-        int counter = walletProvider.getWallets().getCounter();
-        for(int i=0 ; i< counter; i++){
-            walletItemFragment.addWalletItem(walletProvider.getWallets().getWalletFromId(i));
+    // Resetting the view to handle wallets list
+    private void recoverWalletView() {
+        IWalletKeyPair currentKeyPair = walletProvider.getWallets().getCurrentKeyPair();
+        if(currentKeyPair != null){
+            setSelectedWallet(currentKeyPair);
+            fragmentView.findViewById(R.id.wallet_container).setVisibility(View.VISIBLE);
+            fragmentView.findViewById(R.id.first_wallet_setup_layout).setVisibility(View.GONE);
+        } else {
+            fragmentView.findViewById(R.id.first_wallet_setup_layout).setVisibility(View.VISIBLE);
         }
     }
 
-    /**
-     * Create an address
-     */
-    private void createAddress(){
-        int walletID = walletProvider.getWallets().generateWallet();
-        walletItemFragment.addWalletItem(walletProvider.getWallets().getWalletFromId(walletID));
-    }
-
-    /**
-     * Start Create Seed activity
-     */
-    private void goToSeedSetup(){
+    private void launchSeedSetup(View v) {
         Intent intent = new Intent(requireActivity(), CreateSeedActivity.class);
         startActivity(intent);
+    }
+
+    private void launchWalletInfo(View v) {
+        Intent intent = new Intent(requireActivity(), WalletInfoActivity.class);
+        IWalletKeyPair walletKeyPair = walletProvider.getWallets().getCurrentKeyPair(); // check if not null
+        intent.putExtra(WalletInfoActivity.ADDRESS_EXTRA, walletKeyPair.getHexPublicKey());
+        intent.putExtra(WalletInfoActivity.BALANCE_EXTRA, walletKeyPair.getNativeBalance().toString());
+        startActivity(intent);
+    }
+
+    private void launchWalletSelector(View v) {
+        Intent selectorIntent = new Intent(requireContext(), WalletSelectActivity.class);
+        // Maybe add extra of already selected wallet later ?
+        startActivity(selectorIntent);
     }
 }

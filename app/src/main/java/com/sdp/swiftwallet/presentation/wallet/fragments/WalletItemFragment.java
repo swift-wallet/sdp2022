@@ -13,12 +13,9 @@ import android.view.ViewGroup;
 
 import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.domain.model.wallet.IWalletKeyPair;
-import com.sdp.swiftwallet.domain.repository.IWeb3Requests;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
@@ -27,19 +24,13 @@ import dagger.hilt.android.AndroidEntryPoint;
  */
 @AndroidEntryPoint
 public class WalletItemFragment extends Fragment {
-
-    private final List<WalletItem> walletItems;
+    private final List<WalletItemRecyclerViewAdapter.WalletItem> walletItems;
     private final WalletItemRecyclerViewAdapter walletItemRecyclerViewAdapter;
 
-    private IWeb3Requests web3Requests;
 
     public WalletItemFragment() {
         walletItems = new ArrayList<>();
         walletItemRecyclerViewAdapter = new WalletItemRecyclerViewAdapter(walletItems);
-    }
-
-    public void initWeb3(IWeb3Requests web3Requests){
-        this.web3Requests = web3Requests;
     }
 
     @Override
@@ -56,21 +47,14 @@ public class WalletItemFragment extends Fragment {
         return view;
     }
 
-    /**
-     * @return numbers of wallets
-     */
     public int itemCount() {
         return walletItemRecyclerViewAdapter.getItemCount();
     }
 
-    /**
-     * Adds a Wallet Item from a keypair object
-     * @param keyPair keyPairWallet
-     */
+    //Adds a Wallet Item from a keypair object
     public void addWalletItem(IWalletKeyPair keyPair){
         int count = walletItemRecyclerViewAdapter.getItemCount();
-        keyPair.updateBalance(web3Requests);
-        WalletItem newItem = new WalletItem(keyPair);
+        WalletItemRecyclerViewAdapter.WalletItem newItem = new WalletItemRecyclerViewAdapter.WalletItem(keyPair);
         walletItems.add(newItem);
         walletItemRecyclerViewAdapter.notifyItemChanged(count);
     }
