@@ -1,5 +1,6 @@
 package com.sdp.swiftwallet.presentation.main;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -52,6 +53,8 @@ public class MainActivity extends AppCompatActivity {
         switch(item.getItemId()) {
             case R.id.appbar_settings:
                 // User chose the "Settings" item, show the app settings UI...
+                Intent i = new Intent(MainActivity.this, SettingsActivity.class);
+                startActivity(i);
                 return true;
             default:
                 // If we got here, the user's action was not recognized.

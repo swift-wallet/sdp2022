@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:key="history_category"
+        android:title="Transaction History">
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="history_switch"
+            android:summary="Click to switch on or off"
+            android:title="Switch Preference" />
+
+        <ListPreference
+            android:dialogTitle="Select duration"
+            android:entries="@array/settings_history_list_titles"
+            android:entryValues="@array/settings_history_list_values"
+            android:key="history_list"
+            android:summary="Click to show a list to choose from"
+            android:title="List Preference" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="wallet_category"
+        android:title="Wallets">
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="wallet_switch"
+            android:summary="Click to switch on or off"
+            android:title="Switch Preference" />
+
+    </PreferenceCategory>
+
+    <Preference
+        android:key="feedback"
+        android:summary="Report technical issues or suggest new features"
+        android:title="Send feedback" />
+
+</PreferenceScreen>
