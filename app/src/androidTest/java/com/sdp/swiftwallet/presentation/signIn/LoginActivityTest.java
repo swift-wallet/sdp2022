@@ -13,25 +13,16 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 import android.content.Context;
 import android.content.Intent;
+
 import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 import com.google.firebase.auth.FirebaseAuth;
 import com.sdp.cryptowalletapp.R;
-import com.sdp.swiftwallet.di.AuthenticatorModule;
-import com.sdp.swiftwallet.domain.model.User;
 import com.sdp.swiftwallet.domain.repository.SwiftAuthenticator;
 import com.sdp.swiftwallet.presentation.main.MainActivity;
-import dagger.Module;
-import dagger.Provides;
-import dagger.hilt.InstallIn;
-import dagger.hilt.android.testing.HiltAndroidRule;
-import dagger.hilt.android.testing.HiltAndroidTest;
-import dagger.hilt.android.testing.UninstallModules;
-import dagger.hilt.components.SingletonComponent;
-import java.util.Optional;
-import javax.inject.Inject;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -39,21 +30,14 @@ import org.junit.Test;
 import org.junit.rules.RuleChain;
 import org.junit.runner.RunWith;
 
-@UninstallModules(AuthenticatorModule.class)
+import javax.inject.Inject;
+
+import dagger.hilt.android.testing.HiltAndroidRule;
+import dagger.hilt.android.testing.HiltAndroidTest;
+
 @HiltAndroidTest
 @RunWith(AndroidJUnit4.class)
 public class LoginActivityTest {
-
-    @Module
-    @InstallIn(SingletonComponent.class)
-    public static class TestModule {
-
-        @Provides
-        public static SwiftAuthenticator provideAuthenticator() {
-            return authenticator;
-        }
-
-    }
 
     // Rules Set Up
     public ActivityScenarioRule<LoginActivity> testRule = new ActivityScenarioRule<>(LoginActivity.class);
@@ -61,22 +45,24 @@ public class LoginActivityTest {
 
     @Inject
     FirebaseAuth mAuth;
-    private static final DummyAuthenticator authenticator = new DummyAuthenticator();
+    DummyAuthenticator authenticator;
 
     @Rule
-    public final RuleChain rule =
-            RuleChain.outerRule(hiltRule).around(testRule);
+    public final RuleChain rule = RuleChain.outerRule(hiltRule).around(testRule);
 
     @Before
     public void setup() {
+        // Not sure but this may be required as the first line in setUp()
         hiltRule.inject();
-
+        // Init the fake authenticator by using a static instance from DummyAuthenticator
+        authenticator = DummyAuthenticator.INSTANCE;
+        // Init Espresso intents
         Intents.init();
-
+        // Make sure no user is signed in before testing
         mAuth.signOut();
-
+        // Make sure no dialogs are displayed before testing
         closeSystemDialogs();
-
+        // Reset fake authenticator flags
         authenticator.setExecFailure(false);
         authenticator.setExecSuccess(false);
     }
@@ -86,6 +72,9 @@ public class LoginActivityTest {
         Intents.release();
     }
 
+    /**
+     * Close all dialogs from the ongoing view
+     */
     public void closeSystemDialogs() {
         Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
         context.sendBroadcast(new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS));
@@ -228,44 +217,5 @@ public class LoginActivityTest {
         onView(withText("Too many unsuccessful attempts"))
                 .inRoot(isDialog())
                 .check(matches(isDisplayed()));
-    }
-
-    public static class DummyAuthenticator implements SwiftAuthenticator {
-
-        SwiftAuthenticator.Result result;
-
-        boolean execSuccess;
-        boolean execFailure;
-
-        @Override
-        public Result signIn(String email, String password, Runnable success, Runnable failure) {
-            if (execSuccess) {
-                success.run();
-            }
-
-            if (execFailure) {
-                failure.run();
-            }
-
-            return result;
-        }
-
-        @Override
-        public Optional<User> getUser() {
-            return Optional.empty();
-        }
-
-        public void setResult(SwiftAuthenticator.Result result) {
-            this.result = result;
-        }
-
-        public void setExecSuccess(boolean execSuccess) {
-            this.execSuccess = execSuccess;
-        }
-
-        public void setExecFailure(boolean execFailure) {
-            this.execFailure = execFailure;
-        }
-
     }
 }

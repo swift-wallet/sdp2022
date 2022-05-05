@@ -10,35 +10,43 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.test.espresso.idling.CountingIdlingResource;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.sdp.cryptowalletapp.databinding.ActivityRegisterBinding;
 import com.sdp.swiftwallet.common.Constants;
 import com.sdp.swiftwallet.common.FirebaseUtil;
 import com.sdp.swiftwallet.domain.model.User;
+import com.sdp.swiftwallet.domain.repository.SwiftAuthenticator;
+
+import javax.inject.Inject;
+
+import dagger.hilt.android.AndroidEntryPoint;
 
 /**
- * Represents the registering process activity
- */
+  * Represents the registering process activity
+  */
+@AndroidEntryPoint
 public class RegisterActivity extends AppCompatActivity {
 
-    private static final String EMAIL_REGISTER_TAG = "EMAIL_REGISTER_TAG";
+    private static final String REGISTER_TAG = "EMAIL_REGISTER_TAG";
 
     private ActivityRegisterBinding binding;
 
-    private FirebaseAuth mAuth;
+    @Inject SwiftAuthenticator authenticator;
     private FirebaseFirestore db;
 
     // Used for debugging purpose and testing
     private CountingIdlingResource mIdlingResource;
+
+    // Useful to have as global variable
+    private EditText usernameEt;
+    private EditText emailEt;
+    private EditText passwordEt;
+    private EditText confirmPasswordEt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,9 +54,13 @@ public class RegisterActivity extends AppCompatActivity {
         binding = ActivityRegisterBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        // Init auth client and db client
-        mAuth = FirebaseUtil.getAuth();
+        // Init db client
         db = FirebaseUtil.getFirestore();
+
+        usernameEt = binding.registerInputUsername;
+        emailEt = binding.registerInputEmail;
+        passwordEt = binding.registerInputPassword;
+        confirmPasswordEt = binding.registerInputConfirmPassword;
 
         // Init counting resource for async call in test
         mIdlingResource = new CountingIdlingResource("Register Calls");
@@ -60,7 +72,7 @@ public class RegisterActivity extends AppCompatActivity {
      * Set all listeners from registerActivity
      */
     private void setListeners() {
-        binding.registerBtn.setOnClickListener(v -> registerUser());
+        binding.registerBtn.setOnClickListener(v -> register());
     }
 
     /**
@@ -78,66 +90,71 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     /**
-     * Check for registration info validity and create user on client auth
+     * Check if inputs are valid (should be directly integrated to authenticator)
+     * @param username a username
+     * @param email an email
+     * @param password a password
+     * @param confirmPassword a confirmed password
+     * @return true if all inputs are valid, false otherwise
      */
-    private void registerUser() {
-        String username = binding.registerInputUsername.getText().toString().trim();
-        String email = binding.registerInputEmail.getText().toString().trim();
-        String password = binding.registerInputPassword.getText().toString().trim();
-        String confirmPassword = binding.registerInputConfirmPassword.getText().toString().trim();
+    private boolean inputsValid(String username, String email, String password, String confirmPassword) {
+        boolean isValid = true;
+        
+        if (!checkUsername(username, usernameEt)) isValid = false;
+        if (!checkEmail(email, emailEt)) isValid = false;
+        if (!checkPassword(password,
+                confirmPassword,
+                passwordEt)) isValid = false;
 
-        // Check validity of inputs
-        if (!checkUsername(username, binding.registerInputUsername)) return;
-        if (!checkEmail(email, binding.registerInputEmail)) return;
-        if (!checkPassword(password, confirmPassword, binding.registerInputPassword)) return;
-
-        // Increment counter before creating user
-        mIdlingResource.increment();
-        loading(true);
-        createUserWithEmailAndPassword(username, email, password);
+        return isValid;
     }
 
+    /**
+     * Method associated to the Register button
+     * Uses the injected SwiftAuthenticator
+     */
+    private void register() {
+        String username = usernameEt.getText().toString().trim();
+        String email = emailEt.getText().toString().trim();
+        String password = passwordEt.getText().toString().trim();
+        String confirmPassword = confirmPasswordEt.getText().toString().trim();
+
+        // this is a comment
+        if (inputsValid(username, email, password, confirmPassword)) {
+            loading(true);
+            User user = new User(email, BASIC);
+            SwiftAuthenticator.Result registerRes = authenticator.signUp(username, email, password,
+                    () -> addUserToDatabase(user),
+                    () -> handleError(SwiftAuthenticator.Result.ERROR));
+
+            if (registerRes != SwiftAuthenticator.Result.SUCCESS) {
+                handleError(registerRes);
+            }
+        }
+    }
 
     /**
-     * create user with username, email and password with client auth
-     * @param username user username
-     * @param email user email
-     * @param password user password
+     * Handle error from Swift Authenticator registration
      */
-    private void createUserWithEmailAndPassword(String username, String email, String password) {
-        mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            User user = new User(username, BASIC);
-
-                            // Dev feedback only (intermediate step)
-                            Log.d(EMAIL_REGISTER_TAG, "onComplete: User created for Auth");
-
-                            // Increment before database step begins; decrement to end auth step
-                            mIdlingResource.increment();
-                            registerUserToDatabase(user);
-                            mIdlingResource.decrement();
-                        }
-                        else {
-                            loading(false);
-                            // If user failed to create an account, decrement counter
-                            mIdlingResource.decrement();
-
-                            // User and Dev feedback
-                            displayToast(getApplicationContext(), "User failed to register");
-                            Log.w(EMAIL_REGISTER_TAG, "Error from task", task.getException());
-                        }
-                    }
-                });
+    private void handleError(SwiftAuthenticator.Result result) {
+        loading(false);
+        // TODO: refactor to integrate helper functions for checking
+        switch (result) {
+            case ERROR:
+                displayToast(getApplicationContext(), "User failed to register");
+                break;
+            default:
+                Log.d(REGISTER_TAG, "Unhandeled error in " + this.getClass().getName());
+                break;
+        }
     }
 
     /**
      * Add a user to the database and go back to login activity
-     * @param user the user to add to the database
+     * @param user the user to add
      */
-    private void registerUserToDatabase(User user) {
+    private void addUserToDatabase(User user) {
+        mIdlingResource.increment();
         db.collection(Constants.KEY_COLLECTION_USERS)
                 .add(user)
                 .addOnSuccessListener(documentReference -> {
@@ -145,7 +162,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                     // User and Dev feedback
                     displayToast(getApplicationContext(), "User successfully registered");
-                    Log.d(EMAIL_REGISTER_TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                    Log.d(REGISTER_TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
 
                     // Decrement counter if user successfully added to db
                     mIdlingResource.decrement();
@@ -158,7 +175,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                     // User and Dev feedback
                     displayToast(getApplicationContext(), "User failed to register");
-                    Log.w(EMAIL_REGISTER_TAG, "Error adding document", e);
+                    Log.w(REGISTER_TAG, "Error adding document", e);
                 });
     }
 

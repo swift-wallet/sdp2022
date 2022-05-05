@@ -12,6 +12,7 @@ import static org.hamcrest.Matchers.containsString;
 
 import android.content.Context;
 import android.content.Intent;
+
 import androidx.test.espresso.IdlingRegistry;
 import androidx.test.espresso.idling.CountingIdlingResource;
 import androidx.test.espresso.intent.Intents;
@@ -20,6 +21,7 @@ import androidx.test.platform.app.InstrumentationRegistry;
 import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.CryptoGraphActivity;
 import com.sdp.swiftwallet.domain.model.Currency;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
