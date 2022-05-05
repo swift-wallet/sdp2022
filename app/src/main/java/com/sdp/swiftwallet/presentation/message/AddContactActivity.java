@@ -18,6 +18,7 @@ import com.sdp.cryptowalletapp.databinding.ActivityAddContactBinding;
 import com.sdp.swiftwallet.common.Constants;
 import com.sdp.swiftwallet.common.FirebaseUtil;
 import com.sdp.swiftwallet.domain.model.Contact;
+import com.sdp.swiftwallet.domain.repository.SwiftAuthenticator;
 import com.sdp.swiftwallet.presentation.main.MainActivity;
 
 import java.util.HashMap;
@@ -34,8 +35,8 @@ public class AddContactActivity extends AppCompatActivity {
     private ActivityAddContactBinding binding;
 
     @Inject
-    FirebaseAuth mAuth;
-    FirebaseFirestore db;
+    SwiftAuthenticator authenticator;
+    private FirebaseFirestore db;
 
     // Used for debugging purpose
     private CountingIdlingResource mIdlingResource;
@@ -92,6 +93,7 @@ public class AddContactActivity extends AppCompatActivity {
                             contacts.put(contactUID, contact);
                         }
                         // TODO: showPreview()
+                        binding.previewBtnLayout.setVisibility(View.INVISIBLE);
                         binding.confirmBtnLayout.setVisibility(View.VISIBLE);
                     } else {
                         mIdlingResource.decrement();
@@ -113,8 +115,9 @@ public class AddContactActivity extends AppCompatActivity {
         Map.Entry<String,Contact> entry = contacts.entrySet().iterator().next();
         String contactUID = entry.getKey();
         Contact contact = entry.getValue();
+        String userKey = authenticator.getUid().get();
         db.collection(Constants.KEY_COLLECTION_USERS)
-                .document(mAuth.getUid())
+                .document(userKey)
                 .collection(Constants.KEY_COLLECTION_CONTACTS)
                 .document(contactUID)
                 .set(contact)

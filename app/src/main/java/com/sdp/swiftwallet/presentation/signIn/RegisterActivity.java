@@ -22,6 +22,9 @@ import com.sdp.swiftwallet.common.FirebaseUtil;
 import com.sdp.swiftwallet.domain.model.User;
 import com.sdp.swiftwallet.domain.repository.SwiftAuthenticator;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
@@ -106,6 +109,24 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     /**
+     * Set user fields in a Map to add to database
+     * @param uid the user uid which will be used as the key in the users database
+     * @param username the user username
+     * @param email the user email
+     * @param image the user image
+     * @return a Map with user fields
+     */
+    private Map<String, Object> setUser(String uid, String username, String email, String image) {
+        Map<String, Object> userMap = new HashMap<>();
+        userMap.put(Constants.KEY_UID, uid);
+        userMap.put(Constants.KEY_USERNAME, username);
+        userMap.put(Constants.KEY_EMAIL, email);
+        userMap.put(Constants.KEY_IMAGE, image);
+
+        return userMap;
+    }
+
+    /**
      * Method associated to the Register button
      * Uses the injected SwiftAuthenticator
      */
@@ -118,9 +139,9 @@ public class RegisterActivity extends AppCompatActivity {
         // this is a comment
         if (inputsValid(username, email, password, confirmPassword)) {
             loading(true);
-            User user = new User(email, BASIC);
+            Map<String, Object> userMap = setUser(authenticator.getUid().get(), username, email, Constants.DEFAULT_USER_IMAGE);
             SwiftAuthenticator.Result registerRes = authenticator.signUp(username, email, password,
-                    () -> addUserToDatabase(user),
+                    () -> addUserToDatabase(userMap),
                     () -> handleError(SwiftAuthenticator.Result.ERROR));
 
             if (registerRes != SwiftAuthenticator.Result.SUCCESS) {
@@ -147,18 +168,21 @@ public class RegisterActivity extends AppCompatActivity {
 
     /**
      * Add a user to the database and go back to login activity
-     * @param user the user to add
+     * @param userMap the map with all user fields to add
      */
-    private void addUserToDatabase(User user) {
+    private void addUserToDatabase(Map<String, Object> userMap) {
+        String userKey = (String) userMap.get(Constants.KEY_UID);
+
         mIdlingResource.increment();
         db.collection(Constants.KEY_COLLECTION_USERS)
-                .add(user)
+                .document(userKey)
+                .set(userMap)
                 .addOnSuccessListener(documentReference -> {
                     loading(false);
 
                     // User and Dev feedback
                     displayToast(getApplicationContext(), "User successfully registered");
-                    Log.d(REGISTER_TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                    Log.d(REGISTER_TAG, "DocumentSnapshot added with ID: " + userKey);
 
                     // Decrement counter if user successfully added to db
                     mIdlingResource.decrement();

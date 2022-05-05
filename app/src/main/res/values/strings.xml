@@ -105,7 +105,13 @@
     <string name="nav_stats">STATS</string>
     <string name="nav_send">SEND</string>
 
+    <!-- CONTACTS -->
+    <string name="addContactTitle">New Contact</string>
+    <string name="previewTv">Preview</string>
+    <string name="confirmTv">Confirm</string>
+
     <string name="title_activity_crypto_graph">CryptoGraphActivity</string>
     <string name="contacts">Contacts</string>
+    <string name="addContactOr">Or Search Friend</string>
 
 </resources>

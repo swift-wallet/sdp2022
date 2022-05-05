@@ -52,4 +52,10 @@ public interface SwiftAuthenticator {
      * @return None if there is no signed-in user, otherwise Some(user) if User user is signed in
      */
     Optional<User> getUser();
+
+    /**
+     * Getter for the current user uid
+     * @return None if there is no signed-in user, otherwise Some(uid) if User user is signed in
+     */
+    Optional<String> getUid();
 }
