@@ -3,6 +3,8 @@ package com.sdp.swiftwallet.presentation.main.fragments;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.intent.Intents.intended;
+import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 
@@ -15,6 +17,7 @@ import androidx.test.espresso.intent.Intents;
 
 import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.presentation.main.MainActivity;
+import com.sdp.swiftwallet.presentation.message.AddContactActivity;
 
 import org.junit.After;
 import org.junit.Before;
@@ -60,7 +63,7 @@ public class MessageFragmentTest {
             onView(withId(R.id.mainNavMessageItem)).perform(click());
             onView(withId(R.id.contactsTitle)).check(matches(isDisplayed()));
             onView(withId(R.id.addContactBtn)).check(matches(isDisplayed()));
-            onView(withId(R.id.contactsRecyclerView)).check(matches(isDisplayed()));
+            onView(withId(R.id.textErrorMessage)).check(matches(isDisplayed()));
         }
     }
 
@@ -70,7 +73,7 @@ public class MessageFragmentTest {
             onView(withId(R.id.mainNavMessageItem)).perform(click());
             onView(withId(R.id.addContactBtn)).perform(click());
 
-            onView(withId(R.id.contactNameTv)).check(matches(isDisplayed()));
+            intended(hasComponent(AddContactActivity.class.getName()));
         }
     }
 
