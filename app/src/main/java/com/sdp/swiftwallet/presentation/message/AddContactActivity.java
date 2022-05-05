@@ -12,11 +12,15 @@ import android.view.View;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.zxing.WriterException;
 import com.sdp.cryptowalletapp.databinding.ActivityAddContactBinding;
 import com.sdp.swiftwallet.SwiftWalletApp;
 import com.sdp.swiftwallet.common.Constants;
 import com.sdp.swiftwallet.common.FirebaseUtil;
 import com.sdp.swiftwallet.domain.model.Contact;
+import com.sdp.swiftwallet.domain.model.QRCodeGenerator;
+import com.sdp.swiftwallet.domain.model.QRCodeScanner;
+import com.sdp.swiftwallet.domain.model.User;
 import com.sdp.swiftwallet.domain.repository.SwiftAuthenticator;
 import com.sdp.swiftwallet.presentation.main.MainActivity;
 
@@ -37,6 +41,9 @@ public class AddContactActivity extends AppCompatActivity {
     SwiftAuthenticator authenticator;
     private FirebaseFirestore db;
 
+    // For now just log the scanned email
+    QRCodeScanner qrCodeScanner = new QRCodeScanner(this::setEmail, this);
+
     // Used for debugging purpose
     private CountingIdlingResource mIdlingResource;
 
@@ -52,6 +59,12 @@ public class AddContactActivity extends AppCompatActivity {
         // Init counting resource for async call in test
         mIdlingResource = new CountingIdlingResource("AddContact Calls");
 
+        try {
+            String currentUserEmail = ((SwiftWalletApp)getApplication()).getCurrUser().getEmail();
+            binding.contactsQrView.setImageBitmap(QRCodeGenerator.encodeAsBitmap(currentUserEmail));
+        } catch (WriterException e) {
+            e.printStackTrace();
+        }
         setListeners();
     }
 
@@ -61,6 +74,11 @@ public class AddContactActivity extends AppCompatActivity {
     private void setListeners() {
         binding.previewBtn.setOnClickListener(v -> searchContact());
         binding.confirmBtn.setOnClickListener(v -> addContact());
+        binding.contactsViaQrButton.setOnClickListener(v -> qrCodeScanner.launch());
+    }
+
+    private void setEmail(String email){
+        binding.addContactInputEmail.setText(email);
     }
 
     /**
