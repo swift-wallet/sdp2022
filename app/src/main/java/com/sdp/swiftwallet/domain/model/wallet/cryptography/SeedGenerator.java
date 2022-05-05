@@ -1,6 +1,5 @@
 package com.sdp.swiftwallet.domain.model.wallet.cryptography;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 
@@ -16,7 +15,8 @@ public class SeedGenerator {
     public static final String[] words =
             {"Plane", "Paper", "Bird", "Tree", "Knife", "Expensive", "Cheap", "Cheaper", "Inspiration",
             "Bad", "Mad", "Flat", "Squared", "Rectangle", "Guitar", "Secret", "Often", "This", "Large",
-            "List", "Array", "Words", "Long", "Many", "Batman", "Spiderman", "Hulk", "Epfl", "Sciper"};
+            "List", "Array", "Words", "Long", "Many", "Batman", "Spiderman", "Hulk", "Epfl", "Sciper",
+            "Cap", "Arrow", "Bank", "Bitcoin", "Cactus", "Brother", "Hood", "Cat", "Dog", "Fish"};
 
     public static final String WALLETS_SHARED_PREFERENCES_NAME = "WALLETS";
     public static final String PREF_SEED_ID = "SEED";
