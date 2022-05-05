@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="35dp"
+    android:padding="25dp"
     tools:context="com.sdp.swiftwallet.presentation.message.AddContactActivity">
 
     <TextView
@@ -24,15 +24,25 @@
         android:id="@+id/contactQRCodeLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="25dp"
         android:gravity="center_horizontal"
         android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@+id/addContactTitle"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:visibility="invisible">
+        app:layout_constraintLeft_toLeftOf="parent">
 
-        <!-- TODO: ADD QRCODE HERE -->
+        <ImageView
+            android:id="@+id/contacts_qr_view"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_marginBottom="15dp"
+            android:src="@drawable/ether"
+            />
+        <Button
+            android:id="@+id/contacts_via_qr_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/add_via_QR"/>
 
     </LinearLayout>
 
@@ -45,7 +55,7 @@
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintTop_toBottomOf="@+id/contactQRCodeLayout"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent" />
 
@@ -53,7 +63,7 @@
         android:id="@+id/addContactInputEmail"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:background="@drawable/background_input"
         app:layout_constraintTop_toBottomOf="@+id/addContactOr"
         app:layout_constraintRight_toRightOf="parent"
@@ -71,7 +81,7 @@
         android:id="@+id/previewBtnLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:animateLayoutChanges="true"
         app:layout_constraintTop_toBottomOf="@+id/addContactInputEmail"
         app:layout_constraintRight_toRightOf="parent"

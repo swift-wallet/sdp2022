@@ -109,6 +109,7 @@
     <string name="addContactTitle">New Contact</string>
     <string name="previewTv">Preview</string>
     <string name="confirmTv">Confirm</string>
+    <string name="add_via_QR">Add via QR code</string>
 
     <string name="title_activity_crypto_graph">CryptoGraphActivity</string>
     <string name="contacts">Contacts</string>
