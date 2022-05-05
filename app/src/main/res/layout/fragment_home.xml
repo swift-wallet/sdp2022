@@ -21,7 +21,8 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
-        android:id="@+id/linearLayout"
+        android:visibility="gone"
+        android:id="@+id/seed_setup_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -49,6 +50,27 @@
     </LinearLayout>
 
     <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/first_wallet_setup_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Button
+            android:id="@+id/first_wallet_setup_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:text="@string/first_wallet_not_setup" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:visibility="gone"
         android:id="@+id/wallet_container"
         android:layout_width="280dp"
         android:layout_height="320dp"
@@ -71,7 +93,7 @@
             android:background="@drawable/text_box"
             android:text="@string/random_example_address_short"
             android:textAppearance="?attr/textAppearanceListItem"
-            android:textIsSelectable="true"
+            android:textIsSelectable="false"
             android:textSize="@dimen/wallet_item_address_size" />
 
         <TextView

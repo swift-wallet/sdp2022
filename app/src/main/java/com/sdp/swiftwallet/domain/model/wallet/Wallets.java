@@ -24,6 +24,7 @@ public class Wallets implements IWallets {
     private final ArrayList<WalletKeyPair> keyPairsList;
     private final HashMap<String, WalletKeyPair> keyPairsMap;
     private final KeyPairGenerator keyPairGenerator;
+    private IWalletKeyPair currentKeyPair = null;
 
     private int counter = 0;
 
@@ -77,5 +78,12 @@ public class Wallets implements IWallets {
     private void addKeyPair(WalletKeyPair walletKeyPair) {
         keyPairsList.add(walletKeyPair);
         keyPairsMap.put(walletKeyPair.getHexPublicKey(), walletKeyPair);
+    }
+
+    public void setCurrentKeyPair(IWalletKeyPair currentKeyPair) {
+        this.currentKeyPair = currentKeyPair;
+    }
+    public IWalletKeyPair getCurrentKeyPair() {
+        return currentKeyPair;
     }
 }
