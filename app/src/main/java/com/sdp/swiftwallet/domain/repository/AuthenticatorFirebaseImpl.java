@@ -48,14 +48,7 @@ public class AuthenticatorFirebaseImpl implements SwiftAuthenticator {
         auth = hiltEntryPoint.getFirebaseAuth();
     }
 
-    /**
-     * Signs in the given user
-     * @param email    the email of the user
-     * @param password the password of the user
-     * @param success  a callback to run if the user successfully logs in
-     * @param failure  a callback to run if the user fails to log in
-     * @return
-     */
+
     @Override
     public Result signIn(String email, String password, Runnable success, Runnable failure) {
         if (email == null || password == null) {
@@ -90,9 +83,6 @@ public class AuthenticatorFirebaseImpl implements SwiftAuthenticator {
         return Result.SUCCESS;
     }
 
-    /**
-     * Returns the current user
-     */
     @Override
     public Result signUp(String username, String email, String password, Runnable success, Runnable failure) {
         if (username == null || email == null || password == null) return Result.ERROR;
