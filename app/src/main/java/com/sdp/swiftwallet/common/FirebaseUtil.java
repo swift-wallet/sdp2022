@@ -20,7 +20,7 @@ public class FirebaseUtil {
     private static FirebaseAuth AUTH;
 
     /**
-     * Gets the current used firestore
+     * Gets the current used Firestore
      * @return instance of Firestore if non null
      */
     public static FirebaseFirestore getFirestore() {
@@ -38,7 +38,9 @@ public class FirebaseUtil {
      * @return the current Firebase Authentication if non null
      */
     public static FirebaseAuth getAuth() {
-        if (AUTH == null) {
+
+        if (AUTH != null) {
+        } else {
             AUTH = FirebaseAuth.getInstance();
             if (sUseEmulators) {
                 AUTH.useEmulator(ANDROID_HOST, FIREBASE_AUTH_EMULATOR_HOST);

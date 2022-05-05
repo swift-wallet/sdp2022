@@ -24,3 +24,4 @@ public class FirebaseAuthModule {
         return FirebaseUtil.getAuth();
     }
 }
+
