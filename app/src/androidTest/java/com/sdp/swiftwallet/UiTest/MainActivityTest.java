@@ -4,6 +4,9 @@ import static androidx.test.espresso.Espresso.closeSoftKeyboard;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.intent.Intents.intended;
+import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
+import static androidx.test.espresso.intent.matcher.IntentMatchers.toPackage;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 
@@ -12,6 +15,8 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule;
 
 import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.presentation.main.MainActivity;
+import com.sdp.swiftwallet.presentation.main.SettingsActivity;
+import com.sdp.swiftwallet.presentation.signIn.ForgotPasswordActivity;
 
 import org.junit.After;
 import org.junit.Before;
@@ -77,6 +82,22 @@ public class MainActivityTest {
         closeSoftKeyboard();
         onView(withId(R.id.mainNavProfileItem)).perform(click());
         onView(withId(R.id.profile_fragment)).check(matches(isDisplayed()));
+        closeSoftKeyboard();
+    }
+
+    @Test
+    public void settings_button_is_displayed() {
+        closeSoftKeyboard();
+        onView(withId(R.id.appbar_settings)).check(matches(isDisplayed()));
+        closeSoftKeyboard();
+    }
+
+    @Test
+    public void settings_button_fires_intent() {
+        closeSoftKeyboard();
+        onView(withId(R.id.appbar_settings)).perform(click());
+        intended(toPackage("com.sdp.swiftwallet"));
+        intended(hasComponent(SettingsActivity.class.getName()));
         closeSoftKeyboard();
     }
 }

@@ -4,7 +4,6 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.intent.Intents.intended;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
-import static androidx.test.espresso.matcher.ViewMatchers.hasMinimumChildCount;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static com.adevinta.android.barista.interaction.BaristaClickInteractions.clickOn;
@@ -19,6 +18,9 @@ import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.domain.model.wallet.cryptography.SeedGenerator;
 import com.sdp.swiftwallet.presentation.main.MainActivity;
 import com.sdp.swiftwallet.presentation.wallet.CreateSeedActivity;
+import com.sdp.swiftwallet.presentation.wallet.WalletInfoActivity;
+import com.sdp.swiftwallet.presentation.wallet.WalletSelectActivity;
+
 import dagger.hilt.android.testing.HiltAndroidRule;
 import dagger.hilt.android.testing.HiltAndroidTest;
 import org.junit.After;
@@ -35,12 +37,11 @@ public class HomeFragmentTest {
     public final static String mockSeed = "test-testouille-aille-deux-trois";
 
     public Context context;
-    public final static int mockCounter = 10;
 
     @Rule
     public HiltAndroidRule hiltRule = new HiltAndroidRule(this);
 
-    public void setValidSeedAndCounter(Context context){
+    public void setValidSeedAndCounter(Context context, int mockCounter){
         SharedPreferences prefs = context.getSharedPreferences(SeedGenerator.WALLETS_SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
         prefs.edit()
                 .putString(SeedGenerator.PREF_SEED_ID, mockSeed)
@@ -62,8 +63,8 @@ public class HomeFragmentTest {
         return new Intent(context, MainActivity.class);
     }
 
-    public Intent setupValid(){
-        setValidSeedAndCounter(context);
+    public Intent setupValid(int mockCounter){
+        setValidSeedAndCounter(context, mockCounter);
         return new Intent(context, MainActivity.class);
     }
 
@@ -93,11 +94,28 @@ public class HomeFragmentTest {
         }
     }
     @Test
-    public void shouldBeAbleToCreateAddressesWhenSeed(){
-        try (ActivityScenario<MainActivity> scenario = ActivityScenario.launch(setupValid())) {
-            onView(withId(R.id.create_address_button)).check(matches(isDisplayed()));
-            clickOn(R.id.create_address_button);
-            onView(withId(R.id.home_nested_frag_container)).check(matches(hasMinimumChildCount(1)));
+    public void shouldBeAbleToSeeCreateFirstAddressWhenSeedNoAddresses(){
+        try (ActivityScenario<MainActivity> scenario = ActivityScenario.launch(setupValid(0))) {
+            onView(withId(R.id.first_wallet_setup_layout)).check(matches(isDisplayed()));
+            clickOn(R.id.first_wallet_setup_button);
+            intended(hasComponent(WalletSelectActivity.class.getName()));
         }
     }
+    @Test
+    public void shouldBeAbleToSelectWalletWhenSeed(){
+        try (ActivityScenario<MainActivity> scenario = ActivityScenario.launch(setupValid(1))) {
+            onView(withId(R.id.item_address)).check(matches(isDisplayed()));
+            clickOn(R.id.item_address);
+            intended(hasComponent(WalletSelectActivity.class.getName()));
+        }
+    }
+    @Test
+    public void shouldBeAbleToLaunchInfoWhenSeed(){
+        try (ActivityScenario<MainActivity> scenario = ActivityScenario.launch(setupValid(5))) {
+            onView(withId(R.id.wallet_container)).check(matches(isDisplayed()));
+            clickOn(R.id.show_qr_button);
+            intended(hasComponent(WalletInfoActivity.class.getName()));
+        }
+    }
+
 }

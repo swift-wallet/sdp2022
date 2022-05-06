@@ -2,14 +2,19 @@ package com.sdp.swiftwallet.presentation.wallet.fragments;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
+import android.app.Activity;
+import android.content.Context;
+import android.content.ContextWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.sdp.cryptowalletapp.databinding.FragmentWalletItemBinding;
-import com.sdp.swiftwallet.presentation.wallet.WalletInfoActivity;
+import com.sdp.swiftwallet.common.HelperFunctions;
+import com.sdp.swiftwallet.domain.model.wallet.IWalletKeyPair;
+import com.sdp.swiftwallet.domain.model.wallet.Wallets;
+import com.sdp.swiftwallet.presentation.wallet.WalletSelectActivity;
 
 import java.util.List;
 
@@ -30,8 +35,7 @@ public class WalletItemRecyclerViewAdapter extends RecyclerView.Adapter<WalletIt
     public void onBindViewHolder(final ViewHolder holder, int position) {
         WalletItem item = mValues.get(position);
         holder.item = item;
-        holder.addressView.setText(item.getAddress());
-        holder.balanceView.setText(item.getBalance());
+        holder.addressView.setText(HelperFunctions.toShortenedFormatAddress(item.getAddress()));
         holder.itemView.setOnClickListener(holder);
     }
 
@@ -40,23 +44,43 @@ public class WalletItemRecyclerViewAdapter extends RecyclerView.Adapter<WalletIt
         return mValues.size();
     }
 
+    private Activity getActivity(View v) {
+        Context context = v.getContext();
+        while (context instanceof ContextWrapper) {
+            if (context instanceof Activity) {
+                return (Activity)context;
+            }
+            context = ((ContextWrapper)context).getBaseContext();
+        }
+        return null;
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public final TextView addressView;
-        public final TextView balanceView;
         public WalletItem item;
 
         public ViewHolder(FragmentWalletItemBinding binding) {
             super(binding.getRoot());
             addressView = binding.itemAddress;
-            balanceView = binding.itemBalance;
         }
 
         @Override
         public void onClick(View view) {
-            Intent walletInfoIntent = new Intent(view.getContext(), WalletInfoActivity.class);
-            walletInfoIntent.putExtra(WalletInfoActivity.ADDRESS_EXTRA, item.getAddress());
-            walletInfoIntent.putExtra(WalletInfoActivity.BALANCE_EXTRA, item.getBalance());
-            view.getContext().startActivity(walletInfoIntent);
+            WalletSelectActivity walletSelectActivity = (WalletSelectActivity) getActivity(view);
+            Wallets wallets = walletSelectActivity.walletProvider.getWallets();
+            wallets.setCurrentKeyPair(wallets.getWalletFromAddress(item.address));
+            walletSelectActivity.finish();
+        }
+    }
+
+    protected static class WalletItem {
+        private final String address;
+
+        public WalletItem(IWalletKeyPair walletKeyPair) {
+            this.address = walletKeyPair.getHexPublicKey();
+        }
+        public String getAddress(){
+            return address;
         }
     }
 }
