@@ -106,6 +106,7 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'crea
         '**/android/databinding/*',
         '**/androidx/databinding/*',
         '**/BR.*',
+        'com/sdp/cryptowalletapp/*',
         // android
         '**/R.class',
         '**/R$*.class',
@@ -118,6 +119,7 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'crea
         'hilt_aggregated_deps/**',
         '**/*_Factory.class',
         '**/*_MembersInjector.class',
+        'dagger/*',
         // di modules
        'com/sdp/swiftwallet/di/*',
         // di interfaces

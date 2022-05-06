@@ -101,7 +101,7 @@ public class AddContactActivityTest {
     public void previewBtnOfflineWithEmailFailsCorrectly() {
         onView(withId(R.id.addContactInputEmail)).perform(typeText("email.test@epfl.ch"), closeSoftKeyboard());
         onView(withId(R.id.previewBtn)).perform(click());
-        
+
         // check for toast or for error message if one is added
     }
 
