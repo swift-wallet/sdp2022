@@ -1,4 +1,4 @@
-package com.sdp.swiftwallet.UiTest;
+package com.sdp.swiftwallet.presentation.wallet;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
