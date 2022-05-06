@@ -8,10 +8,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.sdp.cryptowalletapp.R;
+import com.sdp.swiftwallet.BaseApp;
 import com.sdp.swiftwallet.domain.repository.SwiftAuthenticator;
 import com.sdp.swiftwallet.presentation.main.MainActivity;
 
@@ -90,8 +92,12 @@ public class LoginActivity extends AppCompatActivity {
         String email = emailEditText.getText().toString().trim();
         String password = passwordEditText.getText().toString().trim();
 
-        SwiftAuthenticator.Result authRes = authenticator.signIn(
-            email, password, () -> nextActivity(), () -> checkAttempts());
+        SwiftAuthenticator.Result authRes = authenticator.signIn(email, password,
+                () -> {
+                    ((BaseApp) getApplication()).setCurrUser(authenticator.getUser().get());
+                    nextActivity();
+                },
+                this::checkAttempts);
 
         if (authRes != SwiftAuthenticator.Result.SUCCESS) {
             handleError(authRes);

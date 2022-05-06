@@ -16,6 +16,7 @@ import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.CryptoValuesActivity;
 import com.sdp.swiftwallet.domain.model.Currency;
 import com.sdp.swiftwallet.domain.model.Transaction;
+import com.sdp.swiftwallet.presentation.main.MainActivity;
 import com.sdp.swiftwallet.presentation.transactions.TransactionActivity;
 import java.util.ArrayList;
 import java.util.Date;
@@ -82,6 +83,7 @@ public class StatsFragment extends Fragment {
      * Create a dummy transaction, sets it on the firestore
      */
     private void createDummyTransaction() {
+        ((MainActivity) getActivity()).getIdlingResource().increment();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         Random rand = new Random();
@@ -109,6 +111,7 @@ public class StatsFragment extends Fragment {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
+                    ((MainActivity) getActivity()).getIdlingResource().decrement();
                     Toast.makeText(getActivity().getApplicationContext(), "Data saved", Toast.LENGTH_SHORT).show();
                 }
             }

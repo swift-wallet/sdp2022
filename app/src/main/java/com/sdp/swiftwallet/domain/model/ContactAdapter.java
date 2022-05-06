@@ -50,7 +50,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
         }
 
         void setContactData(Contact contact) {
-            binding.contactNameTv.setText(contact.name);
+            binding.contactNameTv.setText(contact.username);
             binding.contactEmailTv.setText(contact.email);
             binding.contactProfileImage.setImageBitmap(getContactImage(contact.image));
         }
