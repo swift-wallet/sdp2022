@@ -2,10 +2,8 @@ package com.sdp.swiftwallet.domain.model.wallet;
 
 import android.content.Context;
 
-import com.sdp.swiftwallet.data.repository.Web3Requests;
 import com.sdp.swiftwallet.domain.model.wallet.cryptography.KeyPairGenerator;
 import com.sdp.swiftwallet.domain.model.wallet.cryptography.SeedGenerator;
-import com.sdp.swiftwallet.domain.repository.IWeb3Requests;
 
 import org.web3j.crypto.ECKeyPair;
 
@@ -13,8 +11,6 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-
-import javax.inject.Inject;
 
 /**
  * This is the main wallets manager, it handles:
@@ -87,12 +83,6 @@ public class Wallets implements IWallets {
         String[] result = Arrays.copyOf(seedG, seedG.length + extG.length, String[].class);
         System.arraycopy(extG, 0, result, seedG.length, extG.length);
         return result;
-    }
-
-    @Override
-    public IWalletKeyPair[] getWallets() {
-        IWalletKeyPair[] walletKeyPairs = new IWalletKeyPair[counter];
-        return keyPairsList.toArray(walletKeyPairs).clone();
     }
 
     public IWalletKeyPair getWalletFromAddress(String address) {

@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         // Init counting resource for async call in test
         mIdlingResource = new CountingIdlingResource("Main Calls");
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.mainToolbar);
+        Toolbar toolbar = findViewById(R.id.mainToolbar);
         setSupportActionBar(toolbar);
 
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager()

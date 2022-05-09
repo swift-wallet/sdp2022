@@ -96,9 +96,8 @@ public class RegisterActivity extends AppCompatActivity {
      * @return true if all inputs are valid, false otherwise
      */
     private boolean inputsValid(String username, String email, String password, String confirmPassword) {
-        boolean isValid = true;
-        
-        if (!checkUsername(username, usernameEt)) isValid = false;
+        boolean isValid = checkUsername(username, usernameEt);
+
         if (!checkEmail(email, emailEt)) isValid = false;
         if (!checkPassword(password,
                 confirmPassword,

@@ -73,7 +73,7 @@ public class SeedGenerator {
 
     public static void saveExternalWallet(Context context, int extCounter, BigInteger privKey) {
         SharedPreferences prefs = context.getSharedPreferences(WALLETS_SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
-        prefs.edit().putString(PREF_EXT_PK + String.valueOf(extCounter), privKey.toString()).apply();
+        prefs.edit().putString(PREF_EXT_PK + extCounter, privKey.toString()).apply();
     }
 
     public static boolean hasSeed(Context context){
@@ -93,7 +93,7 @@ public class SeedGenerator {
         if(extCounter > 0){
             String[] privateKeys = new String[extCounter];
             for(int i=0; i<extCounter; i++) {
-                privateKeys[i] = prefs.getString(PREF_EXT_PK + String.valueOf(i), null);
+                privateKeys[i] = prefs.getString(PREF_EXT_PK + i, null);
             }
             return new Wallets(seed, counter, extCounter, privateKeys);
         }

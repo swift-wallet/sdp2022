@@ -40,16 +40,6 @@ public class WalletsTest {
         assert(mockCounter == wallets.getCounter());
     }
     @Test
-    public void getWalletsShouldWork(){
-        String[] seed = SeedGenerator.generateSeed();
-        KeyPairGenerator keyPairGenerator = new KeyPairGenerator(SeedGenerator.stringSeedToLong(seed));
-        Wallets wallets = new Wallets(seed, 0);
-        int id = wallets.generateWallet();
-        assert(id == wallets.getCounter()-1);
-        WalletKeyPair walletKeyPair = WalletKeyPair.fromKeyPair(keyPairGenerator.generateKeyPair());
-        assert(wallets.getWallets()[0].getHexPublicKey().equals(walletKeyPair.getHexPublicKey()));
-    }
-    @Test
     public void getCurrentKeyPairShouldWork(){
         String[] seed = SeedGenerator.generateSeed();
         KeyPairGenerator keyPairGenerator = new KeyPairGenerator(SeedGenerator.stringSeedToLong(seed));
