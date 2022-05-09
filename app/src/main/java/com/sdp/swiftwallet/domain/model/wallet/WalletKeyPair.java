@@ -16,12 +16,10 @@ import java.math.BigInteger;
  */
 public class WalletKeyPair implements IWalletKeyPair{
     private final Credentials credentials;
-    private final String hexPublicKey;
     private BigInteger nativeBalance = BigInteger.ZERO;
 
-    private WalletKeyPair(ECKeyPair keyPair, String hexPublicKey){
-        this.credentials = Credentials.create(keyPair);
-        this.hexPublicKey = hexPublicKey;
+    private WalletKeyPair(Credentials _credentials){
+        this.credentials = _credentials;
     }
 
     /**
@@ -30,17 +28,23 @@ public class WalletKeyPair implements IWalletKeyPair{
      * @return the WalletKeyPair object
      */
     public static WalletKeyPair fromKeyPair(ECKeyPair keyPair){
-        byte[] encodedPK = Hash.sha3(keyPair.getPublicKey().toString(16).getBytes());
-        byte[] finalPK = new byte[20];
-        System.arraycopy(encodedPK, 12, finalPK, 0, 20);
-        return new WalletKeyPair(keyPair, Numeric.toHexString(finalPK));
+        return new WalletKeyPair(Credentials.create(keyPair));
+    }
+
+    /**
+     * Creates a wallet key pair from a cryptographic ECDSA private key
+     * @param privateKey the private key
+     * @return the WalletKeyPair object
+     */
+    public static WalletKeyPair fromPrivateKey(String privateKey){
+        return new WalletKeyPair(Credentials.create(privateKey));
     }
 
     /**
      * Updates this wallet's native balance
      */
     public void updateBalance(IWeb3Requests web3Requests) {
-        web3Requests.getBalanceOf(this.hexPublicKey).thenAccept((nativeBalance) -> { this.nativeBalance = nativeBalance; });
+        web3Requests.getBalanceOf(credentials.getAddress()).thenAccept((nativeBalance) -> { this.nativeBalance = nativeBalance; });
     }
 
     public String signTransaction(RawTransaction rawTransaction) {
@@ -48,5 +52,5 @@ public class WalletKeyPair implements IWalletKeyPair{
     }
 
     public BigInteger getNativeBalance(){ return nativeBalance; }
-    public String getHexPublicKey() { return hexPublicKey; }
+    public String getHexPublicKey() { return credentials.getAddress(); }
 }

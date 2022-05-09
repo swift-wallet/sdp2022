@@ -33,8 +33,8 @@ public class WalletInterfacesTest {
             }
 
             @Override
-            public int generateWallet() {
-                return 0;
+            public IWalletKeyPair generateWallet() {
+                return null;
             }
 
             @Override
@@ -44,6 +44,11 @@ public class WalletInterfacesTest {
 
             @Override
             public void importKeyPair(String privateKey) {
+            }
+
+            @Override
+            public IWalletKeyPair importKeyPair(Context context, String privateKey) {
+                return null;
             }
         };
         wallets.importKeyPair("0");

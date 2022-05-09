@@ -31,6 +31,7 @@
         android:layout_marginBottom="20dp"
         />
     <LinearLayout
+        android:visibility="gone"
         android:id="@+id/import_wallet_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -41,10 +42,12 @@
         android:layout_margin="10dp"
         android:background="@drawable/select_box">
         <EditText
+            android:id="@+id/import_wallet_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/private_key"/>
         <Button
+            android:id="@+id/import_address_button"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="@string/import_wallet"/>
@@ -75,7 +78,7 @@
             app:tint="@color/black" />
 
         <ImageButton
-            android:id="@+id/import_address_button"
+            android:id="@+id/show_import_address_button"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginLeft="20dp"

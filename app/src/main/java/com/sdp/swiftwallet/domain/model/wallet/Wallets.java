@@ -5,9 +5,6 @@ import android.content.Context;
 import com.sdp.swiftwallet.domain.model.wallet.cryptography.KeyPairGenerator;
 import com.sdp.swiftwallet.domain.model.wallet.cryptography.SeedGenerator;
 
-import org.web3j.crypto.ECKeyPair;
-
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -63,10 +60,11 @@ public class Wallets implements IWallets {
         }
     }
 
-    public int generateWallet() {
-        WalletKeyPair keyPair = WalletKeyPair.fromKeyPair(keyPairGenerator.generateKeyPair());
-        addKeyPair(keyPair);
-        return counter++;
+    public IWalletKeyPair generateWallet() {
+        WalletKeyPair walletKeyPair = WalletKeyPair.fromKeyPair(keyPairGenerator.generateKeyPair());
+        addKeyPair(walletKeyPair);
+        counter++;
+        return walletKeyPair;
     }
 
     public int getCounter() {
@@ -105,15 +103,25 @@ public class Wallets implements IWallets {
         return keyPairsList.get(id);
     }
 
-    /**
-     * Adds a wallet key pair to the imported data structures
-     * @param privateKey the private key of the imported wallet
-     */
     public void importKeyPair(String privateKey) {
-        WalletKeyPair walletKeyPair = WalletKeyPair.fromKeyPair(ECKeyPair.create(new BigInteger(privateKey)));
+        WalletKeyPair walletKeyPair = WalletKeyPair.fromPrivateKey(privateKey);
         extKeyPairsList.add(walletKeyPair);
         keyPairsMap.put(walletKeyPair.getHexPublicKey(), walletKeyPair);
         extCounter++;
+    }
+
+    /**
+     * Adds a wallet key pair to the imported data structures
+     * @param privateKey the private key of the imported wallet
+     * @return
+     */
+    public IWalletKeyPair importKeyPair(Context context, String privateKey) {
+        WalletKeyPair walletKeyPair = WalletKeyPair.fromPrivateKey(privateKey);
+        extKeyPairsList.add(walletKeyPair);
+        keyPairsMap.put(walletKeyPair.getHexPublicKey(), walletKeyPair);
+        SeedGenerator.saveExternalWallet(context, extCounter, privateKey);
+        extCounter++;
+        return walletKeyPair;
     }
 
     public void setCurrentKeyPair(IWalletKeyPair currentKeyPair) {

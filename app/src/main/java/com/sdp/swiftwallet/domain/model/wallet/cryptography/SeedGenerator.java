@@ -2,6 +2,7 @@ package com.sdp.swiftwallet.domain.model.wallet.cryptography;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.widget.Toast;
 
 import com.sdp.swiftwallet.domain.model.wallet.Wallets;
 
@@ -68,12 +69,12 @@ public class SeedGenerator {
 
     public static void saveCounter(Context context , int counter, int extCounter){
         SharedPreferences prefs = context.getSharedPreferences(WALLETS_SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
-        prefs.edit().putInt(PREF_COUNTER_ID, counter).putInt(PREF_EXT_PK, extCounter).apply();
+        prefs.edit().putInt(PREF_COUNTER_ID, counter).putInt(PREF_EXT_COUNTER_ID, extCounter).apply();
     }
 
-    public static void saveExternalWallet(Context context, int extCounter, BigInteger privKey) {
+    public static void saveExternalWallet(Context context, int extCounter, String privKey) {
         SharedPreferences prefs = context.getSharedPreferences(WALLETS_SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
-        prefs.edit().putString(PREF_EXT_PK + extCounter, privKey.toString()).apply();
+        prefs.edit().putString(PREF_EXT_PK + extCounter, privKey).apply();
     }
 
     public static boolean hasSeed(Context context){
@@ -90,6 +91,7 @@ public class SeedGenerator {
 
         // Taking care of the externally imported wallets
         int extCounter = prefs.getInt(PREF_EXT_COUNTER_ID, 0);
+        Toast.makeText(context, "There are "+ extCounter, Toast.LENGTH_LONG).show();
         if(extCounter > 0){
             String[] privateKeys = new String[extCounter];
             for(int i=0; i<extCounter; i++) {
