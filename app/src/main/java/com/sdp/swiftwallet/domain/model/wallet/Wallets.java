@@ -70,7 +70,7 @@ public class Wallets implements IWallets {
     }
 
     public int getCounter() {
-        return counter;
+        return counter + extCounter;
     }
 
     public void saveCounter(Context context) {
@@ -96,6 +96,13 @@ public class Wallets implements IWallets {
     private void addKeyPair(WalletKeyPair walletKeyPair) {
         keyPairsList.add(walletKeyPair);
         keyPairsMap.put(walletKeyPair.getHexPublicKey(), walletKeyPair);
+    }
+
+    public IWalletKeyPair getWalletFromId(int id){
+        if(id >= counter){
+            return extKeyPairsList.get(id % counter);
+        }
+        return keyPairsList.get(id);
     }
 
     /**

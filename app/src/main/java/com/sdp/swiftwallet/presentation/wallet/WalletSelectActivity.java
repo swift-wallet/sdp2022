@@ -36,7 +36,7 @@ public class WalletSelectActivity extends AppCompatActivity {
 
     private void recoverWalletsList(){
         int counter = walletProvider.getWallets().getCounter();
-        for(int i=0 ; i< counter; i++){
+        for(int i=0 ; i < counter; i++){
             walletItemFragment.addWalletItem(walletProvider.getWallets().getWalletFromId(i));
         }
     }

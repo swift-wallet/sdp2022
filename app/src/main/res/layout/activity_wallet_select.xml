@@ -30,6 +30,26 @@
         app:layout_constraintBottom_toTopOf="@+id/select_buttons_layout"
         android:layout_marginBottom="20dp"
         />
+    <LinearLayout
+        android:id="@+id/import_wallet_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/select_buttons_layout"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:orientation="vertical"
+        android:layout_margin="10dp"
+        android:background="@drawable/select_box">
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/private_key"/>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/import_wallet"/>
+
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/select_buttons_layout"
@@ -60,7 +80,6 @@
             android:layout_height="50dp"
             android:layout_marginLeft="20dp"
             android:background="@color/zxing_transparent"
-            android:contentDescription="@string/createAddressBtnDescription"
             android:src="@drawable/ic_baseline_login_24"
             android:scaleType="fitCenter"
             app:layout_constraintBottom_toBottomOf="parent"

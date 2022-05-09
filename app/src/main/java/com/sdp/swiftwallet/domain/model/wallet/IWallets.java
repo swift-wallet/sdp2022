@@ -7,4 +7,5 @@ public interface IWallets {
     void saveCounter(Context context);
     int generateWallet();
     String[] getAddresses();
+    void importKeyPair(String privateKey);
 }

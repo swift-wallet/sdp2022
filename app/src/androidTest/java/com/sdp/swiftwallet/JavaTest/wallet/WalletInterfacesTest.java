@@ -10,8 +10,6 @@ import com.sdp.swiftwallet.domain.model.wallet.IWallets;
 import com.sdp.swiftwallet.domain.repository.IWeb3Requests;
 import com.sdp.swiftwallet.domain.repository.Web3ResponseType;
 
-import net.bytebuddy.pool.TypePool;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -25,16 +23,6 @@ public class WalletInterfacesTest {
     @Test
     public void shouldBeAbleToCreateIWallets(){
         IWallets wallets = new IWallets() {
-            @Override
-            public IWalletKeyPair[] getWallets() {
-                return new IWalletKeyPair[0];
-            }
-
-            @Override
-            public IWalletKeyPair getWalletFromId(int id) {
-                return null;
-            }
-
             @Override
             public int getCounter() {
                 return 0;
@@ -53,10 +41,13 @@ public class WalletInterfacesTest {
             public String[] getAddresses() {
                 return new String[0];
             }
+
+            @Override
+            public void importKeyPair(String privateKey) {
+            }
         };
-        wallets.getWallets();
+        wallets.importKeyPair("0");
         wallets.getCounter();
-        wallets.getWalletFromId(0);
         wallets.saveCounter(ApplicationProvider.getApplicationContext());
         wallets.generateWallet();
         wallets.getAddresses();
