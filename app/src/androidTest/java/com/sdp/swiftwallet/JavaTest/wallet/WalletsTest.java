@@ -31,8 +31,8 @@ public class WalletsTest {
         Wallets wallets = new Wallets(seed, 0);
         int id = wallets.generateWallet();
         assert(id == wallets.getCounter()-1);
-        WalletKeyPair walletKeyPair = WalletKeyPair.fromKeyPair(keyPairGenerator.generateKeyPair(), id);
-        assert(wallets.getWalletFromId(id).getHexPublicKey().equals(walletKeyPair.getHexPublicKey()));
+        WalletKeyPair walletKeyPair = WalletKeyPair.fromKeyPair(keyPairGenerator.generateKeyPair());
+        assert(wallets.getCurrentKeyPair().getHexPublicKey().equals(walletKeyPair.getHexPublicKey()));
     }
     @Test
     public void getCounterShouldWork(){
@@ -46,7 +46,7 @@ public class WalletsTest {
         Wallets wallets = new Wallets(seed, 0);
         int id = wallets.generateWallet();
         assert(id == wallets.getCounter()-1);
-        WalletKeyPair walletKeyPair = WalletKeyPair.fromKeyPair(keyPairGenerator.generateKeyPair(), id);
+        WalletKeyPair walletKeyPair = WalletKeyPair.fromKeyPair(keyPairGenerator.generateKeyPair());
         assert(wallets.getWallets()[0].getHexPublicKey().equals(walletKeyPair.getHexPublicKey()));
     }
     @Test
@@ -54,7 +54,7 @@ public class WalletsTest {
         String[] seed = SeedGenerator.generateSeed();
         KeyPairGenerator keyPairGenerator = new KeyPairGenerator(SeedGenerator.stringSeedToLong(seed));
         Wallets wallets = new Wallets(seed, 1);
-        WalletKeyPair walletKeyPair = WalletKeyPair.fromKeyPair(keyPairGenerator.generateKeyPair(), 0);
+        WalletKeyPair walletKeyPair = WalletKeyPair.fromKeyPair(keyPairGenerator.generateKeyPair());
         assert(wallets.getCurrentKeyPair().getHexPublicKey().equals(walletKeyPair.getHexPublicKey()));
     }
     @Test

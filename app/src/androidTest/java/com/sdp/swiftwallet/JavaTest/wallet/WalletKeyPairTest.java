@@ -33,25 +33,19 @@ public class WalletKeyPairTest {
 
     @Test
     public void creatingAnObjectShouldWork(){
-        WalletKeyPair.fromKeyPair(ecKeyPair,mockID);
-    }
-
-    @Test
-    public void idGetterShouldWork(){
-        WalletKeyPair walletKeyPair = WalletKeyPair.fromKeyPair(ecKeyPair, mockID);
-        assert( walletKeyPair.getID() == mockID );
+        WalletKeyPair.fromKeyPair(ecKeyPair);
     }
 
     @Test
     public void nativeBalanceGetterShouldWork(){
-        WalletKeyPair walletKeyPair = WalletKeyPair.fromKeyPair(ecKeyPair, mockID);
+        WalletKeyPair walletKeyPair = WalletKeyPair.fromKeyPair(ecKeyPair);
         assert( walletKeyPair.getNativeBalance().equals(BigInteger.ZERO) );
     }
 
     @Test
     public void updatingBalanceShouldWork(){
         IWeb3Requests mockWeb3 = new MockWeb3Requests();
-        WalletKeyPair walletKeyPair = WalletKeyPair.fromKeyPair(ecKeyPair, mockID);
+        WalletKeyPair walletKeyPair = WalletKeyPair.fromKeyPair(ecKeyPair);
         walletKeyPair.updateBalance(mockWeb3);
         mockWeb3.getBalanceOf(walletKeyPair.getHexPublicKey()).join();
         BigInteger balance = walletKeyPair.getNativeBalance();
@@ -59,7 +53,7 @@ public class WalletKeyPairTest {
     }
     @Test
     public void shouldBeAbleToSign(){
-        WalletKeyPair walletKeyPair = WalletKeyPair.fromKeyPair(ecKeyPair, mockID);
+        WalletKeyPair walletKeyPair = WalletKeyPair.fromKeyPair(ecKeyPair);
         RawTransaction rawTransaction = RawTransaction.createTransaction(
                 BigInteger.ZERO,
                 BigInteger.ZERO,

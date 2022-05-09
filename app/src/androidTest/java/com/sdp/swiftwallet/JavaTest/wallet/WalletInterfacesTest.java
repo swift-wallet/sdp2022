@@ -71,11 +71,6 @@ public class WalletInterfacesTest {
             }
 
             @Override
-            public int getID() {
-                return 0;
-            }
-
-            @Override
             public BigInteger getNativeBalance() {
                 return null;
             }
@@ -90,7 +85,6 @@ public class WalletInterfacesTest {
             }
         };
         walletKeyPair.getHexPublicKey();
-        walletKeyPair.getID();
         walletKeyPair.getNativeBalance();
         walletKeyPair.updateBalance(new Web3Requests());
         walletKeyPair.signTransaction(RawTransaction.createTransaction(BigInteger.ZERO, BigInteger.ZERO, BigInteger.ZERO, "ll", "ll"));

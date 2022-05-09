@@ -65,12 +65,10 @@ public class PaymentFragment extends Fragment {
     public WalletProvider walletProvider;
 
     private String[] addresses;
-    private HashMap<String, IWalletKeyPair> addressToKeyPair;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        addressToKeyPair = new HashMap<>();
         // Checking if a wallets object exist, if yes import the addresses
         if(walletProvider.hasWallets()){
             recoverAddresses();
@@ -87,10 +85,6 @@ public class PaymentFragment extends Fragment {
     private void recoverAddresses(){
         Wallets wallets = walletProvider.getWallets();
         addresses = wallets.getAddresses();
-        int len = addresses.length;
-        for (int i=0; i<len ; i++) {
-            addressToKeyPair.put(addresses[i], wallets.getWalletFromId(i));
-        }
     }
 
     @Override
@@ -143,7 +137,7 @@ public class PaymentFragment extends Fragment {
      * @param v the button view
      */
     private void send(View v) {
-        IWalletKeyPair from = addressToKeyPair.get(fromAddress.getText().toString());
+        IWalletKeyPair from = walletProvider.getWallets().getWalletFromAddress(fromAddress.getText().toString());
         String to = toAddress.getText().toString();
         double amount = Double.parseDouble(sendAmount.getText().toString()) * 1000;
         BigInteger bigAmount = new BigInteger(String.valueOf(Math.round(amount)));

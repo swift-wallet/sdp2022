@@ -5,6 +5,9 @@ import android.content.SharedPreferences;
 
 import com.sdp.swiftwallet.domain.model.wallet.Wallets;
 
+import org.web3j.crypto.ECKeyPair;
+
+import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
 import java.util.Arrays;
@@ -21,6 +24,8 @@ public class SeedGenerator {
     public static final String WALLETS_SHARED_PREFERENCES_NAME = "WALLETS";
     public static final String PREF_SEED_ID = "SEED";
     public static final String PREF_COUNTER_ID = "COUNTER";
+    public static final String PREF_EXT_COUNTER_ID = "EXT_COUNTER";
+    public static final String PREF_EXT_PK = "EXT_PK_";
 
     private String[] seed;
     public SeedGenerator(){
@@ -61,9 +66,14 @@ public class SeedGenerator {
         });
     }
 
-    public static void saveCounter(Context context , int counter ){
+    public static void saveCounter(Context context , int counter, int extCounter){
         SharedPreferences prefs = context.getSharedPreferences(WALLETS_SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
-        prefs.edit().putInt(PREF_COUNTER_ID, counter).apply();
+        prefs.edit().putInt(PREF_COUNTER_ID, counter).putInt(PREF_EXT_PK, extCounter).apply();
+    }
+
+    public static void saveExternalWallet(Context context, int extCounter, BigInteger privKey) {
+        SharedPreferences prefs = context.getSharedPreferences(WALLETS_SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
+        prefs.edit().putString(PREF_EXT_PK + String.valueOf(extCounter), privKey.toString()).apply();
     }
 
     public static boolean hasSeed(Context context){
@@ -77,6 +87,17 @@ public class SeedGenerator {
         String seedJoined = prefs.getString(PREF_SEED_ID, null);
         seed = seedJoined.split("-");
         int counter = prefs.getInt(PREF_COUNTER_ID, 0);
+
+        // Taking care of the externally imported wallets
+        int extCounter = prefs.getInt(PREF_EXT_COUNTER_ID, 0);
+        if(extCounter > 0){
+            String[] privateKeys = new String[extCounter];
+            for(int i=0; i<extCounter; i++) {
+                privateKeys[i] = prefs.getString(PREF_EXT_PK + String.valueOf(i), null);
+            }
+            return new Wallets(seed, counter, extCounter, privateKeys);
+        }
+
         return new Wallets(seed, counter);
     }
 
