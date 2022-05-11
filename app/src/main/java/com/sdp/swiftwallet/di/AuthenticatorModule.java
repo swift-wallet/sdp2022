@@ -5,6 +5,8 @@ import android.content.Context;
 import com.sdp.swiftwallet.domain.repository.AuthenticatorFirebaseImpl;
 import com.sdp.swiftwallet.domain.repository.SwiftAuthenticator;
 
+import javax.inject.Singleton;
+
 import dagger.Module;
 import dagger.Provides;
 import dagger.hilt.InstallIn;
@@ -18,9 +20,7 @@ import dagger.hilt.components.SingletonComponent;
 @InstallIn(SingletonComponent.class)
 public class AuthenticatorModule {
 
-    /**
-     * Provides a SwiftAuthenticator useful for logins methods
-     */
+    @Singleton
     @Provides
     public static SwiftAuthenticator provideFirebaseAuthenticator(@ApplicationContext Context context) {
         return new AuthenticatorFirebaseImpl(context);

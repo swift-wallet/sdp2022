@@ -9,6 +9,8 @@ public class DummyAuthenticator implements SwiftAuthenticator {
 
     SwiftAuthenticator.Result result;
 
+    User currUser;
+
     boolean execSuccess;
     boolean execFailure;
 
@@ -42,11 +44,28 @@ public class DummyAuthenticator implements SwiftAuthenticator {
 
     @Override
     public Optional<User> getUser() {
-        return Optional.empty();
+        if (currUser != null) {
+            return Optional.of(currUser);
+        } else {
+            return Optional.empty();
+        }
+    }
+
+    @Override
+    public Optional<String> getUid() {
+        if (currUser != null) {
+            return Optional.of(currUser.getUid());
+        } else {
+            return Optional.empty();
+        }
     }
 
     public void setResult(SwiftAuthenticator.Result result) {
         this.result = result;
+    }
+
+    public void setCurrUser(User user) {
+        this.currUser = user;
     }
 
     public void setExecSuccess(boolean execSuccess) {

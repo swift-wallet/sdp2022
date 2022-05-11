@@ -72,7 +72,7 @@ public class AuthenticatorFirebaseImpl implements SwiftAuthenticator {
                         // Initialize user upon successful login
                         // Suppose either can be null because we just registered them
                         FirebaseUser u = auth.getCurrentUser();
-                        this.currUser = new User(u.getEmail(), BASIC);
+                        this.currUser = new User(u.getUid(), u.getEmail(), BASIC);
                         success.run();
                     } else {
                         Log.w(LOG_TAG, "Error from task", task.getException());
@@ -91,7 +91,7 @@ public class AuthenticatorFirebaseImpl implements SwiftAuthenticator {
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         FirebaseUser user = auth.getCurrentUser();
-                        this.currUser = new User(user.getEmail(), BASIC);
+                        this.currUser = new User(user.getUid(), user.getEmail(), BASIC);
 
                         Log.d(REGISTER_TAG, "Register Success");
                         success.run();
@@ -115,5 +115,13 @@ public class AuthenticatorFirebaseImpl implements SwiftAuthenticator {
         }
     }
 
+    @Override
+    public Optional<String> getUid() {
+        if (currUser == null) {
+            return Optional.empty();
+        } else {
+            return Optional.of(currUser.getUid());
+        }
+    }
 
 }
