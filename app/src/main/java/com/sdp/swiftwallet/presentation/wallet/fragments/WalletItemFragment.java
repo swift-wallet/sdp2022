@@ -12,7 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.sdp.cryptowalletapp.R;
-import com.sdp.swiftwallet.domain.model.wallet.IWalletKeyPair;
+import com.sdp.swiftwallet.domain.model.object.wallet.IWalletKeyPair;
 
 import java.util.ArrayList;
 import java.util.List;

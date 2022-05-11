@@ -1,7 +1,7 @@
 package com.sdp.swiftwallet.di;
 
-import com.sdp.swiftwallet.data.repository.Web3Requests;
-import com.sdp.swiftwallet.domain.repository.IWeb3Requests;
+import com.sdp.swiftwallet.domain.model.object.Web3Requests;
+import com.sdp.swiftwallet.domain.repository.web3.IWeb3Requests;
 
 import javax.inject.Singleton;
 

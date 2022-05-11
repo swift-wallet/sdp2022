@@ -14,7 +14,7 @@ import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 
 import com.sdp.cryptowalletapp.R;
-import com.sdp.swiftwallet.domain.model.wallet.cryptography.SeedGenerator;
+import com.sdp.swiftwallet.domain.model.object.wallet.cryptography.SeedGenerator;
 
 import org.junit.After;
 import org.junit.Before;

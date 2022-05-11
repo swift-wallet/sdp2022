@@ -11,11 +11,10 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.sdp.cryptowalletapp.R;
-import com.sdp.swiftwallet.SwiftWalletApp;
-import com.sdp.swiftwallet.domain.model.Transaction;
-import com.sdp.swiftwallet.domain.model.TransactionAdapter;
-import com.sdp.swiftwallet.domain.repository.TransactionHistoryProducer;
-import com.sdp.swiftwallet.domain.repository.TransactionHistorySubscriber;
+import com.sdp.swiftwallet.domain.model.object.transaction.Transaction;
+import com.sdp.swiftwallet.domain.model.adapter.TransactionAdapter;
+import com.sdp.swiftwallet.domain.repository.transaction.TransactionHistoryProducer;
+import com.sdp.swiftwallet.domain.repository.transaction.TransactionHistorySubscriber;
 import com.sdp.swiftwallet.presentation.transactions.TransactionActivity;
 
 import java.util.ArrayList;

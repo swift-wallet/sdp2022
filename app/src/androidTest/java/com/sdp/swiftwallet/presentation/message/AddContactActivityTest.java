@@ -10,7 +10,6 @@ import static androidx.test.espresso.intent.matcher.IntentMatchers.hasAction;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static org.junit.Assert.*;
 
 import androidx.test.espresso.IdlingRegistry;
 import androidx.test.espresso.idling.CountingIdlingResource;
@@ -20,11 +19,9 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.BaseApp;
-import com.sdp.swiftwallet.domain.model.User;
-import com.sdp.swiftwallet.domain.repository.SwiftAuthenticator;
+import com.sdp.swiftwallet.domain.model.object.User;
+import com.sdp.swiftwallet.domain.repository.firebase.SwiftAuthenticator;
 import com.sdp.swiftwallet.presentation.main.MainActivity;
-import com.sdp.swiftwallet.presentation.signIn.DummyAuthenticator;
-import com.sdp.swiftwallet.presentation.signIn.LoginActivity;
 
 import org.junit.After;
 import org.junit.Before;

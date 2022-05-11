@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.test.espresso.idling.CountingIdlingResource;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -16,10 +15,10 @@ import com.sdp.cryptowalletapp.databinding.FragmentMessageBinding;
 import com.sdp.swiftwallet.BaseApp;
 import com.sdp.swiftwallet.common.Constants;
 import com.sdp.swiftwallet.common.FirebaseUtil;
-import com.sdp.swiftwallet.domain.model.Contact;
-import com.sdp.swiftwallet.domain.model.ContactAdapter;
-import com.sdp.swiftwallet.domain.model.User;
-import com.sdp.swiftwallet.domain.repository.SwiftAuthenticator;
+import com.sdp.swiftwallet.domain.model.object.Contact;
+import com.sdp.swiftwallet.domain.model.adapter.ContactAdapter;
+import com.sdp.swiftwallet.domain.model.object.User;
+import com.sdp.swiftwallet.domain.repository.firebase.SwiftAuthenticator;
 import com.sdp.swiftwallet.presentation.main.MainActivity;
 import com.sdp.swiftwallet.presentation.message.AddContactActivity;
 

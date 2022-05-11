@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.sdp.cryptowalletapp.R;
-import com.sdp.swiftwallet.di.WalletProvider;
+import com.sdp.swiftwallet.di.wallet.WalletProvider;
 import com.sdp.swiftwallet.presentation.wallet.fragments.WalletItemFragment;
 
 import javax.inject.Inject;

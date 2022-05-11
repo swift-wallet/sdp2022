@@ -18,11 +18,10 @@ import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.sdp.cryptowalletapp.R;
-import com.sdp.swiftwallet.SwiftWalletApp;
-import com.sdp.swiftwallet.domain.model.Currency;
-import com.sdp.swiftwallet.domain.model.Transaction;
-import com.sdp.swiftwallet.domain.repository.TransactionHistoryProducer;
-import com.sdp.swiftwallet.domain.repository.TransactionHistorySubscriber;
+import com.sdp.swiftwallet.domain.model.object.currency.Currency;
+import com.sdp.swiftwallet.domain.model.object.transaction.Transaction;
+import com.sdp.swiftwallet.domain.repository.transaction.TransactionHistoryProducer;
+import com.sdp.swiftwallet.domain.repository.transaction.TransactionHistorySubscriber;
 import com.sdp.swiftwallet.presentation.transactions.TransactionActivity;
 
 import java.util.ArrayList;

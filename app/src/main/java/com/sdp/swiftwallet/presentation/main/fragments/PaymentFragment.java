@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,13 +20,12 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.sdp.cryptowalletapp.R;
-import com.sdp.swiftwallet.data.repository.Web3Requests;
-import com.sdp.swiftwallet.di.WalletProvider;
-import com.sdp.swiftwallet.domain.model.QRCodeScanner;
-import com.sdp.swiftwallet.domain.model.wallet.IWalletKeyPair;
-import com.sdp.swiftwallet.domain.model.wallet.TransactionHelper;
-import com.sdp.swiftwallet.domain.model.wallet.Wallets;
-import com.sdp.swiftwallet.domain.repository.IWeb3Requests;
+import com.sdp.swiftwallet.di.wallet.WalletProvider;
+import com.sdp.swiftwallet.domain.model.object.qrCode.QRCodeScanner;
+import com.sdp.swiftwallet.domain.model.object.wallet.IWalletKeyPair;
+import com.sdp.swiftwallet.domain.model.object.transaction.TransactionHelper;
+import com.sdp.swiftwallet.domain.model.object.wallet.Wallets;
+import com.sdp.swiftwallet.domain.repository.web3.IWeb3Requests;
 
 import org.web3j.crypto.RawTransaction;
 
