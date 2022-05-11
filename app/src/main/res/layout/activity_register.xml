@@ -45,7 +45,6 @@
             android:text="@string/add_image"
             android:textColor="@color/secondary_text"
             android:textSize="11sp"/>
-
     </FrameLayout>
 
     <EditText
@@ -136,6 +135,7 @@
             android:layout_height="55dp"
             android:text="@string/registerTv"
             android:textColor="@color/white"
+            android:backgroundTint="@color/button_background_color"
             android:textSize="13sp"
             android:textStyle="bold"/>
 

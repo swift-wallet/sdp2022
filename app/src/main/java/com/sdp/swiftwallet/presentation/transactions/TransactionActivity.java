@@ -18,10 +18,10 @@ import dagger.hilt.android.AndroidEntryPoint;
  */
 @AndroidEntryPoint
 public class TransactionActivity extends AppCompatActivity {
+
     private FragmentManager fragmentManager;
     private Fragment historyFragment, statsFragment;
     private Fragment activeFragment;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

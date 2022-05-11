@@ -39,6 +39,23 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             />
 
+        <ProgressBar
+            android:id="@+id/messageProgressBar"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"/>
+
+        <TextView
+            android:id="@+id/textErrorMessage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:gravity="center"
+            android:textColor="@color/error"
+            android:textSize="12sp"
+            android:visibility="gone"/>
     </FrameLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

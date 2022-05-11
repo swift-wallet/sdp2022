@@ -2,7 +2,11 @@ package com.sdp.swiftwallet;
 
 import java.util.ArrayList;
 
+/**
+ * Represent an interval (String: minutes, String: interval request)
+ */
 public enum Interval {
+
     oneMinute ("1 Minute", "1m"),
     threeMinutes ("3 Minutes", "3m"),
     fiveMinutes ("5 Minutes", "5m"),
@@ -35,6 +39,9 @@ public enum Interval {
         return intervalRequest;
     }
 
+    /**
+     * @return all intervals values
+     */
     public static ArrayList<String> getTextToShowUser(){
         ArrayList<String> toReturn = new ArrayList<>();
         for(Interval interval : Interval.values()){
@@ -43,6 +50,9 @@ public enum Interval {
         return toReturn;
     }
 
+    /**
+     * @return all intervals requests
+     */
     public static ArrayList<String> getIntervalForRequest(){
         ArrayList<String> toReturn = new ArrayList<>();
         for(Interval interval : Interval.values()){

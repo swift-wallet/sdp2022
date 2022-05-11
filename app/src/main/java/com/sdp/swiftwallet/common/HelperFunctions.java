@@ -8,19 +8,19 @@ import java.util.regex.Pattern;
 
 public class HelperFunctions {
 
-  public static final int SHORTENED_ADDRESS_LENGTH = 4;
-  public static final String SHORTENED_ADDRESS_JOINER = "...";
+  private static final int SHORTENED_ADDRESS_LENGTH = 4;
+  private static final String SHORTENED_ADDRESS_JOINER = "...";
 
   //EMAIL_PATTERN matches any string, that doesnt contains special characters nor the arobase special
   //chars
-  public static String EMAIL_PATTERN = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$";
+  private static String EMAIL_PATTERN = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$";
 
   //PASSWORD_PATTERN matches any string, that contains at least upper case,
   //one lower case letter and one digit, and 6 - 10 character long
-  public static String PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{6,10}$";
+  private static String PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{6,10}$";
 
   //USERNAME_PATTERN to complete (no stupid char + more than 3 characters)
-  public static String USERNAME_PATTERN = "[a-zA-Z0-9\\._\\-]{3,}";
+  private static String USERNAME_PATTERN = "[a-zA-Z0-9\\._\\-]{3,}";
 
   /**
    * Check if an email is valid
@@ -73,7 +73,6 @@ public class HelperFunctions {
       textView.requestFocus();
       return false;
     }
-
     return true;
   }
 

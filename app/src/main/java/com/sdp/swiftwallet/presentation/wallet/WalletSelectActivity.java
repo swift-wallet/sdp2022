@@ -13,6 +13,9 @@ import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
+/**
+ * Activity for wallect selection
+ */
 @AndroidEntryPoint
 public class WalletSelectActivity extends AppCompatActivity {
 
@@ -34,6 +37,9 @@ public class WalletSelectActivity extends AppCompatActivity {
         findViewById(R.id.create_address_button).setOnClickListener(this::createAddress);
     }
 
+    /**
+     * Recover a list of wallets
+     */
     private void recoverWalletsList(){
         int counter = walletProvider.getWallets().getCounter();
         for(int i=0 ; i< counter; i++){
@@ -41,6 +47,10 @@ public class WalletSelectActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Create an address on view v
+     * @param v view
+     */
     private void createAddress(View v){
         int walletID = walletProvider.getWallets().generateWallet();
         walletItemFragment.addWalletItem(walletProvider.getWallets().getWalletFromId(walletID));

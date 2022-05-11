@@ -20,6 +20,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 import com.google.firebase.auth.FirebaseAuth;
 import com.sdp.cryptowalletapp.R;
+import com.sdp.swiftwallet.domain.model.User;
 import com.sdp.swiftwallet.domain.repository.SwiftAuthenticator;
 import com.sdp.swiftwallet.presentation.main.MainActivity;
 
@@ -65,6 +66,7 @@ public class LoginActivityTest {
         // Reset fake authenticator flags
         authenticator.setExecFailure(false);
         authenticator.setExecSuccess(false);
+        authenticator.setCurrUser(null);
     }
 
     @After
@@ -86,9 +88,7 @@ public class LoginActivityTest {
     public void viewElementsAreDisplayed() {
         onView(withId(R.id.loginTitle)).check(matches(isDisplayed()));
         onView(withId(R.id.appLogo)).check(matches(isDisplayed()));
-        onView(withId(R.id.loginEmailTv)).check(matches(isDisplayed()));
         onView(withId(R.id.loginEmailEt)).check(matches(isDisplayed()));
-        onView(withId(R.id.loginPasswordTv)).check(matches(isDisplayed()));
         onView(withId(R.id.loginPasswordEt)).check(matches(isDisplayed()));
         onView(withId(R.id.loginButton)).check(matches(isDisplayed()));
         onView(withId(R.id.forgotPasswordTv)).check(matches(isDisplayed()));
@@ -154,6 +154,8 @@ public class LoginActivityTest {
     public void successCallbackDisplaysToastMessage() {
         authenticator.setResult(SwiftAuthenticator.Result.SUCCESS);
         authenticator.setExecSuccess(true);
+        User loginUser = new User("loginUid", "login@email.com", SwiftAuthenticator.LoginMethod.BASIC);
+        authenticator.setCurrUser(loginUser);
 
         onView(withId(R.id.loginButton)).perform(click());
 
@@ -164,6 +166,8 @@ public class LoginActivityTest {
     public void successCallbackFiresIntent() {
         authenticator.setResult(SwiftAuthenticator.Result.SUCCESS);
         authenticator.setExecSuccess(true);
+        User loginUser = new User("loginUid", "login@email.com", SwiftAuthenticator.LoginMethod.BASIC);
+        authenticator.setCurrUser(loginUser);
 
         onView(withId(R.id.loginButton)).perform(click());
 

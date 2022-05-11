@@ -13,20 +13,28 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.sdp.cryptowalletapp.R;
+import com.sdp.swiftwallet.BaseApp;
 import com.sdp.swiftwallet.common.FirebaseUtil;
 import com.sdp.swiftwallet.presentation.signIn.LoginActivity;
+
 import dagger.hilt.android.AndroidEntryPoint;
 
+/**
+ * Represents the profile menu fragment and view
+ */
 @AndroidEntryPoint
 public class ProfileFragment extends Fragment {
 
     private String PROFILE_TAG = "Profile update";
 
+    // To refactor
     private FirebaseAuth mAuth;
     private FirebaseUser mUser;
     private EditText email;
@@ -54,6 +62,7 @@ public class ProfileFragment extends Fragment {
         logoutButton.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
                 mAuth.signOut();
+                ((BaseApp) getActivity().getApplication()).setCurrUser(null);
                 startActivity(new Intent(getActivity(), LoginActivity.class));
             }
         });
