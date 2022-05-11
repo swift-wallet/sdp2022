@@ -28,8 +28,12 @@ import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
+/**
+  * Represents the registering process activity
+  */
 @AndroidEntryPoint
 public class RegisterActivity extends AppCompatActivity {
+
     private static final String REGISTER_TAG = "EMAIL_REGISTER_TAG";
 
     private ActivityRegisterBinding binding;

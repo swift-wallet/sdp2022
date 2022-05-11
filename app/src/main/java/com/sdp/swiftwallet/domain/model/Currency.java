@@ -2,9 +2,15 @@ package com.sdp.swiftwallet.domain.model;
 
 import java.io.Serializable;
 
+/**
+ * Represents a serializable currency
+ */
 public class Currency implements Serializable {
-    private String baseAsset; //name needs to be changed to be symbol for base asset
-    private String symbol; //symbol is now symbol for both assets (e.g. "ETHBTC")
+
+    // Name needs to be changed to be symbol for base asset
+    private String baseAsset;
+    // Symbol is now symbol for both assets (e.g. "ETHBTC")
+    private String symbol;
     private double value;
 
     public Currency(String name, String symbol, double value) {

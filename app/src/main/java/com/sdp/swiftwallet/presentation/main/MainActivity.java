@@ -23,7 +23,9 @@ import com.sdp.swiftwallet.domain.repository.TransactionHistoryProducer;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
-
+/**
+ * Represents the main activity of the app
+ */
 @AndroidEntryPoint
 public class MainActivity extends AppCompatActivity {
 

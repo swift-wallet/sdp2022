@@ -23,6 +23,7 @@ import java.util.Optional;
 
 /**
  * SwiftAuthenticator implementation using FirebaseAuth, needed for Hilt
+ * contains useful functions related to authentication
  */
 public class AuthenticatorFirebaseImpl implements SwiftAuthenticator {
 
@@ -44,9 +45,9 @@ public class AuthenticatorFirebaseImpl implements SwiftAuthenticator {
                         context,
                         AuthenticatorFirebaseImplEntryPoint.class
                 );
-
         auth = hiltEntryPoint.getFirebaseAuth();
     }
+
 
     @Override
     public Result signIn(String email, String password, Runnable success, Runnable failure) {

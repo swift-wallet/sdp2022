@@ -22,11 +22,16 @@ import dagger.hilt.android.qualifiers.ApplicationContext;
  * CurrencyBank.PriceChecker implementation using RequestQueue
  */
 public class RequestQueueCurrencyPriceChecker implements CurrencyBank.PriceChecker {
+
     private final static String MARKET_URL = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest";
     private final static List<String> supportedCurrencies = new ArrayList<>();
 
+    private static String API = "X-CMC_PRO_API_KEY";
+    private static String KEY = "db2a8973-af74-4b0f-bf14-7f6c84b648d0";
+
     /**
      * Add symbols of app's supported currencies here
+     * For the moment only Bitcoin and Ethereum are supported
      */
     static {
         supportedCurrencies.add("BTC");
@@ -39,9 +44,14 @@ public class RequestQueueCurrencyPriceChecker implements CurrencyBank.PriceCheck
         queue = Volley.newRequestQueue(context);
     }
 
+    /**
+     * Fill the queue with currencies
+     * @param currencyMap the Map to fill with Currency objects
+     */
     @Override
     public void fill(Map<String, Currency> currencyMap) {
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, MARKET_URL, null, response -> {
+        JsonObjectRequest jsonObjectRequest =
+            new JsonObjectRequest( Request.Method.GET, MARKET_URL, null, response -> {
             try {
                 JSONArray dataArray = response.getJSONArray("data");
 
@@ -50,6 +60,7 @@ public class RequestQueueCurrencyPriceChecker implements CurrencyBank.PriceCheck
 
                     String symbol = dataObject.getString("symbol");
 
+                    // Add to currency only if it's not contained
                     if (!supportedCurrencies.contains(symbol)) {
                         continue;
                     }
@@ -73,7 +84,7 @@ public class RequestQueueCurrencyPriceChecker implements CurrencyBank.PriceCheck
             @Override
             public Map<String, String> getHeaders() {
                 HashMap<String, String> headers = new HashMap<>();
-                headers.put("X-CMC_PRO_API_KEY", "db2a8973-af74-4b0f-bf14-7f6c84b648d0");
+                headers.put(API, KEY);
                 return headers;
             }
         };

@@ -5,6 +5,9 @@ import org.web3j.crypto.ECKeyPair;
 import java.math.BigInteger;
 import java.util.concurrent.CompletableFuture;
 
+/**
+ * Represents behavior for blockchain web requests
+ */
 public interface IWeb3Requests {
     CompletableFuture<BigInteger> getBalanceOf(String hexAddress);
     CompletableFuture<Web3ResponseType> sendTransaction(String hexValue);

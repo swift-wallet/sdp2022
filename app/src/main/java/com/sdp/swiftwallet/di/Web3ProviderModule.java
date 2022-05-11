@@ -10,9 +10,16 @@ import dagger.Provides;
 import dagger.hilt.InstallIn;
 import dagger.hilt.components.SingletonComponent;
 
+/**
+ * Hilt class for producer Web3Provider
+ */
 @Module
 @InstallIn(SingletonComponent.class)
 public class Web3ProviderModule {
+
+    /**
+     * Provides IWeb3Requests for injection
+     */
     @Provides
     @Singleton
     public IWeb3Requests iWeb3RequestsProvider() {

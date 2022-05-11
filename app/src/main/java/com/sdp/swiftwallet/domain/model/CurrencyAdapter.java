@@ -17,17 +17,28 @@ import com.sdp.swiftwallet.CryptoValuesActivity;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 
+/**
+ * Currency view adapter
+ */
 public class CurrencyAdapter extends RecyclerView.Adapter<CurrencyAdapter.ViewHolder> {
+
     private static ArrayList<Currency> currencyArrayList;
     private static Context context;
     private static final DecimalFormat currencyValueFormat = new DecimalFormat("#.##");
 
+    /**
+     * Creates the currency adapter
+     */
     public CurrencyAdapter(ArrayList<Currency> currencyArrayList, Context context) {
         CurrencyAdapter.currencyArrayList = currencyArrayList;
         CurrencyAdapter.context = context;
     }
 
+    /**
+     * Changer the currencyArrayList reference with filteredList and notify on success
+     */
     public void filterList(ArrayList<Currency> filteredList) {
         currencyArrayList = filteredList;
         notifyDataSetChanged();
@@ -40,6 +51,9 @@ public class CurrencyAdapter extends RecyclerView.Adapter<CurrencyAdapter.ViewHo
         return new ViewHolder(view);
     }
 
+    /**
+     * Sets the currency list on the view
+     */
     @Override
     public void onBindViewHolder(@NonNull CurrencyAdapter.ViewHolder holder, int position) {
         Currency currency = currencyArrayList.get(position);
@@ -48,11 +62,17 @@ public class CurrencyAdapter extends RecyclerView.Adapter<CurrencyAdapter.ViewHo
         holder.valueTextView.setText("$" + currencyValueFormat.format(currency.getValue()));
     }
 
+    /**
+     * @return the number of currencies present
+     */
     @Override
     public int getItemCount() {
         return currencyArrayList.size();
     }
 
+    /**
+     * Represent a view of the currency with (name, symbol and value)
+     */
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView nameTextView;
         private final TextView symbolTextView;
@@ -65,10 +85,8 @@ public class CurrencyAdapter extends RecyclerView.Adapter<CurrencyAdapter.ViewHo
             valueTextView = itemView.findViewById(R.id.idTextViewValue);
 
             itemView.setOnClickListener(new View.OnClickListener(){
-
                 @Override
                 public void onClick(View view) {
-
                     Intent intent = new Intent(context, CryptoGraphActivity.class);
                     int pos = getAbsoluteAdapterPosition();
                     intent.putExtra("currency", currencyArrayList.get(pos));
