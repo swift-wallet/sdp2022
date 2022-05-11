@@ -3,7 +3,7 @@ package com.sdp.swiftwallet;
 import java.util.ArrayList;
 
 /**
- * Represent an interval
+ * Represent an interval (String: minutes, String: interval request)
  */
 public enum Interval {
 

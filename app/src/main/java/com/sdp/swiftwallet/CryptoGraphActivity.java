@@ -69,8 +69,10 @@ public class CryptoGraphActivity extends AppCompatActivity {
         // Get the Intent that started this activity and extract the currency
         Intent intent = getIntent();
         currency = (Currency) intent.getSerializableExtra("currency");
-        if(currency == null) currency = new Currency("Ethereum", "ETH", 2000);
-        else rateSymbol = currency.getSymbol();
+        if (currency == null)
+            currency = new Currency("Ethereum", "ETH", 2000);
+        else
+            rateSymbol = currency.getSymbol();
         interval = INTERVAL_DIM;
 
         // Get the data from Binance API
@@ -85,7 +87,7 @@ public class CryptoGraphActivity extends AppCompatActivity {
         textView.setText(currency.getName());
     }
 
-    private CandleStickChart createCandleStickChart(){
+    private CandleStickChart createCandleStickChart() {
         CandleStickChart candleStickChart = findViewById(R.id.candle_stick_chart);
         candleStickChart.setHighlightPerDragEnabled(true);
 
@@ -116,21 +118,24 @@ public class CryptoGraphActivity extends AppCompatActivity {
 
     /**
      * Creates data set for the candle graph
-     * @param openTimes opening times
-     * @param openValues open values for the set
+     *
+     * @param openTimes    opening times
+     * @param openValues   open values for the set
      * @param highValues
      * @param lowValues
      * @param closeValues
      * @param volumeValues
-     * @param closeTimes closing times
+     * @param closeTimes   closing times
      * @return CandleDate for the set
      */
-    private CandleData createDataSetForCandleGraph(ArrayList<Long> openTimes, ArrayList<Double> openValues, ArrayList<Double> highValues, ArrayList<Double> lowValues,
-                                                      ArrayList<Double> closeValues, ArrayList<Double> volumeValues, ArrayList<Long> closeTimes){
+    private CandleData createDataSetForCandleGraph(ArrayList<Long> openTimes,
+        ArrayList<Double> openValues, ArrayList<Double> highValues, ArrayList<Double> lowValues,
+        ArrayList<Double> closeValues, ArrayList<Double> volumeValues, ArrayList<Long> closeTimes) {
 
         ArrayList<CandleEntry> candleSticks = new ArrayList<CandleEntry>();
 
-        for(int i = openTimes.size()+2-NB_CANDLES_TO_SHOW; i<openTimes.size();i++){
+        // Add entries given the interval
+        for (int i = openTimes.size() + 2 - NB_CANDLES_TO_SHOW; i < openTimes.size(); i++) {
             candleSticks.add(
                 new CandleEntry(i,
                     highValues.get(i).floatValue(),
@@ -140,58 +145,53 @@ public class CryptoGraphActivity extends AppCompatActivity {
                 )
             );
         }
-
-        CandleDataSet candleDataSet = new CandleDataSet(candleSticks, "Data");
-        candleDataSet.setColor(Color.rgb(200, 0, 80));
-        candleDataSet.setShadowColor(Color.LTGRAY);
-        candleDataSet.setDecreasingColor(Color.RED);
-        candleDataSet.setDecreasingPaintStyle(Paint.Style.FILL);
-        candleDataSet.setIncreasingColor(Color.GREEN);
-        candleDataSet.setIncreasingPaintStyle(Paint.Style.FILL);
-        candleDataSet.setNeutralColor(Color.LTGRAY);
-        candleDataSet.setDrawValues(false);
-        candleDataSet.setBarSpace(0.1f);
+        // Create candle data data set
+        CandleDataSet candleDataSet = createCandleDataSet(candleSticks);
 
         CandleData candleData = new CandleData(candleDataSet);
 
         return candleData;
     }
 
-    private CandleStickChart getData(){
+    private CandleStickChart getData() {
         progressBar.setVisibility(View.VISIBLE);
-        String url = "https://api.binance.com/api/v1/klines?symbol="+rateSymbol+"&interval="+interval;
+        String url =
+            "https://api.binance.com/api/v1/klines?symbol=" + rateSymbol + "&interval=" + interval;
 
         //Create CandleStickChart
         CandleStickChart candleStickChart = createCandleStickChart();
         RequestQueue requestQueue = Volley.newRequestQueue(this);
 
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null,response -> {
-            progressBar.setVisibility(View.GONE);
-            try {
-                for (int i = 0; i<response.length(); ++i){
-                    JSONArray array = response.getJSONArray(i);
-                    openTimes.add((Long)array.get(0));
-                    openValues.add(Double.parseDouble((String)array.get(1)));
-                    highValues.add(Double.parseDouble((String)array.get(2)));
-                    lowValues.add(Double.parseDouble((String)array.get(3)));
-                    closeValues.add(Double.parseDouble((String)array.get(4)));
-                    volumeValues.add(Double.parseDouble((String)array.get(5)));
-                    closeTimes.add((Long)array.get(6));
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null,
+            response -> {
+                progressBar.setVisibility(View.GONE);
+                try {
+                    for (int i = 0; i < response.length(); ++i) {
+                        JSONArray array = response.getJSONArray(i);
+                        openTimes.add((Long) array.get(0));
+                        openValues.add(Double.parseDouble((String) array.get(1)));
+                        highValues.add(Double.parseDouble((String) array.get(2)));
+                        lowValues.add(Double.parseDouble((String) array.get(3)));
+                        closeValues.add(Double.parseDouble((String) array.get(4)));
+                        volumeValues.add(Double.parseDouble((String) array.get(5)));
+                        closeTimes.add((Long) array.get(6));
+                    }
+
+                    // Get data as CandleData
+                    CandleData candleData =
+                        createDataSetForCandleGraph(openTimes, openValues, highValues, lowValues,
+                            closeValues, volumeValues, closeTimes);
+
+                    // SetData
+                    candleStickChart.setData(candleData);
+                    candleStickChart.invalidate();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Toast.makeText(CryptoGraphActivity.this,
+                        "Couldn't extract JSON data... Please try again later.", Toast.LENGTH_SHORT)
+                        .show();
                 }
-
-                // Get data as CandleData
-                CandleData candleData =
-                    createDataSetForCandleGraph(openTimes, openValues, highValues, lowValues, closeValues, volumeValues, closeTimes);
-
-                // SetData
-                candleStickChart.setData(candleData);
-                candleStickChart.invalidate();
-            } catch(Exception e){
-                e.printStackTrace();
-                Toast.makeText(CryptoGraphActivity.this,
-                    "Couldn't extract JSON data... Please try again later.", Toast.LENGTH_SHORT).show();
-            }
-        }, error -> {
+            }, error -> {
             Toast.makeText(CryptoGraphActivity.this,
                 "Couldn't retrieve data... Please try again later.", Toast.LENGTH_SHORT).show();
         });
@@ -204,10 +204,12 @@ public class CryptoGraphActivity extends AppCompatActivity {
     /**
      * Sets the spinner for intervals
      */
-    private void setIntervalsSpinner(){
+    private void setIntervalsSpinner() {
         this.intervalSpinner = findViewById(R.id.idInterval);
 
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.intervals_array, android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter
+            .createFromResource(this, R.array.intervals_array,
+                android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         this.intervalSpinner.setAdapter(adapter);
@@ -216,26 +218,50 @@ public class CryptoGraphActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 onItemSelectedHandler(adapterView, view, i, l);
-                interval = (String)adapterView.getItemAtPosition(i);
+                interval = (String) adapterView.getItemAtPosition(i);
 
                 candleStickChart = getData();
             }
+
             @Override
-            public void onNothingSelected(AdapterView<?> adapterView) { }
+            public void onNothingSelected(AdapterView<?> adapterView) {
+            }
         });
     }
 
     /**
      * Handler for the interval adapter, display it when selected
      */
-    private void onItemSelectedHandler(AdapterView<?> adapterView, View view, int position, long id){
+    private void onItemSelectedHandler(AdapterView<?> adapterView, View view, int position,
+        long id) {
         Adapter adapter = adapterView.getAdapter();
         String interval = (String) adapter.getItem(position);
 
-        Toast.makeText(getApplicationContext(), "Selected Interval: " + interval, Toast.LENGTH_SHORT).show();
+        Toast
+            .makeText(getApplicationContext(), "Selected Interval: " + interval, Toast.LENGTH_SHORT)
+            .show();
     }
 
     public CountingIdlingResource getIdlingResource() {
         return mIdlingResource;
     }
+
+    /**
+     * Create a candle data set given candle sticks
+     */
+    public CandleDataSet createCandleDataSet(ArrayList<CandleEntry> candleSticks){
+        CandleDataSet candleDataSet = new CandleDataSet(candleSticks, "Data");
+        candleDataSet.setColor(Color.rgb(200, 0, 80));
+        candleDataSet.setShadowColor(Color.LTGRAY);
+        candleDataSet.setDecreasingColor(Color.RED);
+        candleDataSet.setDecreasingPaintStyle(Paint.Style.FILL);
+        candleDataSet.setIncreasingColor(Color.GREEN);
+        candleDataSet.setIncreasingPaintStyle(Paint.Style.FILL);
+        candleDataSet.setNeutralColor(Color.LTGRAY);
+        candleDataSet.setDrawValues(false);
+        candleDataSet.setBarSpace(0.1f);
+        return candleDataSet;
+    }
+
 }
+
