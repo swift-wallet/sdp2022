@@ -1,4 +1,4 @@
-package com.sdp.swiftwallet;
+package com.sdp.swiftwallet.domain.object;
 
 import static com.sdp.swiftwallet.domain.repository.firebase.SwiftAuthenticator.LoginMethod.BASIC;
 import static org.junit.Assert.assertEquals;

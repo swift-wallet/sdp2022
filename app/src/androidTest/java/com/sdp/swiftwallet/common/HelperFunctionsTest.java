@@ -1,7 +1,5 @@
 package com.sdp.swiftwallet.common;
 
-import com.sdp.swiftwallet.common.HelperFunctions;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
