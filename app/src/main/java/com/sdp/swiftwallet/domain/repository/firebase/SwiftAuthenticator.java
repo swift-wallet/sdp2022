@@ -53,6 +53,15 @@ public interface SwiftAuthenticator {
      */
     void signOut(Runnable handler);
 
+    /**
+     * Updates the email of the suer
+     *
+     * @param email      email of the user
+     * @param emailField emailField where he types his email
+     * @param success    success behavior
+     * @param failure    error behavior
+     * @return specific ERROR or SUCCESS
+     */
     Result updateEmail(String email, EditText emailField, Runnable success, Runnable failure);
 
     /**
