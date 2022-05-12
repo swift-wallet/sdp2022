@@ -33,7 +33,6 @@ import dagger.hilt.android.AndroidEntryPoint;
   */
 @AndroidEntryPoint
 public class RegisterActivity extends AppCompatActivity {
-
     private static final String REGISTER_TAG = "EMAIL_REGISTER_TAG";
 
     private ActivityRegisterBinding binding;

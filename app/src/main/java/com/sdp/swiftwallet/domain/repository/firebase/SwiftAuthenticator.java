@@ -42,9 +42,20 @@ public interface SwiftAuthenticator {
      * @param username the username of the user
      * @param email the email of the user
      * @param password the password of the user
+     * @param success a callback to run if the user successfully register
+     * @param failure a callback to run if the user fails to register
      * @return the result of the registration process
      */
     Result signUp(String username, String email, String password, Runnable success, Runnable failure);
+
+    /**
+     * Send a reset password email to change user password
+     * @param email the user email
+     * @param success a callback to run if the email is successfully sent
+     * @param failure a callback to run if the sending failed
+     * @return the result of the sending process
+     */
+    Result sendPasswordResetEmail(String email, Runnable success, Runnable failure);
 
     /**
      * Getter for the current user
@@ -58,4 +69,9 @@ public interface SwiftAuthenticator {
      * @return None if there is no signed-in user, otherwise Some(uid) if User user is signed in
      */
     Optional<String> getUid();
+
+    /**
+     * Setter for the user-facing language code
+     */
+    void setLanguageCode(String code);
 }
