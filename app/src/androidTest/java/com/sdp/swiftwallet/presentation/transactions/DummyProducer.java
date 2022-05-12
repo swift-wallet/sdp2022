@@ -37,4 +37,9 @@ public class DummyProducer implements TransactionHistoryProducer {
     public void addTransaction(Transaction t) {
         transactions.add(t);
     }
+
+    public void clearList() {
+        transactions.clear();
+        alertAll();
+    }
 }
