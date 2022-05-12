@@ -9,12 +9,13 @@ import android.widget.TextView;
 
 import com.google.zxing.WriterException;
 import com.sdp.cryptowalletapp.R;
-import com.sdp.swiftwallet.domain.model.QRCodeGenerator;
+import com.sdp.swiftwallet.domain.model.qrCode.QRCodeGenerator;
 
 /**
- * The activity to show information about a specific wallet
+ * Activity that shows information about a specific wallet
  */
 public class WalletInfoActivity extends AppCompatActivity {
+
     public static final String ADDRESS_EXTRA = "ADDRESS";
     public static final String BALANCE_EXTRA = "BALANCE";
 
@@ -42,14 +43,14 @@ public class WalletInfoActivity extends AppCompatActivity {
     /**
      * Generate the QR code
      */
-    private void generateQR(){
+    private void generateQR() {
         Bitmap bitmap = null;
         try {
             bitmap = QRCodeGenerator.encodeAsBitmap(address);
-        }catch (WriterException exception){
+        } catch (WriterException exception){
             exception.printStackTrace();
         }
-        if(bitmap != null){
+        if (bitmap != null){
             qrView.setImageBitmap(bitmap);
         }
     }

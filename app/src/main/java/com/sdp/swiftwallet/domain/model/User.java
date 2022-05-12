@@ -1,11 +1,7 @@
 package com.sdp.swiftwallet.domain.model;
 
-import static com.sdp.swiftwallet.domain.repository.SwiftAuthenticator.LoginMethod.BASIC;
-import static com.sdp.swiftwallet.domain.repository.SwiftAuthenticator.LoginMethod.GOOGLE;
-
 import androidx.annotation.NonNull;
-import com.sdp.swiftwallet.domain.repository.SwiftAuthenticator.LoginMethod;
-import java.util.Objects;
+import com.sdp.swiftwallet.domain.repository.firebase.SwiftAuthenticator.LoginMethod;
 
 /**
  * Class representing a generic user

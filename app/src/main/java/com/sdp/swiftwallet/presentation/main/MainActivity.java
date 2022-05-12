@@ -6,7 +6,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.navigation.NavController;
@@ -15,15 +14,13 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.test.espresso.idling.CountingIdlingResource;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.sdp.cryptowalletapp.R;
-import com.sdp.swiftwallet.domain.repository.FirebaseTransactionHistoryProducer;
-
-import com.sdp.swiftwallet.domain.repository.TransactionHistoryProducer;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
-
+/**
+ * Represents the main activity of the app
+ */
 @AndroidEntryPoint
 public class MainActivity extends AppCompatActivity {
 

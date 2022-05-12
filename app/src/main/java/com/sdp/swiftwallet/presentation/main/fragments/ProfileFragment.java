@@ -26,11 +26,15 @@ import com.sdp.swiftwallet.presentation.signIn.LoginActivity;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
+/**
+ * Represents the profile menu fragment and view
+ */
 @AndroidEntryPoint
 public class ProfileFragment extends Fragment {
 
     private String PROFILE_TAG = "Profile update";
 
+    // To refactor
     private FirebaseAuth mAuth;
     private FirebaseUser mUser;
     private EditText email;

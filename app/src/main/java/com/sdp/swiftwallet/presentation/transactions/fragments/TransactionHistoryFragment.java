@@ -11,11 +11,10 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.sdp.cryptowalletapp.R;
-import com.sdp.swiftwallet.SwiftWalletApp;
-import com.sdp.swiftwallet.domain.model.Transaction;
-import com.sdp.swiftwallet.domain.model.TransactionAdapter;
-import com.sdp.swiftwallet.domain.repository.TransactionHistoryProducer;
-import com.sdp.swiftwallet.domain.repository.TransactionHistorySubscriber;
+import com.sdp.swiftwallet.domain.model.transaction.Transaction;
+import com.sdp.swiftwallet.domain.model.transaction.TransactionAdapter;
+import com.sdp.swiftwallet.domain.repository.transaction.TransactionHistoryProducer;
+import com.sdp.swiftwallet.domain.repository.transaction.TransactionHistorySubscriber;
 import com.sdp.swiftwallet.presentation.transactions.TransactionActivity;
 
 import java.util.ArrayList;
@@ -48,6 +47,9 @@ public class TransactionHistoryFragment extends Fragment implements TransactionH
         return inflater.inflate(R.layout.fragment_transaction_history, container, false);
     }
 
+    /**
+     * On start, fix the view and set up the transactions
+     */
     @Override
     public void onStart() {
         super.onStart();

@@ -18,10 +18,13 @@ import com.sdp.swiftwallet.presentation.wallet.WalletSelectActivity;
 
 import java.util.List;
 
-
+/**
+ * Adapter for displaying the wallet item
+ */
 public class WalletItemRecyclerViewAdapter extends RecyclerView.Adapter<WalletItemRecyclerViewAdapter.ViewHolder> {
 
     private final List<WalletItem> mValues;
+
     public WalletItemRecyclerViewAdapter(List<WalletItem> items) {
         mValues = items;
     }
@@ -39,6 +42,9 @@ public class WalletItemRecyclerViewAdapter extends RecyclerView.Adapter<WalletIt
         holder.itemView.setOnClickListener(holder);
     }
 
+    /**
+     * @return number of current wallet items
+     */
     @Override
     public int getItemCount() {
         return mValues.size();
@@ -55,6 +61,9 @@ public class WalletItemRecyclerViewAdapter extends RecyclerView.Adapter<WalletIt
         return null;
     }
 
+    /**
+     * Define behavior upon clicking on the wallet item
+     */
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public final TextView addressView;
         public WalletItem item;
@@ -73,6 +82,9 @@ public class WalletItemRecyclerViewAdapter extends RecyclerView.Adapter<WalletIt
         }
     }
 
+    /**
+     * Represents a wallet item
+     */
     protected static class WalletItem {
         private final String address;
 

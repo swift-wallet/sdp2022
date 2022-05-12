@@ -30,9 +30,9 @@
             android:exported="false"
             android:parentActivityName="com.sdp.swiftwallet.presentation.main.MainActivity" />
         <activity
-            android:name="com.sdp.swiftwallet.CryptoGraphActivity"
+            android:name="com.sdp.swiftwallet.presentation.cryptoGraph.CryptoGraphActivity"
             android:exported="false"
-            android:parentActivityName="com.sdp.swiftwallet.CryptoValuesActivity" />
+            android:parentActivityName="com.sdp.swiftwallet.presentation.cryptoGraph.CryptoValuesActivity" />
         <activity
             android:name="com.sdp.swiftwallet.presentation.signIn.RegisterActivity"
             android:exported="false"
@@ -63,7 +63,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.sdp.swiftwallet.CryptoValuesActivity"
+            android:name="com.sdp.swiftwallet.presentation.cryptoGraph.CryptoValuesActivity"
             android:exported="false"
             android:parentActivityName="com.sdp.swiftwallet.presentation.main.MainActivity" />
         <activity

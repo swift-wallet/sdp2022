@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,13 +20,12 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.sdp.cryptowalletapp.R;
-import com.sdp.swiftwallet.data.repository.Web3Requests;
-import com.sdp.swiftwallet.di.WalletProvider;
-import com.sdp.swiftwallet.domain.model.QRCodeScanner;
+import com.sdp.swiftwallet.di.wallet.WalletProvider;
+import com.sdp.swiftwallet.domain.model.qrCode.QRCodeScanner;
 import com.sdp.swiftwallet.domain.model.wallet.IWalletKeyPair;
-import com.sdp.swiftwallet.domain.model.wallet.TransactionHelper;
+import com.sdp.swiftwallet.domain.model.transaction.TransactionHelper;
 import com.sdp.swiftwallet.domain.model.wallet.Wallets;
-import com.sdp.swiftwallet.domain.repository.IWeb3Requests;
+import com.sdp.swiftwallet.domain.repository.web3.IWeb3Requests;
 
 import org.web3j.crypto.RawTransaction;
 
@@ -44,6 +42,7 @@ import dagger.hilt.android.AndroidEntryPoint;
  */
 @AndroidEntryPoint
 public class PaymentFragment extends Fragment {
+
     private ArrayAdapter<String> arrayAdapter;
     private TextView fromAddress;
     private TextView fromBalance;
@@ -157,7 +156,6 @@ public class PaymentFragment extends Fragment {
     /**
      * Those private classes are implementation needed for some view listeners of this fragment
      */
-
     private class OnFromAddressSelected implements AdapterView.OnItemSelectedListener{
         @Override
         public void onItemSelected(AdapterView<?> adapterView, View selectedView, int i, long l) {
@@ -173,6 +171,9 @@ public class PaymentFragment extends Fragment {
         }
     }
 
+    /**
+     * Seeking bar to show progress while parsing
+     */
     private class SeekBarWatcher implements SeekBar.OnSeekBarChangeListener {
         @Override
         public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
@@ -191,6 +192,9 @@ public class PaymentFragment extends Fragment {
         }
     }
 
+    /**
+     * Watcher that keeps track of amounts
+     */
     private class AmountWatcher implements TextWatcher {
         @Override
         public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
@@ -198,17 +202,19 @@ public class PaymentFragment extends Fragment {
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
         @Override
         public void afterTextChanged(Editable editable) {
-            if(sendAmount.getText().toString().equals("")) return;
+            if (sendAmount.getText().toString().equals("")) return;
             float sendValue = Float.parseFloat(sendAmount.getText().toString());
             float maxValue = Float.parseFloat(fromBalance.getText().toString());
             float progressPercentage;
-            if(sendValue > maxValue){
+            if (sendValue > maxValue){
                 progressPercentage = 100;
                 sendAmount.setText(Float.toString(maxValue));
-            }else if(sendValue < 0){
+
+            } else if (sendValue < 0) {
                 progressPercentage = 0;
                 sendAmount.setText(0);
-            }else{
+
+            } else {
                 progressPercentage = (sendValue / maxValue)*100;
             }
             seekBar.setProgress((int)progressPercentage);

@@ -72,7 +72,6 @@ public class ForgotPwActivityTest {
   @Test
   public void test_display(){
     onView(withId(R.id.emailField)).check(matches(isDisplayed()));
-    onView(withId(R.id.enterYourEmail)).check(matches(isDisplayed()));
     onView(withId(R.id.sendReset)).check(matches(isDisplayed()));
     onView(withId((R.id.goBackForgotPw))).check(matches(isDisplayed()));
     onView(withId((R.id.appLogo))).check(matches(isDisplayed()));

@@ -1,7 +1,7 @@
 package com.sdp.swiftwallet.presentation.signIn;
 
 import com.sdp.swiftwallet.domain.model.User;
-import com.sdp.swiftwallet.domain.repository.SwiftAuthenticator;
+import com.sdp.swiftwallet.domain.repository.firebase.SwiftAuthenticator;
 
 import java.util.Optional;
 

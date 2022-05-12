@@ -14,7 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.BaseApp;
-import com.sdp.swiftwallet.domain.repository.SwiftAuthenticator;
+import com.sdp.swiftwallet.domain.repository.firebase.SwiftAuthenticator;
 import com.sdp.swiftwallet.presentation.main.MainActivity;
 
 import java.util.Locale;

@@ -14,6 +14,7 @@
         android:text="@string/nav_profile"
         android:textSize="@dimen/dim_title"
         android:textStyle="bold"
+        android:textColor="@color/primary_text"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"/>
@@ -34,6 +35,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/logged_in_as"
+            android:textColor="@color/primary_text"
+            android:textStyle="bold"
             android:textSize="@dimen/big_size_text"
             android:layout_gravity="top|center"/>
 
@@ -43,6 +46,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/big_size_text"
+            android:textColor="@color/primary_text"
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
             />
@@ -60,22 +64,22 @@
         app:layout_constraintBottom_toBottomOf="parent"
         tools:context="com.sdp.swiftwallet.ProfileActivity">
 
-        <TextView
-            android:id="@+id/reset_email_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/reset_your_email"
-            android:textSize="@dimen/big_size_text"
-            android:layout_gravity="start|top"
-            android:labelFor="@+id/reset_email_field"
-            />
-
         <EditText
             android:id="@+id/reset_email_field"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:importantForAutofill="no"
-            android:inputType="textEmailAddress" />
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/background_input"
+            app:layout_constraintTop_toBottomOf="@+id/registerInputUsername"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:hint="@string/reset_your_email"
+            android:imeOptions="actionNext"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:textColor="@color/primary_text"
+            android:inputType="textEmailAddress"/>
 
         <Button
             android:id="@+id/reset_email_Btn"

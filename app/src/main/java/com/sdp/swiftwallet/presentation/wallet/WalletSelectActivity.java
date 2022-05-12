@@ -7,8 +7,8 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.sdp.cryptowalletapp.R;
-import com.sdp.swiftwallet.di.WalletProvider;
 import com.sdp.swiftwallet.domain.model.wallet.IWalletKeyPair;
+import com.sdp.swiftwallet.di.wallet.WalletProvider;
 import com.sdp.swiftwallet.presentation.wallet.fragments.WalletItemFragment;
 
 import javax.inject.Inject;
@@ -52,6 +52,9 @@ public class WalletSelectActivity extends AppCompatActivity {
         importWalletLayout = findViewById(R.id.import_wallet_layout);
     }
 
+    /**
+     * Recover a list of wallets
+     */
     private void recoverWalletsList(){
         int counter = walletProvider.getWallets().getCounter();
         for(int i=0 ; i < counter; i++){
@@ -59,6 +62,10 @@ public class WalletSelectActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Create an address on view v
+     * @param v view
+     */
     private void createAddress(View v){
         walletItemFragment.addWalletItem(walletProvider.getWallets().generateWallet());
     }
