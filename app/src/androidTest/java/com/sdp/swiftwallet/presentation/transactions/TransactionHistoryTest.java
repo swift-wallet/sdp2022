@@ -50,8 +50,8 @@ public class TransactionHistoryTest {
     private final static String THEIR_WALL = "THEIR_WALL";
 
     private final static List<Currency> currencyList = new ArrayList<>();
-    public static final String GREEN_COLOR = "#4CAF50";
-    public static final String RED_COLOR = "#F44336";
+    public static final int GREEN_COLOR = Color.parseColor("#4CAF50");
+    public static final int RED_COLOR = Color.parseColor("#F44336");
 
     static {
         currencyList.add(CURR_1);
@@ -124,7 +124,7 @@ public class TransactionHistoryTest {
         onView(withId(R.id.transaction_recyclerView))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
 
-        onView(withBgColor(Color.parseColor(GREEN_COLOR))).check(matches(isDisplayed()));
+        onView(withBgColor(GREEN_COLOR)).check(matches(isDisplayed()));
     }
 
     @Test
@@ -137,7 +137,7 @@ public class TransactionHistoryTest {
 
         onView(withId(R.id.transaction_recyclerView))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
-        onView(withBgColor(Color.parseColor(GREEN_COLOR))).check(matches(isDisplayed()));
+        onView(withBgColor(GREEN_COLOR)).check(matches(isDisplayed()));
     }
 
     @Test
@@ -150,7 +150,7 @@ public class TransactionHistoryTest {
 
         onView(withId(R.id.transaction_recyclerView))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
-        onView(withBgColor(Color.parseColor(GREEN_COLOR))).check(matches(isDisplayed()));
+        onView(withBgColor(GREEN_COLOR)).check(matches(isDisplayed()));
     }
 
     @Test
@@ -163,7 +163,7 @@ public class TransactionHistoryTest {
         onView(withId(R.id.transaction_recyclerView))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
 
-        onView(withBgColor(Color.parseColor(RED_COLOR))).check(matches(isDisplayed()));
+        onView(withBgColor(RED_COLOR)).check(matches(isDisplayed()));
     }
 
     @Test
@@ -177,7 +177,7 @@ public class TransactionHistoryTest {
         onView(withId(R.id.transaction_recyclerView))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
 
-        onView(withBgColor(Color.parseColor(RED_COLOR))).check(matches(isDisplayed()));
+        onView(withBgColor(RED_COLOR)).check(matches(isDisplayed()));
     }
 
     @Test
@@ -190,7 +190,7 @@ public class TransactionHistoryTest {
 
         onView(withId(R.id.transaction_recyclerView))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
-        onView(withBgColor(Color.parseColor(RED_COLOR))).check(matches(isDisplayed()));
+        onView(withBgColor(RED_COLOR)).check(matches(isDisplayed()));
     }
 
     @Test
@@ -216,7 +216,7 @@ public class TransactionHistoryTest {
         onView(withId(R.id.transaction_recyclerView))
                 .perform(RecyclerViewActions.scrollToPosition(nbTransactions));
 
-        onView(withBgColor(Color.parseColor(GREEN_COLOR))).check(matches(isDisplayed()));
+        onView(withBgColor(GREEN_COLOR)).check(matches(isDisplayed()));
     }
 
     @Test
@@ -236,7 +236,7 @@ public class TransactionHistoryTest {
 
         onView(withId(R.id.transaction_recyclerView))
                 .perform(RecyclerViewActions.scrollToPosition(0));
-        onView(withBgColor(Color.parseColor(GREEN_COLOR))).check(matches(isDisplayed()));
+        onView(withBgColor(GREEN_COLOR)).check(matches(isDisplayed()));
 
         for (int i = 0; i < nbTransactions; i += nbTransactions/10) {
             onView(withId(R.id.transaction_recyclerView))
@@ -246,7 +246,7 @@ public class TransactionHistoryTest {
         onView(withId(R.id.transaction_recyclerView))
                 .perform(RecyclerViewActions.scrollToPosition(0));
 
-        onView(withBgColor(Color.parseColor(GREEN_COLOR))).check(matches(isDisplayed()));
+        onView(withBgColor(GREEN_COLOR)).check(matches(isDisplayed()));
     }
 
     public static Matcher<View> withBgColor(final int color) {
