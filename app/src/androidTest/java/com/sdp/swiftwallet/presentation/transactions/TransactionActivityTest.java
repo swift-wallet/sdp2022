@@ -33,20 +33,9 @@ import dagger.hilt.android.testing.HiltAndroidTest;
 import dagger.hilt.android.testing.UninstallModules;
 import dagger.hilt.components.SingletonComponent;
 
-@UninstallModules(TransactionHistoryProducerModule.class)
 @HiltAndroidTest
 @RunWith(AndroidJUnit4.class)
 public class TransactionActivityTest {
-
-    @Module
-    @InstallIn(SingletonComponent.class)
-    public static class TestModule {
-
-        @Provides
-        public static TransactionHistoryProducer provideProducer() {
-            return producer;
-        }
-    }
 
     private final static Currency CURR_1 = new Currency("DumbCoin", "DUM", 5);
     private final static Currency CURR_2 = new Currency("BitCoin", "BTC", 3);
@@ -56,14 +45,14 @@ public class TransactionActivityTest {
     private final static String THEIR_WALL = "THEIR_WALL";
     private final static List<Currency> currencyList = new ArrayList<>();
 
+    private DummyProducer producer;
+
     static {
         currencyList.add(CURR_1);
         currencyList.add(CURR_2);
         currencyList.add(CURR_3);
         currencyList.add(CURR_4);
     }
-
-    private static DummyHistoryProducer producer = new DummyHistoryProducer();
 
     public ActivityScenarioRule<TransactionActivity> testRule = new ActivityScenarioRule<>(TransactionActivity.class);
     public HiltAndroidRule hiltRule = new HiltAndroidRule(this);
@@ -75,7 +64,7 @@ public class TransactionActivityTest {
     @Before
     public void setup() {
         hiltRule.inject();
-        producer = new DummyHistoryProducer();
+        producer = DummyProducer.INSTANCE;
     }
 
     @Test
@@ -160,34 +149,5 @@ public class TransactionActivityTest {
         producer.addTransaction(t4);
         producer.addTransaction(t5);
         producer.alertAll();
-    }
-
-    public static class DummyHistoryProducer implements TransactionHistoryProducer {
-        private final List<TransactionHistorySubscriber> subscribers = new ArrayList<>();
-        private final List<Transaction> transactions = new ArrayList<>();
-
-        @Override
-        public boolean subscribe(TransactionHistorySubscriber subscriber) {
-            subscriber.receiveTransactions(transactions);
-            return subscribers.add(subscriber);
-        }
-
-        @Override
-        public boolean unsubscribe(TransactionHistorySubscriber subscriber) {
-            if (subscribers.contains(subscriber)) {
-                return subscribers.remove(subscriber);
-            }
-            return true;
-        }
-
-        public void alertAll() {
-            for (TransactionHistorySubscriber subscriber : subscribers) {
-                subscriber.receiveTransactions(transactions);
-            }
-        }
-
-        public void addTransaction(Transaction t) {
-            transactions.add(t);
-        }
     }
 }
