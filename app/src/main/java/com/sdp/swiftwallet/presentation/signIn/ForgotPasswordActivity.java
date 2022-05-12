@@ -13,6 +13,8 @@ import androidx.test.espresso.idling.CountingIdlingResource;
 import com.google.firebase.auth.FirebaseAuth;
 import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.common.FirebaseUtil;
+import com.sdp.swiftwallet.domain.repository.firebase.SwiftAuthenticator;
+
 import dagger.hilt.android.AndroidEntryPoint;
 import javax.inject.Inject;
 import org.jetbrains.annotations.NotNull;
@@ -22,43 +24,38 @@ import org.jetbrains.annotations.NotNull;
  */
 @AndroidEntryPoint
 public class ForgotPasswordActivity extends AppCompatActivity {
+  private static final String RESET_PASSWORD_TAG = "RESET_PASSWORD_TAG";
+  private static final String COUNTRY = "en";
+  private static final String COUNTRY_CODE = "en_gb";
 
-  @Inject FirebaseAuth mAuth;
-
-  private final String COUNTRY = "en";
-  private final String COUNTRY_CODE = "en_gb";
+  @Inject SwiftAuthenticator authenticator;
 
   private EditText emailView;
-  private static final String RESET_PASSWORD_TAG = "RESET_PASSWORD_TAG";
-
-  private CountingIdlingResource mIdlingResource;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
-
     super.onCreate(savedInstanceState);
-    //Set the content
     setContentView(R.layout.activity_reset_password);
-
-    //Sets up the db
-    mAuth = FirebaseUtil.getAuth();
-
-    // Init idling resource for testing purpose
-    mIdlingResource = new CountingIdlingResource("ForgotPW Calls");
 
     emailView = findViewById(R.id.emailField);
 
-    //Sets up the button for confirming
+    setListeners();
+
+    // Hardcoded, to be changed
+    authenticator.setLanguageCode(COUNTRY);
+    authenticator.setLanguageCode(COUNTRY_CODE);
+  }
+
+  /**
+   * Set all listeners from forgotPasswordActivity
+   */
+  private void setListeners() {
     Button sendLink = findViewById(R.id.sendReset);
     sendLink.setOnClickListener(v -> checkAndSend(emailView.getText().toString().trim()));
 
     Button goBack = findViewById(R.id.goBackForgotPw);
-    goBack.setOnClickListener(v -> startActivity(new Intent(ForgotPasswordActivity.this,
-        LoginActivity.class)));
-
-    // Hardcoded, to be changed
-    mAuth.setLanguageCode(COUNTRY);
-    mAuth.setLanguageCode(COUNTRY_CODE);
+    goBack.setOnClickListener(v -> startActivity(
+            new Intent(getApplicationContext(), LoginActivity.class)));
   }
 
   /**
@@ -66,9 +63,8 @@ public class ForgotPasswordActivity extends AppCompatActivity {
    * By default, we hardcode the
    * @param email email to send
    */
-  public void checkAndSend(@NotNull String email){
+  private void checkAndSend(@NotNull String email){
     if (checkEmail(email, emailView)) {
-      mIdlingResource.increment();
       sendPasswordResetEmail(email);
     }
   }
@@ -77,31 +73,28 @@ public class ForgotPasswordActivity extends AppCompatActivity {
    * Sends a password reset email to the user
    * @param email email that must previously have been checked
    */
-  public void sendPasswordResetEmail(String email){
+  private void sendPasswordResetEmail(String email){
     Log.d(RESET_PASSWORD_TAG, "Trying to send a confirmation email");
-
-    mAuth.sendPasswordResetEmail(email)
-        .addOnSuccessListener( a -> {
-          Log.d(RESET_PASSWORD_TAG, "Password successfully sent on \n" + email);
-          displayToast(this, "Password successfully sent on \n" + email);
-
-          // Start again login activity if successful
-          Intent nextIntent = new Intent(this, LoginActivity.class);
-          mIdlingResource.decrement();
-          startActivity(nextIntent);
-        }).addOnFailureListener( a -> {
-      Log.d(RESET_PASSWORD_TAG, "Something went wrong, please enter a valid email \n" + email);
-      displayToast(this, "Reset error, please correct your email! \n" + email);
-      mIdlingResource.decrement();
-      });
+    authenticator.sendPasswordResetEmail(email, this::sendSuccess, this::sendFailure);
   }
 
   /**
-   * Getter for idling resource, used for testing
-   * @return idling resource used in this activity
+   * Callback for successful email sending
    */
-  public CountingIdlingResource getIdlingResource() {
-    return mIdlingResource;
+  private void sendSuccess() {
+    displayToast(getApplicationContext(), "Password successfully sent");
+
+    // Start again login activity if successful
+    Intent nextIntent = new Intent(getApplicationContext(), LoginActivity.class);
+    startActivity(nextIntent);
+  }
+
+  /**
+   * Callback for failed email sending
+   */
+  private void sendFailure() {
+    emailView.setError("Reset error, please correct your email!");
+    emailView.requestFocus();
   }
 
 }
