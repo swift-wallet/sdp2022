@@ -166,7 +166,6 @@ public class RegisterActivity extends AppCompatActivity {
                 displayToast(getApplicationContext(), "User failed to register");
                 break;
             default:
-                Log.d(REGISTER_TAG, "Unhandeled error in " + this.getClass().getName());
                 break;
         }
     }
