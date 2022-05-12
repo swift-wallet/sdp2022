@@ -14,12 +14,20 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static org.hamcrest.Matchers.allOf;
 
+import android.content.Context;
+import android.content.Intent;
+
 import androidx.test.espresso.IdlingRegistry;
 import androidx.test.espresso.idling.CountingIdlingResource;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.platform.app.InstrumentationRegistry;
+
+import com.google.firebase.auth.FirebaseAuth;
 import com.sdp.cryptowalletapp.R;
+import com.sdp.swiftwallet.domain.repository.firebase.SwiftAuthenticator;
+
 import dagger.hilt.android.testing.HiltAndroidRule;
 import dagger.hilt.android.testing.HiltAndroidTest;
 import org.junit.After;
@@ -29,80 +37,98 @@ import org.junit.Test;
 import org.junit.rules.RuleChain;
 import org.junit.runner.RunWith;
 
+import javax.inject.Inject;
+
 @HiltAndroidTest
 @RunWith(AndroidJUnit4.class)
 public class ForgotPwActivityTest {
 
+  // Rules Set Up
   public ActivityScenarioRule<ForgotPasswordActivity> testRule = new ActivityScenarioRule<>(ForgotPasswordActivity.class);
   public HiltAndroidRule hiltRule = new HiltAndroidRule(this);
 
   @Rule
-  public final RuleChain rule =
-          RuleChain.outerRule(hiltRule).around(testRule);
+  public final RuleChain rule = RuleChain.outerRule(hiltRule).around(testRule);
 
-  CountingIdlingResource mIdlingResource;
+  @Inject
+  FirebaseAuth mAuth;
+  DummyAuthenticator authenticator;
 
   @Before
-  public void setUp() {
+  public void setup() {
+    // Not sure but this may be required as the first line in setUp()
     hiltRule.inject();
+    // Init the fake authenticator by using a static instance from DummyAuthenticator
+    authenticator = DummyAuthenticator.INSTANCE;
+    // Init Espresso intents
     Intents.init();
-  }
-
-  @Before
-  public void registerIdlingResource() {
-    testRule.getScenario().onActivity(activity ->
-            mIdlingResource = activity.getIdlingResource()
-    );
-    IdlingRegistry.getInstance().register(mIdlingResource);
+    // Make sure no user is signed in before testing
+    mAuth.signOut();
+    // Make sure no dialogs are displayed before testing
+    closeSystemDialogs();
+    // Reset fake authenticator flags
+    authenticator.setExecFailure(false);
+    authenticator.setExecSuccess(false);
+    authenticator.setCurrUser(null);
   }
 
   @After
-  public void tearDown() {
+  public void teardown() {
     Intents.release();
   }
 
-  @After
-  public void unregisterIdlingResource() {
-    IdlingRegistry.getInstance().unregister(mIdlingResource);
+  /**
+   * Close all dialogs from the ongoing view
+   */
+  public void closeSystemDialogs() {
+    Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
+    context.sendBroadcast(new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS));
   }
 
-  /**
-   * Test that everything is displayed
-   */
   @Test
-  public void test_display(){
+  public void layoutCorrectlyDisplayed(){
+    onView(withId((R.id.appLogo))).check(matches(isDisplayed()));
     onView(withId(R.id.emailField)).check(matches(isDisplayed()));
     onView(withId(R.id.sendReset)).check(matches(isDisplayed()));
     onView(withId((R.id.goBackForgotPw))).check(matches(isDisplayed()));
-    onView(withId((R.id.appLogo))).check(matches(isDisplayed()));
   }
 
   @Test
-  public void no_email_raises_error() {
-    onView(withId(R.id.emailField)).perform(typeText(""), closeSoftKeyboard());
+  public void emptyEmailRaisesError() {
     onView(withId(R.id.sendReset)).perform(click());
 
     onView(withId(R.id.emailField)).check(matches(hasFocus()));
   }
 
   @Test
-  public void firesCorrectIntentAfterLinkSent(){
-    onView(withId(R.id.emailField)).perform(typeText("dummy@gmail.com"), closeSoftKeyboard());
-    onView(withId(R.id.sendReset)).perform(click());
-
-    // Avoid softban reset with firebase..
-    /*intended(allOf(
-            toPackage("com.sdp.swiftwallet"),
-            hasComponent(hasClassName(LoginActivity.class.getName()))
-    ));*/
-  }
-
-  @Test
-  public void sendLinkFailsCorrectly() {
+  public void wrongEmailRaisesError() {
     onView(withId(R.id.emailField)).perform(typeText("wrong"), closeSoftKeyboard());
     onView(withId(R.id.sendReset)).perform(click());
 
-    onView(withId(R.id.sendReset)).check(matches(isDisplayed()));
+    onView(withId(R.id.emailField)).check(matches(hasFocus()));
+  }
+
+  @Test
+  public void sendEmailSuccessCorrectly(){
+    authenticator.setExecSuccess(true);
+    authenticator.setResult(SwiftAuthenticator.Result.SUCCESS);
+    onView(withId(R.id.emailField)).perform(typeText("dummy@gmail.com"), closeSoftKeyboard());
+    onView(withId(R.id.sendReset)).perform(click());
+
+    intended(allOf(
+        toPackage("com.sdp.swiftwallet"),
+        hasComponent(hasClassName(LoginActivity.class.getName()))
+    ));
+  }
+
+  @Test
+  public void sendEmailFailsCorrectly() {
+    authenticator.setExecFailure(true);
+    authenticator.setResult(SwiftAuthenticator.Result.SUCCESS);
+    onView(withId(R.id.emailField)).perform(typeText("dummy@gmail.com"), closeSoftKeyboard());
+    onView(withId(R.id.sendReset)).perform(click());
+
+    onView(withId(R.id.emailField)).check(matches(hasFocus()));
   }
 
   @Test
