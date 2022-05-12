@@ -49,7 +49,7 @@ public class StatsFragment extends Fragment {
     }
     /////*******************************************************************
 
-    private static String TRANSACTION = "transactions";
+    private static final String TRANSACTION = "transactions";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

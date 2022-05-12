@@ -87,7 +87,7 @@ public class SeedGenerator {
     /**
      * Saves the given counter in the context
      */
-    public static void saveCounter(Context context, int counter) {
+    public static void saveCounter(Context context, int counter, int extCounter) {
         SharedPreferences prefs = context.getSharedPreferences(WALLETS_SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
         prefs.edit().putInt(PREF_COUNTER_ID, counter).putInt(PREF_EXT_COUNTER_ID, extCounter).apply();
     }

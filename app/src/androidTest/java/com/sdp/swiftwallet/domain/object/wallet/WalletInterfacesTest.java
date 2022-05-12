@@ -24,6 +24,11 @@ public class WalletInterfacesTest {
     public void shouldBeAbleToCreateIWallets(){
         IWallets wallets = new IWallets() {
             @Override
+            public IWalletKeyPair getWalletFromId(int id) {
+                return null;
+            }
+
+            @Override
             public int getCounter() {
                 return 0;
             }

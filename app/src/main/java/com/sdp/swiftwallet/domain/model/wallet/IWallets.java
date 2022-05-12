@@ -8,11 +8,6 @@ import android.content.Context;
 public interface IWallets {
 
     /**
-     * @return the list of existing wallets
-     */
-    IWalletKeyPair[] getWallets();
-
-    /**
      * @return returns the wallet with id "id"
      */
     IWalletKeyPair getWalletFromId(int id);
