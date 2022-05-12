@@ -19,7 +19,7 @@ import com.sdp.cryptowalletapp.databinding.ActivityRegisterBinding;
 import com.sdp.swiftwallet.BaseApp;
 import com.sdp.swiftwallet.common.Constants;
 import com.sdp.swiftwallet.common.FirebaseUtil;
-import com.sdp.swiftwallet.domain.repository.SwiftAuthenticator;
+import com.sdp.swiftwallet.domain.repository.firebase.SwiftAuthenticator;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,6 +1,6 @@
 package com.sdp.swiftwallet.domain.model.wallet;
 
-import com.sdp.swiftwallet.domain.repository.IWeb3Requests;
+import com.sdp.swiftwallet.domain.repository.web3.IWeb3Requests;
 
 import org.web3j.crypto.RawTransaction;
 

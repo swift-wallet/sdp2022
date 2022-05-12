@@ -1,7 +1,7 @@
 package com.sdp.swiftwallet.presentation.signIn;
 
-import com.sdp.swiftwallet.di.AuthenticatorModule;
-import com.sdp.swiftwallet.domain.repository.SwiftAuthenticator;
+import com.sdp.swiftwallet.di.firebase.AuthenticatorModule;
+import com.sdp.swiftwallet.domain.repository.firebase.SwiftAuthenticator;
 
 import dagger.Module;
 import dagger.Provides;

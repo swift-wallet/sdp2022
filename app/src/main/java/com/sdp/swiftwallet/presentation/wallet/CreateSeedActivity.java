@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.domain.model.wallet.cryptography.SeedGenerator;

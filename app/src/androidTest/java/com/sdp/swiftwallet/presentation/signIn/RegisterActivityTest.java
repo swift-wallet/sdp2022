@@ -27,7 +27,7 @@ import androidx.test.platform.app.InstrumentationRegistry;
 import com.google.firebase.auth.FirebaseAuth;
 import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.domain.model.User;
-import com.sdp.swiftwallet.domain.repository.SwiftAuthenticator;
+import com.sdp.swiftwallet.domain.repository.firebase.SwiftAuthenticator;
 
 import org.junit.After;
 import org.junit.Before;

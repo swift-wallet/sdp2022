@@ -2,16 +2,12 @@ package com.sdp.swiftwallet.domain.model.wallet;
 
 import android.content.Context;
 
-import com.sdp.swiftwallet.data.repository.Web3Requests;
 import com.sdp.swiftwallet.domain.model.wallet.cryptography.KeyPairGenerator;
 import com.sdp.swiftwallet.domain.model.wallet.cryptography.SeedGenerator;
-import com.sdp.swiftwallet.domain.repository.IWeb3Requests;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-
-import javax.inject.Inject;
 
 /**
  * This is the main wallets manager, it handles:
