@@ -1,4 +1,4 @@
-package com.sdp.swiftwallet.domain.model.object;
+package com.sdp.swiftwallet.domain.model.contact;
 
 import java.io.Serializable;
 

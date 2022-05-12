@@ -9,8 +9,8 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.sdp.swiftwallet.domain.model.object.currency.Currency;
-import com.sdp.swiftwallet.domain.model.object.transaction.Transaction;
+import com.sdp.swiftwallet.domain.model.currency.Currency;
+import com.sdp.swiftwallet.domain.model.transaction.Transaction;
 
 import com.sdp.swiftwallet.domain.repository.transaction.TransactionHistoryProducer;
 import com.sdp.swiftwallet.domain.repository.transaction.TransactionHistorySubscriber;

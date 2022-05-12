@@ -18,8 +18,8 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.sdp.cryptowalletapp.R;
-import com.sdp.swiftwallet.domain.model.object.currency.Currency;
-import com.sdp.swiftwallet.domain.model.adapter.CurrencyAdapter;
+import com.sdp.swiftwallet.domain.model.currency.Currency;
+import com.sdp.swiftwallet.domain.model.currency.CurrencyAdapter;
 
 import org.json.JSONObject;
 

@@ -1,4 +1,4 @@
-package com.sdp.swiftwallet.domain.model.object;
+package com.sdp.swiftwallet.domain.model;
 
 import androidx.annotation.NonNull;
 import com.sdp.swiftwallet.domain.repository.firebase.SwiftAuthenticator.LoginMethod;

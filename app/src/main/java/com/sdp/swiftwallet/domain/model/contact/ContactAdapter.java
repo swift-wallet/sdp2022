@@ -1,4 +1,4 @@
-package com.sdp.swiftwallet.domain.model.adapter;
+package com.sdp.swiftwallet.domain.model.contact;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.sdp.cryptowalletapp.databinding.ItemContainerContactBinding;
 
-import com.sdp.swiftwallet.domain.model.object.Contact;
 import java.util.List;
 
 /**

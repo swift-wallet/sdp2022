@@ -1,9 +1,9 @@
-package com.sdp.swiftwallet.domain.model.object.wallet.cryptography;
+package com.sdp.swiftwallet.domain.model.wallet.cryptography;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.sdp.swiftwallet.domain.model.object.wallet.Wallets;
+import com.sdp.swiftwallet.domain.model.wallet.Wallets;
 
 import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;

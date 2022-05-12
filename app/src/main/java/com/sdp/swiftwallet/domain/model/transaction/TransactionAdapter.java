@@ -1,4 +1,4 @@
-package com.sdp.swiftwallet.domain.model.adapter;
+package com.sdp.swiftwallet.domain.model.transaction;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.sdp.cryptowalletapp.R;
 
-import com.sdp.swiftwallet.domain.model.object.transaction.Transaction;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;

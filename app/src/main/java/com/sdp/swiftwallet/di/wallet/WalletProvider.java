@@ -2,8 +2,8 @@ package com.sdp.swiftwallet.di.wallet;
 
 import android.content.Context;
 
-import com.sdp.swiftwallet.domain.model.object.wallet.Wallets;
-import com.sdp.swiftwallet.domain.model.object.wallet.cryptography.SeedGenerator;
+import com.sdp.swiftwallet.domain.model.wallet.Wallets;
+import com.sdp.swiftwallet.domain.model.wallet.cryptography.SeedGenerator;
 
 /**
  * Wallet provider

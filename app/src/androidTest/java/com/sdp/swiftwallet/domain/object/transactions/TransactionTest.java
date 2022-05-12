@@ -4,8 +4,8 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertThrows;
 
-import com.sdp.swiftwallet.domain.model.object.currency.Currency;
-import com.sdp.swiftwallet.domain.model.object.transaction.Transaction;
+import com.sdp.swiftwallet.domain.model.currency.Currency;
+import com.sdp.swiftwallet.domain.model.transaction.Transaction;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

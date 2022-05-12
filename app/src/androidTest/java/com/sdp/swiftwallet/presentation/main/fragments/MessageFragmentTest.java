@@ -20,7 +20,7 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule;
 
 import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.BaseApp;
-import com.sdp.swiftwallet.domain.model.object.User;
+import com.sdp.swiftwallet.domain.model.User;
 import com.sdp.swiftwallet.domain.repository.firebase.SwiftAuthenticator;
 import com.sdp.swiftwallet.presentation.main.MainActivity;
 import com.sdp.swiftwallet.presentation.message.AddContactActivity;

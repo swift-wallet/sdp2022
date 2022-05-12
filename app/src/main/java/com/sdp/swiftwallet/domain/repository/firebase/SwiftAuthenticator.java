@@ -1,6 +1,6 @@
 package com.sdp.swiftwallet.domain.repository.firebase;
 
-import com.sdp.swiftwallet.domain.model.object.User;
+import com.sdp.swiftwallet.domain.model.User;
 import java.util.Optional;
 
 /**

@@ -1,6 +1,6 @@
 package com.sdp.swiftwallet.domain.object;
 
-import com.sdp.swiftwallet.domain.model.object.Interval;
+import com.sdp.swiftwallet.domain.model.Interval;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

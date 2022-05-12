@@ -2,9 +2,9 @@ package com.sdp.swiftwallet.di.transaction;
 
 import android.content.Context;
 
-import com.sdp.swiftwallet.domain.model.bank.CurrencyBank;
-import com.sdp.swiftwallet.domain.model.object.currency.RequestQueueCurrencyPriceChecker;
-import com.sdp.swiftwallet.domain.model.bank.SwiftWalletCurrencyBank;
+import com.sdp.swiftwallet.domain.model.currency.CurrencyBank;
+import com.sdp.swiftwallet.domain.model.currency.RequestQueueCurrencyPriceChecker;
+import com.sdp.swiftwallet.domain.model.currency.SwiftWalletCurrencyBank;
 
 import dagger.Module;
 import dagger.Provides;

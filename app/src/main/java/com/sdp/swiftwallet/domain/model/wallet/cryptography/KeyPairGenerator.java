@@ -1,4 +1,4 @@
-package com.sdp.swiftwallet.domain.model.object.wallet.cryptography;
+package com.sdp.swiftwallet.domain.model.wallet.cryptography;
 
 import org.web3j.crypto.ECKeyPair;
 

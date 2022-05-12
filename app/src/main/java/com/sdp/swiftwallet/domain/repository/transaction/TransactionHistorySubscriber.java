@@ -1,6 +1,6 @@
 package com.sdp.swiftwallet.domain.repository.transaction;
 
-import com.sdp.swiftwallet.domain.model.object.transaction.Transaction;
+import com.sdp.swiftwallet.domain.model.transaction.Transaction;
 
 import java.util.List;
 

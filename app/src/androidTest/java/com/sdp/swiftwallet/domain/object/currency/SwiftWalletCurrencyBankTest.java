@@ -1,13 +1,13 @@
-package com.sdp.swiftwallet.domain.object.bank;
+package com.sdp.swiftwallet.domain.object.currency;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertThrows;
 
-import com.sdp.swiftwallet.domain.model.object.currency.Currency;
-import com.sdp.swiftwallet.domain.model.bank.CurrencyBank;
-import com.sdp.swiftwallet.domain.model.bank.SwiftWalletCurrencyBank;
+import com.sdp.swiftwallet.domain.model.currency.Currency;
+import com.sdp.swiftwallet.domain.model.currency.CurrencyBank;
+import com.sdp.swiftwallet.domain.model.currency.SwiftWalletCurrencyBank;
 
 import org.junit.Before;
 import org.junit.Test;

@@ -15,7 +15,7 @@ import androidx.test.core.app.ActivityScenario;
 import androidx.test.core.app.ApplicationProvider;
 
 import com.sdp.cryptowalletapp.R;
-import com.sdp.swiftwallet.domain.model.object.qrCode.QRCodeGenerator;
+import com.sdp.swiftwallet.domain.model.qrCode.QRCodeGenerator;
 
 import org.junit.Assert;
 import org.junit.Before;

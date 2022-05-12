@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.google.zxing.WriterException;
 import com.sdp.cryptowalletapp.R;
-import com.sdp.swiftwallet.domain.model.object.qrCode.QRCodeGenerator;
+import com.sdp.swiftwallet.domain.model.qrCode.QRCodeGenerator;
 
 /**
  * Activity that shows information about a specific wallet

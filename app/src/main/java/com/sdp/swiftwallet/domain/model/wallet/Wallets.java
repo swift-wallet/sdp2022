@@ -1,9 +1,9 @@
-package com.sdp.swiftwallet.domain.model.object.wallet;
+package com.sdp.swiftwallet.domain.model.wallet;
 
 import android.content.Context;
 
-import com.sdp.swiftwallet.domain.model.object.wallet.cryptography.KeyPairGenerator;
-import com.sdp.swiftwallet.domain.model.object.wallet.cryptography.SeedGenerator;
+import com.sdp.swiftwallet.domain.model.wallet.cryptography.KeyPairGenerator;
+import com.sdp.swiftwallet.domain.model.wallet.cryptography.SeedGenerator;
 
 import java.util.ArrayList;
 import java.util.Arrays;

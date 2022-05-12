@@ -12,8 +12,8 @@ import android.widget.TextView;
 
 import com.sdp.cryptowalletapp.databinding.FragmentWalletItemBinding;
 import com.sdp.swiftwallet.common.HelperFunctions;
-import com.sdp.swiftwallet.domain.model.object.wallet.IWalletKeyPair;
-import com.sdp.swiftwallet.domain.model.object.wallet.Wallets;
+import com.sdp.swiftwallet.domain.model.wallet.IWalletKeyPair;
+import com.sdp.swiftwallet.domain.model.wallet.Wallets;
 import com.sdp.swiftwallet.presentation.wallet.WalletSelectActivity;
 
 import java.util.List;

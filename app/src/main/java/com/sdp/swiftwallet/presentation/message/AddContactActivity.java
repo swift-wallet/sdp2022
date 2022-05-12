@@ -19,10 +19,10 @@ import com.sdp.cryptowalletapp.databinding.ActivityAddContactBinding;
 import com.sdp.swiftwallet.BaseApp;
 import com.sdp.swiftwallet.common.Constants;
 import com.sdp.swiftwallet.common.FirebaseUtil;
-import com.sdp.swiftwallet.domain.model.object.Contact;
-import com.sdp.swiftwallet.domain.model.object.qrCode.QRCodeGenerator;
-import com.sdp.swiftwallet.domain.model.object.qrCode.QRCodeScanner;
-import com.sdp.swiftwallet.domain.model.object.User;
+import com.sdp.swiftwallet.domain.model.contact.Contact;
+import com.sdp.swiftwallet.domain.model.qrCode.QRCodeGenerator;
+import com.sdp.swiftwallet.domain.model.qrCode.QRCodeScanner;
+import com.sdp.swiftwallet.domain.model.User;
 import com.sdp.swiftwallet.domain.repository.firebase.SwiftAuthenticator;
 import com.sdp.swiftwallet.presentation.main.MainActivity;
 

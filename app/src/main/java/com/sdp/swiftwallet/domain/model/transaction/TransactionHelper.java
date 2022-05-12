@@ -1,4 +1,4 @@
-package com.sdp.swiftwallet.domain.model.object.transaction;
+package com.sdp.swiftwallet.domain.model.transaction;
 
 import com.sdp.swiftwallet.domain.repository.web3.IWeb3Requests;
 

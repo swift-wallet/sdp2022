@@ -1,4 +1,4 @@
-package com.sdp.swiftwallet.domain.model.object.qrCode;
+package com.sdp.swiftwallet.domain.model.qrCode;
 
 import static android.graphics.Color.BLACK;
 import static android.graphics.Color.WHITE;

@@ -1,4 +1,4 @@
-package com.sdp.swiftwallet.domain.model.object.wallet;
+package com.sdp.swiftwallet.domain.model.wallet;
 
 import android.content.Context;
 

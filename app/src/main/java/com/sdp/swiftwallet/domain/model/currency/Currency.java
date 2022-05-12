@@ -1,4 +1,4 @@
-package com.sdp.swiftwallet.domain.model.object.currency;
+package com.sdp.swiftwallet.domain.model.currency;
 
 import java.io.Serializable;
 

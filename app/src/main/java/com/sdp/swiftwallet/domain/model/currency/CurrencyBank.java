@@ -1,6 +1,6 @@
-package com.sdp.swiftwallet.domain.model.bank;
+package com.sdp.swiftwallet.domain.model.currency;
 
-import com.sdp.swiftwallet.domain.model.object.currency.Currency;
+import com.sdp.swiftwallet.domain.model.currency.Currency;
 import java.util.Map;
 
 /**

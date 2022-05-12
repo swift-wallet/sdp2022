@@ -1,6 +1,6 @@
 package com.sdp.swiftwallet.domain.object;
 
-import com.sdp.swiftwallet.domain.model.object.Web3Requests;
+import com.sdp.swiftwallet.domain.model.Web3Requests;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -1,8 +1,8 @@
 package com.sdp.swiftwallet.domain.object.wallet;
-import com.sdp.swiftwallet.domain.model.object.wallet.WalletKeyPair;
-import com.sdp.swiftwallet.domain.model.object.wallet.Wallets;
-import com.sdp.swiftwallet.domain.model.object.wallet.cryptography.KeyPairGenerator;
-import com.sdp.swiftwallet.domain.model.object.wallet.cryptography.SeedGenerator;
+import com.sdp.swiftwallet.domain.model.wallet.WalletKeyPair;
+import com.sdp.swiftwallet.domain.model.wallet.Wallets;
+import com.sdp.swiftwallet.domain.model.wallet.cryptography.KeyPairGenerator;
+import com.sdp.swiftwallet.domain.model.wallet.cryptography.SeedGenerator;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -1,4 +1,4 @@
-package com.sdp.swiftwallet.domain.model.adapter;
+package com.sdp.swiftwallet.domain.model.currency;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,7 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.sdp.cryptowalletapp.R;
-import com.sdp.swiftwallet.domain.model.object.currency.Currency;
 import com.sdp.swiftwallet.presentation.cryptoGraph.CryptoGraphActivity;
 
 import java.text.DecimalFormat;

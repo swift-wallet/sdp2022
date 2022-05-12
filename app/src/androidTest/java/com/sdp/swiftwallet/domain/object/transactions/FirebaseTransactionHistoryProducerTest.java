@@ -5,8 +5,8 @@
 //import static org.junit.Assert.assertThrows;
 //
 //import com.sdp.swiftwallet.SwiftWalletApp;
-//import com.sdp.swiftwallet.domain.model.object.currency.Currency;
-//import com.sdp.swiftwallet.domain.model.object.transaction.Transaction;
+//import com.sdp.swiftwallet.domain.model.currency.Currency;
+//import com.sdp.swiftwallet.domain.model.transaction.Transaction;
 //import com.sdp.swiftwallet.domain.repository.firebase.FirebaseTransactionHistoryProducer;
 //import com.sdp.swiftwallet.domain.repository.transaction.TransactionHistorySubscriber;
 //

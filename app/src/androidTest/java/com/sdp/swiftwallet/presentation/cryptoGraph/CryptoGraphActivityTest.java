@@ -19,8 +19,7 @@ import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.platform.app.InstrumentationRegistry;
 import com.sdp.cryptowalletapp.R;
-import com.sdp.swiftwallet.presentation.cryptoGraph.CryptoGraphActivity;
-import com.sdp.swiftwallet.domain.model.object.currency.Currency;
+import com.sdp.swiftwallet.domain.model.currency.Currency;
 
 import org.junit.After;
 import org.junit.Before;

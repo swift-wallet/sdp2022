@@ -1,8 +1,8 @@
-package com.sdp.swiftwallet.domain.model.object.transaction;
+package com.sdp.swiftwallet.domain.model.transaction;
 
 import androidx.annotation.NonNull;
 
-import com.sdp.swiftwallet.domain.model.object.currency.Currency;
+import com.sdp.swiftwallet.domain.model.currency.Currency;
 import java.util.Locale;
 
 /**

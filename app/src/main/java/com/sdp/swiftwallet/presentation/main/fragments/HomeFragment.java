@@ -14,7 +14,7 @@ import androidx.fragment.app.Fragment;
 import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.common.HelperFunctions;
 import com.sdp.swiftwallet.di.wallet.WalletProvider;
-import com.sdp.swiftwallet.domain.model.object.wallet.IWalletKeyPair;
+import com.sdp.swiftwallet.domain.model.wallet.IWalletKeyPair;
 import com.sdp.swiftwallet.domain.repository.web3.IWeb3Requests;
 import com.sdp.swiftwallet.presentation.wallet.CreateSeedActivity;
 import com.sdp.swiftwallet.presentation.wallet.WalletInfoActivity;

@@ -1,4 +1,4 @@
-package com.sdp.swiftwallet.domain.model.object.qrCode;
+package com.sdp.swiftwallet.domain.model.qrCode;
 
 import android.content.Context;
 import android.content.Intent;

@@ -11,8 +11,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.sdp.cryptowalletapp.R;
-import com.sdp.swiftwallet.domain.model.object.transaction.Transaction;
-import com.sdp.swiftwallet.domain.model.adapter.TransactionAdapter;
+import com.sdp.swiftwallet.domain.model.transaction.Transaction;
+import com.sdp.swiftwallet.domain.model.transaction.TransactionAdapter;
 import com.sdp.swiftwallet.domain.repository.transaction.TransactionHistoryProducer;
 import com.sdp.swiftwallet.domain.repository.transaction.TransactionHistorySubscriber;
 import com.sdp.swiftwallet.presentation.transactions.TransactionActivity;

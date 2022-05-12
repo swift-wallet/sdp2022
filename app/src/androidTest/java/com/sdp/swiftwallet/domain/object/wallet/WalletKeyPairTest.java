@@ -1,10 +1,10 @@
 package com.sdp.swiftwallet.domain.object.wallet;
 
 import com.sdp.swiftwallet.domain.mocks.MockWeb3Requests;
-import com.sdp.swiftwallet.domain.model.object.Web3Requests;
-import com.sdp.swiftwallet.domain.model.object.wallet.WalletKeyPair;
-import com.sdp.swiftwallet.domain.model.object.wallet.cryptography.KeyPairGenerator;
-import com.sdp.swiftwallet.domain.model.object.wallet.cryptography.SeedGenerator;
+import com.sdp.swiftwallet.domain.model.Web3Requests;
+import com.sdp.swiftwallet.domain.model.wallet.WalletKeyPair;
+import com.sdp.swiftwallet.domain.model.wallet.cryptography.KeyPairGenerator;
+import com.sdp.swiftwallet.domain.model.wallet.cryptography.SeedGenerator;
 import com.sdp.swiftwallet.domain.repository.web3.IWeb3Requests;
 
 import org.junit.Before;

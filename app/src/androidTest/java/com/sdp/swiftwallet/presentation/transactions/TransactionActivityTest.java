@@ -11,11 +11,10 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.di.transaction.TransactionHistoryProducerModule;
-import com.sdp.swiftwallet.domain.model.object.currency.Currency;
-import com.sdp.swiftwallet.domain.model.object.transaction.Transaction;
+import com.sdp.swiftwallet.domain.model.currency.Currency;
+import com.sdp.swiftwallet.domain.model.transaction.Transaction;
 import com.sdp.swiftwallet.domain.repository.transaction.TransactionHistoryProducer;
 import com.sdp.swiftwallet.domain.repository.transaction.TransactionHistorySubscriber;
-import com.sdp.swiftwallet.presentation.transactions.TransactionActivity;
 
 import org.junit.Before;
 import org.junit.Rule;

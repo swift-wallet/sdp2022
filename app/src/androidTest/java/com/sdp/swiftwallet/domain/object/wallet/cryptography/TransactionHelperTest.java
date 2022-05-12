@@ -1,7 +1,7 @@
 package com.sdp.swiftwallet.domain.object.wallet.cryptography;
 
 import com.sdp.swiftwallet.domain.mocks.MockWeb3Requests;
-import com.sdp.swiftwallet.domain.model.object.transaction.TransactionHelper;
+import com.sdp.swiftwallet.domain.model.transaction.TransactionHelper;
 import com.sdp.swiftwallet.domain.repository.web3.IWeb3Requests;
 import org.junit.Test;
 import org.junit.runner.RunWith;

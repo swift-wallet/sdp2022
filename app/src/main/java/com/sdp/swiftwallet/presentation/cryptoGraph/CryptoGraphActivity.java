@@ -26,7 +26,7 @@ import com.github.mikephil.charting.data.CandleData;
 import com.github.mikephil.charting.data.CandleDataSet;
 import com.github.mikephil.charting.data.CandleEntry;
 import com.sdp.cryptowalletapp.R;
-import com.sdp.swiftwallet.domain.model.object.currency.Currency;
+import com.sdp.swiftwallet.domain.model.currency.Currency;
 import java.util.ArrayList;
 import org.json.JSONArray;
 

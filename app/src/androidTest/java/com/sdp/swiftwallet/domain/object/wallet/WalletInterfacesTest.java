@@ -4,9 +4,9 @@ import android.content.Context;
 
 import androidx.test.core.app.ApplicationProvider;
 
-import com.sdp.swiftwallet.domain.model.object.Web3Requests;
-import com.sdp.swiftwallet.domain.model.object.wallet.IWalletKeyPair;
-import com.sdp.swiftwallet.domain.model.object.wallet.IWallets;
+import com.sdp.swiftwallet.domain.model.Web3Requests;
+import com.sdp.swiftwallet.domain.model.wallet.IWalletKeyPair;
+import com.sdp.swiftwallet.domain.model.wallet.IWallets;
 import com.sdp.swiftwallet.domain.repository.web3.IWeb3Requests;
 import com.sdp.swiftwallet.domain.repository.web3.Web3ResponseType;
 

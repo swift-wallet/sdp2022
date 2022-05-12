@@ -3,7 +3,7 @@ package com.sdp.swiftwallet.domain.object;
 import static com.sdp.swiftwallet.domain.repository.firebase.SwiftAuthenticator.LoginMethod.BASIC;
 import static org.junit.Assert.assertEquals;
 
-import com.sdp.swiftwallet.domain.model.object.User;
+import com.sdp.swiftwallet.domain.model.User;
 import org.junit.Test;
 
 public class UserTest {

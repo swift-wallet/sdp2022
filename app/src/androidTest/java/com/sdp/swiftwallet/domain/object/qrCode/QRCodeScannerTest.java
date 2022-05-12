@@ -7,7 +7,7 @@ import androidx.lifecycle.Lifecycle;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 
-import com.sdp.swiftwallet.domain.model.object.qrCode.QRCodeScanner;
+import com.sdp.swiftwallet.domain.model.qrCode.QRCodeScanner;
 import com.sdp.swiftwallet.presentation.main.MainActivity;
 
 import org.junit.After;

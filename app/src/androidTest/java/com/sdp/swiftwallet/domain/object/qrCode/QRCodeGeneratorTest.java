@@ -2,7 +2,7 @@ package com.sdp.swiftwallet.domain.object.qrCode;
 
 import static org.junit.Assert.assertTrue;
 import com.google.zxing.WriterException;
-import com.sdp.swiftwallet.domain.model.object.qrCode.QRCodeGenerator;
+import com.sdp.swiftwallet.domain.model.qrCode.QRCodeGenerator;
 
 import org.junit.Assert;
 import org.junit.Test;

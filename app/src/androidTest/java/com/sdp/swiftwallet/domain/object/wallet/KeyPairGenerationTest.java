@@ -1,5 +1,5 @@
 package com.sdp.swiftwallet.domain.object.wallet;
-import com.sdp.swiftwallet.domain.model.object.wallet.cryptography.KeyPairGenerator;
+import com.sdp.swiftwallet.domain.model.wallet.cryptography.KeyPairGenerator;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

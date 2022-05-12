@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.widget.EditText;
 
 import com.sdp.cryptowalletapp.R;
-import com.sdp.swiftwallet.domain.model.object.wallet.cryptography.SeedGenerator;
+import com.sdp.swiftwallet.domain.model.wallet.cryptography.SeedGenerator;
 
 /**
  * The activity to be able to setup the seed of the wallet

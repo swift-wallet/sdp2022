@@ -3,9 +3,9 @@ package com.sdp.swiftwallet;
 import android.app.Application;
 import android.content.Context;
 
-import com.sdp.swiftwallet.domain.model.object.User;
-import com.sdp.swiftwallet.domain.model.object.wallet.IWallets;
-import com.sdp.swiftwallet.domain.model.object.wallet.cryptography.SeedGenerator;
+import com.sdp.swiftwallet.domain.model.User;
+import com.sdp.swiftwallet.domain.model.wallet.IWallets;
+import com.sdp.swiftwallet.domain.model.wallet.cryptography.SeedGenerator;
 import com.sdp.swiftwallet.domain.repository.transaction.TransactionHistoryProducer;
 
 /**

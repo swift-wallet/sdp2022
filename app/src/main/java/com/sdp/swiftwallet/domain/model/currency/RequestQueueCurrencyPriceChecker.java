@@ -1,4 +1,4 @@
-package com.sdp.swiftwallet.domain.model.object.currency;
+package com.sdp.swiftwallet.domain.model.currency;
 
 import android.content.Context;
 
@@ -7,8 +7,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
-import com.sdp.swiftwallet.domain.model.bank.CurrencyBank.PriceChecker;
-import com.sdp.swiftwallet.domain.model.object.currency.Currency;
+import com.sdp.swiftwallet.domain.model.currency.CurrencyBank.PriceChecker;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
