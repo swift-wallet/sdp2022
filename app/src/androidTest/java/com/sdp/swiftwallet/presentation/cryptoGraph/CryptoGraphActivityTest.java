@@ -66,22 +66,15 @@ public class CryptoGraphActivityTest {
     @Test
     public void changeCurrencyShowsETH(){
         onView(withId(R.id.idCurrencyToShow)).perform(click());
-        onData(anything()).atPosition(1).perform(click());
+        onData(anything()).atPosition(2).perform(click());
         onView(withId(R.id.idCurrencyToShow)).check(matches(withSpinnerText(containsString("ETH"))));
     }
 
     @Test
     public void changeCurrencyShowsBTC(){
         onView(withId(R.id.idCurrencyToShow)).perform(click());
-        onData(anything()).atPosition(2).perform(click());
-        onView(withId(R.id.idCurrencyToShow)).check(matches(withSpinnerText(containsString("ETH"))));
-    }
-
-    @Test
-    public void changeCurrencyShowsSOL(){
-        onView(withId(R.id.idCurrencyToShow)).perform(click());
-        onData(anything()).atPosition(6).perform(click());
-        onView(withId(R.id.idCurrencyToShow)).check(matches(withSpinnerText(containsString("ETH"))));
+        onData(anything()).atPosition(1).perform(click());
+        onView(withId(R.id.idCurrencyToShow)).check(matches(withSpinnerText(containsString("BTC"))));
     }
 
     @Test
