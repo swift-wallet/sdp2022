@@ -4,9 +4,10 @@ import static com.sdp.swiftwallet.domain.repository.firebase.SwiftAuthenticator.
 
 import android.content.Context;
 import android.util.Log;
-
+import android.widget.EditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.sdp.swiftwallet.common.HelperFunctions;
 import com.sdp.swiftwallet.domain.model.User;
 import dagger.hilt.EntryPoint;
 import dagger.hilt.InstallIn;
@@ -42,17 +43,14 @@ public class AuthenticatorFirebaseImpl implements SwiftAuthenticator {
         auth = hiltEntryPoint.getFirebaseAuth();
     }
 
-
     @Override
     public Result signIn(String email, String password, Runnable success, Runnable failure) {
         if (email == null || password == null) {
             return Result.ERROR;
         }
-
         if (email.isEmpty()) {
             return Result.EMPTY_EMAIL;
         }
-
         if (password.isEmpty()) {
             return Result.EMPTY_PASSWORD;
         }
@@ -86,17 +84,42 @@ public class AuthenticatorFirebaseImpl implements SwiftAuthenticator {
                     if (task.isSuccessful()) {
                         FirebaseUser user = auth.getCurrentUser();
                         this.currUser = new User(user.getUid(), user.getEmail(), BASIC);
-
                         Log.d(REGISTER_TAG, "Register Success");
                         success.run();
-                    }
-                    else {
-                        Log.w(REGISTER_TAG, "Register Failure: Error from firebase task", task.getException());
+                    } else {
+                        Log.w(REGISTER_TAG, "Register Failure: Error from firebase task",
+                            task.getException());
                         failure.run();
                     }
                 });
-
         return Result.SUCCESS;
+    }
+
+    public void signOut(Runnable handler) {
+        auth.signOut();
+        handler.run();
+    }
+
+    public Result updateEmail(String email, EditText emailField, Runnable success,
+        Runnable failure) {
+
+        FirebaseUser mUser = auth.getCurrentUser();
+        // First check sanity of the email
+        if (!HelperFunctions.checkEmail(email, emailField)) {
+            return Result.ERROR_EMAIL_FORMAT;
+        }
+        // Then perform the actual update
+        if (mUser != null) {
+            mUser.updateEmail(email).addOnSuccessListener(a -> {
+                success.run();
+            }).addOnFailureListener(a -> {
+                failure.run();
+            });
+        } else {
+            return Result.ERROR_NOT_ONLINE;
+        }
+        return Result.SUCCESS;
+
     }
 
 

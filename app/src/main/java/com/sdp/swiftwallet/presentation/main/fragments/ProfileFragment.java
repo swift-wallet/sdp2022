@@ -1,7 +1,7 @@
 package com.sdp.swiftwallet.presentation.main.fragments;
 
-import static com.sdp.swiftwallet.common.HelperFunctions.checkEmail;
 import static com.sdp.swiftwallet.common.HelperFunctions.displayToast;
+import static com.sdp.swiftwallet.domain.repository.firebase.SwiftAuthenticator.Result.ERROR_NOT_ONLINE;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,18 +13,18 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.BaseApp;
 import com.sdp.swiftwallet.common.FirebaseUtil;
+import com.sdp.swiftwallet.domain.repository.firebase.SwiftAuthenticator;
+import com.sdp.swiftwallet.domain.repository.firebase.SwiftAuthenticator.Result;
 import com.sdp.swiftwallet.presentation.signIn.LoginActivity;
-
 import dagger.hilt.android.AndroidEntryPoint;
+import javax.inject.Inject;
 
 /**
  * Represents the profile menu fragment and view
@@ -38,6 +38,9 @@ public class ProfileFragment extends Fragment {
     private FirebaseAuth mAuth;
     private FirebaseUser mUser;
     private EditText email;
+
+    @Inject
+    SwiftAuthenticator authenticator;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -61,9 +64,7 @@ public class ProfileFragment extends Fragment {
         Button logoutButton = view.findViewById(R.id.logout_Btn);
         logoutButton.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
-                mAuth.signOut();
-                ((BaseApp) getActivity().getApplication()).setCurrUser(null);
-                startActivity(new Intent(getActivity(), LoginActivity.class));
+                authenticator.signOut(() -> signOutHandler());
             }
         });
 
@@ -94,23 +95,43 @@ public class ProfileFragment extends Fragment {
 
     /**
      * Update user's email
+     *
      * @param emailField emailField
      */
-    private void updateEmail(@NonNull EditText emailField){
+    private void updateEmail(@NonNull EditText emailField) {
         String email = emailField.getText().toString().trim();
-        boolean check = checkEmail(email, emailField);
-        if (check && mUser != null) {
-            mUser.updateEmail(email).addOnSuccessListener(a -> {
+        Result result = authenticator.updateEmail(email, emailField,
+            () -> {
                 Log.d(PROFILE_TAG, "Email successfully updated \n" + email);
                 displayToast(getActivity(), "Email successfully updated ! \n");
-            }).addOnFailureListener(a -> {
-                Log.d(PROFILE_TAG, "Something went wrong while updating the email \n" + email);
-                displayToast(getActivity(), "Something went wrong while updating your email\n");
-            });
-        } else {
+            },
+            () -> updateEmailErrorHandler(Result.ERROR));
+        if (result != Result.SUCCESS) {
+            updateEmailErrorHandler(result);
+        }
+    }
+
+    /**
+     * Simple handler for error handling while updating the email
+     *
+     * @param error error to handle
+     */
+    private void updateEmailErrorHandler(Result error) {
+        if (error == Result.ERROR) {
+            Log.d(PROFILE_TAG, "Something went wrong while updating the email \n" + email);
+            displayToast(getActivity(), "Something went wrong while updating your email\n");
+        } else if (error == ERROR_NOT_ONLINE) {
             Log.d(PROFILE_TAG, "Error: reset email without online mode \n");
             displayToast(getActivity(), "Error: reset email without online mode \n");
         }
     }
 
+
+    /**
+     * Handles the sign out process, action to take after success
+     */
+    private void signOutHandler() {
+        ((BaseApp) getActivity().getApplication()).setCurrUser(null);
+        startActivity(new Intent(getActivity(), LoginActivity.class));
+    }
 }

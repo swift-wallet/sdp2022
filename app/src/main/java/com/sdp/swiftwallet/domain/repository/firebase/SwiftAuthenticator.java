@@ -1,5 +1,6 @@
 package com.sdp.swiftwallet.domain.repository.firebase;
 
+import android.widget.EditText;
 import com.sdp.swiftwallet.domain.model.User;
 import java.util.Optional;
 
@@ -9,14 +10,12 @@ import java.util.Optional;
 public interface SwiftAuthenticator {
 
     /**
-     * The result of the authentication process
-     * SUCCESS: there were no errors
-     * EMPTY_EMAIL: an empty email was provided
-     * EMPTY_PASSWORD: an empty password was provided
-     * ERROR: an unexpected error occurred
+     * The result of the authentication process SUCCESS: there were no errors EMPTY_EMAIL: an empty
+     * email was provided EMPTY_PASSWORD: an empty password was provided ERROR: an unexpected error
+     * occurred
      */
     enum Result {
-        SUCCESS, EMPTY_USERNAME, EMPTY_EMAIL, EMPTY_PASSWORD, ERROR
+        SUCCESS, EMPTY_USERNAME, EMPTY_EMAIL, EMPTY_PASSWORD, ERROR, ERROR_NOT_ONLINE, ERROR_EMAIL_FORMAT
     }
 
     /**
@@ -44,7 +43,17 @@ public interface SwiftAuthenticator {
      * @param password the password of the user
      * @return the result of the registration process
      */
-    Result signUp(String username, String email, String password, Runnable success, Runnable failure);
+    Result signUp(String username, String email, String password, Runnable success,
+        Runnable failure);
+
+    /**
+     * Signs out the current user (never fails)
+     *
+     * @param handler action to take upon sign out
+     */
+    void signOut(Runnable handler);
+
+    Result updateEmail(String email, EditText emailField, Runnable success, Runnable failure);
 
     /**
      * Getter for the current user
