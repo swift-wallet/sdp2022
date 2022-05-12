@@ -36,20 +36,22 @@ public class BaseApp extends Application {
     /**
      *  True if the seed is configured
      */
-    public boolean hasSeed(){
-        return wallets != null;
-    }
+// Unused !
+//    public boolean hasSeed(){
+//        return wallets != null;
+//    }
     /**
      *  Recovers the generated wallets with the seed if existent
      *  Otherwise just set the wallets object to null
      */
-    public void updateWallets(){
-        if(SeedGenerator.hasSeed(this.getApplicationContext())){
-            wallets = SeedGenerator.recoverWallets(super.getBaseContext());
-        }else{
-            wallets = null;
-        }
-    }
+// Unused !
+//    public void updateWallets(){
+//        if(SeedGenerator.hasSeed(this.getApplicationContext())){
+//            wallets = SeedGenerator.recoverWallets(super.getBaseContext());
+//        }else{
+//            wallets = null;
+//        }
+//    }
 
     @Override
     public void onCreate() {
