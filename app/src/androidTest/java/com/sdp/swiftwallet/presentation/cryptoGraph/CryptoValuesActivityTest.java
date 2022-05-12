@@ -1,13 +1,19 @@
 package com.sdp.swiftwallet.presentation.cryptoGraph;
 
+import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withSpinnerText;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+
+import static org.hamcrest.Matchers.anything;
+import static org.hamcrest.Matchers.containsString;
 
 import android.content.Context;
 import android.content.Intent;
@@ -68,10 +74,19 @@ public class CryptoValuesActivityTest {
 
     @Test
     public void dataDisplayedCorrectly() {
+        onView(withId(R.id.idSpinnerShowAll)).perform(click());
+        onData(anything()).atPosition(0).perform(click());
         onView(withId(R.id.idCryptoSearch)).perform(typeText("ETH"), closeSoftKeyboard());
 
         onView(withText("ETHUSDT")).check(matches(isDisplayed()));
         onView(withText("Bitcoin")).check(doesNotExist());
+    }
+
+    @Test
+    public void askToSeeAllChangesCorrectly(){
+        onView(withId(R.id.idSpinnerShowAll)).perform(click());
+        onData(anything()).atPosition(1).perform(click());
+        onView(withId(R.id.idSpinnerShowAll)).check(matches(withSpinnerText(containsString("Show All"))));
     }
 
 }
