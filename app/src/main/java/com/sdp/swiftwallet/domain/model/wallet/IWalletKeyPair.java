@@ -13,8 +13,6 @@ public interface IWalletKeyPair {
 
     String getHexPublicKey();
 
-    int getID();
-
     BigInteger getNativeBalance();
 
     /**

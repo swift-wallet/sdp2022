@@ -24,11 +24,6 @@ public class WalletInterfacesTest {
     public void shouldBeAbleToCreateIWallets(){
         IWallets wallets = new IWallets() {
             @Override
-            public IWalletKeyPair[] getWallets() {
-                return new IWalletKeyPair[0];
-            }
-
-            @Override
             public IWalletKeyPair getWalletFromId(int id) {
                 return null;
             }
@@ -43,18 +38,26 @@ public class WalletInterfacesTest {
             }
 
             @Override
-            public int generateWallet() {
-                return 0;
+            public IWalletKeyPair generateWallet() {
+                return null;
             }
 
             @Override
             public String[] getAddresses() {
                 return new String[0];
             }
+
+            @Override
+            public void importKeyPair(String privateKey) {
+            }
+
+            @Override
+            public IWalletKeyPair importKeyPair(Context context, String privateKey) {
+                return null;
+            }
         };
-        wallets.getWallets();
+        wallets.importKeyPair("0");
         wallets.getCounter();
-        wallets.getWalletFromId(0);
         wallets.saveCounter(ApplicationProvider.getApplicationContext());
         wallets.generateWallet();
         wallets.getAddresses();
@@ -66,11 +69,6 @@ public class WalletInterfacesTest {
             @Override
             public String getHexPublicKey() {
                 return null;
-            }
-
-            @Override
-            public int getID() {
-                return 0;
             }
 
             @Override
@@ -88,7 +86,6 @@ public class WalletInterfacesTest {
             }
         };
         walletKeyPair.getHexPublicKey();
-        walletKeyPair.getID();
         walletKeyPair.getNativeBalance();
         walletKeyPair.updateBalance(new Web3Requests());
         walletKeyPair.signTransaction(RawTransaction.createTransaction(BigInteger.ZERO, BigInteger.ZERO, BigInteger.ZERO, "ll", "ll"));
