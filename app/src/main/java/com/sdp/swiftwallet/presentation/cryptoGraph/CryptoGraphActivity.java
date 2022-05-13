@@ -34,9 +34,10 @@ public class CryptoGraphActivity extends AppCompatActivity {
 
     // By default 100
     private final int NB_CANDLES_TO_SHOW = 100;
-    private final String INTERVAL_DIM = "1m";
+    private final String INTERVAL_DIM = "1h";
 
     private Spinner intervalSpinner;
+    private Spinner currencyToShowspinner;
     private ProgressBar progressBar;
     private CandleStickChart candleStickChart;
 
@@ -78,6 +79,7 @@ public class CryptoGraphActivity extends AppCompatActivity {
         // Get the data from Binance API
         mIdlingResource = new CountingIdlingResource("CryptoValue Calls");
         setIntervalsSpinner();
+        setCurrencyToShowSpinner();
         mIdlingResource.increment();
         candleStickChart = getData();
         mIdlingResource.decrement();
@@ -217,10 +219,12 @@ public class CryptoGraphActivity extends AppCompatActivity {
         this.intervalSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                onItemSelectedHandler(adapterView, view, i, l);
-                interval = (String) adapterView.getItemAtPosition(i);
+                if(i>0) {
+                    onItemSelectedHandler(adapterView, view, i, l);
+                    interval = (String) adapterView.getItemAtPosition(i);
 
-                candleStickChart = getData();
+                    candleStickChart = getData();
+                }
             }
 
             @Override
@@ -240,6 +244,51 @@ public class CryptoGraphActivity extends AppCompatActivity {
         Toast
             .makeText(getApplicationContext(), "Selected Interval: " + interval, Toast.LENGTH_SHORT)
             .show();
+    }
+
+    /**
+     * Sets the spinner for the currency to show
+     */
+    private void setCurrencyToShowSpinner() {
+        this.currencyToShowspinner = findViewById(R.id.idCurrencyToShow);
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter
+                .createFromResource(this, R.array.main_crypto_names,
+                        android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        this.currencyToShowspinner.setAdapter(adapter);
+        // Display the interval or does nothing if not selected
+        this.currencyToShowspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if(i > 0) {
+                    onItemSelectedCurrencyHandler(adapterView, view, i, l);
+                    String newCurrency = (String) adapterView.getItemAtPosition(i);
+                    rateSymbol = newCurrency + "USDT";
+                    TextView textView = findViewById(R.id.idCurrencyToShowName);
+                    textView.setText(newCurrency);
+                    candleStickChart = getData();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+            }
+        });
+    }
+
+    /**
+     * Handler for the currency to show adapter, display it when selected
+     */
+    private void onItemSelectedCurrencyHandler(AdapterView<?> adapterView, View view, int position,
+                                       long id) {
+        Adapter adapter = adapterView.getAdapter();
+        String symbol = (String) adapter.getItem(position);
+
+        Toast
+                .makeText(getApplicationContext(), "Selected Currency : " + symbol+"USDT", Toast.LENGTH_SHORT)
+                .show();
     }
 
     public CountingIdlingResource getIdlingResource() {
