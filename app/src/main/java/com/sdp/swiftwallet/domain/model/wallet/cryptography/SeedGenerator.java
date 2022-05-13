@@ -117,7 +117,6 @@ public class SeedGenerator {
 
         // Taking care of the externally imported wallets
         int extCounter = prefs.getInt(PREF_EXT_COUNTER_ID, 0);
-        Toast.makeText(context, "There are "+ extCounter, Toast.LENGTH_LONG).show();
         if(extCounter > 0){
             String[] privateKeys = new String[extCounter];
             for(int i=0; i<extCounter; i++) {

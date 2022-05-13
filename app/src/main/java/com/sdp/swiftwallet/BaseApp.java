@@ -16,7 +16,7 @@ import com.sdp.swiftwallet.domain.repository.transaction.TransactionHistoryProdu
  */
 public class BaseApp extends Application {
     private final TransactionHistoryProducer transactionHistoryProducer = null;
-    private IWallets wallets = null;
+    private final IWallets wallets = null;
     private User currUser = null;
 
     private static Context context;

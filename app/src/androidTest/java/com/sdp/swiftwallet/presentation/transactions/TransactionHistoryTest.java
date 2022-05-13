@@ -61,7 +61,7 @@ public class TransactionHistoryTest {
 
     private final static double AMOUNT_BOUND = 100;
 
-    private static DummyProducer producer = DummyProducer.INSTANCE;
+    private static final DummyProducer producer = DummyProducer.INSTANCE;
 
     public ActivityScenarioRule<TransactionActivity> testRule = new ActivityScenarioRule<>(TransactionActivity.class);
     public HiltAndroidRule hiltRule = new HiltAndroidRule(this);

@@ -9,6 +9,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static com.adevinta.android.barista.interaction.BaristaClickInteractions.clickOn;
 import static com.adevinta.android.barista.interaction.BaristaEditTextInteractions.typeTo;
+import static com.adevinta.android.barista.interaction.BaristaEditTextInteractions.writeTo;
 
 import android.content.Context;
 import android.content.Intent;
@@ -94,10 +95,12 @@ public class WalletSelectActivityTest {
         try (ActivityScenario<WalletSelectActivity> scenario = ActivityScenario.launch(setupValid(1))) {
             onView(withId(R.id.show_import_address_button)).check(matches(isDisplayed()));
             clickOn(R.id.show_import_address_button);
-            typeTo(R.id.import_wallet_input, mockPK);
+            closeSoftKeyboard();
+            onView(withId(R.id.import_wallet_layout)).check(matches(isDisplayed()));
+            writeTo(R.id.import_wallet_input, mockPK);
             closeSoftKeyboard();
             clickOn(R.id.import_address_button);
-            intended(hasAction("alo"));
+            intended(hasAction("android.intent.action.MAIN"));
         }
     }
 }
