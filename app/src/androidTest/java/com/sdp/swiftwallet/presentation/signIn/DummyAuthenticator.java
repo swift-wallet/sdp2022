@@ -43,6 +43,19 @@ public class DummyAuthenticator implements SwiftAuthenticator {
     }
 
     @Override
+    public Result sendPasswordResetEmail(String email, Runnable success, Runnable failure) {
+        if (execSuccess) {
+            success.run();
+        }
+
+        if (execFailure) {
+            failure.run();
+        }
+
+        return result;
+    }
+
+    @Override
     public Optional<User> getUser() {
         if (currUser != null) {
             return Optional.of(currUser);
@@ -58,6 +71,10 @@ public class DummyAuthenticator implements SwiftAuthenticator {
         } else {
             return Optional.empty();
         }
+    }
+
+    @Override
+    public void setLanguageCode(String code) {
     }
 
     public void setResult(SwiftAuthenticator.Result result) {
