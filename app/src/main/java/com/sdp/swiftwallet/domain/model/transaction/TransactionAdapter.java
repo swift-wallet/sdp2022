@@ -26,6 +26,9 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
     private final List<Transaction> transactionHistory;
     private final Context context;
 
+    private final static int RED_COLOR = Color.parseColor("#FFF44336");
+    private final static int GREEN_COLOR = Color.parseColor("#FF4CAF50");
+
     public TransactionAdapter(Context context, List<Transaction> transactionHistory) {
         this.context = context;
         this.transactionHistory = new ArrayList<>(transactionHistory);
@@ -53,9 +56,11 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
                 t.getAmount(), t.getSymbol()
         ));
         holder.transactionTextView.setText(t.toString());
-        if (t.getAmount() < 0) {
-            holder.transactionCardView.setCardBackgroundColor(Color.parseColor("#FFF44336"));
-        }
+        holder.transactionCardView.setCardBackgroundColor(
+                t.getAmount() < 0 ?
+                        RED_COLOR:
+                        GREEN_COLOR
+        );
     }
 
     @Override
