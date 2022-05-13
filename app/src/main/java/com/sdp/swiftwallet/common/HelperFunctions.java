@@ -13,14 +13,14 @@ public class HelperFunctions {
 
   //EMAIL_PATTERN matches any string, that doesnt contains special characters nor the arobase special
   //chars
-  private static String EMAIL_PATTERN = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$";
+  private static final String EMAIL_PATTERN = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$";
 
   //PASSWORD_PATTERN matches any string, that contains at least upper case,
   //one lower case letter and one digit, and 6 - 10 character long
-  private static String PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{6,10}$";
+  private static final String PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{6,10}$";
 
   //USERNAME_PATTERN to complete (no stupid char + more than 3 characters)
-  private static String USERNAME_PATTERN = "[a-zA-Z0-9\\._\\-]{3,}";
+  private static final String USERNAME_PATTERN = "[a-zA-Z0-9\\._\\-]{3,}";
 
   /**
    * Check if an email is valid

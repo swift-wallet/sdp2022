@@ -36,7 +36,7 @@ public class TransactionStatsTest {
     private final static String MY_WALL = "MY_WALL";
     private final static String THEIR_WALL = "THEIR_WALL";
 
-    private static DummyProducer producer = DummyProducer.INSTANCE;
+    private static final DummyProducer producer = DummyProducer.INSTANCE;
 
     public ActivityScenarioRule<TransactionActivity> testRule = new ActivityScenarioRule<>(TransactionActivity.class);
     public HiltAndroidRule hiltRule = new HiltAndroidRule(this);

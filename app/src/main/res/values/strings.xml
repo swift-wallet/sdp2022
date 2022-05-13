@@ -93,6 +93,8 @@
     <string name="save_seed">Save this seed</string>
     <string name="createAddressBtnDescription">A plus in a circle :)</string>
     <string name="first_wallet_not_setup">Click here to create your first wallet !</string>
+    <string name="import_wallet">Import wallet</string>
+    <string name="private_key">Private key</string>
 
     <!-- SEND -->
     <string name="send_from">From</string>
