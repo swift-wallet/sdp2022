@@ -4,8 +4,12 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.Adapter;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -35,7 +39,7 @@ public class CryptoValuesActivity extends AppCompatActivity {
     private String showUSDTOnly;
     private ArrayList<Currency> currencyArrayList;
     private CurrencyAdapter currencyAdapter;
-
+    private Spinner showAllSpinner;
     // For testing purposes
     private CountingIdlingResource mIdlingResource;
 
@@ -54,6 +58,7 @@ public class CryptoValuesActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(currencyAdapter);
         mIdlingResource = new CountingIdlingResource("CryptoValue Calls");
+        setShowAllSpinner();
         mIdlingResource.increment();
         getCurrencyData();
         searchCrypto.addTextChangedListener(new TextWatcher() {
@@ -100,6 +105,7 @@ public class CryptoValuesActivity extends AppCompatActivity {
      */
     private void getCurrencyData() {
         progressBar.setVisibility(View.VISIBLE);
+        currencyArrayList.clear();
         String url = "https://api.binance.com/api/v3/ticker/24hr";
         RequestQueue requestQueue = Volley.newRequestQueue(this);
 
@@ -109,7 +115,7 @@ public class CryptoValuesActivity extends AppCompatActivity {
                 for (int i = 0; i<response.length(); ++i) {
                     JSONObject dataObject = response.getJSONObject(i);
                     String symbol = dataObject.getString("symbol");
-                    if (showUSDTOnly == "Show All"){
+                    if (showUSDTOnly.contains("Show All")){
                         String name = dataObject.getString("symbol");
                         double value = dataObject.getDouble("lastPrice");
                         currencyArrayList.add(new Currency(name, symbol, value));
@@ -138,9 +144,6 @@ public class CryptoValuesActivity extends AppCompatActivity {
     }
 
 
-    /*  CAN BE USED LATER TO SET A SPINNER THAT ALLOWS USER TO DECIDE IF THEY WANT TO
-        ADDED TO EYMERIC'S SPRINT 9 TASK
-
     private void setShowAllSpinner(){
         this.showAllSpinner = findViewById(R.id.idSpinnerShowAll);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.show_USDT_only, android.R.layout.simple_spinner_item);
@@ -152,7 +155,7 @@ public class CryptoValuesActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 onItemSelectedHandler(adapterView, view, i, l);
                 showUSDTOnly = (String)adapterView.getItemAtPosition(i);
-
+                mIdlingResource.increment();
                 getCurrencyData();
             }
 
@@ -168,7 +171,7 @@ public class CryptoValuesActivity extends AppCompatActivity {
         String interval = (String) adapter.getItem(position);
 
         Toast.makeText(getApplicationContext(), "Selected Interval: " + interval, Toast.LENGTH_SHORT).show();
-    }*/
+    }
 
     public CountingIdlingResource getIdlingResource() {
         return mIdlingResource;

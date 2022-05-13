@@ -27,8 +27,8 @@ public class RequestQueueCurrencyPriceChecker implements PriceChecker {
     private final static String MARKET_URL = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest";
     private final static List<String> supportedCurrencies = new ArrayList<>();
 
-    private static String API = "X-CMC_PRO_API_KEY";
-    private static String KEY = "db2a8973-af74-4b0f-bf14-7f6c84b648d0";
+    private static final String API = "X-CMC_PRO_API_KEY";
+    private static final String KEY = "db2a8973-af74-4b0f-bf14-7f6c84b648d0";
 
     /**
      * Add symbols of app's supported currencies here

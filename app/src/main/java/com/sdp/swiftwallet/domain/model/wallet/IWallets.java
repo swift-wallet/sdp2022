@@ -8,11 +8,6 @@ import android.content.Context;
 public interface IWallets {
 
     /**
-     * @return the list of existing wallets
-     */
-    IWalletKeyPair[] getWallets();
-
-    /**
      * @return returns the wallet with id "id"
      */
     IWalletKeyPair getWalletFromId(int id);
@@ -23,14 +18,9 @@ public interface IWallets {
      * Saves the counter in given context
      */
     void saveCounter(Context context);
+    IWalletKeyPair generateWallet();
 
-    /**
-     * Generate a wallet and add to the list of wallet
-     */
-    int generateWallet();
-
-    /**
-     * @return the addresses of the wallet
-     */
     String[] getAddresses();
+    void importKeyPair(String privateKey);
+    IWalletKeyPair importKeyPair(Context context, String privateKey);
 }
