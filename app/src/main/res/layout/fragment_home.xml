@@ -85,26 +85,6 @@
             android:textSize="@dimen/wallet_item_address_size" />
 
         <TextView
-            android:id="@+id/worth_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            android:text="@string/total_worth"
-            android:textAppearance="?attr/textAppearanceListItem"
-            android:textColor="@color/grey" />
-
-        <TextView
-            android:id="@+id/worth"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="@dimen/wallet_item_text_margin"
-            android:text="0.00 $"
-            android:textAppearance="?attr/textAppearanceListItem"
-            android:textSize="@dimen/wallet_important" />
-
-        <TextView
             android:id="@+id/balances_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
