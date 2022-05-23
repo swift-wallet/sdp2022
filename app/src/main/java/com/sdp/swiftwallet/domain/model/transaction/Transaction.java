@@ -1,131 +1,132 @@
 package com.sdp.swiftwallet.domain.model.transaction;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.sdp.swiftwallet.domain.model.currency.Currency;
+
+import java.util.Date;
 import java.util.Locale;
 
 /**
  * Transaction object
- * Represents a transaction between 2 wallets
+ * Represents a transaction between 2 users and their wallets
  */
 public class Transaction {
     private final double amount;
     private final Currency curr;
 
     private final int transactionID;
+    private final Date date;
 
-    private final String myWallet;
-    private final String theirWallet;
+    private final String senderWalletID;
+    private final String receiverWalletID;
+
+    private final String senderID;
+    private final String receiverID;
 
     /**
-     * Transaction object constructor
+     * Transaction constructor
      *
-     * @param amount        the amount of the transaction
-     * @param curr          with which currency the transaction was performed
-     * @param myWallet      the ID of this user's wallet
-     * @param theirWallet   the ID of the other wallet in the transaction
-     * @param transactionID the unique ID of the transaction
+     * @param amount the amount of the Transaction, must be greater than 0
+     * @param curr the Currency of the Transaction, not null
+     * @param date the Date of the Transaction, not null
+     * @param transactionID the unique ID of the Transaction
+     * @param senderWalletID the ID of the wallet of the sender of this Transaction, not null
+     * @param receiverWalletID the ID of the wallet of the receiver of this Transaction, not null
+     * @param senderID the ID of the sender of this Transaction if they are a SwiftWallet user
+     * @param receiverID the ID of the receiver of this Transaction if they are a SwiftWallet user
      */
     public Transaction(
             double amount,
             @NonNull Currency curr,
-            @NonNull String myWallet,
-            @NonNull String theirWallet,
-            int transactionID) {
-        if (curr == null || myWallet == null || theirWallet == null)
+            @NonNull Date date,
+            int transactionID,
+            @NonNull String senderWalletID,
+            @NonNull String receiverWalletID,
+            @Nullable String senderID,
+            @Nullable String receiverID) {
+        if (curr == null ||
+            date == null ||
+            senderWalletID == null ||
+            receiverWalletID == null) {
             throw new IllegalArgumentException("Null arguments");
+        }
 
-        if (myWallet.equals(theirWallet))
-            throw new IllegalArgumentException("Wallets cannot be the same");
+        if (senderWalletID.equals(receiverWalletID)) {
+            throw new IllegalArgumentException("Sender and receiver wallets of transaction cannot be the same");
+        }
+
+        if (senderID.equals(receiverID)) {
+            throw new IllegalArgumentException("Sender and receiver IDs of transaction cannot be the same");
+        }
+
+        if (amount <= 0) {
+            throw new IllegalArgumentException("Amount of transaction must be positive");
+        }
 
         this.amount = amount;
-        this.curr = curr;
+        this.curr = new Currency(curr);
+
+        this.date = new Date(date.getTime());
         this.transactionID = transactionID;
-        this.myWallet = myWallet;
-        this.theirWallet = theirWallet;
+
+        this.senderWalletID = senderWalletID;
+        this.receiverWalletID = receiverWalletID;
+        this.senderID = senderID;
+        this.receiverID = receiverID;
     }
 
     /**
-     * Getter for the amount of a transaction
-     *
-     * @return the amount of this transaction
+     * TODO
+     * @return
      */
     public double getAmount() {
         return amount;
     }
 
     /**
-     * Getter for the converted amount of a transaction
-     *
-     * @return the amount of this transaction, converted according to the currency
+     * TODO
+     * @return
+     */
+    public Currency getCurr() {
+        return new Currency(curr);
+    }
+
+    /**
+     * TODO
+     * @return
      */
     public double getConvertedAmount() {
         return amount * curr.getValue();
     }
 
     /**
-     * Getter for the symbol of this transaction
-     *
-     * @return the symbol of the currency of this transaction
-     */
-    public String getSymbol() {
-        return curr.getSymbol();
-    }
-
-    /**
-     * Getter for the transaction ID
-     *
-     * @return the unique transaction ID for this transaction
+     * TODO
+     * @return
      */
     public int getTransactionID() {
         return transactionID;
     }
 
     /**
-     * Getter for the currency
-     *
-     * @return the currency of this transaction
+     * TODO
+     * @return
      */
-    public Currency getCurr() { return curr; }
-
-    /**
-     * Getter for the wallet of the user
-     *
-     * @return the wallet of the user
-     */
-    public String getMyWallet() { return myWallet; }
-
-    /**
-     * Getter for the wallet of the partner user
-     *
-     * @return the wallet of the other user
-     */
-    public String getTheirWallet() { return theirWallet; }
+    public Date getDate() {
+        return new Date(date.getTime());
+    }
 
     @Override
     public String toString() {
-        if (amount < 0) {
-            return String.format(
-                    Locale.US,
-                    "%.1f %s from your wallet %s to wallet %s",
-                    -amount, getSymbol(),
-                    myWallet, theirWallet
-            );
-        } else {
-            return String.format(
-                    Locale.US,
-                    "%.1f %s from wallet %s to your wallet %s",
-                    amount, getSymbol(),
-                    theirWallet, myWallet
-            );
-        }
+        /**
+         * TODO: do we just limit to users?
+         */
+        return super.toString();
     }
 
     /**
      * Transaction builder class
-     *
-     * TODO: add tests for builder
      */
     public static class Builder {
         private double amount;
