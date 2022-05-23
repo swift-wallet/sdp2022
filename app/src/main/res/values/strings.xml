@@ -116,6 +116,7 @@
     <string name="first_wallet_not_setup">Click here to create your first wallet !</string>
     <string name="import_wallet">Import wallet</string>
     <string name="private_key">Private key</string>
+    <string name="total_worth">Total Worth</string>
 
     <!-- SEND -->
     <string name="send_from">From</string>
