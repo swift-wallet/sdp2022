@@ -18,7 +18,6 @@ import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.domain.model.wallet.cryptography.SeedGenerator;
 import com.sdp.swiftwallet.presentation.main.MainActivity;
 import com.sdp.swiftwallet.presentation.wallet.CreateSeedActivity;
-import com.sdp.swiftwallet.presentation.wallet.WalletInfoActivity;
 import com.sdp.swiftwallet.presentation.wallet.WalletSelectActivity;
 
 import dagger.hilt.android.testing.HiltAndroidRule;

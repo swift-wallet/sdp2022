@@ -1,23 +1,30 @@
 package com.sdp.swiftwallet.presentation.main.fragments;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.zxing.WriterException;
 import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.common.HelperFunctions;
 import com.sdp.swiftwallet.di.wallet.WalletProvider;
+import com.sdp.swiftwallet.domain.model.qrCode.QRCodeGenerator;
 import com.sdp.swiftwallet.domain.model.wallet.IWalletKeyPair;
 import com.sdp.swiftwallet.domain.repository.web3.IWeb3Requests;
 import com.sdp.swiftwallet.presentation.wallet.CreateSeedActivity;
-import com.sdp.swiftwallet.presentation.wallet.WalletInfoActivity;
 import com.sdp.swiftwallet.presentation.wallet.WalletSelectActivity;
 
 import javax.inject.Inject;
@@ -31,6 +38,7 @@ import dagger.hilt.android.AndroidEntryPoint;
 public class HomeFragment extends Fragment {
 
     private View fragmentView;
+    private ImageView qrView;
 
     @Inject
     public WalletProvider walletProvider;
@@ -53,8 +61,9 @@ public class HomeFragment extends Fragment {
         fragmentView = inflater.inflate(R.layout.fragment_home, container, false);
         fragmentView.findViewById(R.id.seed_setup).setOnClickListener(this::launchSeedSetup);
         fragmentView.findViewById(R.id.first_wallet_setup_button).setOnClickListener(this::launchWalletSelector);
-        fragmentView.findViewById(R.id.item_address).setOnClickListener(this::launchWalletSelector);
-        fragmentView.findViewById(R.id.show_qr_button).setOnClickListener(this::launchWalletInfo);
+        fragmentView.findViewById(R.id.home_to_select).setOnClickListener(this::launchWalletSelector);
+        fragmentView.findViewById(R.id.home_copy_address).setOnClickListener(this::copyAddressToClipBoard);
+        qrView = fragmentView.findViewById(R.id.home_qr);
         return fragmentView;
     }
 
@@ -106,21 +115,35 @@ public class HomeFragment extends Fragment {
             setSelectedWallet(currentKeyPair);
             fragmentView.findViewById(R.id.wallet_container).setVisibility(View.VISIBLE);
             fragmentView.findViewById(R.id.first_wallet_setup_layout).setVisibility(View.GONE);
+            generateQR();
         } else {
             fragmentView.findViewById(R.id.first_wallet_setup_layout).setVisibility(View.VISIBLE);
         }
     }
 
-    private void launchSeedSetup(View v) {
-        Intent intent = new Intent(requireActivity(), CreateSeedActivity.class);
-        startActivity(intent);
+    /**
+     * Generates the QR code
+     */
+    private void generateQR() {
+        Bitmap bitmap = null;
+        try {
+            bitmap = QRCodeGenerator.encodeAsBitmap(walletProvider.getWallets().getCurrentKeyPair().getHexPublicKey());
+        } catch (WriterException exception){
+            exception.printStackTrace();
+        }
+        if (bitmap != null){
+            qrView.setImageBitmap(bitmap);
+        }
     }
 
-    private void launchWalletInfo(View v) {
-        Intent intent = new Intent(requireActivity(), WalletInfoActivity.class);
-        IWalletKeyPair walletKeyPair = walletProvider.getWallets().getCurrentKeyPair(); // check if not null
-        intent.putExtra(WalletInfoActivity.ADDRESS_EXTRA, walletKeyPair.getHexPublicKey());
-        intent.putExtra(WalletInfoActivity.BALANCE_EXTRA, walletKeyPair.getNativeBalance().toString());
+    private void copyAddressToClipBoard(View v){
+        ClipData clip = ClipData.newPlainText(getString(R.string.account_label), walletProvider.getWallets().getCurrentKeyPair().getHexPublicKey());
+        ((ClipboardManager)requireContext().getSystemService(Context.CLIPBOARD_SERVICE)).setPrimaryClip(clip);
+        Toast.makeText(requireContext(), "Copied address", Toast.LENGTH_SHORT).show();
+    }
+
+    private void launchSeedSetup(View v) {
+        Intent intent = new Intent(requireActivity(), CreateSeedActivity.class);
         startActivity(intent);
     }
 

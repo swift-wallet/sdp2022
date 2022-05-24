@@ -117,6 +117,7 @@
     <string name="import_wallet">Import wallet</string>
     <string name="private_key">Private key</string>
     <string name="total_worth">Total Worth</string>
+    <string name="account_label">Account</string>
 
     <!-- SEND -->
     <string name="send_from">From</string>
