@@ -100,12 +100,4 @@ public class HomeFragmentTest {
             intended(hasComponent(WalletSelectActivity.class.getName()));
         }
     }
-    @Test
-    public void shouldBeAbleToSelectWalletWhenSeed(){
-        try (ActivityScenario<MainActivity> scenario = ActivityScenario.launch(setupValid(1))) {
-            onView(withId(R.id.item_address)).check(matches(isDisplayed()));
-            clickOn(R.id.item_address);
-            intended(hasComponent(WalletSelectActivity.class.getName()));
-        }
-    }
 }
