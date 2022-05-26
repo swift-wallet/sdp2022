@@ -1,5 +1,7 @@
 package com.sdp.swiftwallet.presentation.signIn;
 
+import android.widget.EditText;
+
 import com.sdp.swiftwallet.domain.model.User;
 import com.sdp.swiftwallet.domain.repository.firebase.SwiftAuthenticator;
 
@@ -39,6 +41,23 @@ public class DummyAuthenticator implements SwiftAuthenticator {
             failure.run();
         }
 
+        return result;
+    }
+
+    // Should not do anything
+    @Override
+    public void signOut(Runnable handler) {
+    }
+
+    @Override
+    public Result updateEmail(String email, EditText emailField, Runnable success, Runnable failure) {
+        if (execSuccess) {
+            success.run();
+        }
+
+        if (execFailure) {
+            failure.run();
+        }
         return result;
     }
 
