@@ -36,11 +36,8 @@ public class WalletInfoActivityTest {
     public static String mockBalance = "12.32455";
     public static String mockAddress = "0x000000000000000000000000000000000000dead";
 
-    public ActivityScenarioRule<WalletInfoActivity> testRule = new ActivityScenarioRule<>(WalletInfoActivity.class);
-    public HiltAndroidRule hiltRule = new HiltAndroidRule(this);
-
     @Rule
-    public RuleChain rule = RuleChain.outerRule(hiltRule).around(testRule);
+    public HiltAndroidRule hiltRule = new HiltAndroidRule(this);
 
     @Before
     public void setupIntent() {
