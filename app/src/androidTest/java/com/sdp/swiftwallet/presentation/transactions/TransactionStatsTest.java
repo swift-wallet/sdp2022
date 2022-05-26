@@ -66,7 +66,7 @@ public class TransactionStatsTest {
         onView(withId(R.id.transaction_statsButton)).perform(click());
         Transaction t1 = new Transaction(2.2, CURR_2, 0, new Date(), MY_WALL, THEIR_WALL, Optional.empty(), Optional.empty());
         Transaction t2 = new Transaction(17.5, CURR_1, 1, new Date(), MY_WALL, THEIR_WALL, Optional.empty(), Optional.empty());
-        Transaction t3 = new Transaction(-19, CURR_3, 2, new Date(), MY_WALL, THEIR_WALL, Optional.empty(), Optional.empty());
+        Transaction t3 = new Transaction(19, CURR_3, 2, new Date(), MY_WALL, THEIR_WALL, Optional.empty(), Optional.empty());
         Transaction t4 = new Transaction(22, CURR_4, 3, new Date(), MY_WALL, THEIR_WALL, Optional.empty(), Optional.empty());
         Transaction t5 = new Transaction(76, CURR_2, 4, new Date(), MY_WALL, THEIR_WALL, Optional.empty(), Optional.empty());
         producer.addTransaction(t1);
