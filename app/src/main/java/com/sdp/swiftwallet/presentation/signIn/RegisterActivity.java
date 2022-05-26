@@ -16,6 +16,7 @@ import androidx.test.espresso.idling.CountingIdlingResource;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.sdp.cryptowalletapp.databinding.ActivityRegisterBinding;
+import com.sdp.swiftwallet.BaseActivity;
 import com.sdp.swiftwallet.BaseApp;
 import com.sdp.swiftwallet.common.Constants;
 import com.sdp.swiftwallet.common.FirebaseUtil;
@@ -32,7 +33,7 @@ import dagger.hilt.android.AndroidEntryPoint;
   * Represents the registering process activity
   */
 @AndroidEntryPoint
-public class RegisterActivity extends AppCompatActivity {
+public class RegisterActivity extends BaseActivity {
     private static final String REGISTER_TAG = "EMAIL_REGISTER_TAG";
 
     private ActivityRegisterBinding binding;

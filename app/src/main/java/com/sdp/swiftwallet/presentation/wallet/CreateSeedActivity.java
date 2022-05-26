@@ -6,12 +6,13 @@ import android.os.Bundle;
 import android.widget.EditText;
 
 import com.sdp.cryptowalletapp.R;
+import com.sdp.swiftwallet.BaseActivity;
 import com.sdp.swiftwallet.domain.model.wallet.cryptography.SeedGenerator;
 
 /**
  * The activity to be able to setup the seed of the wallet
  */
-public class CreateSeedActivity extends AppCompatActivity {
+public class CreateSeedActivity extends BaseActivity {
 
     private String seed;
     private EditText seedView;

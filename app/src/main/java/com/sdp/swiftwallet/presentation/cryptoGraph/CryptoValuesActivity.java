@@ -22,6 +22,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.sdp.cryptowalletapp.R;
+import com.sdp.swiftwallet.BaseActivity;
 import com.sdp.swiftwallet.domain.model.currency.Currency;
 import com.sdp.swiftwallet.domain.model.currency.CurrencyAdapter;
 
@@ -32,7 +33,7 @@ import java.util.ArrayList;
 /**
  * Activity displaying crypto values
  */
-public class CryptoValuesActivity extends AppCompatActivity {
+public class CryptoValuesActivity extends BaseActivity {
 
     // UI elementss
     private ProgressBar progressBar;

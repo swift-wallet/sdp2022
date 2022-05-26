@@ -9,12 +9,13 @@ import android.widget.TextView;
 
 import com.google.zxing.WriterException;
 import com.sdp.cryptowalletapp.R;
+import com.sdp.swiftwallet.BaseActivity;
 import com.sdp.swiftwallet.domain.model.qrCode.QRCodeGenerator;
 
 /**
  * Activity that shows information about a specific wallet
  */
-public class WalletInfoActivity extends AppCompatActivity {
+public class WalletInfoActivity extends BaseActivity {
 
     public static final String ADDRESS_EXTRA = "ADDRESS";
     public static final String BALANCE_EXTRA = "BALANCE";

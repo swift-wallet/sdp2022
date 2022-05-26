@@ -13,6 +13,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.sdp.cryptowalletapp.R;
+import com.sdp.swiftwallet.BaseActivity;
 import com.sdp.swiftwallet.BaseApp;
 import com.sdp.swiftwallet.domain.repository.firebase.SwiftAuthenticator;
 import com.sdp.swiftwallet.presentation.main.MainActivity;
@@ -27,7 +28,7 @@ import dagger.hilt.android.AndroidEntryPoint;
  * Login Activity
  */
 @AndroidEntryPoint
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends BaseActivity {
 
     private TextView attemptsTextView;
     private EditText emailEditText;
