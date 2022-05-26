@@ -19,8 +19,11 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.sdp.cryptowalletapp.R;
+import com.sdp.swiftwallet.domain.model.User;
 import com.sdp.swiftwallet.domain.model.currency.Currency;
 import com.sdp.swiftwallet.domain.model.transaction.Transaction;
+import com.sdp.swiftwallet.domain.repository.firebase.SwiftAuthenticator;
+import com.sdp.swiftwallet.presentation.signIn.DummyAuthenticator;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -30,9 +33,12 @@ import org.junit.Test;
 import org.junit.rules.RuleChain;
 import org.junit.runner.RunWith;
 
+import java.security.cert.PKIXRevocationChecker;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.Random;
 
 import dagger.hilt.android.testing.HiltAndroidRule;
@@ -42,26 +48,33 @@ import dagger.hilt.android.testing.HiltAndroidTest;
 @RunWith(AndroidJUnit4.class)
 public class TransactionHistoryTest {
 
+    private final static String SENDER_WALL = "SENDER_WALL";
+    private final static String RECEIVER_WALL = "RECEIVER_WALL";
+
+    private final static String OTHER_USER = "OTHER_USER";
+
     private final static Currency CURR_1 = new Currency("DumbCoin", "DUM", 5);
     private final static Currency CURR_2 = new Currency("BitCoin", "BTC", 3);
     private final static Currency CURR_3 = new Currency("Ethereum", "ETH", 4);
     private final static Currency CURR_4 = new Currency("SwiftCoin", "SWT", 6);
-    private final static String MY_WALL = "MY_WALL";
-    private final static String THEIR_WALL = "THEIR_WALL";
 
     private final static List<Currency> currencyList = new ArrayList<>();
     public static final int GREEN_COLOR = Color.parseColor("#4CAF50");
     public static final int RED_COLOR = Color.parseColor("#F44336");
+    public static final int GRAY_COLOR = Color.parseColor("#ABABAB");
 
     static {
         currencyList.add(CURR_1);
         currencyList.add(CURR_2);
         currencyList.add(CURR_3);
+        currencyList.add(CURR_4);
     }
 
     private final static double AMOUNT_BOUND = 100;
 
     private static final DummyProducer producer = DummyProducer.INSTANCE;
+    private static final User USER = new User("TEST", "asdf", SwiftAuthenticator.LoginMethod.BASIC);
+    DummyAuthenticator authenticator;
 
     public ActivityScenarioRule<TransactionActivity> testRule = new ActivityScenarioRule<>(TransactionActivity.class);
     public HiltAndroidRule hiltRule = new HiltAndroidRule(this);
@@ -74,6 +87,8 @@ public class TransactionHistoryTest {
     public void setup() {
         hiltRule.inject();
         producer.clearList();
+        authenticator = DummyAuthenticator.INSTANCE;
+        authenticator.setCurrUser(USER);
         onView(withId(R.id.transaction_historyButton)).perform(click());
     }
 
@@ -89,11 +104,22 @@ public class TransactionHistoryTest {
         Random r = new Random();
 
         double amount = r.nextDouble() * AMOUNT_BOUND;
-        amount -= r.nextDouble() * AMOUNT_BOUND;
+        if (amount < 0) {
+            amount += 1;
+        }
         Currency curr = currencyList.get(r.nextInt(currencyList.size()));
         int id = r.nextInt(Integer.MAX_VALUE);
 
-        Transaction t = new Transaction(amount, curr, MY_WALL, THEIR_WALL, id);
+        Transaction t = new Transaction(
+                amount,
+                curr,
+                id,
+                new Date(),
+                SENDER_WALL,
+                RECEIVER_WALL,
+                Optional.empty(),
+                Optional.empty()
+        );
 
         producer.addTransaction(t);
         producer.alertAll();
@@ -102,37 +128,127 @@ public class TransactionHistoryTest {
         String amountString = String.format(
                 Locale.US,
                 "%.1f %s",
-                t.getAmount(), t.getSymbol()
+                t.getAmount(), t.getCurr().getSymbol()
         );
-        String descriptionString = t.toString();
 
         onView(withId(R.id.transaction_recyclerView))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
-
         onView(withText(idString)).check(matches(isDisplayed()));
         onView(withText(amountString)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void descriptionShowsWhenSenderIsSet() {
+        Random r = new Random();
+
+        double amount = r.nextDouble() * AMOUNT_BOUND;
+        if (amount < 0) {
+            amount += 1;
+        }
+        Currency curr = currencyList.get(r.nextInt(currencyList.size()));
+        int id = r.nextInt(Integer.MAX_VALUE);
+
+        Transaction t = new Transaction(
+                amount,
+                curr,
+                id,
+                new Date(),
+                SENDER_WALL,
+                RECEIVER_WALL,
+                Optional.of(OTHER_USER),
+                Optional.of(USER.getUid())
+        );
+
+        producer.addTransaction(t);
+        producer.alertAll();
+
+        String descriptionString = "From " + OTHER_USER;
+
+        onView(withId(R.id.transaction_recyclerView))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         onView(withText(descriptionString)).check(matches(isDisplayed()));
     }
 
     @Test
-    public void positiveTransactionIsGreen() {
-        Transaction t = new Transaction(10, CURR_1, MY_WALL, THEIR_WALL, 0);
+    public void descriptionShowsWhenReceiverIsSet() {
+        Random r = new Random();
+
+        double amount = r.nextDouble() * AMOUNT_BOUND;
+        if (amount < 0) {
+            amount += 1;
+        }
+        Currency curr = currencyList.get(r.nextInt(currencyList.size()));
+        int id = r.nextInt(Integer.MAX_VALUE);
+
+        Transaction t = new Transaction(
+                amount,
+                curr,
+                id,
+                new Date(),
+                SENDER_WALL,
+                RECEIVER_WALL,
+                Optional.of(USER.getUid()),
+                Optional.of(OTHER_USER)
+        );
 
         producer.addTransaction(t);
         producer.alertAll();
 
+        String descriptionString = "To " + OTHER_USER;
+
         onView(withId(R.id.transaction_recyclerView))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+        onView(withText(descriptionString)).check(matches(isDisplayed()));
+    }
 
+    @Test
+    public void receivingMoneyIsGreen() {
+        Random r = new Random();
+
+        Transaction.Builder builder = new Transaction.Builder();
+
+        double amount = r.nextDouble() * AMOUNT_BOUND;
+        if (amount < 0) {
+            amount += 1;
+        }
+        Currency curr = currencyList.get(r.nextInt(currencyList.size()));
+        builder.setAmountAndCurrency(amount, curr);
+
+        int id = r.nextInt(Integer.MAX_VALUE);
+        Date date = new Date();
+        builder.setMetadata(id, date);
+
+        builder.setWalletIDs(SENDER_WALL, RECEIVER_WALL);
+
+        builder.setReceiverID(USER.getUid());
+
+        producer.addTransaction(builder.build());
+        producer.alertAll();
+
+        onView(withId(R.id.transaction_recyclerView))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         onView(withBgColor(GREEN_COLOR)).check(matches(isDisplayed()));
     }
 
     @Test
-    public void smallestPositiveIsGreen() {
+    public void receivingSmallestMoneyIsGreen() {
+        Random r = new Random();
+
+        Transaction.Builder builder = new Transaction.Builder();
+
         double amount = Double.MIN_VALUE;
-        Transaction t = new Transaction(amount, CURR_1, MY_WALL, THEIR_WALL, 0);
+        Currency curr = currencyList.get(r.nextInt(currencyList.size()));
+        builder.setAmountAndCurrency(amount, curr);
 
-        producer.addTransaction(t);
+        int id = r.nextInt(Integer.MAX_VALUE);
+        Date date = new Date();
+        builder.setMetadata(id, date);
+
+        builder.setWalletIDs(SENDER_WALL, RECEIVER_WALL);
+
+        builder.setReceiverID(USER.getUid());
+
+        producer.addTransaction(builder.build());
         producer.alertAll();
 
         onView(withId(R.id.transaction_recyclerView))
@@ -141,11 +257,24 @@ public class TransactionHistoryTest {
     }
 
     @Test
-    public void largestPositiveIsGreen() {
-        double amount = AMOUNT_BOUND;
-        Transaction t = new Transaction(amount, CURR_1, MY_WALL, THEIR_WALL, 0);
+    public void receivingLargestMoneyIsGreen() {
+        Random r = new Random();
 
-        producer.addTransaction(t);
+        Transaction.Builder builder = new Transaction.Builder();
+
+        double amount = Double.MAX_VALUE;
+        Currency curr = currencyList.get(r.nextInt(currencyList.size()));
+        builder.setAmountAndCurrency(amount, curr);
+
+        int id = r.nextInt(Integer.MAX_VALUE);
+        Date date = new Date();
+        builder.setMetadata(id, date);
+
+        builder.setWalletIDs(SENDER_WALL, RECEIVER_WALL);
+
+        builder.setReceiverID(USER.getUid());
+
+        producer.addTransaction(builder.build());
         producer.alertAll();
 
         onView(withId(R.id.transaction_recyclerView))
@@ -154,38 +283,27 @@ public class TransactionHistoryTest {
     }
 
     @Test
-    public void negativeTransactionIsRed() {
-        Transaction t = new Transaction(-10, CURR_1, MY_WALL, THEIR_WALL, 0);
+    public void givingMoneyIsRed() {
+        Random r = new Random();
 
-        producer.addTransaction(t);
-        producer.alertAll();
+        Transaction.Builder builder = new Transaction.Builder();
 
-        onView(withId(R.id.transaction_recyclerView))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+        double amount = r.nextDouble() * AMOUNT_BOUND;
+        if (amount < 0) {
+            amount += 1;
+        }
+        Currency curr = currencyList.get(r.nextInt(currencyList.size()));
+        builder.setAmountAndCurrency(amount, curr);
 
-        onView(withBgColor(RED_COLOR)).check(matches(isDisplayed()));
-    }
+        int id = r.nextInt(Integer.MAX_VALUE);
+        Date date = new Date();
+        builder.setMetadata(id, date);
 
-    @Test
-    public void smallestNegativeIsRed() {
-        double amount = -Double.MIN_VALUE;
-        Transaction t = new Transaction(amount, CURR_1, MY_WALL, THEIR_WALL, 0);
+        builder.setWalletIDs(SENDER_WALL, RECEIVER_WALL);
 
-        producer.addTransaction(t);
-        producer.alertAll();
+        builder.setSenderID(USER.getUid());
 
-        onView(withId(R.id.transaction_recyclerView))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
-
-        onView(withBgColor(RED_COLOR)).check(matches(isDisplayed()));
-    }
-
-    @Test
-    public void largestNegativeIsRed() {
-        double amount = -AMOUNT_BOUND;
-        Transaction t = new Transaction(amount, CURR_1, MY_WALL, THEIR_WALL, 0);
-
-        producer.addTransaction(t);
+        producer.addTransaction(builder.build());
         producer.alertAll();
 
         onView(withId(R.id.transaction_recyclerView))
@@ -194,16 +312,113 @@ public class TransactionHistoryTest {
     }
 
     @Test
-    public void positiveTransactionAfterLargeListOfNegativeTransactionsIsGreen() throws InterruptedException {
+    public void givingSmallestMoneyIsRed() {
+        Random r = new Random();
+
+        Transaction.Builder builder = new Transaction.Builder();
+
+        double amount = Double.MIN_VALUE;
+        Currency curr = currencyList.get(r.nextInt(currencyList.size()));
+        builder.setAmountAndCurrency(amount, curr);
+
+        int id = r.nextInt(Integer.MAX_VALUE);
+        Date date = new Date();
+        builder.setMetadata(id, date);
+
+        builder.setWalletIDs(SENDER_WALL, RECEIVER_WALL);
+
+        builder.setSenderID(USER.getUid());
+
+        producer.addTransaction(builder.build());
+        producer.alertAll();
+
+        onView(withId(R.id.transaction_recyclerView))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+        onView(withBgColor(RED_COLOR)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void givingLargestMoneyIsRed() {
+        Random r = new Random();
+
+        Transaction.Builder builder = new Transaction.Builder();
+
+        double amount = Double.MAX_VALUE;
+        Currency curr = currencyList.get(r.nextInt(currencyList.size()));
+        builder.setAmountAndCurrency(amount, curr);
+
+        int id = r.nextInt(Integer.MAX_VALUE);
+        Date date = new Date();
+        builder.setMetadata(id, date);
+
+        builder.setWalletIDs(SENDER_WALL, RECEIVER_WALL);
+
+        builder.setSenderID(USER.getUid());
+
+        producer.addTransaction(builder.build());
+        producer.alertAll();
+
+        onView(withId(R.id.transaction_recyclerView))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+        onView(withBgColor(RED_COLOR)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void unknownUsersTransactionIsGray() {
+        Random r = new Random();
+
+        Transaction.Builder builder = new Transaction.Builder();
+
+        double amount = r.nextDouble() * AMOUNT_BOUND;
+        if (amount < 0) {
+            amount += 1;
+        }
+        Currency curr = currencyList.get(r.nextInt(currencyList.size()));
+        builder.setAmountAndCurrency(amount, curr);
+
+        int id = r.nextInt(Integer.MAX_VALUE);
+        Date date = new Date();
+        builder.setMetadata(id, date);
+
+        builder.setWalletIDs(SENDER_WALL, RECEIVER_WALL);
+
+        producer.addTransaction(builder.build());
+        producer.alertAll();
+
+        onView(withId(R.id.transaction_recyclerView))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+        onView(withBgColor(GRAY_COLOR)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void greenTransactionAfterLargeListOfRedTransactionsIsGreen() throws InterruptedException {
         int nbTransactions = 100;
 
         for (int i = 0; i < nbTransactions; i++) {
-            Transaction t = new Transaction(-10, CURR_1, MY_WALL, THEIR_WALL, i);
+            Transaction t = new Transaction(
+                    10,
+                    CURR_1,
+                    i,
+                    new Date(),
+                    SENDER_WALL,
+                    RECEIVER_WALL,
+                    Optional.of(USER.getUid()),
+                    Optional.empty()
+            );
             producer.addTransaction(t);
         }
 
         producer.addTransaction(
-                new Transaction(10, CURR_1, MY_WALL, THEIR_WALL, nbTransactions)
+                new Transaction(
+                        10,
+                        CURR_1,
+                        nbTransactions,
+                        new Date(),
+                        SENDER_WALL,
+                        RECEIVER_WALL,
+                        Optional.empty(),
+                        Optional.of(USER.getUid())
+                )
         );
 
         producer.alertAll();
@@ -220,15 +435,33 @@ public class TransactionHistoryTest {
     }
 
     @Test
-    public void positiveTransactionBeforeLargeListOfNegativeTransactionsDoesntChangeColor() {
+    public void greenTransactionBeforeLargeListOfRedTransactionsDoesntChangeColor() {
         int nbTransactions = 100;
 
         producer.addTransaction(
-                new Transaction(10, CURR_1, MY_WALL, THEIR_WALL, nbTransactions)
+                new Transaction(
+                        10,
+                        CURR_1,
+                        nbTransactions,
+                        new Date(),
+                        SENDER_WALL,
+                        RECEIVER_WALL,
+                        Optional.empty(),
+                        Optional.of(USER.getUid())
+                )
         );
 
         for (int i = 0; i < nbTransactions; i++) {
-            Transaction t = new Transaction(-10, CURR_1, MY_WALL, THEIR_WALL, i);
+            Transaction t = new Transaction(
+                    10,
+                    CURR_1,
+                    i,
+                    new Date(),
+                    SENDER_WALL,
+                    RECEIVER_WALL,
+                    Optional.of(USER.getUid()),
+                    Optional.empty()
+            );
             producer.addTransaction(t);
         }
 
