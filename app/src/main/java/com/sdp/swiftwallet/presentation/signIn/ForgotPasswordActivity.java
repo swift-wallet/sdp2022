@@ -76,7 +76,13 @@ public class ForgotPasswordActivity extends BaseActivity {
    */
   private void sendPasswordResetEmail(String email){
     Log.d(RESET_PASSWORD_TAG, "Trying to send a confirmation email");
-    authenticator.sendPasswordResetEmail(email, this::sendSuccess, this::sendFailure);
+    SwiftAuthenticator.Result res = authenticator.sendPasswordResetEmail(email,
+            this::sendSuccess,
+            this::sendFailure);
+
+    if (res != SwiftAuthenticator.Result.SUCCESS) {
+      sendFailure();
+    }
   }
 
   /**

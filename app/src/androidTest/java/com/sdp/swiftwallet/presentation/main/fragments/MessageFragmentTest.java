@@ -92,8 +92,7 @@ public class MessageFragmentTest {
     public void displayContactsWithOnlineUserWorksCorrectly() {
         try (ActivityScenario<MainActivity> scenario = ActivityScenario.launch(setupReset())) {
             User registerUser = new User("HtaZP4b2oJQ9CDrjpmf6tLjkAK33",
-                    "newRegister.test@gmail.com",
-                    SwiftAuthenticator.LoginMethod.BASIC);
+                    "newRegister.test@gmail.com");
 
             scenario.onActivity(activity -> {
                 mIdlingResource = activity.getIdlingResource();

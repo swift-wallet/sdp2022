@@ -1,7 +1,5 @@
 package com.sdp.swiftwallet.presentation.main;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 
 import com.sdp.cryptowalletapp.R;

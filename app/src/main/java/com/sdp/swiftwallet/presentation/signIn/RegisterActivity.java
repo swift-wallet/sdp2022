@@ -143,8 +143,8 @@ public class RegisterActivity extends BaseActivity {
             loading(true);
             SwiftAuthenticator.Result registerRes = authenticator.signUp(username, email, password,
                     () -> {
-                        ((BaseApp) getApplication()).setCurrUser(authenticator.getUser().get());
-                        Map<String, Object> userMap = setUser(authenticator.getUid().get(), username, email, Constants.DEFAULT_USER_IMAGE);
+                        ((BaseApp) getApplication()).setCurrUser(authenticator.getUser());
+                        Map<String, Object> userMap = setUser(authenticator.getUid(), username, email, Constants.DEFAULT_USER_IMAGE);
                         addUserToDatabase(userMap);
                     },
                     () -> handleError(SwiftAuthenticator.Result.ERROR));

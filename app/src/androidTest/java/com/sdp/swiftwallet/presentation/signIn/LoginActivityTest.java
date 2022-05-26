@@ -154,7 +154,7 @@ public class LoginActivityTest {
     public void successCallbackDisplaysToastMessage() {
         authenticator.setResult(SwiftAuthenticator.Result.SUCCESS);
         authenticator.setExecSuccess(true);
-        User loginUser = new User("loginUid", "login@email.com", SwiftAuthenticator.LoginMethod.BASIC);
+        User loginUser = new User("loginUid", "login@email.com");
         authenticator.setCurrUser(loginUser);
 
         onView(withId(R.id.loginButton)).perform(click());
@@ -166,7 +166,7 @@ public class LoginActivityTest {
     public void successCallbackFiresIntent() {
         authenticator.setResult(SwiftAuthenticator.Result.SUCCESS);
         authenticator.setExecSuccess(true);
-        User loginUser = new User("loginUid", "login@email.com", SwiftAuthenticator.LoginMethod.BASIC);
+        User loginUser = new User("loginUid", "login@email.com");
         authenticator.setCurrUser(loginUser);
 
         onView(withId(R.id.loginButton)).perform(click());

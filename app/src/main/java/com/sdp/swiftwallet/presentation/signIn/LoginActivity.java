@@ -95,7 +95,7 @@ public class LoginActivity extends BaseActivity {
 
         SwiftAuthenticator.Result authRes = authenticator.signIn(email, password,
                 () -> {
-                    ((BaseApp) getApplication()).setCurrUser(authenticator.getUser().get());
+                    ((BaseApp) getApplication()).setCurrUser(authenticator.getUser());
                     nextActivity();
                 },
                 this::checkAttempts);
