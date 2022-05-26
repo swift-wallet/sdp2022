@@ -1,6 +1,7 @@
 package com.sdp.swiftwallet.presentation.main.fragments;
 
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -19,18 +20,28 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.di.wallet.WalletProvider;
+import com.sdp.swiftwallet.domain.model.currency.Currency;
 import com.sdp.swiftwallet.domain.model.qrCode.QRCodeScanner;
+import com.sdp.swiftwallet.domain.model.transaction.Transaction;
 import com.sdp.swiftwallet.domain.model.wallet.IWalletKeyPair;
 import com.sdp.swiftwallet.domain.model.transaction.TransactionHelper;
 import com.sdp.swiftwallet.domain.model.wallet.Wallets;
 import com.sdp.swiftwallet.domain.repository.web3.IWeb3Requests;
+import com.sdp.swiftwallet.presentation.main.MainActivity;
 
 import org.web3j.crypto.RawTransaction;
 
 import java.math.BigInteger;
+import java.time.Instant;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 import javax.inject.Inject;
@@ -42,6 +53,9 @@ import dagger.hilt.android.AndroidEntryPoint;
  */
 @AndroidEntryPoint
 public class PaymentFragment extends Fragment {
+
+    public static Currency ETHEREUM_CURRENCY = new Currency("Ethereum", "ETH", 4);
+    public static final String TRANSACTION_COLLECTION = "transactions";
 
     private ArrayAdapter<String> arrayAdapter;
     private TextView fromAddress;
@@ -101,7 +115,7 @@ public class PaymentFragment extends Fragment {
         toAddress = view.findViewById(R.id.send_to_address);
         // Send button listener
         sendButton = view.findViewById(R.id.send_button);
-        sendButton.setOnClickListener(this::send);
+        sendButton.setOnClickListener(this::registerTransaction);
 
         // Seek bar and send amount
         sendAmount = view.findViewById(R.id.send_amount);
@@ -132,7 +146,7 @@ public class PaymentFragment extends Fragment {
     }
 
     /**
-     * Initiates the transaction
+     * Creates and sign a real ethereum transaction
      * @param v the button view
      */
     private void send(View v) {
@@ -151,6 +165,41 @@ public class PaymentFragment extends Fragment {
             web3Requests.sendTransaction(hexTransaction);
             Toast.makeText(requireContext(), "Transaction: " + hexTransaction, Toast.LENGTH_SHORT).show();
         });
+    }
+
+    /**
+     * Registers the transaction on firebase
+     * @param v the view button clicked on
+     */
+    private void registerTransaction(View v){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        double amount = -Double.parseDouble(sendAmount.getText().toString()) * 1000;
+        Transaction transaction = new Transaction.Builder()
+                .setAmount(amount)
+                .setCurr(ETHEREUM_CURRENCY)
+                .setId(0)
+                .setMyWallet(fromAddress.getText().toString())
+                .setTheirWallet(toAddress.getText().toString())
+                .build();
+
+        Map<String, Object> data = new HashMap<>();
+        data.put("date", System.currentTimeMillis()/1000);
+        data.put("amount", transaction.getAmount());
+        data.put("wallet1", transaction.getTheirWallet());
+        data.put("wallet2", transaction.getMyWallet());
+        data.put("currency", transaction.getCurr().getSymbol());
+        data.put("id", transaction.getTransactionID());
+
+        db.collection(TRANSACTION_COLLECTION).document().set(data).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    Toast.makeText(requireContext(), "Sent transaction", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
     }
 
     /**

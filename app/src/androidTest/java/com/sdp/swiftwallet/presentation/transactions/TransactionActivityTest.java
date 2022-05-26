@@ -37,7 +37,7 @@ import dagger.hilt.components.SingletonComponent;
 @RunWith(AndroidJUnit4.class)
 public class TransactionActivityTest {
 
-    private static DummyProducer producer = DummyProducer.INSTANCE;
+    private static final DummyProducer producer = DummyProducer.INSTANCE;
 
     public ActivityScenarioRule<TransactionActivity> testRule = new ActivityScenarioRule<>(TransactionActivity.class);
     public HiltAndroidRule hiltRule = new HiltAndroidRule(this);

@@ -1,7 +1,5 @@
 package com.sdp.swiftwallet.domain.repository.transaction;
 
-import com.sdp.swiftwallet.domain.repository.transaction.TransactionHistorySubscriber;
-
 /**
  * Asynchronous Transaction History Producer
  * Used to produce transaction histories and pass them to subscribers
