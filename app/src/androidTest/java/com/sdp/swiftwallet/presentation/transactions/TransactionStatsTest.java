@@ -20,7 +20,9 @@ import org.junit.rules.RuleChain;
 import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import dagger.hilt.android.testing.HiltAndroidRule;
 import dagger.hilt.android.testing.HiltAndroidTest;
@@ -62,11 +64,11 @@ public class TransactionStatsTest {
     @Test
     public void addingANewTransactionDisplaysItInStats() {
         onView(withId(R.id.transaction_statsButton)).perform(click());
-        Transaction t1 = new Transaction(2.2, CURR_2, MY_WALL, THEIR_WALL, 1);
-        Transaction t2 = new Transaction(17.5, CURR_1, MY_WALL, THEIR_WALL, 2);
-        Transaction t3 = new Transaction(-19, CURR_3, MY_WALL, THEIR_WALL, 3);
-        Transaction t4 = new Transaction(22, CURR_4, MY_WALL, THEIR_WALL, 4);
-        Transaction t5 = new Transaction(76, CURR_2, MY_WALL, THEIR_WALL, 5);
+        Transaction t1 = new Transaction(2.2, CURR_2, 0, new Date(), MY_WALL, THEIR_WALL, Optional.empty(), Optional.empty());
+        Transaction t2 = new Transaction(17.5, CURR_1, 1, new Date(), MY_WALL, THEIR_WALL, Optional.empty(), Optional.empty());
+        Transaction t3 = new Transaction(-19, CURR_3, 2, new Date(), MY_WALL, THEIR_WALL, Optional.empty(), Optional.empty());
+        Transaction t4 = new Transaction(22, CURR_4, 3, new Date(), MY_WALL, THEIR_WALL, Optional.empty(), Optional.empty());
+        Transaction t5 = new Transaction(76, CURR_2, 4, new Date(), MY_WALL, THEIR_WALL, Optional.empty(), Optional.empty());
         producer.addTransaction(t1);
         producer.addTransaction(t2);
         producer.addTransaction(t3);
