@@ -48,7 +48,9 @@ public class Transaction {
         if (curr == null ||
                 date == null ||
                 senderWalletID == null ||
-                receiverWalletID == null) {
+                receiverWalletID == null ||
+                senderID == null ||
+                receiverID == null) {
             throw new IllegalArgumentException("Null arguments");
         }
 
@@ -62,7 +64,7 @@ public class Transaction {
             }
         }
 
-        if (amount <= 0) {
+        if (amount < 0) {
             throw new IllegalArgumentException("Amount of transaction must be positive");
         }
 
