@@ -5,20 +5,35 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.test.espresso.idling.CountingIdlingResource;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.common.HelperFunctions;
 import com.sdp.swiftwallet.di.wallet.WalletProvider;
+import com.sdp.swiftwallet.domain.model.currency.Currency;
 import com.sdp.swiftwallet.domain.model.wallet.IWalletKeyPair;
 import com.sdp.swiftwallet.domain.repository.web3.IWeb3Requests;
 import com.sdp.swiftwallet.presentation.wallet.CreateSeedActivity;
 import com.sdp.swiftwallet.presentation.wallet.WalletInfoActivity;
 import com.sdp.swiftwallet.presentation.wallet.WalletSelectActivity;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.math.BigInteger;
 
 import javax.inject.Inject;
 
@@ -32,6 +47,10 @@ public class HomeFragment extends Fragment {
 
     private View fragmentView;
 
+    private BigInteger etherBalance;
+
+    private double etherValue;
+
     @Inject
     public WalletProvider walletProvider;
 
@@ -40,10 +59,13 @@ public class HomeFragment extends Fragment {
 
     private boolean hasSeed;
 
+    // For testing purposes
+    private CountingIdlingResource mIdlingResource;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        mIdlingResource = new CountingIdlingResource("CryptoValue Calls");
         hasSeed = walletProvider.hasWallets();
     }
 
@@ -91,12 +113,41 @@ public class HomeFragment extends Fragment {
     }
 
     private void setSelectedWallet(IWalletKeyPair walletKeyPair) {
+        etherBalance = walletKeyPair.getNativeBalance();
         ((TextView)fragmentView.findViewById(R.id.item_address))
                 .setText(HelperFunctions.toShortenedFormatAddress(walletKeyPair.getHexPublicKey()));
-        // Should calculate total worth later
         ((TextView)fragmentView.findViewById(R.id.ether_balance))
-                .setText(walletKeyPair.getNativeBalance().toString());
+                .setText(etherBalance.toString());
+        mIdlingResource.increment();
+        getCurrentValue("ETH");
+
         walletProvider.getWallets().setCurrentKeyPair(walletKeyPair);
+    }
+
+    //Request the current value of the crypto
+    private void getCurrentValue(String name){
+        String url = "https://api.binance.com/api/v3/ticker/24hr?symbol="+name+"USDT";
+        RequestQueue requestQueue = Volley.newRequestQueue(this.getActivity());
+        System.out.println("MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM");
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, response -> {
+            System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"+response);
+            try {
+                String value = response.getString("lastPrice");
+                etherValue = Double.parseDouble(value);
+                ((TextView)fragmentView.findViewById(R.id.worth))
+                        .setText(Double.toString(etherBalance.doubleValue()*etherValue)+"$");
+                mIdlingResource.decrement();
+            } catch (JSONException e) {
+                e.printStackTrace();
+                Toast.makeText(this.getActivity(), "Couldn't extract JSON data... Please try again later.", Toast.LENGTH_SHORT).show();
+            }
+
+        }, error -> {
+            etherValue = 0.0;
+            Toast.makeText(this.getActivity(), "Couldn't retrieve data... Please try again later.", Toast.LENGTH_SHORT).show();
+        });
+        requestQueue.add(jsonObjectRequest);
+
     }
 
     // Resetting the view to handle wallets list
