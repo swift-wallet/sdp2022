@@ -49,9 +49,11 @@ public class FirebaseTransactionHistoryProducer implements TransactionHistoryPro
     private final List<TransactionHistorySubscriber> subscribers = new ArrayList<>();
     private final List<Transaction> transactions = new ArrayList<>();
     private final FirebaseFirestore db;
+    private final SwiftAuthenticator auth;
 
-    public FirebaseTransactionHistoryProducer(FirebaseFirestore db) {
+    public FirebaseTransactionHistoryProducer(FirebaseFirestore db, SwiftAuthenticator auth) {
         this.db = db;
+        this.auth = auth;
         initSnapshotListener();
     }
 
@@ -59,7 +61,9 @@ public class FirebaseTransactionHistoryProducer implements TransactionHistoryPro
      * Register a snapshot listener to the Firestore database
      */
     private void initSnapshotListener() {
-        db.collection(COLLECTION_NAME).orderBy("date", Query.Direction.DESCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
+        db.collection(COLLECTION_NAME)
+                .orderBy("date", Query.Direction.DESCENDING)
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot documentSnapshots, @Nullable FirebaseFirestoreException error) {
                 if (error != null) {
@@ -68,6 +72,8 @@ public class FirebaseTransactionHistoryProducer implements TransactionHistoryPro
                 }
 
                 transactions.clear();
+
+                String uid = auth.getUid().get();
 
                 for (DocumentSnapshot snapshot : documentSnapshots) {
                     Transaction.Builder builder = new Transaction.Builder();
@@ -96,6 +102,10 @@ public class FirebaseTransactionHistoryProducer implements TransactionHistoryPro
                     String receiverID = snapshot.getString(RECEIVER_ID_KEY);
                     if (!receiverID.equals("")) {
                         builder.setReceiverID(receiverID);
+                    }
+
+                    if (!senderID.equals(uid) && !receiverID.equals(uid)) {
+                        continue;
                     }
 
                     transactions.add(builder.build());
