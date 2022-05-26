@@ -13,21 +13,35 @@ import android.widget.ImageView;
 
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.core.app.ApplicationProvider;
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
 
 import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.domain.model.qrCode.QRCodeGenerator;
 
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.RuleChain;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
+import dagger.hilt.android.testing.HiltAndroidRule;
+import dagger.hilt.android.testing.HiltAndroidTest;
+
+@HiltAndroidTest
 @RunWith(JUnit4.class)
 public class WalletInfoActivityTest {
     Intent testIntent;
     public static String mockBalance = "12.32455";
     public static String mockAddress = "0x000000000000000000000000000000000000dead";
+
+    public ActivityScenarioRule<WalletInfoActivity> testRule = new ActivityScenarioRule<>(WalletInfoActivity.class);
+    public HiltAndroidRule hiltRule = new HiltAndroidRule(this);
+
+    @Rule
+    public RuleChain rule = RuleChain.outerRule(hiltRule).around(testRule);
+
     @Before
     public void setupIntent() {
         testIntent = new Intent(ApplicationProvider.getApplicationContext(), WalletInfoActivity.class);

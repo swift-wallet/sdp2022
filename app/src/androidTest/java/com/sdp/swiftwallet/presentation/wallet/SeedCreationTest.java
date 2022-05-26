@@ -38,7 +38,7 @@ public class SeedCreationTest {
 
     @Rule
     public RuleChain rule = RuleChain.outerRule(hiltRule).around(testRule);
-    
+
     @Before
     public void setUp() throws Exception {
         Intents.init();
