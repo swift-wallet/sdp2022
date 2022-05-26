@@ -1,5 +1,6 @@
 package com.sdp.swiftwallet.presentation.main.fragments;
 
+import static com.sdp.swiftwallet.common.Constants.REGISTER_CALL;
 import static com.sdp.swiftwallet.common.HelperFunctions.displayToast;
 import static com.sdp.swiftwallet.domain.repository.firebase.SwiftAuthenticator.Result.ERROR_NOT_ONLINE;
 
@@ -15,6 +16,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.test.espresso.idling.CountingIdlingResource;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.sdp.cryptowalletapp.R;
@@ -40,6 +43,9 @@ public class ProfileFragment extends Fragment {
     private FirebaseUser mUser;
     private EditText email;
 
+    // Init counting resource for async call in test
+    private CountingIdlingResource mIdlingResource;
+
     @Inject
     SwiftAuthenticator authenticator;
 
@@ -48,6 +54,8 @@ public class ProfileFragment extends Fragment {
         super.onCreate(savedInstanceState);
         mAuth = FirebaseUtil.getAuth();
         mUser = mAuth.getCurrentUser();
+        mIdlingResource = new CountingIdlingResource(REGISTER_CALL);
+
     }
 
     @Override
@@ -65,6 +73,7 @@ public class ProfileFragment extends Fragment {
         Button logoutButton = view.findViewById(R.id.logout_Btn);
         logoutButton.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
+                mIdlingResource.increment();
                 authenticator.signOut(() -> signOutHandler(), () ->
                 {
                     Log.d("Profile fragment:","Fail to log out the user");
@@ -139,5 +148,6 @@ public class ProfileFragment extends Fragment {
     private void signOutHandler() {
         ((BaseApp) getActivity().getApplication()).setCurrUser(null);
         startActivity(new Intent(getActivity(), LoginActivity.class));
+        mIdlingResource.decrement();
     }
 }

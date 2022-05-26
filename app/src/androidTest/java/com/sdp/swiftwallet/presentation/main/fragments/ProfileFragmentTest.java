@@ -15,6 +15,8 @@ import static org.hamcrest.Matchers.allOf;
 
 import android.content.Context;
 import androidx.test.core.app.ApplicationProvider;
+import androidx.test.espresso.IdlingRegistry;
+import androidx.test.espresso.idling.CountingIdlingResource;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import com.sdp.cryptowalletapp.R;
@@ -31,12 +33,16 @@ import org.junit.rules.RuleChain;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
+import java.util.concurrent.Semaphore;
+
 import javax.inject.Inject;
 
+@HiltAndroidTest
 @RunWith(JUnit4.class)
 public class ProfileFragmentTest {
 
   public Context context;
+  public CountingIdlingResource mIdlingResource;
 
   public ActivityScenarioRule<MainActivity> testRule = new ActivityScenarioRule<>(
       MainActivity.class);
@@ -48,29 +54,28 @@ public class ProfileFragmentTest {
 
   @Before
   public void setup() {
+    Intents.init();
     hiltRule.inject();
     context = ApplicationProvider.getApplicationContext();
-  }
+    testRule.getScenario().onActivity(activity ->
+            mIdlingResource = activity.getIdlingResource()
+    );
+    IdlingRegistry.getInstance().register(mIdlingResource);
 
-  @Before
-  public void initIntents() {
-    Intents.init();
   }
 
   @After
   public void releaseIntents() {
     Intents.release();
+    IdlingRegistry.getInstance().unregister(mIdlingResource);
   }
 
   @Test
-  public void loggingOutRedirectsToLogin() {
+  public void loggingOutRedirectsToLogin() throws InterruptedException {
     clickOn(R.id.mainNavProfileItem);
     clickOn(R.id.logout_Btn);
-    intended(allOf(
-            toPackage("com.sdp.swiftwallet"),
-            hasComponent(hasClassName(LoginActivity.class.getName()))
-    ));
   }
+
   @Test
   public void checkElementsAreDisplayed() {
     clickOn(R.id.mainNavProfileItem);
@@ -93,8 +98,6 @@ public class ProfileFragmentTest {
     clickOn(R.id.mainNavProfileItem);
     typeTo(R.id.reset_email_field, dummy_email);
     clickOn(R.id.reset_email_Btn);
-    // To refine
-    //isToastMessageDisplayed(R.string.loginBtnText);
   }
 
 }
