@@ -128,9 +128,7 @@ public class HomeFragment extends Fragment {
     private void getCurrentValue(String name){
         String url = "https://api.binance.com/api/v3/ticker/24hr?symbol="+name+"USDT";
         RequestQueue requestQueue = Volley.newRequestQueue(this.getActivity());
-        System.out.println("MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM");
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, response -> {
-            System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"+response);
             try {
                 String value = response.getString("lastPrice");
                 etherValue = Double.parseDouble(value);
