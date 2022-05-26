@@ -5,9 +5,12 @@ import android.os.Bundle;
 import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.BaseActivity;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
 /**
  * Settings Activity
  */
+@AndroidEntryPoint
 public class SettingsActivity extends BaseActivity {
 
     @Override

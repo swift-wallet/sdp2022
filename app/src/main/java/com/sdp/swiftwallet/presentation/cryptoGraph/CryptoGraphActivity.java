@@ -31,6 +31,9 @@ import com.sdp.swiftwallet.domain.model.currency.Currency;
 import java.util.ArrayList;
 import org.json.JSONArray;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class CryptoGraphActivity extends BaseActivity {
 
     // By default 100

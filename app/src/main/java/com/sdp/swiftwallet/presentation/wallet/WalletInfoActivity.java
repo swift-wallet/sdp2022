@@ -12,9 +12,12 @@ import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.BaseActivity;
 import com.sdp.swiftwallet.domain.model.qrCode.QRCodeGenerator;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
 /**
  * Activity that shows information about a specific wallet
  */
+@AndroidEntryPoint
 public class WalletInfoActivity extends BaseActivity {
 
     public static final String ADDRESS_EXTRA = "ADDRESS";

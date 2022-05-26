@@ -9,9 +9,12 @@ import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.BaseActivity;
 import com.sdp.swiftwallet.domain.model.wallet.cryptography.SeedGenerator;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
 /**
  * The activity to be able to setup the seed of the wallet
  */
+@AndroidEntryPoint
 public class CreateSeedActivity extends BaseActivity {
 
     private String seed;

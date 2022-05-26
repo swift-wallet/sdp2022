@@ -30,9 +30,12 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
 /**
  * Activity displaying crypto values
  */
+@AndroidEntryPoint
 public class CryptoValuesActivity extends BaseActivity {
 
     // UI elementss
