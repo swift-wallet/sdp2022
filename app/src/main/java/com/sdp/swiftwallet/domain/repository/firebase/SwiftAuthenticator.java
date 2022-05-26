@@ -50,10 +50,11 @@ public interface SwiftAuthenticator {
 
     /**
      * Signs out the current user (never fails)
-     *
-     * @param handler action to take upon sign out
+     * @param  success action to take upon sign out
+     * @param  failure to take upon sign out
+     * @return specific ERROR or SUCCESS
      */
-    void signOut(Runnable handler);
+    Result signOut(Runnable success, Runnable failure);
 
     /**
      * Updates the email of the suer

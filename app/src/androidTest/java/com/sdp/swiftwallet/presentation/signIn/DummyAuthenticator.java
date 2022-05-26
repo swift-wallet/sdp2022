@@ -44,9 +44,14 @@ public class DummyAuthenticator implements SwiftAuthenticator {
         return result;
     }
 
-    // Should not do anything
-    @Override
-    public void signOut(Runnable handler) {
+    public Result signOut(Runnable success, Runnable failure) {
+        if (execSuccess) {
+            success.run();
+        }
+        if (execFailure) {
+            failure.run();
+        }
+        return result;
     }
 
     @Override

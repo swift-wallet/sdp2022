@@ -20,6 +20,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.BaseApp;
 import com.sdp.swiftwallet.common.FirebaseUtil;
+import com.sdp.swiftwallet.common.HelperFunctions;
 import com.sdp.swiftwallet.domain.repository.firebase.SwiftAuthenticator;
 import com.sdp.swiftwallet.domain.repository.firebase.SwiftAuthenticator.Result;
 import com.sdp.swiftwallet.presentation.signIn.LoginActivity;
@@ -64,7 +65,12 @@ public class ProfileFragment extends Fragment {
         Button logoutButton = view.findViewById(R.id.logout_Btn);
         logoutButton.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
-                authenticator.signOut(() -> signOutHandler());
+                authenticator.signOut(() -> signOutHandler(), () ->
+                {
+                    Log.d("Profile fragment:","Fail to log out the user");
+                    HelperFunctions.displayToast(getActivity(),"An unexpected error happenned" +
+                            "while trying to log out, please try again");
+                });
             }
         });
 

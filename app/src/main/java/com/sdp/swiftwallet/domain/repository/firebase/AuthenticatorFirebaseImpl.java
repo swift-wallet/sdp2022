@@ -9,6 +9,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.sdp.swiftwallet.common.HelperFunctions;
 import com.sdp.swiftwallet.domain.model.User;
+
+import org.bouncycastle.jcajce.provider.asymmetric.ec.KeyFactorySpi;
+
 import dagger.hilt.EntryPoint;
 import dagger.hilt.InstallIn;
 import dagger.hilt.android.EntryPointAccessors;
@@ -96,10 +99,16 @@ public class AuthenticatorFirebaseImpl implements SwiftAuthenticator {
         return Result.SUCCESS;
     }
 
-
-    public void signOut(Runnable handler) {
-        auth.signOut();
-        handler.run();
+    @Override
+    public Result signOut(Runnable success, Runnable failure) {
+        try {
+            auth.signOut();
+            success.run();
+            return Result.SUCCESS;
+        } catch (Exception e){
+            failure.run();
+            return Result.ERROR;
+        }
     }
 
     public Result updateEmail(String email, EditText emailField, Runnable success,

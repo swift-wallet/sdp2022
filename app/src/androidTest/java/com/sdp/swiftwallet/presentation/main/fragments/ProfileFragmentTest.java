@@ -19,6 +19,7 @@ import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.presentation.main.MainActivity;
+import com.sdp.swiftwallet.presentation.signIn.DummyAuthenticator;
 import com.sdp.swiftwallet.presentation.signIn.LoginActivity;
 import dagger.hilt.android.testing.HiltAndroidRule;
 import dagger.hilt.android.testing.HiltAndroidTest;
@@ -30,7 +31,8 @@ import org.junit.rules.RuleChain;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-@HiltAndroidTest
+import javax.inject.Inject;
+
 @RunWith(JUnit4.class)
 public class ProfileFragmentTest {
 
@@ -61,21 +63,20 @@ public class ProfileFragmentTest {
   }
 
   @Test
+  public void loggingOutRedirectsToLogin() {
+    clickOn(R.id.mainNavProfileItem);
+    clickOn(R.id.logout_Btn);
+    intended(allOf(
+            toPackage("com.sdp.swiftwallet"),
+            hasComponent(hasClassName(LoginActivity.class.getName()))
+    ));
+  }
+  @Test
   public void checkElementsAreDisplayed() {
     clickOn(R.id.mainNavProfileItem);
     onView(withId(R.id.logout_Btn)).check(matches(isDisplayed()));
     onView(withId(R.id.reset_email_Btn)).check(matches(isDisplayed()));
     onView(withId(R.id.reset_email_field)).check(matches(isDisplayed()));
-  }
-
-  @Test
-  public void loggingOutRedirectsToLogin() {
-    clickOn(R.id.mainNavProfileItem);
-    clickOn(R.id.logout_Btn);
-    intended(allOf(
-        toPackage("com.sdp.swiftwallet"),
-        hasComponent(hasClassName(LoginActivity.class.getName()))
-    ));
   }
 
   @Test
