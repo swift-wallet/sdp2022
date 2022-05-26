@@ -29,11 +29,6 @@ public class MainActivity extends AppCompatActivity {
     // Used for debugging purpose
     private CountingIdlingResource mIdlingResource;
 
-    // For notification purpose
-    private String receive_channel_description;
-    private String send_channel_description;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,15 +46,6 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView bottomNavigationView = findViewById(R.id.mainBottomNavView);
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
 
-        // Create a notification channel as soon as the main activity starts
-        receive_channel_description = "Channel useful for receiving crypto";
-        send_channel_description = "Channel useful for sending crypto";
-        ChannelManager receive =
-                new ChannelManager(Constants.RECEIVE_CHANNEL);
-        ChannelManager send =
-                new ChannelManager(Constants.SEND_CHANNEL);
-        receive.createNotificationChannel(this, receive.getChannelId(), receive_channel_description);
-        send.createNotificationChannel(this, send.getChannelId(), send_channel_description);
     }
 
     /**

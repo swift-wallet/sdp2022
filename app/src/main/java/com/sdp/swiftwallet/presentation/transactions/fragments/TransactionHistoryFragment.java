@@ -13,6 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.sdp.cryptowalletapp.R;
@@ -69,8 +70,8 @@ public class TransactionHistoryFragment extends Fragment implements TransactionH
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
 
-        // For testing
-        Intent intent = new Intent(getActivity(), LoginActivity.class);
+        // For testing, create a basic redirect to fragment activiy class upon clicking
+        Intent intent = new Intent(getActivity(), FragmentActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntent
                 .getActivity(getActivity(), 0, intent, PendingIntent.FLAG_IMMUTABLE);
