@@ -1,6 +1,8 @@
 package com.sdp.swiftwallet.di.transaction;
 
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.sdp.swiftwallet.domain.model.currency.CurrencyBank;
+import com.sdp.swiftwallet.domain.model.currency.SwiftWalletCurrencyBank;
 import com.sdp.swiftwallet.domain.repository.firebase.FirebaseTransactionHistoryProducer;
 import com.sdp.swiftwallet.domain.repository.transaction.TransactionHistoryProducer;
 
