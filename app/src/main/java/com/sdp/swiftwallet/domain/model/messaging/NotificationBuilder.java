@@ -12,6 +12,16 @@ import io.reactivex.annotations.NonNull;
 
 public class NotificationBuilder {
 
+
+    /**
+     * Builds a notification on the app
+     * @param context activity
+     * @param textTitle text title
+     * @param textContent text content to display on the notification
+     * @param channel channel on where to publish
+     * @param intent intent
+     * @return
+     */
     public static NotificationCompat.Builder buildNotification(Context context,
            @NonNull String textTitle, @NonNull String textContent, @NonNull String channel,@NonNull PendingIntent intent){
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, channel)
@@ -23,7 +33,6 @@ public class NotificationBuilder {
                 .setAutoCancel(true);
         return builder;
     }
-
 
 
 }
