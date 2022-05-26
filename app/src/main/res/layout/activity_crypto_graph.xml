@@ -38,13 +38,26 @@
         android:id="@+id/idInterval"
         android:layout_width="409dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/idCurrencyToShowName"
+        android:layout_below="@id/idCurrencyToShow"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_marginStart="4dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="16dp"
         android:hint="Width of a candle"
+        android:textColorHint="@color/grey" />
+
+    <Spinner
+        android:id="@+id/idCurrencyToShow"
+        android:layout_width="409dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/idCurrencyToShowName"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="16dp"
+        android:hint="Cryptocurrency to show"
         android:textColorHint="@color/grey" />
 
     <ProgressBar

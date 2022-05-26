@@ -1,10 +1,15 @@
 package com.sdp.swiftwallet.presentation.wallet;
 
+import static androidx.test.espresso.Espresso.closeSoftKeyboard;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.intent.Intents.intended;
+import static androidx.test.espresso.intent.matcher.IntentMatchers.hasAction;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static com.adevinta.android.barista.interaction.BaristaClickInteractions.clickOn;
+import static com.adevinta.android.barista.interaction.BaristaEditTextInteractions.typeTo;
+import static com.adevinta.android.barista.interaction.BaristaEditTextInteractions.writeTo;
 
 import android.content.Context;
 import android.content.Intent;
@@ -32,6 +37,7 @@ import dagger.hilt.android.testing.HiltAndroidTest;
 public class WalletSelectActivityTest {
 
     public final static String mockSeed = "test-testouille-aille-deux-trois";
+    public final static String mockPK = "0000000000000000000000000000000000000000000000000000000000000002";
 
     public Context context;
 
@@ -81,6 +87,20 @@ public class WalletSelectActivityTest {
         try (ActivityScenario<WalletSelectActivity> scenario = ActivityScenario.launch(setupValid(1))) {
             onView(withId(R.id.create_address_button)).check(matches(isDisplayed()));
             clickOn(R.id.create_address_button);
+        }
+    }
+
+    @Test
+    public void shouldBeAbleToImportPK(){
+        try (ActivityScenario<WalletSelectActivity> scenario = ActivityScenario.launch(setupValid(1))) {
+            onView(withId(R.id.show_import_address_button)).check(matches(isDisplayed()));
+            clickOn(R.id.show_import_address_button);
+            closeSoftKeyboard();
+            onView(withId(R.id.import_wallet_layout)).check(matches(isDisplayed()));
+            writeTo(R.id.import_wallet_input, mockPK);
+            closeSoftKeyboard();
+            clickOn(R.id.import_address_button);
+            intended(hasAction("android.intent.action.MAIN"));
         }
     }
 }

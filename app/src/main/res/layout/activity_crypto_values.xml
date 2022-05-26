@@ -22,11 +22,24 @@
         android:textColorHint="@color/grey"
         tools:ignore="TextContrastCheck" />
 
+    <Spinner
+        android:id="@+id/idSpinnerShowAll"
+        android:layout_width="409dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/idCryptoSearch"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="4dp"
+        android:hint="Show all or only USDT"
+        android:textColorHint="@color/grey" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/idCryptoCurrencies"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/idCryptoSearch" />
+        android:layout_below="@id/idSpinnerShowAll" />
 
     <ProgressBar
         android:id="@+id/idProgressBar"

@@ -39,6 +39,7 @@
 
     <!-- CRYPTOINTERVALS -->
     <string-array name="intervals_array">
+        <item>Change Duration of a Candle</item>
         <item>1m</item>
         <item>3m</item>
         <item>5m</item>
@@ -54,6 +55,26 @@
         <item>3d</item>
         <item>1w</item>
         <item>1M</item>
+    </string-array>
+
+    <!-- MAINCRYPTOCURRENCIES -->
+    <string-array name="main_crypto_names">
+        <item>Change Currency</item>
+        <item>BTC</item>
+        <item>ETH</item>
+        <item>BNB</item>
+        <item>XRP</item>
+        <item>ADA</item>
+        <item>SOL</item>
+        <item>DOGE</item>
+        <item>DOT</item>
+        <item>AVAX</item>
+        <item>TRX</item>
+        <item>DAI</item>
+        <item>SHIB</item>
+        <item>LEO</item>
+        <item>MATIC</item>
+        <item>NEAR</item>
     </string-array>
 
     <!-- TRANSACTION HISTORY -->
@@ -93,6 +114,8 @@
     <string name="save_seed">Save this seed</string>
     <string name="createAddressBtnDescription">A plus in a circle :)</string>
     <string name="first_wallet_not_setup">Click here to create your first wallet !</string>
+    <string name="import_wallet">Import wallet</string>
+    <string name="private_key">Private key</string>
 
     <!-- SEND -->
     <string name="send_from">From</string>

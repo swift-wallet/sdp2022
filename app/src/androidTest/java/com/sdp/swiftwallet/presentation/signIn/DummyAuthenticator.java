@@ -1,8 +1,8 @@
 package com.sdp.swiftwallet.presentation.signIn;
 
-import android.widget.EditText;
 import com.sdp.swiftwallet.domain.model.User;
 import com.sdp.swiftwallet.domain.repository.firebase.SwiftAuthenticator;
+
 import java.util.Optional;
 
 public class DummyAuthenticator implements SwiftAuthenticator {
@@ -32,40 +32,37 @@ public class DummyAuthenticator implements SwiftAuthenticator {
     @Override
     public Result signUp(String username, String email, String password, Runnable success, Runnable failure) {
         if (execSuccess) {
-          success.run();
+            success.run();
         }
 
-      if (execFailure) {
-        failure.run();
-      }
+        if (execFailure) {
+            failure.run();
+        }
 
-      return result;
+        return result;
     }
 
-  /**
-   * No particular behavior
-   *
-   * @param handler action to take upon sign out
-   */
-  @Override
-  public void signOut(Runnable handler) {
+    @Override
+    public Result sendPasswordResetEmail(String email, Runnable success, Runnable failure) {
+        if (execSuccess) {
+            success.run();
+        }
 
-  }
+        if (execFailure) {
+            failure.run();
+        }
 
-  @Override
-  public Result updateEmail(String email, EditText emailField, Runnable success,
-      Runnable failure) {
-    return null;
-  }
-
-  @Override
-  public Optional<User> getUser() {
-    if (currUser != null) {
-      return Optional.of(currUser);
-    } else {
-      return Optional.empty();
+        return result;
     }
-  }
+
+    @Override
+    public Optional<User> getUser() {
+        if (currUser != null) {
+            return Optional.of(currUser);
+        } else {
+            return Optional.empty();
+        }
+    }
 
     @Override
     public Optional<String> getUid() {
@@ -74,6 +71,10 @@ public class DummyAuthenticator implements SwiftAuthenticator {
         } else {
             return Optional.empty();
         }
+    }
+
+    @Override
+    public void setLanguageCode(String code) {
     }
 
     public void setResult(SwiftAuthenticator.Result result) {

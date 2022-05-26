@@ -24,6 +24,7 @@ public class AuthenticatorFirebaseImpl implements SwiftAuthenticator {
 
     private final static String LOG_TAG = "FIREBASE_AUTH_TAG";
     private final static String REGISTER_TAG = "FIREBASE_REGISTER_TAG";
+    private static final String RESET_PASSWORD_TAG = "FIREBASE_RESET_PASSWORD_TAG";
 
     @InstallIn(SingletonComponent.class)
     @EntryPoint
@@ -95,6 +96,7 @@ public class AuthenticatorFirebaseImpl implements SwiftAuthenticator {
         return Result.SUCCESS;
     }
 
+
     public void signOut(Runnable handler) {
         auth.signOut();
         handler.run();
@@ -119,7 +121,22 @@ public class AuthenticatorFirebaseImpl implements SwiftAuthenticator {
             return Result.ERROR_NOT_ONLINE;
         }
         return Result.SUCCESS;
+    }
 
+    @Override
+    public Result sendPasswordResetEmail(String email, Runnable success, Runnable failure) {
+        if (email == null) return Result.ERROR;
+
+        auth.sendPasswordResetEmail(email)
+                .addOnSuccessListener(command -> {
+                    Log.d(RESET_PASSWORD_TAG, "Password successfully sent on \n" + email);
+                    success.run();
+                }).addOnFailureListener(command -> {
+                    Log.d(RESET_PASSWORD_TAG, "Password reset failed at auth step" + email);
+                    failure.run();
+                });
+
+        return Result.SUCCESS;
     }
 
 
@@ -139,6 +156,11 @@ public class AuthenticatorFirebaseImpl implements SwiftAuthenticator {
         } else {
             return Optional.of(currUser.getUid());
         }
+    }
+
+    @Override
+    public void setLanguageCode(String code) {
+        auth.setLanguageCode(code);
     }
 
 }
