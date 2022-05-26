@@ -58,7 +58,7 @@ public class ChannelManagerTest {
     @Test(expected = Test.None.class /* no exception expected */)
     public void setUpBasicNotification(){
         NotificationCompat.Builder builder = NotificationBuilder
-                .buildNotification(context,"RECEIVE", "TEST", Constants.RECEIVE_CHANNEL, notificationIntent);
+                .buildNotification(context,"TEST", Constants.RECEIVE_CHANNEL, notificationIntent);
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
         int notificationId = 0;
         notificationManager.notify(notificationId, builder.build());

@@ -77,7 +77,7 @@ public class TransactionHistoryFragment extends Fragment implements TransactionH
                 .getActivity(getActivity(), 0, intent, PendingIntent.FLAG_IMMUTABLE);
 
         NotificationCompat.Builder builder = NotificationBuilder
-                .buildNotification(getActivity(),"RECEIVE", "TEST", Constants.RECEIVE_CHANNEL, pendingIntent);
+                .buildNotification(getActivity(),"TEST", Constants.RECEIVE_CHANNEL, pendingIntent);
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getActivity());
         int notificationId = 0;
         notificationManager.notify(notificationId, builder.build());
