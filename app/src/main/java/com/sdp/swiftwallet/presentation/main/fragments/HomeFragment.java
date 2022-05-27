@@ -142,8 +142,7 @@ public class HomeFragment extends Fragment {
             try {
                 String value = response.getString("lastPrice");
                 etherValue = Double.parseDouble(value);
-                ((TextView)fragmentView.findViewById(R.id.worth))
-                        .setText(Double.toString(etherBalance.doubleValue()*etherValue)+"$");
+                ((TextView)fragmentView.findViewById(R.id.worth)).setText(Double.toString(etherBalance.doubleValue()*etherValue)+"$");
                 mIdlingResource.decrement();
             } catch (JSONException e) {
                 e.printStackTrace();
