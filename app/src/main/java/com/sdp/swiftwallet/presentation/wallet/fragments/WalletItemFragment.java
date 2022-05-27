@@ -52,7 +52,7 @@ public class WalletItemFragment extends Fragment {
      */
     public void addWalletItem(IWalletKeyPair keyPair){
         int count = walletItemRecyclerViewAdapter.getItemCount();
-        WalletItemRecyclerViewAdapter.WalletItem newItem = new WalletItemRecyclerViewAdapter.WalletItem(keyPair);
+        WalletItemRecyclerViewAdapter.WalletItem newItem = new WalletItemRecyclerViewAdapter.WalletItem(keyPair.getHexPublicKey());
         walletItems.add(newItem);
         walletItemRecyclerViewAdapter.notifyItemChanged(count);
     }

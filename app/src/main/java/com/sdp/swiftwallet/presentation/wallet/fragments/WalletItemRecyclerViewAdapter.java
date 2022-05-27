@@ -85,11 +85,11 @@ public class WalletItemRecyclerViewAdapter extends RecyclerView.Adapter<WalletIt
     /**
      * Represents a wallet item
      */
-    protected static class WalletItem {
+    public static class WalletItem {
         private final String address;
 
-        public WalletItem(IWalletKeyPair walletKeyPair) {
-            this.address = walletKeyPair.getHexPublicKey();
+        public WalletItem(String hexPublicKey) {
+            this.address = hexPublicKey;
         }
         public String getAddress(){
             return address;
