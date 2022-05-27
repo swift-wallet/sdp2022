@@ -56,4 +56,9 @@ public class SeedCreationTest {
         clickOn(R.id.generate_seed_button);
         onView(withId(R.id.seed_view)).check(matches(not(withText(""))));
     }
+
+    @Test
+    public void shouldBeAbleToSaveSeed(){
+        clickOn(R.id.save_seed_button);
+    }
 }
