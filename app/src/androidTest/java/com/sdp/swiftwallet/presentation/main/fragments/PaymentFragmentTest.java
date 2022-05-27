@@ -86,13 +86,14 @@ public class PaymentFragmentTest {
 
     @Test
     public void shouldBeAbleToRegisterTransaction(){
+        clickOn(R.id.mainNavPaymentItem);
         onView(withId(R.id.send_button)).check(matches(isDisplayed()));
         clickOn(R.id.send_button);
     }
 
     @Test
     public void shouldBeAbleToSelect(){
-        clickOn(R.id.send_from_spinner);
+        clickOn(R.id.mainNavPaymentItem);
         clickOn(R.id.send_from_spinner);
     }
 }
