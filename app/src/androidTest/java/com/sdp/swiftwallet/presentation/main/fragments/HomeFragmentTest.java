@@ -18,7 +18,6 @@ import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.domain.model.wallet.cryptography.SeedGenerator;
 import com.sdp.swiftwallet.presentation.main.MainActivity;
 import com.sdp.swiftwallet.presentation.wallet.CreateSeedActivity;
-import com.sdp.swiftwallet.presentation.wallet.WalletInfoActivity;
 import com.sdp.swiftwallet.presentation.wallet.WalletSelectActivity;
 
 import dagger.hilt.android.testing.HiltAndroidRule;
@@ -101,21 +100,4 @@ public class HomeFragmentTest {
             intended(hasComponent(WalletSelectActivity.class.getName()));
         }
     }
-    @Test
-    public void shouldBeAbleToSelectWalletWhenSeed(){
-        try (ActivityScenario<MainActivity> scenario = ActivityScenario.launch(setupValid(1))) {
-            onView(withId(R.id.item_address)).check(matches(isDisplayed()));
-            clickOn(R.id.item_address);
-            intended(hasComponent(WalletSelectActivity.class.getName()));
-        }
-    }
-    @Test
-    public void shouldBeAbleToLaunchInfoWhenSeed(){
-        try (ActivityScenario<MainActivity> scenario = ActivityScenario.launch(setupValid(5))) {
-            onView(withId(R.id.wallet_container)).check(matches(isDisplayed()));
-            clickOn(R.id.show_qr_button);
-            intended(hasComponent(WalletInfoActivity.class.getName()));
-        }
-    }
-
 }
