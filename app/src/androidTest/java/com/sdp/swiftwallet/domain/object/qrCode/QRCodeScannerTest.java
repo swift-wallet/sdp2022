@@ -38,6 +38,7 @@ public class QRCodeScannerTest {
         Intents.init();
     }
 
+    // Basic test
     @After
     public void releaseIntents() {
         Intents.release();
