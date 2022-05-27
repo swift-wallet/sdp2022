@@ -132,6 +132,15 @@ public class ForgotPwActivityTest {
   }
 
   @Test
+  public void resetEmailFailsCorrectlyOnAuthSide() {
+    authenticator.setResult(SwiftAuthenticator.Result.ERROR);
+    onView(withId(R.id.emailField)).perform(typeText("dummy@gmail.com"), closeSoftKeyboard());
+    onView(withId(R.id.sendReset)).perform(click());
+
+    onView(withId(R.id.emailField)).check(matches(hasFocus()));
+  }
+
+  @Test
   public void backButtonFiresIntent(){
     onView(withId(R.id.goBackForgotPw)).perform(click());
 

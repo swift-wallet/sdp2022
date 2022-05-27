@@ -73,7 +73,7 @@ public class TransactionHistoryTest {
     private final static double AMOUNT_BOUND = 100;
 
     private static final DummyProducer producer = DummyProducer.INSTANCE;
-    private static final User USER = new User("TEST", "asdf", SwiftAuthenticator.LoginMethod.BASIC);
+    private static final User USER = new User("TEST", "asdf");
     DummyAuthenticator authenticator;
 
     public ActivityScenarioRule<TransactionActivity> testRule = new ActivityScenarioRule<>(TransactionActivity.class);

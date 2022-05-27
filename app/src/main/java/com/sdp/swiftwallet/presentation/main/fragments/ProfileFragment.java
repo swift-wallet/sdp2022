@@ -8,21 +8,22 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.BaseApp;
-import com.sdp.swiftwallet.common.FirebaseUtil;
+import com.sdp.swiftwallet.domain.model.User;
+import com.sdp.swiftwallet.domain.repository.firebase.SwiftAuthenticator;
 import com.sdp.swiftwallet.presentation.signIn.LoginActivity;
+
+import org.jetbrains.annotations.NotNull;
+
+import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
@@ -31,19 +32,16 @@ import dagger.hilt.android.AndroidEntryPoint;
  */
 @AndroidEntryPoint
 public class ProfileFragment extends Fragment {
+    private final static String EMAIL_UPDATE_TAG = "PROFILE_EMAIL_UPDATE_TAG";
 
-    private String PROFILE_TAG = "Profile update";
+    @Inject
+    SwiftAuthenticator authenticator;
 
-    // To refactor
-    private FirebaseAuth mAuth;
-    private FirebaseUser mUser;
-    private EditText email;
+    private EditText emailView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mAuth = FirebaseUtil.getAuth();
-        mUser = mAuth.getCurrentUser();
     }
 
     @Override
@@ -55,62 +53,83 @@ public class ProfileFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
         //Sets up EditText fields
-        email = view.findViewById(R.id.reset_email_field);
+        emailView = view.findViewById(R.id.update_emailEt);
 
-        //Click to logout
-        Button logoutButton = view.findViewById(R.id.logout_Btn);
-        logoutButton.setOnClickListener(new OnClickListener() {
-            public void onClick(View v) {
-                mAuth.signOut();
-                ((BaseApp) getActivity().getApplication()).setCurrUser(null);
-                startActivity(new Intent(getActivity(), LoginActivity.class));
-            }
-        });
+        setListeners(view);
+        displayUserEmail(view);
 
-        //Click to update email
-        Button emailUpdateButton = view.findViewById(R.id.reset_email_Btn);
-        emailUpdateButton.setOnClickListener(new OnClickListener() {
-            public void onClick(View v) {
-                updateEmail(email);
-            }
-        });
-
-        checkUser(view);
         return view;
     }
 
     /**
-     * If user is logged show user infos
-     * @param view The view to display profile infos
+     * Set all listeners for Profile Fragment
+     * @param view the fragment view
      */
-    private void checkUser(View view) {
-        if (mAuth.getCurrentUser() != null) {
-            String email = mUser.getEmail();
-            TextView emailTv = view.findViewById(R.id.email);
+    private void setListeners(View view) {
+        //Click to logout
+        Button logoutButton = view.findViewById(R.id.logout_btn);
+        logoutButton.setOnClickListener(v -> {
+            authenticator.signOut();
+            ((BaseApp) getActivity().getApplication()).setCurrUser(null);
+            startActivity(new Intent(getActivity(), LoginActivity.class));
+        });
+
+        //Click to update email
+        Button emailUpdateButton = view.findViewById(R.id.update_email_btn);
+        emailUpdateButton.setOnClickListener(v -> checkAndUpdate(emailView.getText().toString().trim()));
+    }
+
+    /**
+     * If user is logged in show user email
+     * @param view the view to display profile infos
+     */
+    private void displayUserEmail(View view) {
+        User currUser = authenticator.getUser();
+        if (currUser != null) {
+            String email = currUser.getEmail();
+            TextView emailTv = view.findViewById(R.id.profile_userEmailTv);
             emailTv.setText(email);
-            // TODO: redirect in the future to login if not logged out
         }
     }
 
     /**
-     * Update user's email
-     * @param emailField emailField
+     * If email is valid start email update
+     * @param email new user email
      */
-    private void updateEmail(@NonNull EditText emailField){
-        String email = emailField.getText().toString().trim();
-        boolean check = checkEmail(email, emailField);
-        if (check && mUser != null) {
-            mUser.updateEmail(email).addOnSuccessListener(a -> {
-                Log.d(PROFILE_TAG, "Email successfully updated \n" + email);
-                displayToast(getActivity(), "Email successfully updated ! \n");
-            }).addOnFailureListener(a -> {
-                Log.d(PROFILE_TAG, "Something went wrong while updating the email \n" + email);
-                displayToast(getActivity(), "Something went wrong while updating your email\n");
-            });
-        } else {
-            Log.d(PROFILE_TAG, "Error: reset email without online mode \n");
-            displayToast(getActivity(), "Error: reset email without online mode \n");
+    private void checkAndUpdate(@NotNull String email){
+        if (checkEmail(email, emailView)) {
+            updateEmail(email);
         }
+    }
+
+    /**
+     * Update user email
+     * @param email new user email
+     */
+    private void updateEmail(String email){
+        Log.d(EMAIL_UPDATE_TAG, "start email update with email: " + email);
+        SwiftAuthenticator.Result res = authenticator.updateUserEmail(email,
+                this::sendSuccess,
+                this::sendFailure);
+
+        if (res != SwiftAuthenticator.Result.SUCCESS) {
+            sendFailure();
+        }
+    }
+
+    /**
+     * Callback for successful email updating
+     */
+    private void sendSuccess() {
+        displayToast(getActivity(), "Email successfully updated!");
+    }
+
+    /**
+     * Callback for failed email updating
+     */
+    private void sendFailure() {
+        emailView.setError("Email failed updating");
+        emailView.requestFocus();
     }
 
 }
