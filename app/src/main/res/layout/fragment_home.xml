@@ -8,18 +8,6 @@
     android:paddingRight="16dp"
     tools:context="com.sdp.swiftwallet.presentation.main.fragments.HomeFragment">
 
-    <TextView
-        android:id="@+id/home_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/info_box_margin"
-        android:text="@string/nav_wallets"
-        android:textIsSelectable="false"
-        android:textColor="@color/black"
-        android:textSize="@dimen/nav_title"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <LinearLayout
         android:visibility="gone"
         android:id="@+id/seed_setup_layout"
@@ -69,14 +57,13 @@
             android:text="@string/first_wallet_not_setup" />
     </LinearLayout>
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:visibility="gone"
         android:id="@+id/wallet_container"
-        android:layout_width="280dp"
-        android:layout_height="320dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_gravity="center"
         android:layout_margin="1dp"
-        android:background="@drawable/box"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -84,95 +71,91 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/item_address"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_margin="@dimen/wallet_item_text_margin"
-            android:background="@drawable/text_box"
-            android:text="@string/random_example_address_short"
-            android:textAppearance="?attr/textAppearanceListItem"
-            android:textIsSelectable="false"
-            android:textSize="@dimen/wallet_item_address_size" />
-
-        <TextView
-            android:id="@+id/worth_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            android:text="Total Worth"
-            android:textAppearance="?attr/textAppearanceListItem"
-            android:textColor="@color/grey" />
-
-        <TextView
-            android:id="@+id/worth"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="@dimen/wallet_item_text_margin"
-            android:text="19242.92 $"
-            android:textAppearance="?attr/textAppearanceListItem"
-            android:textSize="@dimen/wallet_important" />
-
-        <TextView
-            android:id="@+id/balances_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            android:text="Balances"
-            android:textAppearance="?attr/textAppearanceListItem"
-            android:textColor="@color/grey" />
-
         <LinearLayout
+            android:layout_marginTop="20dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:id="@+id/home_address"
             android:layout_width="match_parent"
-            android:layout_height="110dp"
+            android:layout_height="wrap_content"
             android:gravity="center"
-            android:orientation="horizontal">
-
+            android:orientation="vertical">
             <TextView
-                android:id="@+id/ether_balance"
+                android:id="@+id/address_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="12.145"
-                android:textColor="@color/black"
-                android:textSize="@dimen/wallet_important" />
+                android:layout_gravity="center"
+                android:text="@string/account_label"
+                android:textAppearance="?attr/textAppearanceListItem"
+                android:textColor="@color/grey"
+                tools:layout_editor_absoluteX="0dp"
+                tools:layout_editor_absoluteY="273dp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+                <ImageButton
+                    android:id="@+id/home_copy_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_baseline_content_copy_24"
+                    android:background="@color/zxing_transparent"/>
+                <TextView
+                    android:id="@+id/item_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="8dp"
+                    android:background="@drawable/box"
+                    android:text="@string/random_example_address_short"
+                    android:textAppearance="?attr/textAppearanceListItem"
+                    android:textIsSelectable="false"
+                    android:textSize="@dimen/wallet_item_address_size"/>
+                <ImageButton
+                    android:id="@+id/home_to_select"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_baseline_chevron_right_24"
+                    android:background="@color/zxing_transparent"/>
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/home_balance"
+            app:layout_constraintTop_toBottomOf="@id/home_address"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/home_qr"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:gravity="center"
+            android:background="@drawable/round">
+                <TextView
+                    android:id="@+id/ether_balance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="12.145"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/wallet_important" />
 
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/ether" />
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/ether" />
         </LinearLayout>
 
+        <ImageView
+            android:id="@+id/home_qr"
+            android:layout_width="220dp"
+            android:layout_height="220dp"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            app:layout_constraintTop_toBottomOf="@+id/home_balance"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:srcCompat="@drawable/ether"
+        />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <ImageButton
-                android:id="@+id/send_with_button"
-                android:layout_width="50sp"
-                android:layout_height="50sp"
-                android:backgroundTint="#428dff"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@android:drawable/ic_menu_send" />
-
-            <ImageButton
-                android:id="@+id/show_qr_button"
-                android:layout_width="50sp"
-                android:layout_height="50sp"
-                android:backgroundTint="#428dff"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_baseline_qr_code_scanner_24"
-                app:tint="@color/white" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
