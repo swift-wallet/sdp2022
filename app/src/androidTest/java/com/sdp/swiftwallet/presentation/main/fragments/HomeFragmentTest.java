@@ -100,6 +100,7 @@ public class HomeFragmentTest {
             intended(hasComponent(WalletSelectActivity.class.getName()));
         }
     }
+
     @Test
     public void shouldBeAbleToSeeQR() {
         try (ActivityScenario<MainActivity> scenario = ActivityScenario.launch(setupValid(1))) {
