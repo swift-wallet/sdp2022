@@ -106,8 +106,7 @@ public class AddContactActivityTest {
     public void previewBtnOnlineWithEmailLaunchesIntent() {
         testRule.getScenario().onActivity(activity -> {
             User addContactUser = new User("HtaZP4b2oJQ9CDrjpmf6tLjkAK33",
-                    "newRegister.test@gmail.com",
-                    SwiftAuthenticator.LoginMethod.BASIC);
+                    "newRegister.test@gmail.com");
             ((BaseApp) activity.getApplication()).setCurrUser(addContactUser);
         });
 

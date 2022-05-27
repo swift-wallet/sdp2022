@@ -1,15 +1,17 @@
 package com.sdp.swiftwallet.presentation.main;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 
 import com.sdp.cryptowalletapp.R;
+import com.sdp.swiftwallet.BaseActivity;
+
+import dagger.hilt.android.AndroidEntryPoint;
 
 /**
  * Settings Activity
  */
-public class SettingsActivity extends AppCompatActivity {
+@AndroidEntryPoint
+public class SettingsActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

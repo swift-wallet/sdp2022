@@ -67,14 +67,6 @@ public class SettingsActivityTest {
     }
 
     @Test
-    public void historySwitch() {
-        onData(allOf(is(instanceOf(Preference.class)), withKey("history_switch")))
-                .check(matches(isDisplayed()));
-        onData(allOf(is(instanceOf(Preference.class)), withKey("history_switch")))
-                .perform(click());
-    }
-
-    @Test
     public void historyList() {
         onData(allOf(is(instanceOf(Preference.class)), withKey("history_list")))
                 .check(matches(isDisplayed()));
