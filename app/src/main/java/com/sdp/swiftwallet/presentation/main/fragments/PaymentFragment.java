@@ -177,17 +177,17 @@ public class PaymentFragment extends Fragment {
         double amount = -Double.parseDouble(sendAmount.getText().toString()) * 1000;
         Transaction transaction = new Transaction.Builder()
                 .setAmount(amount)
-                .setCurr(ETHEREUM_CURRENCY)
-                .setId(0)
-                .setMyWallet(fromAddress.getText().toString())
-                .setTheirWallet(toAddress.getText().toString())
+                .setCurrency(ETHEREUM_CURRENCY)
+                .setTransactionID(0)
+                .setSenderWalletID(fromAddress.getText().toString())
+                .setReceiverWalletID(toAddress.getText().toString())
                 .build();
 
         Map<String, Object> data = new HashMap<>();
         data.put("date", System.currentTimeMillis()/1000);
         data.put("amount", transaction.getAmount());
-        data.put("wallet1", transaction.getTheirWallet());
-        data.put("wallet2", transaction.getMyWallet());
+        data.put("wallet1", transaction.getSenderWalletID());
+        data.put("wallet2", transaction.getReceiverWalletID());
         data.put("currency", transaction.getCurr().getSymbol());
         data.put("id", transaction.getTransactionID());
 

@@ -100,4 +100,17 @@ public class HomeFragmentTest {
             intended(hasComponent(WalletSelectActivity.class.getName()));
         }
     }
+    @Test
+    public void shouldBeAbleToSeeQR() {
+        try (ActivityScenario<MainActivity> scenario = ActivityScenario.launch(setupValid(1))) {
+            onView(withId(R.id.home_qr)).check(matches(isDisplayed()));
+        }
+    }
+    @Test
+    public void shouldBeABleToSelectWhenSeed(){
+        try (ActivityScenario<MainActivity> scenario = ActivityScenario.launch(setupValid(2))) {
+            clickOn(R.id.home_to_select);
+            intended(hasComponent(WalletSelectActivity.class.getName()));
+        }
+    }
 }
