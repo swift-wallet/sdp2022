@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.sdp.cryptowalletapp.R;
+import com.sdp.swiftwallet.BaseActivity;
 import com.sdp.swiftwallet.domain.model.wallet.IWalletKeyPair;
 import com.sdp.swiftwallet.di.wallet.WalletProvider;
 import com.sdp.swiftwallet.presentation.wallet.fragments.WalletItemFragment;
@@ -19,7 +20,7 @@ import dagger.hilt.android.AndroidEntryPoint;
  * The activity to be able to select a wallet among the created/imported ones
  */
 @AndroidEntryPoint
-public class WalletSelectActivity extends AppCompatActivity {
+public class WalletSelectActivity extends BaseActivity {
 
     private WalletItemFragment walletItemFragment;
     private View importWalletLayout;

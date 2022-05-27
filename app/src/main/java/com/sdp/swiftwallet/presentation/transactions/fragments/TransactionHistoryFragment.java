@@ -60,7 +60,7 @@ public class TransactionHistoryFragment extends Fragment implements TransactionH
 
         recyclerView = rootAct.findViewById(R.id.transaction_recyclerView);
         transactions = new ArrayList<>();
-        String uid = authenticator.getUid().isPresent() ? authenticator.getUid().get() : "";
+        String uid = authenticator.getUid() != null ? authenticator.getUid() : "";
         adapter = new TransactionAdapter(rootAct, transactions, uid);
 
         recyclerView.setAdapter(adapter);
@@ -80,7 +80,7 @@ public class TransactionHistoryFragment extends Fragment implements TransactionH
         rootAct.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                String uid = authenticator.getUid().isPresent() ? authenticator.getUid().get() : "";
+                String uid = authenticator.getUid() != null ? authenticator.getUid() : "";
                 recyclerView.setAdapter(new TransactionAdapter(rootAct, transactions, uid));
             }
         });

@@ -20,15 +20,24 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.RuleChain;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
+import dagger.hilt.android.testing.HiltAndroidRule;
+import dagger.hilt.android.testing.HiltAndroidTest;
+
+@HiltAndroidTest
 @RunWith(JUnit4.class)
 public class SeedCreationTest {
     public static final String badSeed = "AA B";
     public static final String correctSeed = "add juu ss ll dd";
-    @Rule
+
     public ActivityScenarioRule<CreateSeedActivity> testRule = new ActivityScenarioRule<>(CreateSeedActivity.class);
+    public HiltAndroidRule hiltRule = new HiltAndroidRule(this);
+
+    @Rule
+    public RuleChain rule = RuleChain.outerRule(hiltRule).around(testRule);
 
     @Before
     public void setUp() throws Exception {

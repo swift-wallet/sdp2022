@@ -43,6 +43,11 @@ public class DummyAuthenticator implements SwiftAuthenticator {
     }
 
     @Override
+    public void signOut() {
+        currUser = null;
+    }
+
+    @Override
     public Result sendPasswordResetEmail(String email, Runnable success, Runnable failure) {
         if (execSuccess) {
             success.run();
@@ -56,20 +61,30 @@ public class DummyAuthenticator implements SwiftAuthenticator {
     }
 
     @Override
-    public Optional<User> getUser() {
-        if (currUser != null) {
-            return Optional.of(currUser);
-        } else {
-            return Optional.empty();
+    public Result updateUserEmail(String email, Runnable success, Runnable failure) {
+        if (execSuccess) {
+            success.run();
         }
+
+        if (execFailure) {
+            failure.run();
+        }
+
+        return result;
     }
 
     @Override
-    public Optional<String> getUid() {
+    public User getUser() {
+        return currUser;
+    }
+
+    @Override
+    public String getUid() {
         if (currUser != null) {
-            return Optional.of(currUser.getUid());
-        } else {
-            return Optional.empty();
+            return currUser.getUid();
+        }
+        else {
+            return null;
         }
     }
 

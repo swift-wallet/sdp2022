@@ -103,7 +103,7 @@ public class FirebaseTransactionHistoryProducer implements TransactionHistoryPro
 
                 transactions.clear();
 
-                String uid = auth.getUid().get();
+                String uid = auth.getUid();
 
                 for (DocumentSnapshot snapshot : documentSnapshots) {
                     Transaction.Builder builder = new Transaction.Builder();
