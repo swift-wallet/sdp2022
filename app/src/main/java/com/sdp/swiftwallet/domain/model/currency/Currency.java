@@ -19,6 +19,12 @@ public class Currency implements Serializable {
         this.value = value;
     }
 
+    public Currency(Currency currency) {
+        this.baseAsset = currency.getName();
+        this.symbol = currency.getSymbol();
+        this.value = currency.getValue();
+    }
+
     public String getName() {
         return baseAsset;
     }
