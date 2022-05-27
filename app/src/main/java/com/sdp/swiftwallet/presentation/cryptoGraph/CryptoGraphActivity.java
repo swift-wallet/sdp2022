@@ -26,11 +26,15 @@ import com.github.mikephil.charting.data.CandleData;
 import com.github.mikephil.charting.data.CandleDataSet;
 import com.github.mikephil.charting.data.CandleEntry;
 import com.sdp.cryptowalletapp.R;
+import com.sdp.swiftwallet.BaseActivity;
 import com.sdp.swiftwallet.domain.model.currency.Currency;
 import java.util.ArrayList;
 import org.json.JSONArray;
 
-public class CryptoGraphActivity extends AppCompatActivity {
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
+public class CryptoGraphActivity extends BaseActivity {
 
     // By default 100
     private final int NB_CANDLES_TO_SHOW = 100;

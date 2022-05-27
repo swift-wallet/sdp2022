@@ -2,7 +2,6 @@ package com.sdp.swiftwallet.domain.repository.firebase;
 
 import android.widget.EditText;
 import com.sdp.swiftwallet.domain.model.User;
-import java.util.Optional;
 
 /**
  * SwiftAuthenticator interfaces
@@ -68,6 +67,11 @@ public interface SwiftAuthenticator {
     Result updateEmail(String email, EditText emailField, Runnable success, Runnable failure);
 
     /**
+     * Sign out from the SwiftWallet app
+     */
+    void signOut();
+
+    /**
      * Send a reset password email to change user password
      * @param email the user email
      * @param success a callback to run if the email is successfully sent
@@ -77,17 +81,26 @@ public interface SwiftAuthenticator {
     Result sendPasswordResetEmail(String email, Runnable success, Runnable failure);
 
     /**
+     * Update current user email to a new one
+     * @param email the new user email
+     * @param success a callback to run if the email is successfully sent
+     * @param failure a callback to run if the sending failed
+     * @return the result of the updating process
+     */
+    Result updateUserEmail(String email, Runnable success, Runnable failure);
+
+    /**
      * Getter for the current user
      *
      * @return None if there is no signed-in user, otherwise Some(user) if User user is signed in
      */
-    Optional<User> getUser();
+    User getUser();
 
     /**
      * Getter for the current user uid
      * @return None if there is no signed-in user, otherwise Some(uid) if User user is signed in
      */
-    Optional<String> getUid();
+    String getUid();
 
     /**
      * Setter for the user-facing language code

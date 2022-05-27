@@ -4,20 +4,15 @@ import static com.sdp.swiftwallet.domain.repository.firebase.SwiftAuthenticator.
 
 import android.content.Context;
 import android.util.Log;
-import android.widget.EditText;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.sdp.swiftwallet.common.HelperFunctions;
 import com.sdp.swiftwallet.domain.model.User;
-
-import org.bouncycastle.jcajce.provider.asymmetric.ec.KeyFactorySpi;
-
 import dagger.hilt.EntryPoint;
 import dagger.hilt.InstallIn;
 import dagger.hilt.android.EntryPointAccessors;
 import dagger.hilt.android.qualifiers.ApplicationContext;
 import dagger.hilt.components.SingletonComponent;
-import java.util.Optional;
 
 /**
  * SwiftAuthenticator implementation using FirebaseAuth, needed for Hilt
@@ -27,7 +22,8 @@ public class AuthenticatorFirebaseImpl implements SwiftAuthenticator {
 
     private final static String LOG_TAG = "FIREBASE_AUTH_TAG";
     private final static String REGISTER_TAG = "FIREBASE_REGISTER_TAG";
-    private static final String RESET_PASSWORD_TAG = "FIREBASE_RESET_PASSWORD_TAG";
+    private final static String RESET_PASSWORD_TAG = "FIREBASE_RESET_PASSWORD_TAG";
+    private final static String UPDATE_EMAIL_TAG = "FIREBASE_UPDATE_EMAIL_TAG";
 
     @InstallIn(SingletonComponent.class)
     @EntryPoint
@@ -36,7 +32,7 @@ public class AuthenticatorFirebaseImpl implements SwiftAuthenticator {
     }
 
     private final FirebaseAuth auth;
-    private User currUser = null;
+    private User currUser;
 
     public AuthenticatorFirebaseImpl(@ApplicationContext Context context) {
         AuthenticatorFirebaseImplEntryPoint hiltEntryPoint =
@@ -45,6 +41,17 @@ public class AuthenticatorFirebaseImpl implements SwiftAuthenticator {
                         AuthenticatorFirebaseImplEntryPoint.class
                 );
         auth = hiltEntryPoint.getFirebaseAuth();
+        checkForUser();
+    }
+
+    private void checkForUser() {
+        FirebaseUser oldUser = auth.getCurrentUser();
+        if (oldUser != null) {
+            currUser = new User(oldUser.getUid(), oldUser.getEmail());
+        }
+        else {
+            currUser = null;
+        }
     }
 
     @Override
@@ -52,9 +59,11 @@ public class AuthenticatorFirebaseImpl implements SwiftAuthenticator {
         if (email == null || password == null) {
             return Result.ERROR;
         }
+
         if (email.isEmpty()) {
             return Result.EMPTY_EMAIL;
         }
+
         if (password.isEmpty()) {
             return Result.EMPTY_PASSWORD;
         }
@@ -68,7 +77,7 @@ public class AuthenticatorFirebaseImpl implements SwiftAuthenticator {
                         // Initialize user upon successful login
                         // Suppose either can be null because we just registered them
                         FirebaseUser u = auth.getCurrentUser();
-                        this.currUser = new User(u.getUid(), u.getEmail(), BASIC);
+                        this.currUser = new User(u.getUid(), u.getEmail());
                         success.run();
                     } else {
                         Log.w(LOG_TAG, "Error from task", task.getException());
@@ -87,49 +96,24 @@ public class AuthenticatorFirebaseImpl implements SwiftAuthenticator {
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         FirebaseUser user = auth.getCurrentUser();
-                        this.currUser = new User(user.getUid(), user.getEmail(), BASIC);
+                        this.currUser = new User(user.getUid(), user.getEmail());
+
                         Log.d(REGISTER_TAG, "Register Success");
                         success.run();
-                    } else {
-                        Log.w(REGISTER_TAG, "Register Failure: Error from firebase task",
-                            task.getException());
+                    }
+                    else {
+                        Log.w(REGISTER_TAG, "Register Failure: Error from firebase task", task.getException());
                         failure.run();
                     }
                 });
+
         return Result.SUCCESS;
     }
 
     @Override
-    public Result signOut(Runnable success, Runnable failure) {
-        try {
-            auth.signOut();
-            success.run();
-            return Result.SUCCESS;
-        } catch (Exception e){
-            failure.run();
-            return Result.ERROR;
-        }
-    }
-
-    public Result updateEmail(String email, EditText emailField, Runnable success,
-        Runnable failure) {
-
-        FirebaseUser mUser = auth.getCurrentUser();
-        // First check sanity of the email
-        if (!HelperFunctions.checkEmail(email, emailField)) {
-            return Result.ERROR_EMAIL_FORMAT;
-        }
-        // Then perform the actual update
-        if (mUser != null) {
-            mUser.updateEmail(email).addOnSuccessListener(a -> {
-                success.run();
-            }).addOnFailureListener(a -> {
-                failure.run();
-            });
-        } else {
-            return Result.ERROR_NOT_ONLINE;
-        }
-        return Result.SUCCESS;
+    public void signOut() {
+        auth.signOut();
+        currUser = null;
     }
 
     @Override
@@ -138,32 +122,50 @@ public class AuthenticatorFirebaseImpl implements SwiftAuthenticator {
 
         auth.sendPasswordResetEmail(email)
                 .addOnSuccessListener(command -> {
-                    Log.d(RESET_PASSWORD_TAG, "Password successfully sent on \n" + email);
+                    Log.d(RESET_PASSWORD_TAG, "Password successfully sent on " + email);
                     success.run();
                 }).addOnFailureListener(command -> {
-                    Log.d(RESET_PASSWORD_TAG, "Password reset failed at auth step" + email);
+                    Log.d(RESET_PASSWORD_TAG, "Password reset failed at auth step");
                     failure.run();
                 });
 
         return Result.SUCCESS;
     }
 
-
     @Override
-    public Optional<User> getUser() {
-        if (currUser == null) {
-            return Optional.empty();
+    public Result updateUserEmail(String email, Runnable success, Runnable failure) {
+        if (currUser == null || email == null) return Result.ERROR;
+
+        FirebaseUser mUser = auth.getCurrentUser();
+        if (mUser != null) {
+            mUser.updateEmail(email)
+                    .addOnSuccessListener(command -> {
+                        Log.d(UPDATE_EMAIL_TAG, "email successfully updated to " + email);
+                        currUser.setEmail(email);
+                        success.run();
+                    }).addOnFailureListener(command -> {
+                        Log.d(UPDATE_EMAIL_TAG, "email failed to update to " + email);
+                        failure.run();
+                    });
         } else {
-            return Optional.of(currUser);
+            return Result.ERROR;
         }
+
+        return Result.SUCCESS;
     }
 
     @Override
-    public Optional<String> getUid() {
-        if (currUser == null) {
-            return Optional.empty();
-        } else {
-            return Optional.of(currUser.getUid());
+    public User getUser() {
+        return currUser;
+    }
+
+    @Override
+    public String getUid() {
+        if (currUser != null) {
+            return currUser.getUid();
+        }
+        else {
+            return null;
         }
     }
 
