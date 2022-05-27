@@ -117,5 +117,4 @@ public class HomeFragmentTest {
             intended(hasComponent(WalletInfoActivity.class.getName()));
         }
     }
-
 }
