@@ -12,34 +12,48 @@ public class User {
   private String uid;
   @NonNull
   private String email;
-  //Hardcoded login methods names
 
   /**
    * Creates a user
    *
-   * @param email       email
-   * @param loginMethod login method
+   * @param uid user uid
+   * @param email user email
    */
-  public User(@NonNull String uid, @NonNull String email, @NonNull LoginMethod loginMethod) {
+  public User(@NonNull String uid, @NonNull String email) {
     this.uid = uid;
     this.email = email;
   }
 
+  /**
+   * Getter for user uid
+   * @return user uid
+   */
   @NonNull
   public String getUid() {
     return uid;
   }
 
+  /**
+   * Setter for user uid
+   * @param uid user uid
+   */
   public void setUid(@NonNull String uid) {
     this.uid = uid;
   }
 
-  //Random code to update/get info about the user
+  /**
+   * Getter for user email
+   * @return user email
+   */
   @NonNull
   public String getEmail() {
     return email;
   }
 
+  /**
+   * Setter for user email
+   * @param email user email
+   */
   public void setEmail(@NonNull String email) {
     this.email = email;
   }

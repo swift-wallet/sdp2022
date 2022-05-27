@@ -214,7 +214,7 @@ public class RegisterActivityTest {
 
         authenticator.setResult(SwiftAuthenticator.Result.SUCCESS);
         authenticator.setExecSuccess(true);
-        User registerUser = new User("regsterUid123", userTestEmail, SwiftAuthenticator.LoginMethod.BASIC);
+        User registerUser = new User("regsterUid123", userTestEmail);
         authenticator.setCurrUser(registerUser);
 
         // Keep it because inputs checks are done outside of authenticator for now

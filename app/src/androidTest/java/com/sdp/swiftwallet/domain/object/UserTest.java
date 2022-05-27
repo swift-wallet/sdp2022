@@ -8,7 +8,7 @@ import org.junit.Test;
 
 public class UserTest {
 
-  public static User u = new User("testUid123", "admin@epfl.ch", BASIC);
+  public static User u = new User("testUid123", "admin@epfl.ch");
 
   @Test
   public void isCorrectlyDefined() {
@@ -18,14 +18,14 @@ public class UserTest {
 
   @Test
   public void modifyUsernameOnSucces() {
-    User u2 = new User("testUid123", "admin@epfl.ch", BASIC);
+    User u2 = new User("testUid123", "admin@epfl.ch");
     u2.setEmail("anton");
     assertEquals("anton", u2.getEmail());
   }
 
   @Test
   public void modifyUidOnSucces() {
-    User u2 = new User("testUid123", "admin@epfl.ch", BASIC);
+    User u2 = new User("testUid123", "admin@epfl.ch");
     u2.setUid("modifiedTestUid123");
     assertEquals("modifiedTestUid123", u2.getUid());
   }

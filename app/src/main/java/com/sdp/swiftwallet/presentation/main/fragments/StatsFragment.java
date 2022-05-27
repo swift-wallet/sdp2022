@@ -116,14 +116,14 @@ public class StatsFragment extends Fragment {
         String senderWallet = "SENDER_WALLET";
         String receiverWallet = "RECEIVER_WALLET";
         builder.setWalletIDs(senderWallet, receiverWallet);
-        if (authenticator.getUid().isPresent()){
+        if (authenticator.getUid() != null){
             if (rand.nextInt() % 2 == 0) {
-                builder.setReceiverID(authenticator.getUid().get());
+                builder.setReceiverID(authenticator.getUid());
                 if (rand.nextInt() % 2 == 0) {
                     builder.setSenderID("dumbo");
                 }
             } else {
-                builder.setSenderID(authenticator.getUid().get());
+                builder.setSenderID(authenticator.getUid());
                 if (rand.nextInt() % 2 == 0) {
                     builder.setReceiverID("dumbo");
                 }
