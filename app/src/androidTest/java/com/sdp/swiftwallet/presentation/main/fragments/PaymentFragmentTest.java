@@ -89,4 +89,10 @@ public class PaymentFragmentTest {
         onView(withId(R.id.send_button)).check(matches(isDisplayed()));
         clickOn(R.id.send_button);
     }
+
+    @Test
+    public void shouldBeAbleToSelect(){
+        clickOn(R.id.send_from_spinner);
+        clickOn(R.id.send_from_spinner);
+    }
 }
