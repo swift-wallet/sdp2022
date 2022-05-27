@@ -83,14 +83,7 @@ public class PaymentFragmentTest {
         typeTo(R.id.send_amount, "10");
         closeSoftKeyboard();
     }
-
-    @Test
-    public void shouldBeAbleToRegisterTransaction(){
-        clickOn(R.id.mainNavPaymentItem);
-        onView(withId(R.id.send_button)).check(matches(isDisplayed()));
-        clickOn(R.id.send_button);
-    }
-
+    
     @Test
     public void shouldBeAbleToSelect(){
         clickOn(R.id.mainNavPaymentItem);
