@@ -37,7 +37,7 @@ import dagger.hilt.android.AndroidEntryPoint;
 public class CryptoGraphActivity extends BaseActivity {
 
     // By default 100
-    private final int NB_CANDLES_TO_SHOW = 100;
+    private final int NB_CANDLES_TO_SHOW = 20;
     private final String INTERVAL_DIM = "1h";
 
     private Spinner intervalSpinner;
@@ -109,7 +109,8 @@ public class CryptoGraphActivity extends BaseActivity {
 
         XAxis xAxis = candleStickChart.getXAxis();
         xAxis.setDrawGridLines(false);
-        xAxis.setDrawLabels(false);
+        xAxis.setDrawLabels(true);
+        xAxis.setTextColor(Color.WHITE);
         rightAxis.setTextColor(Color.WHITE);
         yAxis.setDrawLabels(false);
         xAxis.setGranularity(1f);
@@ -139,17 +140,19 @@ public class CryptoGraphActivity extends BaseActivity {
         ArrayList<Double> closeValues, ArrayList<Double> volumeValues, ArrayList<Long> closeTimes) {
 
         ArrayList<CandleEntry> candleSticks = new ArrayList<CandleEntry>();
-
+        int j = 0;
         // Add entries given the interval
-        for (int i = openTimes.size() + 2 - NB_CANDLES_TO_SHOW; i < openTimes.size(); i++) {
+        for (int i = openTimes.size() - NB_CANDLES_TO_SHOW; i < openTimes.size(); i++) {
+            float timeSince = -(NB_CANDLES_TO_SHOW - j);
             candleSticks.add(
-                new CandleEntry(i,
+                new CandleEntry(timeSince,
                     highValues.get(i).floatValue(),
                     lowValues.get(i).floatValue(),
                     openValues.get(i).floatValue(),
                     closeValues.get(i).floatValue()
                 )
             );
+            j++;
         }
         // Create candle data data set
         CandleDataSet candleDataSet = createCandleDataSet(candleSticks);
