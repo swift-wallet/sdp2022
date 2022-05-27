@@ -3,51 +3,85 @@ package com.sdp.swiftwallet.domain.model.transaction;
 import androidx.annotation.NonNull;
 
 import com.sdp.swiftwallet.domain.model.currency.Currency;
-import java.util.Locale;
+
+import java.util.Date;
+import java.util.Optional;
 
 /**
  * Transaction object
- * Represents a transaction between 2 wallets
+ * Represents a transaction between 2 users and their wallets
  */
 public class Transaction {
     private final double amount;
     private final Currency curr;
 
     private final int transactionID;
+    private final Date date;
 
-    private final String myWallet;
-    private final String theirWallet;
+    private final String senderWalletID;
+    private final String receiverWalletID;
+
+    private final Optional<String> senderID;
+    private final Optional<String> receiverID;
 
     /**
-     * Transaction object constructor
+     * Transaction constructor
      *
-     * @param amount        the amount of the transaction
-     * @param curr          with which currency the transaction was performed
-     * @param myWallet      the ID of this user's wallet
-     * @param theirWallet   the ID of the other wallet in the transaction
-     * @param transactionID the unique ID of the transaction
+     * @param amount           the amount of the Transaction, must be greater than 0
+     * @param curr             the Currency of the Transaction, not null
+     * @param transactionID    the unique ID of the Transaction
+     * @param date             the Date of the Transaction, not null
+     * @param senderWalletID   the ID of the wallet of the sender of this Transaction, not null
+     * @param receiverWalletID the ID of the wallet of the receiver of this Transaction, not null
+     * @param senderID         the ID of the sender of this Transaction if they are a SwiftWallet user
+     * @param receiverID       the ID of the receiver of this Transaction if they are a SwiftWallet user
      */
     public Transaction(
             double amount,
             @NonNull Currency curr,
-            @NonNull String myWallet,
-            @NonNull String theirWallet,
-            int transactionID) {
-        if (curr == null || myWallet == null || theirWallet == null)
+            int transactionID,
+            @NonNull Date date,
+            @NonNull String senderWalletID,
+            @NonNull String receiverWalletID,
+            @NonNull Optional<String> senderID,
+            @NonNull Optional<String> receiverID) {
+        if (curr == null ||
+                date == null ||
+                senderWalletID == null ||
+                receiverWalletID == null ||
+                senderID == null ||
+                receiverID == null) {
             throw new IllegalArgumentException("Null arguments");
+        }
 
-        if (myWallet.equals(theirWallet))
-            throw new IllegalArgumentException("Wallets cannot be the same");
+        if (senderWalletID.equals(receiverWalletID)) {
+            throw new IllegalArgumentException("Sender and receiver wallets of transaction cannot be the same");
+        }
+
+        if (senderID.isPresent() && receiverID.isPresent()) {
+            if (senderID.get().equals(receiverID.get())) {
+                throw new IllegalArgumentException("Sender and receiver IDs of transaction cannot be the same");
+            }
+        }
+
+        if (amount < 0) {
+            throw new IllegalArgumentException("Amount of transaction must be positive");
+        }
 
         this.amount = amount;
-        this.curr = curr;
+        this.curr = new Currency(curr);
+
+        this.date = new Date(date.getTime());
         this.transactionID = transactionID;
-        this.myWallet = myWallet;
-        this.theirWallet = theirWallet;
+
+        this.senderWalletID = senderWalletID;
+        this.receiverWalletID = receiverWalletID;
+        this.senderID = senderID;
+        this.receiverID = receiverID;
     }
 
     /**
-     * Getter for the amount of a transaction
+     * Getter for the amount of this transaction
      *
      * @return the amount of this transaction
      */
@@ -56,124 +90,134 @@ public class Transaction {
     }
 
     /**
-     * Getter for the converted amount of a transaction
+     * Getter for the Currency of this transaction
      *
-     * @return the amount of this transaction, converted according to the currency
+     * @return the Currency of this transaction
+     */
+    public Currency getCurr() {
+        return new Currency(curr);
+    }
+
+    /**
+     * Getter for the amount in USD of this transaction
+     *
+     * @return the amount of this transaction, in USD
      */
     public double getConvertedAmount() {
         return amount * curr.getValue();
     }
 
     /**
-     * Getter for the symbol of this transaction
+     * Getter for the unique ID of this transaction
      *
-     * @return the symbol of the currency of this transaction
-     */
-    public String getSymbol() {
-        return curr.getSymbol();
-    }
-
-    /**
-     * Getter for the transaction ID
-     *
-     * @return the unique transaction ID for this transaction
+     * @return the unique ID of this transaction
      */
     public int getTransactionID() {
         return transactionID;
     }
 
     /**
-     * Getter for the currency
+     * Getter for the Date of this transaction
      *
-     * @return the currency of this transaction
+     * @return the Date of this transaction
      */
-    public Currency getCurr() { return curr; }
+    public Date getDate() {
+        return new Date(date.getTime());
+    }
 
     /**
-     * Getter for the wallet of the user
+     * Getter for the ID of this transaction's sender's wallet
      *
-     * @return the wallet of the user
+     * @return the ID of the wallet of this transaction's sender
      */
-    public String getMyWallet() { return myWallet; }
+    public String getSenderWalletID() {
+        return senderWalletID;
+    }
 
     /**
-     * Getter for the wallet of the partner user
+     * Getter for the ID of this transaction's receiver's wallet
      *
-     * @return the wallet of the other user
+     * @return the ID of the wallet of this transaction's receiver
      */
-    public String getTheirWallet() { return theirWallet; }
+    public String getReceiverWalletID() {
+        return receiverWalletID;
+    }
 
-    @Override
-    public String toString() {
-        if (amount < 0) {
-            return String.format(
-                    Locale.US,
-                    "%.1f %s from your wallet %s to wallet %s",
-                    -amount, getSymbol(),
-                    myWallet, theirWallet
-            );
-        } else {
-            return String.format(
-                    Locale.US,
-                    "%.1f %s from wallet %s to your wallet %s",
-                    amount, getSymbol(),
-                    theirWallet, myWallet
-            );
-        }
+    /**
+     * Getter for the ID of this transaction's sender, if they are a SwiftWallet user
+     *
+     * @return the ID of this transaction's sender
+     */
+    public Optional<String> getSenderID() {
+        return senderID;
+    }
+
+    /**
+     * Getter for the ID of this transaction's receiver, if they are a SwiftWallet user
+     *
+     * @return the ID of this transaction's receiver
+     */
+    public Optional<String> getReceiverID() {
+        return receiverID;
     }
 
     /**
      * Transaction builder class
-     *
-     * TODO: add tests for builder
      */
     public static class Builder {
         private double amount;
         private Currency curr;
-        private String myWallet, theirWallet;
-        private int id;
+
+        private int transactionID;
+        private Date date;
+
+        private String senderWalletID;
+        private String receiverWalletID;
+
+        private Optional<String> senderID;
+        private Optional<String> receiverID;
+
+        /**
+         * Build method
+         *
+         * @return a Transaction with the parameters of this Builder
+         */
+        public Transaction build() {
+            return new Transaction(
+                    amount,
+                    curr,
+                    transactionID,
+                    date,
+                    senderWalletID,
+                    receiverWalletID,
+                    senderID,
+                    receiverID
+            );
+        }
 
         /**
          * Default Builder constructor
-         * By default, both amount and id are set to 0.
-         * setCurr(), setMyWallet() and setTheirWallet() MUST be called before calling build.
+         * Amount and transactionID are set to 0
+         * senderID and receiverID are empty Optionals
+         * The other parameters are set to null (will trigger an error when building if not set
+         * before calling build())
          */
         public Builder() {
-            amount = 0;
-            curr = null;
-            myWallet = null;
-            theirWallet = null;
-            id = 0;
+            this.amount = 0;
+            this.curr = null;
+            this.transactionID = 0;
+            this.date = null;
+            this.senderWalletID = null;
+            this.receiverWalletID = null;
+            this.senderID = Optional.empty();
+            this.receiverID = Optional.empty();
         }
 
         /**
-         * Builder constructor with amount
-         * setCurr(), setMyWallet() and setTheirWallet() MUST be called before calling build.
+         * Setter for the amount of the Transaction to be built
          *
-         * @param amount the amount of the transaction
-         */
-        public Builder(double amount) {
-            this();
-            this.amount = amount;
-        }
-
-        /**
-         * Build method.
-         * setCurr(), setMyWallet() and setTheirWallet() MUST be called before calling build.
-         *
-         * @return a new Transaction associated to the parameters of this Builder
-         */
-        public Transaction build() {
-            if (curr == null || myWallet == null || theirWallet == null)
-                throw new IllegalStateException("Cannot build transaction with null parameters");
-            else return new Transaction(amount, curr, myWallet, theirWallet, id);
-        }
-
-        /**
-         * Setter for the amount
-         *
-         * @param amount the amount of the transaction to be built
-         * @return the current Builder
+         * @param amount the desired amount of the Transaction
+         * @return this Builder
          */
         public Builder setAmount(double amount) {
             this.amount = amount;
@@ -181,46 +225,112 @@ public class Transaction {
         }
 
         /**
-         * Setter for the currency
+         * Setter for the Currency of the Transaction to be built
          *
-         * @param curr the currency of the transaction to be built
-         * @return the current Builder
+         * @param curr the desired Currency of the Transaction
+         * @return this Builder
          */
-        public Builder setCurr(Currency curr) {
+        public Builder setCurrency(Currency curr) {
             this.curr = curr;
             return this;
         }
 
         /**
-         * Setter for the wallet of the user
+         * Combo setter for the amount and Currency of the Transaction to be built
          *
-         * @param myWallet the walletId of the user
-         * @return the current Builder
+         * @param amount the desired amount of the Transaction
+         * @param curr   the desired Currency of the Transaction
+         * @return this Builder
          */
-        public Builder setMyWallet(String myWallet) {
-            this.myWallet = myWallet;
+        public Builder setAmountAndCurrency(double amount, Currency curr) {
+            return this.setAmount(amount).setCurrency(curr);
+        }
+
+        /**
+         * Setter for the unique transaction ID of the Transaction to be built
+         *
+         * @param transactionID the unique ID of the Transaction
+         * @return this Builder
+         */
+        public Builder setTransactionID(int transactionID) {
+            this.transactionID = transactionID;
             return this;
         }
 
         /**
-         * Setter for the wallet of the partner user in the transaction
+         * Setter for the Date of the Transaction to be built
          *
-         * @param theirWallet the walletId of the other user
-         * @return the current Builder
+         * @param date the desired Date of the Transaction
+         * @return this Builder
          */
-        public Builder setTheirWallet(String theirWallet) {
-            this.theirWallet = theirWallet;
+        public Builder setDate(Date date) {
+            this.date = date;
             return this;
         }
 
         /**
-         * Setter for the id of the current transaction
+         * Setter for the metadata of the Transaction to be built
          *
-         * @param id the transactionId of the transaction to be built
-         * @return the current Builder
+         * @param transactionID the unique ID of the Transaction
+         * @param date          the desired Date of the Transaction
+         * @return this Builder
          */
-        public Builder setId(int id) {
-            this.id = id;
+        public Builder setMetadata(int transactionID, Date date) {
+            return this.setTransactionID(transactionID).setDate(date);
+        }
+
+        /**
+         * Setter for the SenderWalletID of the Transaction to be built
+         *
+         * @param senderWalletID the ID of the wallet of the sender of the Transaction
+         * @return this Builder
+         */
+        public Builder setSenderWalletID(String senderWalletID) {
+            this.senderWalletID = senderWalletID;
+            return this;
+        }
+
+        /**
+         * Setter for the ReceiverWalletID of the Transaction to be built
+         *
+         * @param receiverWalletID the ID of the wallet of the receiver of the Transaction
+         * @return this Builder
+         */
+        public Builder setReceiverWalletID(String receiverWalletID) {
+            this.receiverWalletID = receiverWalletID;
+            return this;
+        }
+
+        /**
+         * Combo setter for the wallet IDs of the Transaction to be built
+         *
+         * @param senderWalletID   the sender wallet ID of the Transaction
+         * @param receiverWalletID the receiver wallet ID of the Transaction
+         * @return this Builder
+         */
+        public Builder setWalletIDs(String senderWalletID, String receiverWalletID) {
+            return this.setSenderWalletID(senderWalletID).setReceiverWalletID(receiverWalletID);
+        }
+
+        /**
+         * Setter for the ID of the sender of the Transaction to be built
+         *
+         * @param senderID the ID of the sender of the Transaction
+         * @return this Builder
+         */
+        public Builder setSenderID(String senderID) {
+            this.senderID = Optional.of(senderID);
+            return this;
+        }
+
+        /**
+         * Setter for the ID of the receiver of the Transaction to be built
+         *
+         * @param receiverID the ID of the receiver of the Transaction
+         * @return this Builder
+         */
+        public Builder setReceiverID(String receiverID) {
+            this.receiverID = Optional.of(receiverID);
             return this;
         }
     }
