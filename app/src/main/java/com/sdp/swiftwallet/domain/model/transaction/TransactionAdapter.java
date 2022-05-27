@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.sdp.cryptowalletapp.R;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -25,13 +26,16 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
 
     private final List<Transaction> transactionHistory;
     private final Context context;
+    private final String uid;
 
     private final static int RED_COLOR = Color.parseColor("#FFF44336");
     private final static int GREEN_COLOR = Color.parseColor("#FF4CAF50");
+    private final static int GRAY_COLOR = Color.parseColor("#FFABABAB");
 
-    public TransactionAdapter(Context context, List<Transaction> transactionHistory) {
+    public TransactionAdapter(Context context, List<Transaction> transactionHistory, String uid) {
         this.context = context;
         this.transactionHistory = new ArrayList<>(transactionHistory);
+        this.uid = uid;
     }
 
     @NonNull
@@ -53,13 +57,47 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
         holder.transactionNumberTextView.setText(String.format(
                 Locale.US,
                 "%.1f %s",
-                t.getAmount(), t.getSymbol()
+                t.getAmount(), t.getCurr().getSymbol()
         ));
-        holder.transactionTextView.setText(t.toString());
+        holder.transactionTextView.setText("");
         holder.transactionCardView.setCardBackgroundColor(
-                t.getAmount() < 0 ?
-                        RED_COLOR:
-                        GREEN_COLOR
+                GRAY_COLOR
+        );
+        t.getSenderID().map(
+                sender -> {
+                    if (sender.equals(uid)) {
+                        holder.transactionCardView.setCardBackgroundColor(RED_COLOR);
+                    } else if (!sender.isEmpty()) {
+                        holder.transactionTextView.setText(String.format(
+                                Locale.US,
+                                "From %s",
+                                t.getSenderID().get()
+                        ));
+                    }
+                    return null;
+                }
+        );
+        t.getReceiverID().map(
+                receiver -> {
+                    if (receiver.equals(uid)) {
+                        holder.transactionCardView.setCardBackgroundColor(GREEN_COLOR);
+                    } else if (!receiver.isEmpty()) {
+                        holder.transactionTextView.setText(String.format(
+                                Locale.US,
+                                "To %s",
+                                t.getReceiverID().get()
+                        ));
+                    }
+                    return null;
+                }
+        );
+        SimpleDateFormat formatter = new SimpleDateFormat("d/M/yyyy");
+        holder.transactionDateTextView.setText(
+                String.format(
+                        Locale.US,
+                        "Date: %s",
+                        formatter.format(t.getDate())
+                )
         );
     }
 
@@ -74,6 +112,7 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView transactionIDTextView;
         private final TextView transactionNumberTextView;
+        private final TextView transactionDateTextView;
         private final TextView transactionTextView;
         private final CardView transactionCardView;
 
@@ -81,6 +120,7 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
             super(itemView);
             this.transactionNumberTextView = itemView.findViewById(R.id.transactionBigNumber);
             this.transactionIDTextView = itemView.findViewById(R.id.transactionIDTextView);
+            this.transactionDateTextView = itemView.findViewById(R.id.transactionDateTextView);
             this.transactionTextView = itemView.findViewById(R.id.transactionText);
             this.transactionCardView = itemView.findViewById(R.id.transactionCard);
         }
