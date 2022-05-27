@@ -15,8 +15,12 @@ import androidx.test.espresso.idling.CountingIdlingResource;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.sdp.cryptowalletapp.R;
+
 import com.sdp.swiftwallet.common.Constants;
 import com.sdp.swiftwallet.domain.model.messaging.ChannelManager;
+
+import com.sdp.swiftwallet.BaseActivity;
+
 
 import dagger.hilt.android.AndroidEntryPoint;
 
@@ -24,7 +28,7 @@ import dagger.hilt.android.AndroidEntryPoint;
  * Represents the main activity of the app
  */
 @AndroidEntryPoint
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     // Used for debugging purpose
     private CountingIdlingResource mIdlingResource;

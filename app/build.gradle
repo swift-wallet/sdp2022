@@ -124,15 +124,11 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'crea
         'dagger/*',
         // di modules
        'com/sdp/swiftwallet/di/*',
-        // di interfaces
+        // unnecessary model
         'com/sdp/swiftwallet/domain/model/CurrencyBank*',
-        'com/sdp/swiftwallet/domain/repository/SwiftAuthenticator*',
-        'com/sdp/swiftwallet/domain/repository/TransactionHistoryProducer*',
-        'com/sdp/swiftwallet/domain/repository/TransactionHistorySubscriber*',
-        //di implementations
         'com/sdp/swiftwallet/domain/model/RequestQueueCurrencyPriceChecker*',
-        'com/sdp/swiftwallet/domain/repository/AuthenticatorFirebaseImpl*',
-        'com/sdp/swiftwallet/domain/repository/FirebaseTransactionHistoryProducer*'
+        // repository are not to be tested
+        'com/sdp/swiftwallet/domain/repository/*'
     ]
     def debugTree = fileTree(dir: "$project.buildDir/intermediates/javac/debug/classes", excludes: fileFilter)
 

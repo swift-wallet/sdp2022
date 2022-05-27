@@ -21,6 +21,7 @@ import com.sdp.swiftwallet.common.Constants;
 import com.sdp.swiftwallet.domain.model.messaging.NotificationBuilder;
 import com.sdp.swiftwallet.domain.model.transaction.Transaction;
 import com.sdp.swiftwallet.domain.model.transaction.TransactionAdapter;
+import com.sdp.swiftwallet.domain.repository.firebase.SwiftAuthenticator;
 import com.sdp.swiftwallet.domain.repository.transaction.TransactionHistoryProducer;
 import com.sdp.swiftwallet.domain.repository.transaction.TransactionHistorySubscriber;
 import com.sdp.swiftwallet.presentation.signIn.LoginActivity;
@@ -48,6 +49,9 @@ public class TransactionHistoryFragment extends Fragment implements TransactionH
     @Inject
     TransactionHistoryProducer producer;
 
+    @Inject
+    SwiftAuthenticator authenticator;
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -65,7 +69,8 @@ public class TransactionHistoryFragment extends Fragment implements TransactionH
 
         recyclerView = rootAct.findViewById(R.id.transaction_recyclerView);
         transactions = new ArrayList<>();
-        adapter = new TransactionAdapter(rootAct, transactions);
+        String uid = authenticator.getUid() != null ? authenticator.getUid() : "";
+        adapter = new TransactionAdapter(rootAct, transactions, uid);
 
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
@@ -96,7 +101,8 @@ public class TransactionHistoryFragment extends Fragment implements TransactionH
         rootAct.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                recyclerView.setAdapter(new TransactionAdapter(rootAct, transactions));
+                String uid = authenticator.getUid() != null ? authenticator.getUid() : "";
+                recyclerView.setAdapter(new TransactionAdapter(rootAct, transactions, uid));
             }
         });
     }

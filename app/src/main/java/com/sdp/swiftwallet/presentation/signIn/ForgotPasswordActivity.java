@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.test.espresso.idling.CountingIdlingResource;
 import com.google.firebase.auth.FirebaseAuth;
 import com.sdp.cryptowalletapp.R;
+import com.sdp.swiftwallet.BaseActivity;
 import com.sdp.swiftwallet.common.FirebaseUtil;
 import com.sdp.swiftwallet.domain.repository.firebase.SwiftAuthenticator;
 
@@ -23,7 +24,7 @@ import org.jetbrains.annotations.NotNull;
  * Represents the forgot password process and activity
  */
 @AndroidEntryPoint
-public class ForgotPasswordActivity extends AppCompatActivity {
+public class ForgotPasswordActivity extends BaseActivity {
   private static final String RESET_PASSWORD_TAG = "RESET_PASSWORD_TAG";
   private static final String COUNTRY = "en";
   private static final String COUNTRY_CODE = "en_gb";
@@ -75,7 +76,13 @@ public class ForgotPasswordActivity extends AppCompatActivity {
    */
   private void sendPasswordResetEmail(String email){
     Log.d(RESET_PASSWORD_TAG, "Trying to send a confirmation email");
-    authenticator.sendPasswordResetEmail(email, this::sendSuccess, this::sendFailure);
+    SwiftAuthenticator.Result res = authenticator.sendPasswordResetEmail(email,
+            this::sendSuccess,
+            this::sendFailure);
+
+    if (res != SwiftAuthenticator.Result.SUCCESS) {
+      sendFailure();
+    }
   }
 
   /**

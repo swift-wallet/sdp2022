@@ -11,184 +11,372 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
+import java.util.Date;
+import java.util.Optional;
 import java.util.Random;
 
 @RunWith(JUnit4.class)
 public class TransactionTest {
     private final static Currency CURR = new Currency("Dummy", "DUM", 9.5);
-    private final static String MY_WALL = "MY_WALL";
-    private final static String THEIR_WALL = "THEIR_WALL";
+    private final static Date DUMMY_DATE = new Date();
+    private final static String SENDER_WALL = "SENDER_WALL";
+    private final static String RECEIVER_WALL = "RECEIVER_WALL";
+    private final static String SENDER_ID = "SENDER_ID";
+    private final static String RECEIVER_ID = "RECEIVER_ID";
+
+    private final static double MAX_AMOUNT = 10000;
+    private final static int ITERATIONS = 100;
 
     @Test
     public void constructorThrowsIAEOnNullCurr() {
         IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
-                () -> new Transaction(0, null, MY_WALL, THEIR_WALL, 0));
+                () -> new Transaction(
+                        0,
+                        null,
+                        0,
+                        DUMMY_DATE,
+                        SENDER_WALL,
+                        RECEIVER_WALL,
+                        Optional.empty(),
+                        Optional.empty()));
         assertThat(ex.getMessage(), is("Null arguments"));
     }
 
     @Test
-    public void constructorThrowsIAEOnNullMyWallet() {
+    public void constructorThrowsIAEOnNullDate() {
         IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
-                () -> new Transaction(0, CURR, null, THEIR_WALL, 0));
+                () -> new Transaction(
+                        0,
+                        CURR,
+                        0,
+                        null,
+                        SENDER_WALL,
+                        RECEIVER_WALL,
+                        Optional.empty(),
+                        Optional.empty()));
         assertThat(ex.getMessage(), is("Null arguments"));
     }
 
     @Test
-    public void constructorThrowsIAEOnNullTheirWallet() {
+    public void constructorThrowsIAEOnNullSenderWallet() {
         IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
-                () -> new Transaction(0, CURR, MY_WALL, null, 0));
+                () -> new Transaction(
+                        0,
+                        CURR,
+                        0,
+                        DUMMY_DATE,
+                        null,
+                        RECEIVER_WALL,
+                        Optional.empty(),
+                        Optional.empty()));
         assertThat(ex.getMessage(), is("Null arguments"));
     }
 
     @Test
-    public void constructorThrowsIAEOnDuplicateWallet() {
+    public void constructorThrowsIAEOnNullReceiverWallet() {
         IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
-                () -> new Transaction(0, CURR, MY_WALL, MY_WALL, 0));
-        assertThat(ex.getMessage(), is("Wallets cannot be the same"));
+                () -> new Transaction(
+                        0,
+                        CURR,
+                        0,
+                        DUMMY_DATE,
+                        SENDER_WALL,
+                        null,
+                        Optional.empty(),
+                        Optional.empty()));
+        assertThat(ex.getMessage(), is("Null arguments"));
+    }
+
+    @Test
+    public void constructorThrowsIAEOnNullSenderID() {
+        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
+                () -> new Transaction(
+                        0,
+                        CURR,
+                        0,
+                        DUMMY_DATE,
+                        SENDER_WALL,
+                        RECEIVER_WALL,
+                        null,
+                        Optional.empty()));
+        assertThat(ex.getMessage(), is("Null arguments"));
+    }
+
+    @Test
+    public void constructorThrowsIAEOnNullReceiverID() {
+        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
+                () -> new Transaction(
+                        0,
+                        CURR,
+                        0,
+                        DUMMY_DATE,
+                        SENDER_WALL,
+                        RECEIVER_WALL,
+                        Optional.empty(),
+                        null));
+        assertThat(ex.getMessage(), is("Null arguments"));
+    }
+
+    @Test
+    public void constructorThrowsIAEOnIdenticalWallets() {
+        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
+                () -> new Transaction(
+                        0,
+                        CURR,
+                        0,
+                        DUMMY_DATE,
+                        SENDER_WALL,
+                        SENDER_WALL,
+                        Optional.empty(),
+                        Optional.empty()));
+        assertThat(ex.getMessage(), is("Sender and receiver wallets of transaction cannot be the same"));
+    }
+
+    @Test
+    public void constructorWorksWithSenderIDAndNoReceiverID() {
+        Transaction t = new Transaction(
+                0,
+                CURR,
+                0,
+                DUMMY_DATE,
+                SENDER_WALL,
+                RECEIVER_WALL,
+                Optional.of(SENDER_ID),
+                Optional.empty()
+        );
+    }
+
+    @Test
+    public void constructorWorksWithReceiverIDAndNoSenderID() {
+        Transaction t = new Transaction(
+                0,
+                CURR,
+                0,
+                DUMMY_DATE,
+                SENDER_WALL,
+                RECEIVER_WALL,
+                Optional.empty(),
+                Optional.of(RECEIVER_ID)
+        );
+    }
+
+    @Test
+    public void constructorThrowsIAEOnIdenticalUserIDs() {
+        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
+                () -> new Transaction(
+                        0,
+                        CURR,
+                        0,
+                        DUMMY_DATE,
+                        SENDER_WALL,
+                        RECEIVER_WALL,
+                        Optional.of(SENDER_ID),
+                        Optional.of(SENDER_ID)));
+        assertThat(ex.getMessage(), is("Sender and receiver IDs of transaction cannot be the same"));
+    }
+
+    @Test
+    public void constructorThrowsIAEOnNegativeAmount() {
+        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
+                () -> new Transaction(
+                        -1,
+                        CURR,
+                        0,
+                        DUMMY_DATE,
+                        SENDER_WALL,
+                        RECEIVER_WALL,
+                        Optional.empty(),
+                        Optional.empty()));
+        assertThat(ex.getMessage(), is("Amount of transaction must be positive"));
+    }
+
+    @Test
+    public void constructWorksWithProperArguments() {
+        Transaction t = new Transaction(
+                0,
+                CURR,
+                0,
+                DUMMY_DATE,
+                SENDER_WALL,
+                RECEIVER_WALL,
+                Optional.of(SENDER_ID),
+                Optional.of(RECEIVER_ID)
+        );
     }
 
     @Test
     public void getAmountReturnsCorrectAmount() {
         Random r = new Random();
-        for (int i = 0; i < 100; i++) {
-            double amount = 1000 * r.nextDouble();
-            Transaction t = new Transaction(amount, CURR, MY_WALL, THEIR_WALL, 0);
+        for (int i = 0; i < ITERATIONS; i++) {
+            double amount = MAX_AMOUNT * r.nextDouble();
+            Transaction t = new Transaction(
+                    amount,
+                    CURR,
+                    0,
+                    DUMMY_DATE,
+                    SENDER_WALL,
+                    RECEIVER_WALL,
+                    Optional.empty(),
+                    Optional.empty()
+            );
             assertThat(t.getAmount(), is(amount));
         }
     }
 
     @Test
+    public void getCurrencyReturnsCorrectCurr() {
+        Transaction t = new Transaction(
+                0,
+                CURR,
+                0,
+                DUMMY_DATE,
+                SENDER_WALL,
+                RECEIVER_WALL,
+                Optional.empty(),
+                Optional.empty()
+        );
+        assertThat(t.getCurr().getSymbol(), is(CURR.getSymbol()));
+        assertThat(t.getCurr().getName(), is(CURR.getName()));
+        assertThat(t.getCurr().getValue(), is(CURR.getValue()));
+    }
+
+    @Test
     public void getConvertedAmountReturnsCorrectAmount() {
         Random r = new Random();
-        for (int i = 0; i < 100; i++) {
-            double amount = 1000 * r.nextDouble();
+        for (int i = 0; i < ITERATIONS; i++) {
+            double amount = MAX_AMOUNT * r.nextDouble();
             double convertedAmount = amount * CURR.getValue();
-            Transaction t = new Transaction(amount, CURR, MY_WALL, THEIR_WALL, 0);
+            Transaction t = new Transaction(
+                    amount,
+                    CURR,
+                    0,
+                    DUMMY_DATE,
+                    SENDER_WALL,
+                    RECEIVER_WALL,
+                    Optional.empty(),
+                    Optional.empty()
+            );
             assertThat(t.getConvertedAmount(), is(convertedAmount));
         }
     }
 
     @Test
-    public void getSymbolReturnsCorrectSymbol() {
-        Transaction t = new Transaction(10, CURR, MY_WALL, THEIR_WALL, 0);
-        assertThat(t.getSymbol(), is(CURR.getSymbol()));
-    }
-
-    @Test
-    public void toStringReturnsCorrectStringOnNegativeAmount() {
-        Transaction t = new Transaction(-15, CURR, MY_WALL, THEIR_WALL, 0);
-        assertThat(t.toString(), is("15.0 DUM from your wallet MY_WALL to wallet THEIR_WALL"));
-    }
-
-    @Test
-    public void toStringReturnsCorrectStringOnPositiveAmount() {
-        Transaction t = new Transaction(15, CURR, MY_WALL, THEIR_WALL, 0);
-        assertThat(t.toString(), is("15.0 DUM from wallet THEIR_WALL to your wallet MY_WALL"));
-    }
-
-    @Test
     public void getTransactionIDReturnsCorrectID() {
         Random r = new Random();
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < ITERATIONS; i++) {
             int id = r.nextInt();
-            Transaction t = new Transaction(0, CURR, MY_WALL, THEIR_WALL, id);
+            Transaction t = new Transaction(
+                    0,
+                    CURR,
+                    id,
+                    DUMMY_DATE,
+                    SENDER_WALL,
+                    RECEIVER_WALL,
+                    Optional.empty(),
+                    Optional.empty()
+            );
             assertThat(t.getTransactionID(), is(id));
         }
     }
 
     @Test
-    public void builderThrowsISEIfCurrNotSet() {
-        Transaction.Builder builder = new Transaction.Builder();
-
-        builder
-                .setAmount(0)
-                .setMyWallet(MY_WALL)
-                .setTheirWallet(THEIR_WALL)
-                .setId(0);
-
-        IllegalStateException exception = assertThrows(IllegalStateException.class, () -> {
-            Transaction t = builder.build();
-        });
-
-        assertThat(exception.getMessage(), is("Cannot build transaction with null parameters"));
+    public void getDateReturnsCorrectDate() {
+        Transaction t = new Transaction(
+                0,
+                CURR,
+                0,
+                DUMMY_DATE,
+                SENDER_WALL,
+                RECEIVER_WALL,
+                Optional.empty(),
+                Optional.empty()
+        );
+        assertThat(t.getDate(), is(DUMMY_DATE));
     }
 
     @Test
-    public void builderThrowsISEIfMyWallNotSet() {
-        Transaction.Builder builder = new Transaction.Builder();
-
-        builder
-                .setAmount(0)
-                .setCurr(CURR)
-                .setTheirWallet(THEIR_WALL)
-                .setId(0);
-
-        IllegalStateException exception = assertThrows(IllegalStateException.class, () -> {
-            Transaction t = builder.build();
-        });
-
-        assertThat(exception.getMessage(), is("Cannot build transaction with null parameters"));
+    public void getSenderWalletIDReturnsCorrectID() {
+        Transaction t = new Transaction(
+                0,
+                CURR,
+                0,
+                DUMMY_DATE,
+                SENDER_WALL,
+                RECEIVER_WALL,
+                Optional.empty(),
+                Optional.empty()
+        );
+        assertThat(t.getSenderWalletID(), is(SENDER_WALL));
     }
 
     @Test
-    public void builderThrowsISEIfTheirWalletNotSet() {
-        Transaction.Builder builder = new Transaction.Builder();
-
-        builder
-                .setAmount(0)
-                .setCurr(CURR)
-                .setMyWallet(MY_WALL)
-                .setId(0);
-
-        IllegalStateException exception = assertThrows(IllegalStateException.class, () -> {
-            Transaction t = builder.build();
-        });
-
-        assertThat(exception.getMessage(), is("Cannot build transaction with null parameters"));
+    public void getReceiverWalletIDReturnsCorrectID() {
+        Transaction t = new Transaction(
+                0,
+                CURR,
+                0,
+                DUMMY_DATE,
+                SENDER_WALL,
+                RECEIVER_WALL,
+                Optional.empty(),
+                Optional.empty()
+        );
+        assertThat(t.getReceiverWalletID(), is(RECEIVER_WALL));
     }
 
     @Test
-    public void builderWorksWhenAllSet() {
-        Transaction.Builder builder = new Transaction.Builder();
+    public void getSenderIDReturnsCorrectID() {
+        Transaction t = new Transaction(
+                0,
+                CURR,
+                0,
+                DUMMY_DATE,
+                SENDER_WALL,
+                RECEIVER_WALL,
+                Optional.empty(),
+                Optional.empty()
+        );
+        assertThat(t.getSenderID().isPresent(), is(false));
 
-        double amount = new Random().nextDouble() * 1000;
-        int id = new Random().nextInt();
-
-        builder
-                .setAmount(amount)
-                .setCurr(CURR)
-                .setMyWallet(MY_WALL)
-                .setTheirWallet(THEIR_WALL)
-                .setId(id);
-
-        Transaction t = builder.build();
-
-        assertThat(t.getTransactionID(), is(id));
-        assertThat(t.getAmount(), is(amount));
-        assertThat(t.getMyWallet(), is(MY_WALL));
-        assertThat(t.getTheirWallet(), is(THEIR_WALL));
-        assertThat(t.getCurr(), is(CURR));
+        t = new Transaction(
+                0,
+                CURR,
+                0,
+                DUMMY_DATE,
+                SENDER_WALL,
+                RECEIVER_WALL,
+                Optional.of(SENDER_ID),
+                Optional.empty()
+        );
+        assertThat(t.getSenderID().isPresent(), is(true));
+        assertThat(t.getSenderID().get(), is(SENDER_ID));
     }
 
     @Test
-    public void builderCanSetAmountWithConstructor() {
-        double amount = new Random().nextDouble() * 1000;
-        Transaction.Builder builder = new Transaction.Builder(amount);
+    public void getReceiverIDReturnsCorrectID() {
+        Transaction t = new Transaction(
+                0,
+                CURR,
+                0,
+                DUMMY_DATE,
+                SENDER_WALL,
+                RECEIVER_WALL,
+                Optional.empty(),
+                Optional.empty()
+        );
+        assertThat(t.getReceiverID().isPresent(), is(false));
 
-        int id = new Random().nextInt();
-
-        builder
-                .setCurr(CURR)
-                .setMyWallet(MY_WALL)
-                .setTheirWallet(THEIR_WALL)
-                .setId(id);
-
-        Transaction t = builder.build();
-
-        assertThat(t.getTransactionID(), is(id));
-        assertThat(t.getAmount(), is(amount));
-        assertThat(t.getMyWallet(), is(MY_WALL));
-        assertThat(t.getTheirWallet(), is(THEIR_WALL));
-        assertThat(t.getCurr(), is(CURR));
+        t = new Transaction(
+                0,
+                CURR,
+                0,
+                DUMMY_DATE,
+                SENDER_WALL,
+                RECEIVER_WALL,
+                Optional.empty(),
+                Optional.of(RECEIVER_ID)
+        );
+        assertThat(t.getReceiverID().isPresent(), is(true));
+        assertThat(t.getReceiverID().get(), is(RECEIVER_ID));
     }
 }

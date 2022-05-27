@@ -13,6 +13,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.sdp.cryptowalletapp.R;
+import com.sdp.swiftwallet.domain.model.currency.CurrencyBank;
+import com.sdp.swiftwallet.domain.model.currency.SwiftWalletCurrencyBank;
+import com.sdp.swiftwallet.domain.repository.firebase.SwiftAuthenticator;
 import com.sdp.swiftwallet.presentation.cryptoGraph.CryptoValuesActivity;
 import com.sdp.swiftwallet.domain.model.currency.Currency;
 import com.sdp.swiftwallet.domain.model.transaction.Transaction;
@@ -23,33 +26,39 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Random;
+
+import javax.inject.Inject;
+
+import dagger.hilt.android.AndroidEntryPoint;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link StatsFragment} factory method to
  * create an instance of this fragment.
  */
+@AndroidEntryPoint
 public class StatsFragment extends Fragment {
 
-    // This is for demo purposes *********************************************
-    private final static Currency CURR_1 = new Currency("DumbCoin", "DUM", 5);
-    private final static Currency CURR_2 = new Currency("BitCoin", "BTC", 3);
-    private final static Currency CURR_3 = new Currency("Ethereum", "ETH", 4);
-    private final static Currency CURR_4 = new Currency("SwiftCoin", "SWT", 6);
-    private final static String MY_WALL = "MY_WALL";
-    private final static String THEIR_WALL = "THEIR_WALL";
-    private final static List<Currency> currencyList = new ArrayList<>();
+    private static final String COLLECTION_NAME = "transactions2";
 
-    static {
-        currencyList.add(CURR_1);
-        currencyList.add(CURR_2);
-        currencyList.add(CURR_3);
-        currencyList.add(CURR_4);
-    }
-    /////*******************************************************************
+    private static final String AMOUNT_KEY = "amount";
+    private static final String CURRENCY_KEY = "currency";
 
-    private static final String TRANSACTION = "transactions";
+    private static final String TRANSACTION_ID_KEY = "id";
+    private static final String DATE_KEY = "date";
+
+    private static final String SENDER_WALLET_KEY = "senderWallet";
+    private static final String RECEIVER_WALLET_KEY = "receiverWallet";
+
+    private static final String SENDER_ID_KEY = "senderID";
+    private static final String RECEIVER_ID_KEY = "receiverID";
+
+    @Inject
+    CurrencyBank bank;
+    @Inject
+    SwiftAuthenticator authenticator;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -94,27 +103,57 @@ public class StatsFragment extends Fragment {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         Random rand = new Random();
-        double amount = -100 + rand.nextDouble() * 200;
-        Currency c = currencyList.get(rand.nextInt(currencyList.size()));
-        int id = rand.nextInt(1000);
+        Transaction.Builder builder = new Transaction.Builder();
 
-        Transaction t = new Transaction.Builder()
-            .setAmount(amount)
-                .setCurr(c)
-                .setMyWallet(MY_WALL)
-                .setTheirWallet(THEIR_WALL)
-                .setId(id)
-                .build();
+        double amount = rand.nextDouble() * 200;
+        Currency c = new Currency("bitcoin", "BTC", 10);
+        builder.setAmountAndCurrency(amount, c);
+
+        int id = rand.nextInt(1000);
+        Date date = new Date();
+        builder.setMetadata(id, date);
+
+        String senderWallet = "SENDER_WALLET";
+        String receiverWallet = "RECEIVER_WALLET";
+        builder.setWalletIDs(senderWallet, receiverWallet);
+        if (authenticator.getUid() != null){
+            if (rand.nextInt() % 2 == 0) {
+                builder.setReceiverID(authenticator.getUid());
+                if (rand.nextInt() % 2 == 0) {
+                    builder.setSenderID("dumbo");
+                }
+            } else {
+                builder.setSenderID(authenticator.getUid());
+                if (rand.nextInt() % 2 == 0) {
+                    builder.setReceiverID("dumbo");
+                }
+            }
+        }
+
+        Transaction t = builder.build();
 
         Map<String, Object> data = new HashMap<>();
-        data.put("date", new Timestamp(new Date()));
-        data.put("amount", t.getAmount());
-        data.put("wallet1", t.getMyWallet());
-        data.put("wallet2", t.getTheirWallet());
-        data.put("currency", t.getCurr().getSymbol());
-        data.put("id", t.getTransactionID());
+        data.put(AMOUNT_KEY, t.getAmount());
+        data.put(CURRENCY_KEY, t.getCurr());
 
-        db.collection(TRANSACTION).document().set(data).addOnCompleteListener(new OnCompleteListener<Void>() {
+        data.put(TRANSACTION_ID_KEY, t.getTransactionID());
+        data.put(DATE_KEY, new Timestamp(t.getDate()));
+
+        data.put(SENDER_WALLET_KEY, t.getSenderWalletID());
+        data.put(RECEIVER_WALLET_KEY, t.getReceiverWalletID());
+
+        if (t.getSenderID().isPresent()) {
+            data.put(SENDER_ID_KEY, t.getSenderID().get());
+        } else {
+            data.put(SENDER_ID_KEY, "");
+        }
+        if (t.getReceiverID().isPresent()) {
+            data.put(RECEIVER_ID_KEY, t.getReceiverID().get());
+        } else {
+            data.put(RECEIVER_ID_KEY, "");
+        }
+
+        db.collection(COLLECTION_NAME).document().set(data).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {

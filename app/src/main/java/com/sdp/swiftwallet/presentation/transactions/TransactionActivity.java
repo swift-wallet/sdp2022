@@ -8,8 +8,12 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.sdp.cryptowalletapp.R;
+
 import com.sdp.swiftwallet.common.Constants;
 import com.sdp.swiftwallet.domain.model.messaging.ChannelManager;
+
+import com.sdp.swiftwallet.BaseActivity;
+
 import com.sdp.swiftwallet.presentation.transactions.fragments.TransactionHistoryFragment;
 import com.sdp.swiftwallet.presentation.transactions.fragments.TransactionStatsFragment;
 
@@ -19,7 +23,7 @@ import dagger.hilt.android.AndroidEntryPoint;
  * Transaction Activity screen
  */
 @AndroidEntryPoint
-public class TransactionActivity extends AppCompatActivity {
+public class TransactionActivity extends BaseActivity {
 
     private FragmentManager fragmentManager;
     private Fragment historyFragment, statsFragment;

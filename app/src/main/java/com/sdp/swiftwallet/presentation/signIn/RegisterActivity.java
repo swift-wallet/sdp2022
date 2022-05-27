@@ -16,6 +16,7 @@ import androidx.test.espresso.idling.CountingIdlingResource;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.sdp.cryptowalletapp.databinding.ActivityRegisterBinding;
+import com.sdp.swiftwallet.BaseActivity;
 import com.sdp.swiftwallet.BaseApp;
 import com.sdp.swiftwallet.common.Constants;
 import com.sdp.swiftwallet.common.FirebaseUtil;
@@ -32,7 +33,7 @@ import dagger.hilt.android.AndroidEntryPoint;
   * Represents the registering process activity
   */
 @AndroidEntryPoint
-public class RegisterActivity extends AppCompatActivity {
+public class RegisterActivity extends BaseActivity {
     private static final String REGISTER_TAG = "EMAIL_REGISTER_TAG";
 
     private ActivityRegisterBinding binding;
@@ -142,8 +143,8 @@ public class RegisterActivity extends AppCompatActivity {
             loading(true);
             SwiftAuthenticator.Result registerRes = authenticator.signUp(username, email, password,
                     () -> {
-                        ((BaseApp) getApplication()).setCurrUser(authenticator.getUser().get());
-                        Map<String, Object> userMap = setUser(authenticator.getUid().get(), username, email, Constants.DEFAULT_USER_IMAGE);
+                        ((BaseApp) getApplication()).setCurrUser(authenticator.getUser());
+                        Map<String, Object> userMap = setUser(authenticator.getUid(), username, email, Constants.DEFAULT_USER_IMAGE);
                         addUserToDatabase(userMap);
                     },
                     () -> handleError(SwiftAuthenticator.Result.ERROR));
