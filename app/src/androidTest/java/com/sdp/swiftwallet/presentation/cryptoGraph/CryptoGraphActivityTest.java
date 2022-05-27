@@ -18,6 +18,7 @@ import androidx.test.espresso.IdlingRegistry;
 import androidx.test.espresso.idling.CountingIdlingResource;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 import com.sdp.cryptowalletapp.R;
 import com.sdp.swiftwallet.domain.model.currency.Currency;
@@ -26,13 +27,23 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.RuleChain;
+import org.junit.runner.RunWith;
 
+import dagger.hilt.android.testing.HiltAndroidRule;
+import dagger.hilt.android.testing.HiltAndroidTest;
+
+@HiltAndroidTest
+@RunWith(AndroidJUnit4.class)
 public class CryptoGraphActivityTest {
     CountingIdlingResource mIdlingResource;
     Currency ethereum;
 
-    @Rule
     public ActivityScenarioRule<CryptoGraphActivity> testRule = new ActivityScenarioRule<>(CryptoGraphActivity.class);
+    public HiltAndroidRule hiltRule = new HiltAndroidRule(this);
+
+    @Rule
+    public RuleChain rule = RuleChain.outerRule(hiltRule).around(testRule);
 
     @Before
     public void initIntents() {

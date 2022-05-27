@@ -30,7 +30,7 @@
         tools:context="com.sdp.swiftwallet.ProfileActivity">
 
         <TextView
-            android:id="@+id/loggedInAsTv"
+            android:id="@+id/profile_welcomeTv"
             style="@style/TextAppearance.MaterialComponents.Caption"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -41,7 +41,7 @@
             android:layout_gravity="top|center"/>
 
         <TextView
-            android:id="@+id/email"
+            android:id="@+id/profile_userEmailTv"
             style="@style/TextAppearance.MaterialComponents.Body1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -65,7 +65,7 @@
         tools:context="com.sdp.swiftwallet.ProfileActivity">
 
         <EditText
-            android:id="@+id/reset_email_field"
+            android:id="@+id/update_emailEt"
             android:importantForAutofill="no"
             android:layout_width="match_parent"
             android:layout_height="50dp"
@@ -82,7 +82,7 @@
             android:inputType="textEmailAddress"/>
 
         <Button
-            android:id="@+id/reset_email_Btn"
+            android:id="@+id/update_email_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -93,7 +93,7 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/logout_Btn"
+        android:id="@+id/logout_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"

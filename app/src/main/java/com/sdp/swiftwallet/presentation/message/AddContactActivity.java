@@ -16,6 +16,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.sdp.cryptowalletapp.databinding.ActivityAddContactBinding;
+import com.sdp.swiftwallet.BaseActivity;
 import com.sdp.swiftwallet.BaseApp;
 import com.sdp.swiftwallet.common.Constants;
 import com.sdp.swiftwallet.common.FirebaseUtil;
@@ -34,7 +35,7 @@ import javax.inject.Inject;
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
-public class AddContactActivity extends AppCompatActivity {
+public class AddContactActivity extends BaseActivity {
 
     private static final String ADD_CONTACT_TAG = "ADD_CONTACT_TAG";
     private ActivityAddContactBinding binding;
