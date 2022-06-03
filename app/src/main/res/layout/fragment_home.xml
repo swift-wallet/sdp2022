@@ -138,6 +138,14 @@
                     android:text="12.145"
                     android:textColor="@color/black"
                     android:textSize="@dimen/wallet_important" />
+                <TextView
+                    android:id="@+id/worth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="12.145"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/wallet_important" />
 
                 <ImageView
                     android:layout_width="30dp"
